@@ -1,5 +1,16 @@
 .App {
   text-align: center;
+  font-family: '나눔스퀘어 네오';
+}
+
+@font-face {
+    font-family: '광양햇살';
+    src: url('./fonts/Gwangyang Sunshine Regular(TTF용).ttf') format('truetype');
+}
+@font-face {
+    font-family: '나눔스퀘어 네오';
+    src: url('./fonts/NanumSquareNeoTTF-bRg.woff') format('truetype');
+
 }
 
 .App-logo {

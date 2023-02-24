@@ -3,6 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fortawesome/fontawesome-free": "^6.3.0",
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mkyy/mui-search-bar": "^0.5.2",
+    "@mui/material": "^5.11.9",
+    "@mui/styled-engine-sc": "^5.11.9",
+    "@react-buddy/ide-toolbox": "^2.3.1",
+    "@react-spring/web": "^9.6.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,9 +21,12 @@
     "@types/node": "^16.18.12",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "bootstrap": "^5.2.3",
+    "node-sass": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "styled-components": "^5.3.6",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -39,5 +53,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "tailwind-styled-components": "^2.2.0",
+    "tailwindcss": "^3.2.7"
   }
 }
