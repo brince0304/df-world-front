@@ -2,7 +2,7 @@ import React from 'react';
 import {ComponentPreview, Previews} from '@react-buddy/ide-toolbox';
 import {PaletteTree} from './palette';
 import App from "../App";
-import RankingTable from "../RankingTable";
+import RankingTable from "../components/domains/RankingTable";
 import MainPageRankingData from "../data/MainPageRankingData";
 
 const ComponentPreviews = () => {

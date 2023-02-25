@@ -1,9 +1,9 @@
 import react from "react";
 import styled from "styled-components";
-import {TableCustom} from "./TableCustom";
-import BoardData from "./data/BoardData";
+import {TableCustom} from "../application/TableCustom";
+import BoardData from "../../data/BoardData";
 import React from "react";
-import boardData from "./data/BoardData";
+import boardData from "../../data/BoardData";
 
 const BoardBody = styled.div`
     display:flex;

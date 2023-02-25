@@ -2,13 +2,18 @@ import React, {useEffect} from "react";
 import styled from "styled-components";
 import {TextField, FormControl, Button, Select, MenuItem} from "@mui/material";
 import {useState} from "react";
-import './header.scss'
-import HeaderSearchBox from "./HeaderSearchBox";
-import {HeaderData} from "./data/HeaderData";
-import LoginModal from "./LoginModal";
+import '../../assets/css/header.scss'
+import HeaderSearchBox from "../domains/HeaderSearchBox";
+import {HeaderData} from "../../data/HeaderData";
+import LoginModal from "../domains/LoginPage";
 import MobileNav from "./MobileNav";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import CustomModal from "./ModalCustom";
+import LoginSection from "../domains/LoginPage";
+import useModal from "../../hooks/useModal";
+import useNavBar from "../../hooks/useNavBar";
+
 
 const HeaderButton = styled(Button)`
   && {
@@ -143,19 +148,12 @@ const NavBackground = styled.div`
 
 
 const Header = (props: { title: string; }) => {
-    const [modalOpen, setModalOpen] = useState(false);
-    const handleModalOpen = () => setModalOpen(true);
-    const handleModalClose = () => setModalOpen(false);
-    const [navbarOpen, setNavbarOpen] = useState(false);
-    const handleNavbarOpen = () => setNavbarOpen(true);
-    const handleNavbarClose = () => setNavbarOpen(false);
-    useEffect(() => {
-       handleNavbarClose();
-    }, [modalOpen]);
+    const [isModalOpened, openModal,closeModal] = useModal();
+    const [isNavbarOpened, openNavbar,closeNavbar] =  useNavBar(isModalOpened);
     return (
         <HeaderSection>
             <HeaderHeader>
-                <MobileNavButton onClick={handleNavbarOpen}>
+                <MobileNavButton onClick={openNavbar}>
                     <FontAwesomeIcon icon={faBars} size="lg"/>
                 </MobileNavButton>
                 <Logo>{props.title}</Logo>
@@ -164,14 +162,16 @@ const Header = (props: { title: string; }) => {
             <HeaderFooter>
                 {HeaderData.menuList.map((item, index) => {
                     return (
-                        <HeaderButton key={index} onClick={item.name==='로그인'? handleModalOpen:()=>{} }>{item.name}</HeaderButton>
+                        <HeaderButton key={index} onClick={item.name==='로그인'? openModal:()=>{} }>{item.name}</HeaderButton>
                     )
                 })
                 }
             </HeaderFooter>
-            <LoginModal open={modalOpen} handleClose={handleModalClose} ></LoginModal>
-            <MobileNav isOpened={navbarOpen} menuList={HeaderData.menuList} handleClose={handleNavbarClose} handleModalOpen={handleModalOpen}/>
-            <NavBackground isOpened={navbarOpen} onClick={handleNavbarClose}/>
+            <CustomModal open={isModalOpened} handleClose={closeModal}>
+                <LoginSection />
+            </CustomModal>
+            <MobileNav isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar} handleModalOpen={openModal}/>
+            <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar}/>
         </HeaderSection>
     );
 }

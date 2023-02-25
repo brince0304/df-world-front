@@ -1,14 +1,14 @@
-import './rankingTable.scss'
+import '../../assets/css/rankingTable.scss'
 import React, {useState} from "react";
-import MainPageRankingData from "./data/MainPageRankingData";
+import MainPageRankingData from "../../data/MainPageRankingData";
 import {RankingCharacterImg} from "./RankingCharacterImg";
 import styled from "styled-components";
-import mainPageRankingData from "./data/MainPageRankingData";
+import mainPageRankingData from "../../data/MainPageRankingData";
 import tw from "tailwind-styled-components"
 import Grid2 from "@mui/material/Grid";
 import GridCell from "@mui/material/Grid";
 import GridRow from "@mui/material/Grid";
-import {TableCustom} from "./TableCustom";
+import {TableCustom} from "../application/TableCustom";
 
 
 
@@ -136,9 +136,9 @@ const RankingDetailValueStyled = styled.span`
 const RankingValue = (props:{type:string; value:string;}) => {
     return(
         <RankingDetailValue>
-            {props.type === 'adventureFame'&&<img id="rankIcon" src={require('./resources/img/rankingtable/icon_status_fame.png')} alt="icon" style={{width:"15px",height:"15px"}}/>}
-            {props.type === 'damage'&&<img id="rankIcon" src={require('./resources/img/rankingtable/damage_increase.png')} alt="icon" style={{width:"18px",height:"18px"}}/>}
-            {props.type === 'buff'&&<img id="rankIcon" src={require('./resources/img/rankingtable/buff_power.png')} alt="icon" style={{width:"18px",height:"18px"}}/>}
+            {props.type === 'adventureFame'&&<img id="rankIcon" src={require('../../assets/img/rankingtable/icon_status_fame.png')} alt="icon" style={{width:"15px",height:"15px"}}/>}
+            {props.type === 'damage'&&<img id="rankIcon" src={require('../../assets/img/rankingtable/damage_increase.png')} alt="icon" style={{width:"18px",height:"18px"}}/>}
+            {props.type === 'buff'&&<img id="rankIcon" src={require('../../assets/img/rankingtable/buff_power.png')} alt="icon" style={{width:"18px",height:"18px"}}/>}
             <RankingDetailValueStyled style={{marginLeft:"5px"}}>{props.value}</RankingDetailValueStyled>
         </RankingDetailValue>
     );

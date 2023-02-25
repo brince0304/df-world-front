@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React, {useState} from "react";
-import mainPageRankingData from "./data/MainPageRankingData";
+import mainPageRankingData from "../../data/MainPageRankingData";
 
 const TableContainer = styled.div`
     border: 1px solid #e5e5e5;

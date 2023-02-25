@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Header from './Header';
-import Body from './Body';
+import Header from './components/application/Header';
+import Body from './components/application/Body';
 
 //부트스트랩
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import './rankingTable.scss'
+import '../../assets/css/rankingTable.scss'
 import styled from "styled-components";
 
 
