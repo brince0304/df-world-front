@@ -13,7 +13,7 @@ interface Options {
 }
 
 
-type returnType = [string, (e: React.ChangeEvent<HTMLInputElement>) => void, boolean, string, string];
+type returnType = [string, (e: React.ChangeEvent<HTMLInputElement>) => void, boolean, string, string,boolean];
 
 
 export function useInput(options?: Options): returnType {
@@ -26,18 +26,22 @@ export function useInput(options?: Options): returnType {
             } = options || {};
     const [value, setValue] = useState<string>(initialValue || '');
     const isValid = useRef<boolean>(true);
+    const isValidFinal = useRef<boolean>(true);
+
 
     const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = e.target;
-        if (type === 'string') {
             setValue(value);
+            if(regex){
+                isValid.current = regex.test(value);
+            }
+            if(value===''){
+                if(regex){
+                    isValidFinal.current=false;
+                    isValid.current=true;
+                }
         }
-        if (regex && value.length > 0) {
-            isValid.current = regex.test(value);
-        }
-        if(value.length === 0){
-            isValid.current = false;
-        }
+
     }, [type, regex]);
-    return [value, onChange, isValid.current, errorMessage || '', placeholder || ''];
+    return [value, onChange, isValid.current, errorMessage || '', placeholder || '',isValidFinal.current];
 }

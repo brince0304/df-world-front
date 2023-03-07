@@ -3,6 +3,8 @@ import Fade from "@mui/material/Fade";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 const style = {
@@ -10,7 +12,8 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    //props width
+    width: 800,
     bgcolor: 'background.paper',
     borderRadius: 2,
     boxShadow: 24,
@@ -23,32 +26,36 @@ const ModalHeader = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 0px 0px;
-    padding-top: 0px;
     font-size: 22px;
     font-weight: 700;
     color: #000;
     `
 
-const ModalCustom = styled(Box)`
+const ModalBox = styled(Box)`
     &&{
       display: grid; 
         flex-direction: column;
       padding-top: 10px;
+      height : ${(props:{isLoginPage:boolean}) => props.isLoginPage ? '450px' : '500px'};
+      transition: height 0.3s ease-in-out;
+      @media (max-width: 768px) {
+        width: 400px;
+        height : 600px;
+      }
     }
 `
 
-const CloseButton = styled.span`
+const CloseButtonWrapper = styled.div`
   //우측 끝에 배치
     position: absolute;
     right: 0;
     top: 0;
     padding: 10px 20px;
-    font-size: 20px;
+    font-size: 25px;
     color:silver;
     cursor: pointer;
     &:hover {
-        color: black;
+        color: #282c34;
         transition: 0.3s;
         }
     `
@@ -56,34 +63,29 @@ const CloseButton = styled.span`
 
 const ModalBody = styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
     padding: 20px 0;
-    font-size: 14px;
-    font-weight: 700;
-    color: #000;
     `
 
 
-export default function CustomModal (props:{open:boolean,handleClose:()=>void, children:React.ReactNode}) {
+export default function LoginModal (props:{open:boolean,handleClose:()=>void, children:React.ReactNode, isLoginPage:boolean}) {
     return (
         <Modal
             open={props.open}
             onClose={props.handleClose}
-
         >
             <Fade in={props.open}>
-                <ModalCustom sx={style}>
+                <ModalBox sx={style} isLoginPage={props.isLoginPage}   >
                     <ModalHeader>
-                        <CloseButton onClick={props.handleClose}>
-                            X
-                        </CloseButton>
+                        <CloseButtonWrapper onClick={props.handleClose}>
+                            <FontAwesomeIcon icon={faXmark}/>
+                        </CloseButtonWrapper>
                     </ModalHeader>
                     <ModalBody>
                         {props.children}
                     </ModalBody>
-                </ModalCustom>
+                </ModalBox>
             </Fade>
         </Modal>
 
