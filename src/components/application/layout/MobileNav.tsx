@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import react from 'react';
 
 
-const NavSection = styled.div`
+const Container = styled.div`
     display: none;
   @media (max-width: 768px) {
     display: flex;
@@ -75,7 +75,7 @@ const NavBtnLink = styled.a`
 
 export const MobileNav = (props:{isOpened:boolean, menuList:{name:string}[], handleClose:()=>void, handleModalOpen:()=>void}) => {
     return (
-        <NavSection isOpened={props.isOpened}>
+        <Container isOpened={props.isOpened}>
             <NavMenu>
                 {props.menuList.map((item, index) => {
                     return (
@@ -86,7 +86,7 @@ export const MobileNav = (props:{isOpened:boolean, menuList:{name:string}[], han
                 }
                 )}
             </NavMenu>
-        </NavSection>
+        </Container>
     )
 
 }

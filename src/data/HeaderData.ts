@@ -1,48 +1,52 @@
 export const HeaderData = {
     serverList : [] =[
         {
-            name: "바칼",
-            serverId: "bakal",
+            label: "전체",
+            value: "all",
         },
         {
-            name: "카시야스",
-            serverId: "casillas",
+            label: "모험단",
+            value: "adventure",
+        },
+        {
+            label: "바칼",
+            value: "bakal",
+        },
+        {
+            label: "카시야스",
+            value: "casillas",
         }
         ,
         {
-            name: "힐더",
-            serverId: "hilder",
+            label: "힐더",
+            value: "hilder",
         }
         ,
         {
-            name: "카인",
-            serverId: "cain",
+            label: "카인",
+            value: "cain",
         }
         ,
         {
-            name: "디레지에",
-            serverId: "diregie",
+            label: "디레지에",
+            value: "diregie",
         }
         ,
         {
-            name: "프레이",
-            serverId: "prey",
+            label: "프레이",
+            value: "prey",
         }
         ,
         {
-            name: "시로코",
-            serverId: "siroco",
+            label: "시로코",
+            value: "siroco",
         }
         ,
         {
-            name: "안톤",
-            serverId: "anton",
+            label: "안톤",
+            value: "anton",
         }
         ,
-        {
-            name: "모험단",
-            serverId: "adventure",
-        }
     ],
     menuList : [] =[
         {

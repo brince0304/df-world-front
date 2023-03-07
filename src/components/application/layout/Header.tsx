@@ -1,19 +1,41 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import styled from "styled-components";
 import {TextField, FormControl, Button, Select, MenuItem} from "@mui/material";
 import {useState} from "react";
-import '../../assets/css/header.scss'
-import HeaderSearchBox from "../domains/HeaderSearchBox";
-import {HeaderData} from "../../data/HeaderData";
-import LoginModal from "../domains/LoginPage";
+import '../../../assets/css/header.scss'
+import HeaderSearchBox from "../ui/HeaderSearchBox";
+import {HeaderData} from "../../../data/HeaderData";
+import LoginPage from "../ui/LoginPage";
 import MobileNav from "./MobileNav";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import CustomModal from "./ModalCustom";
-import LoginSection from "../domains/LoginPage";
-import useModal from "../../hooks/useModal";
-import useNavBar from "../../hooks/useNavBar";
+import CustomModal from "../ui/LoginModal";
+import LoginSection from "../ui/LoginPage";
+import useModal from "../../../hooks/useModal";
+import useNavBar from "../../../hooks/useNavBar";
+import {SocialLogin} from "../ui/SocialLogin";
+import RegisterPage from "../ui/RegisterPage";
+import {SocialRegister} from "../ui/SocialRegister";
+import LoginModal from "../ui/LoginModal";
 
+
+
+
+const Container = styled.div`
+  //헤더 그림자
+  position: sticky;
+  top: 0;
+  height: 120px;
+  background-color: #212124;
+  padding: 0 15%;
+  z-index: 999;
+  @media (max-width: 768px) {
+    padding: 0 2%;
+  }
+  @media (max-width: 1024px) {
+    padding: 0 5%;
+  }
+`;
 
 const HeaderButton = styled(Button)`
   && {
@@ -31,24 +53,8 @@ const HeaderButton = styled(Button)`
   }
 `
 
-const HeaderSection = styled.div`
-  //헤더 그림자
-  position: sticky;
-  top: 0;
-  height: 120px;
-  background-color: black;
-  padding: 0 15%;
-  z-index: 999;
-  @media (max-width: 768px) {
-    padding: 0 2%;
-  }
-  @media (max-width: 1024px) {
-    padding: 0 5%;
-  }
-`;
-
 //헤더의 한줄 div 스타일 양 옆에 왼쪽은 로고 오른쪽엔 검색창 배치해둘것임
-const HeaderHeader = styled.div`
+const HeaderTop = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -64,20 +70,6 @@ const HeaderHeader = styled.div`
 `;
 
 
-const HeaderFooter = styled.div`
-  //그림자
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 15px;
-  padding-top: 10px;
-  background-color: black;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
 
 
 
@@ -87,7 +79,7 @@ const Logo = styled(Button)`
     padding-left: 10px;
     font-size: 20px;
     font-weight: 700;
-    color: white;
+    color: #FFFFFF;
     cursor: pointer;
    
     &:hover {
@@ -107,6 +99,32 @@ const Logo = styled(Button)`
 
   }
 `;
+
+const RegisterContainer= styled.div`
+  display:  flex;
+  position: absolute;
+  background-color: white;
+  visibility: ${(props : { isLoginPage: boolean }) => props.isLoginPage ? 'hidden' : 'visible'};
+  flex-direction: row;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  opacity: ${(props: { isLoginPage: boolean }) => props.isLoginPage ?  '0': '100%'};
+  @media (max-width: 768px) {
+      width: 85%;
+        }
+    `
+;
+
+const LoginContainer= styled.div`
+  display:  flex;
+  visibility: ${(props : { isLoginPage: boolean }) => props.isLoginPage ? 'visible' : 'hidden'};
+  flex-direction: row;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  opacity: ${(props: { isLoginPage: boolean }) => props.isLoginPage ?  '100%': '0'};
+`;
+
+
 
 
 const MobileNavButton = styled(Button)`
@@ -145,34 +163,67 @@ const NavBackground = styled.div`
      }
 `;
 
+const HeaderBottom = styled.div`
+  //그림자
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 15px;
+  padding-top: 10px;
+  background-color: #212124;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+
+
+
+
 
 
 const Header = (props: { title: string; }) => {
     const [isModalOpened, openModal,closeModal] = useModal();
     const [isNavbarOpened, openNavbar,closeNavbar] =  useNavBar(isModalOpened);
+    const [isLoginPage, setIsLoginPage] = useState(true);
+    const handleChangeSection= useCallback(
+        () => {
+            setIsLoginPage(!isLoginPage);
+        },
+        [isLoginPage]);
+    const [isLogin, setIsLogin] = useState(false);
     return (
-        <HeaderSection>
-            <HeaderHeader>
+        <Container>
+            <HeaderTop>
                 <MobileNavButton onClick={openNavbar}>
                     <FontAwesomeIcon icon={faBars} size="lg"/>
                 </MobileNavButton>
                 <Logo>{props.title}</Logo>
                 <HeaderSearchBox data={HeaderData.serverList} title={"서버"}></HeaderSearchBox>
-            </HeaderHeader>
-            <HeaderFooter>
+            </HeaderTop>
+            <HeaderBottom>
                 {HeaderData.menuList.map((item, index) => {
                     return (
                         <HeaderButton key={index} onClick={item.name==='로그인'? openModal:()=>{} }>{item.name}</HeaderButton>
                     )
                 })
                 }
-            </HeaderFooter>
-            <CustomModal open={isModalOpened} handleClose={closeModal}>
-                <LoginSection />
-            </CustomModal>
+            </HeaderBottom>
+            {!isLogin && <LoginModal open={isModalOpened} handleClose={closeModal} isLoginPage={isLoginPage}>
+                <RegisterContainer isLoginPage={isLoginPage} id={"register-part"}>
+                    <SocialRegister/>
+                    <RegisterPage handleChangeSection={handleChangeSection}/>
+                </RegisterContainer>
+                <LoginContainer isLoginPage={isLoginPage} id={"login-part"}>
+                    <SocialLogin />
+                    <LoginSection handleChangeSection={handleChangeSection}/>
+                </LoginContainer>
+            </LoginModal>}
             <MobileNav isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar} handleModalOpen={openModal}/>
             <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar}/>
-        </HeaderSection>
+        </Container>
     );
 }
 
