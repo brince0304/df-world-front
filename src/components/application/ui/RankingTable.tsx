@@ -1,14 +1,14 @@
-import '../../assets/css/rankingTable.scss'
+import '../../../assets/css/rankingTable.scss'
 import React, {useState} from "react";
-import MainPageRankingData from "../../data/MainPageRankingData";
+import MainPageRankingData from "../../../data/MainPageRankingData";
 import {RankingCharacterImg} from "./RankingCharacterImg";
 import styled from "styled-components";
-import mainPageRankingData from "../../data/MainPageRankingData";
+import mainPageRankingData from "../../../data/MainPageRankingData";
 import tw from "tailwind-styled-components"
 import Grid2 from "@mui/material/Grid";
 import GridCell from "@mui/material/Grid";
 import GridRow from "@mui/material/Grid";
-import {TableCustom} from "../application/TableCustom";
+import {TableCustom} from "./TableCustom";
 
 
 
@@ -20,9 +20,8 @@ const TableData = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px 0;
-    font-size: 14px;
-    font-weight: 700;
+    padding: 0px 0;
+    font-size: 16px;
     color: #000;
    `
 
@@ -39,7 +38,6 @@ const RankingBadge = styled.div`
     top: 0;
     background-color: black;
     font-size: 14px;
-    font-weight: 700;
     color: white;
   //영역 축소
     -webkit-border-radius: 20%;
@@ -122,12 +120,12 @@ const RankingDetailValue = styled.div`
     align-items: center;
 `
 const RankingDetailValueStyled = styled.span`
-  font-size: 10px;
+  font-size: 15px;
   @media (max-width: 1024px) {
     font-size: 14px;
   }
   @media (min-width: 1024px) {
-    font-size: 10px;
+    font-size: 15px;
   }
 `
 
@@ -136,27 +134,27 @@ const RankingDetailValueStyled = styled.span`
 const RankingValue = (props:{type:string; value:string;}) => {
     return(
         <RankingDetailValue>
-            {props.type === 'adventureFame'&&<img id="rankIcon" src={require('../../assets/img/rankingtable/icon_status_fame.png')} alt="icon" style={{width:"15px",height:"15px"}}/>}
-            {props.type === 'damage'&&<img id="rankIcon" src={require('../../assets/img/rankingtable/damage_increase.png')} alt="icon" style={{width:"18px",height:"18px"}}/>}
-            {props.type === 'buff'&&<img id="rankIcon" src={require('../../assets/img/rankingtable/buff_power.png')} alt="icon" style={{width:"18px",height:"18px"}}/>}
+            {props.type === 'adventureFame'&&<img id="rankIcon" src={require('../../../assets/img/rankingtable/icon_status_fame.png')} alt="icon" style={{width:"15px",height:"15px"}}/>}
+            {props.type === 'damage'&&<img id="rankIcon" src={require('../../../assets/img/rankingtable/damage_increase.png')} alt="icon" style={{width:"18px",height:"18px"}}/>}
+            {props.type === 'buff'&&<img id="rankIcon" src={require('../../../assets/img/rankingtable/buff_power.png')} alt="icon" style={{width:"18px",height:"18px"}}/>}
             <RankingDetailValueStyled style={{marginLeft:"5px"}}>{props.value}</RankingDetailValueStyled>
         </RankingDetailValue>
     );
 }
 
+
 const RankingDetailText = styled.span`
   color: grey;
-
-  font-size: 10px;
+  font-size: 14px;
     @media (max-width: 1024px) {
-    font-size: 14px;
+    font-size: 16px;
     }
     `
 
 const RankingDetailNameText= styled.span`
-    font-size: 13px;
-    @media (max-width: 1024px) {
     font-size: 16px;
+    @media (max-width: 1024px) {
+    font-size: 18px;
     }
     `
 

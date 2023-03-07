@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import React, {useState} from "react";
-import mainPageRankingData from "../../data/MainPageRankingData";
+import mainPageRankingData from "../../../data/MainPageRankingData";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 
 const TableContainer = styled.div`
     border: 1px solid #e5e5e5;
@@ -24,52 +26,66 @@ const TableHeader = styled.div`
     align-items: center;
     padding: 10px 15px;
     font-size: 22px;
-    font-weight: 700;
     color: #000;
     border-bottom: 1px solid #e5e5e5;
     `
 
-const TableBtn = styled.div`
-    padding: 0px 5px;
-    font-size: 14px;
-    font-weight: 0;
-    color: silver;
-    span {
+const TableButton = styled.div`
+  font-size: 14px;
+  font-weight: 0;
+  color: silver;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #e5e5e5;
+  span {
     cursor: pointer;
-      &:hover {
-        color: black;
-        font-size: 16px;
-        transition: 0.3s;
-      }
-    }
 
+    &:hover {
+      color: black;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+  }
 `
 
-
-const SelectedButton = styled.span`
-    padding: 0px 5px;
-    font-size: 16px;
-    color: black;
-    font-weight: 700;
+const ArrowWrapper = styled.div`
+  color:silver;
     cursor: pointer;
-  border-left: 1px solid #e5e5e5;
+    &:hover {
+        color: #282c34;
+           transition: 0.3s ease-in-out;
+    }
+`;
+
+
+
+const SelectedButton = styled.div`
+    padding: 5px 10px;
+    font-size: 14px;
+    color: black;
+    cursor: pointer;
+  background-color: #f2f2f2;
   border-right: 1px solid #e5e5e5;
   `;
 
-const NotSelectedButton = styled.span`
-    padding: 0px 5px;
+const NotSelectedButton = styled.div`
+    padding: 5px 10px;
     font-size: 14px;
     color: silver;
     font-weight: 0;
     cursor: pointer;
-  border-left: 1px solid #e5e5e5;
+  background-color: white;
   border-right: 1px solid #e5e5e5;
+    &:hover {
+        color: black;
+        background-color: #f2f2f2;
+    }
     `;
 
 
 const TableMenu = (props:{isSelected:number, menus:{name:string,id:number}[],setIsSelected:(value:number)=>void}) => {
     return(
-        <TableBtn>
+        <TableButton>
             {props.menus.map((item:{name:string,id:number;}, index:number) => (
                 //선택된 버튼
                 props.isSelected === item.id ?
@@ -77,7 +93,7 @@ const TableMenu = (props:{isSelected:number, menus:{name:string,id:number}[],set
                     :
                     <NotSelectedButton key={index} onClick={() => props.setIsSelected(item.id)}>{item.name} </NotSelectedButton>
             ))}
-        </TableBtn>
+        </TableButton>
     );
 }
 
@@ -89,8 +105,11 @@ export function TableCustom(props: { title: string; isSelected:number; setIsSele
         <TableContainer >
             <TableHeader>
                 <span>{props.title}</span>
-                <TableMenu isSelected={props.isSelected} menus={props.menus} setIsSelected={props.setIsSelected}/>
+                <ArrowWrapper>
+                    <FontAwesomeIcon icon={faChevronRight} size="sm"/>
+                </ArrowWrapper>
             </TableHeader>
+            <TableMenu isSelected={props.isSelected} menus={props.menus} setIsSelected={props.setIsSelected}/>
             {props.children}
         </TableContainer>
 

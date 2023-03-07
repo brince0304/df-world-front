@@ -2,7 +2,7 @@ const boardData ={
     noticeList:[
         {
             id:1,
-            title:"테스트",
+            title:"테스트gdgdgdgdgdgdgdgdgdgddggdgdgegqwetewtewtw",
             content:"테스트",
             createdAt :"방금 전",
             userNickname:"관리자",

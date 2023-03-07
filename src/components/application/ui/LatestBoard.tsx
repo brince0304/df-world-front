@@ -1,9 +1,9 @@
 import react from "react";
 import styled from "styled-components";
-import {TableCustom} from "../application/TableCustom";
-import BoardData from "../../data/BoardData";
+import {TableCustom} from "./TableCustom";
+import BoardData from "../../../data/BoardData";
 import React from "react";
-import boardData from "../../data/BoardData";
+import boardData from "../../../data/BoardData";
 
 const BoardBody = styled.div`
     display:flex;
@@ -12,7 +12,6 @@ const BoardBody = styled.div`
     align-items: center;
     padding: 10px 0;
     font-size: 14px;
-    font-weight: 700;
     color: #000;
     `
 
@@ -31,12 +30,20 @@ transition: 0.5s ease;
     `
 
 const BoardTitle = styled.div`
-    display: flex;
+    display: -webkit-box;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  //맨왼쪽부터
+    justify-content: flex-start;
     font-size: 18px;
-    font-weight: 700;
+  //줄 넘으면 ... 으로 나타나게
+    overflow: hidden;
+     > span {
+
+white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+       
+     }
     `
 
 const BoardFooter = styled.div`

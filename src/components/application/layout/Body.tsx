@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import React from "react";
-import RankingTable from "../domains/RankingTable";
-import MainPageRankingData from "../../data/MainPageRankingData";
-import LatestBoard from "../domains/LatestBoard";
-import BoardData from "../../data/BoardData";
+import RankingTable from "../ui/RankingTable";
+import MainPageRankingData from "../../../data/MainPageRankingData";
+import LatestBoard from "../ui/LatestBoard";
+import BoardData from "../../../data/BoardData";
 const Container = styled.div`
     //container
     flex-direction: row;
