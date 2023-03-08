@@ -18,12 +18,6 @@ const ComponentPreviews = () => {
             <ComponentPreview path="/ComponentPreviews">
                 <ComponentPreviews/>
             </ComponentPreview>
-            <ComponentPreview path="/HeaderSearchBox">
-                <HeaderSearchBox title={"던파모아"} data={HeaderData.serverList}/>
-            </ComponentPreview>
-            <ComponentPreview path="/SocialLogin">
-                <SocialLogin/>
-            </ComponentPreview>
         </Previews>
     );
 };

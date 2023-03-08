@@ -10,6 +10,12 @@ const mainPageRankingData = {
             adventureFame: 1000000,
             adventureName:"고추참치김치참치",
             rankingType: "adventureFame",
+            characterList:[
+                "adc8ff34747f4bf41722f4d5a22906c6",
+                "adc8ff34747f4bf41722f4d5a22906c6",
+                "adc8ff34747f4bf41722f4d5a22906c6",
+                "adc8ff34747f4bf41722f4d5a22906c6"
+            ]
 
         },
         {

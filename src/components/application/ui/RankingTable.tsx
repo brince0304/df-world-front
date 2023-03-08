@@ -167,15 +167,24 @@ interface Props {
 interface RankingTableProps{
   data: {
       characterId:string;
-      characterName:string;
+      characterName?:string;
       adventureName:string;
       serverId:string;
       serverName:string;
       adventureFame:string;
       rankingType:string;
+      characterList?:string[];
   }[];
 }
 
+const AdventureCharacterWrapper = styled.div`
+    width:20%;
+    height:20%;
+`
+const AdventureCharacterContainer = styled.div`
+    display:flex;
+    flex-direction:row;
+`
 
 
 const RankingTableRow = (props: RankingTableProps) => {
@@ -184,10 +193,20 @@ const RankingTableRow = (props: RankingTableProps) => {
         props.data.map((item,index:number) => (
                 <TableRow  key={index} id={item.characterId} >
                     <p className="badge bg-black text-gray-700 font-bold text-[13px] absolute bg-black w-5 h-5 text-white opacity-75"  >{index+1}</p>
-                    <TableCell  style={{width:"5%"}} >
-                        <RankingCharacterImg  serverId={item.serverId} characterId={item.characterId}/>
+                    <TableCell  style={{width:"10%"}} >
+                        {!item.characterList && <RankingCharacterImg  serverId={item.serverId} characterId={item.characterId}/>}
+                        {item.characterList &&
+                            <AdventureCharacterContainer>
+                                {item.characterList.map((character) => (
+                                <AdventureCharacterWrapper>
+                                    <RankingCharacterImg  serverId={item.serverId} characterId={character}/>
+                                </AdventureCharacterWrapper>
+                                ))
+                                }
+                            </AdventureCharacterContainer>
+                            }
                     </TableCell>
-                    <TableCell  style={{width:"10%"}}>
+                    <TableCell  style={{width:"20%"}}>
                         <TableData>
                             <RankingDetailNameText >{item.characterName}</RankingDetailNameText>
                             <RankingDetailText >{item.adventureName}</RankingDetailText>

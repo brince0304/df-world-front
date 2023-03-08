@@ -9,12 +9,11 @@ serverId:string,characterId:string;
 
 const CharacterImg = styled.img`
   scale:2;
-
   `;
 
-const ImgSection = styled.div`
-  width: 70px;
-  height: 120px;
+const ImgWrapper = styled.div`
+  width: 50px;
+  height: 100px;
   overflow: hidden;
   position: relative;
   display: inline-block;
@@ -25,8 +24,8 @@ function characterUrl (props:Props){
 }
 export function RankingCharacterImg(props:Props) {
     return (
-        <ImgSection>
+        <ImgWrapper>
             <CharacterImg id="characterImg" src={characterUrl(props)} alt="캐릭터 이미지"/>
-        </ImgSection>
+        </ImgWrapper>
     );
 }
