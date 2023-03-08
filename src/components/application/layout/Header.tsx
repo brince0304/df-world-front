@@ -17,6 +17,7 @@ import {SocialLogin} from "../ui/SocialLogin";
 import RegisterPage from "../ui/RegisterPage";
 import {SocialRegister} from "../ui/SocialRegister";
 import LoginModal from "../ui/LoginModal";
+import LatestSearchData from "../../../data/LatestSearchData";
 
 
 
@@ -29,11 +30,12 @@ const Container = styled.div`
   background-color: #212124;
   padding: 0 15%;
   z-index: 999;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   @media (max-width: 768px) {
     padding: 0 2%;
   }
   @media (max-width: 1024px) {
-    padding: 0 5%;
+    padding: 0 4%;
   }
 `;
 
@@ -172,7 +174,6 @@ const HeaderBottom = styled.div`
   padding-left: 15px;
   padding-top: 10px;
   background-color: #212124;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   @media (max-width: 768px) {
     display: none;
   }
@@ -201,7 +202,8 @@ const Header = (props: { title: string; }) => {
                     <FontAwesomeIcon icon={faBars} size="lg"/>
                 </MobileNavButton>
                 <Logo>{props.title}</Logo>
-                <HeaderSearchBox data={HeaderData.serverList} title={"서버"}></HeaderSearchBox>
+                <HeaderSearchBox data={HeaderData.serverList} title={"서버"}
+                latestSearchData={LatestSearchData}></HeaderSearchBox>
             </HeaderTop>
             <HeaderBottom>
                 {HeaderData.menuList.map((item, index) => {
