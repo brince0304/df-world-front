@@ -260,15 +260,15 @@ buff :[
     rankingType :[
         {
             name: "모험가명성",
-            id : 0,
+            id : "adventureFame",
         },
         {
             name: "피해증가",
-            id : 1,
+            id : "damageIncrease",
         },
         {
             name: "버프력",
-            id : 2,
+            id : "buffPower"
         },
         ],
 

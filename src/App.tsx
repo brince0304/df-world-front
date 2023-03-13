@@ -2,23 +2,28 @@ import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Header from './components/application/layout/Header';
-import Body from './components/application/layout/Body';
+import Main from './components/application/layout/Main';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
-//부트스트랩
-
-
-//다크모드 함수
+interface IUserDetail {
+    userId: string;
+    userAuthority: [string];
+}
 
 function App() {
+    const [isLogin, setIsLogin] = useState(false);
+    const [userDetail, setUserDetail] = useState<IUserDetail>();
 
- const[characterName, setCharacterName] = useState<string>("");
-  return (
-    <div className="App">
-        <Header title={"던파모아"}
-        ></Header>
-        <Body/>
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <div className="App">
+                <Header title={"던파모아"} isLogin={isLogin} />
+                <Routes>
+                    <Route path="/" element={<Main />}></Route>
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 export default App;

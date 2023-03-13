@@ -4,7 +4,7 @@ import {PaletteTree} from './palette';
 import App from "../App";
 import RankingTable from "../components/application/ui/RankingTable";
 import MainPageRankingData from "../data/MainPageRankingData";
-import HeaderSearchBox from "../components/application/ui/HeaderSearchBox";
+import SearchBox from "../components/application/layout/SearchBox";
 import {HeaderData} from "../data/HeaderData";
 import {SocialLogin} from "../components/application/ui/SocialLogin";
 import RegisterPage from "../components/application/ui/RegisterPage";

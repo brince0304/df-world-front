@@ -4,15 +4,16 @@ import RankingTable from "../ui/RankingTable";
 import MainPageRankingData from "../../../data/MainPageRankingData";
 import LatestBoard from "../ui/LatestBoard";
 import BoardData from "../../../data/BoardData";
+import axios from "axios";
 const Container = styled.div`
-    //container
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color: #fff;
+  //container
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: #fff;
   padding: 0 17%;
   width: 100%;
 
-  grid-column-gap:  1%;
+  grid-column-gap: 1%;
   @media (max-width: 768px) {
     grid-template-columns: repeat(1, minmax(100px, auto));
     grid-template-rows: repeat(1, minmax(100px, auto));
@@ -41,25 +42,19 @@ const LatestBoardContainer = styled.div`
 
 `;
 
-const RankingTableContainer = styled.div`
-`;
 
 
 
-const Body = () =>{
+const Main = () =>{
     return(
         <Container>
             <LatestBoardContainer>
-                <LatestBoard title={"공지사항"} boardTypes={BoardData.noticeTypes}/>
-                <LatestBoard title={"전체"} boardTypes={BoardData.boardTypes}/>
+                <LatestBoard title={"공지사항"} url={"/boards/latest?boardType="} />
+                <LatestBoard title={"통합 게시판"} boardTypes={BoardData.boardTypes} url={"/boards/latest?boardType="} />
             </LatestBoardContainer>
-            <RankingTableContainer>
-                <RankingTable data={MainPageRankingData} title={"캐릭터 랭킹"}/>
-                <RankingTable data={MainPageRankingData} title={"모험단 랭킹"}/>
-            </RankingTableContainer>
-
+                <RankingTable data={MainPageRankingData} title={"캐릭터 랭킹"} url={"/characters/mainRank?searchType="}/>
         </Container>
     );
 }
 
-export default Body;
+export default Main;
