@@ -3,10 +3,14 @@ import Button from '@mui/material/Button';
 import styled from "styled-components";
 import {useInput} from "../../../hooks/useInput";
 import {ModalTitle} from "./ModalTitle";
-import {ImgOpacityButton} from "./ImgOpacityButton";
+import {ImgOpacityButton} from "../layout/ImgOpacityButton";
 import SocialLoginData from "../../../data/SocialLoginButons";
 import {TextField} from "@mui/material";
-
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import axios from "axios";
+import {constants} from "http2";
 
 
 const TextFieldCustom = styled(TextField)`
@@ -20,7 +24,7 @@ const TextFieldCustom = styled(TextField)`
 }
 `;
 
-const FormControl = styled.div`
+const FormControl = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -129,13 +133,15 @@ const SocialLoginBox = styled.div`
 
 
 
+interface SocialLoginProps {
+    data:{src:string,alt:string,type:string}[]
+}
 
 
 
 
 
-
-const SocialLoginButtons=(props:{data:{src:string,alt:string,type:string}[]})=>{
+const SocialLoginButtons=(props:SocialLoginProps)=>{
     return(
         <>{props.data.map((item,index)=>(
             <ImgOpacityButton src={require("../../../assets/img/"+item.src)} alt={item.alt} scale={1} key={index} width={50} height={50} />
@@ -143,25 +149,55 @@ const SocialLoginButtons=(props:{data:{src:string,alt:string,type:string}[]})=>{
     )
 }
 
+interface LoginProps {
+    username: string;
+    password: string;
+}
+
+const schema = yup.object().shape({
+    username: yup.string().required('아이디를 입력해주세요.'),
+    password: yup.string().required('비밀번호를 입력해주세요.'),
+});
 
 
 
-
-const LoginSection = (props:{handleChangeSection:()=>void}) => {
-    const [email,onChangeEmail,isValidEmail,emailErrorMessage,emailPlaceholder]=useInput({
-        placeholder:"이메일",
+const LoginPage = (props:{handleChangeSection:()=>void}) => {
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: {errors },
+    } = useForm<LoginProps>({
+        mode: "onChange",
+        resolver: yupResolver(schema),
     });
-    const [password,onChangePassword,isValidPassword,passwordErrorMessage,passwordPlaceholder]=useInput({
-        placeholder:"비밀번호",
-    });
+
+    const onValid = (data: LoginProps) => {
+        axios.post("http://localhost:8080/users/login?username="+data.username+"&password="+data.password)
+            .then((res)=>{
+                if(res.status===200){
+
+                }
+            })
+            .catch((err)=>{
+                setError("username",{
+                    type:"manual",
+                    message:"아이디 또는 비밀번호가 일치하지 않습니다."
+                })
+                setError("password",{
+                    type:"manual",
+                    message:""
+                })
+            })
+    }
     return (
-                <FormControl >
+                <FormControl onSubmit={handleSubmit(onValid)} >
                     <ModalTitle title={"로그인"}    />
                     <div>
-                        <TextFieldCustom error={!isValidEmail} type="email" placeholder={emailPlaceholder} onChange={onChangeEmail}
-                        helperText={isValidEmail ? emailErrorMessage:''} value={email} name="email"/>
-                        <TextFieldCustom error={!isValidPassword} type="password" placeholder={passwordPlaceholder} onChange={onChangePassword}
-                        helperText={isValidPassword ? passwordErrorMessage:''} value={password} name="password"/>
+                        <TextFieldCustom error={errors.username? true:false} type="text" label={"아이디"}
+                        helperText={errors.username?.message} {...register("username")} />
+                        <TextFieldCustom error={errors.password? true:false} type="password" label={"비밀번호"}
+                        helperText={errors.password?.message} {...register("password")} />
                     </div>
                     <BodyFooter>
                         <MissingPassword>
@@ -186,6 +222,6 @@ const LoginSection = (props:{handleChangeSection:()=>void}) => {
     )
 }
 
-export default LoginSection;
+export default LoginPage;
 
 

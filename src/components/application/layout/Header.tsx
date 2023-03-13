@@ -3,14 +3,13 @@ import styled from "styled-components";
 import {TextField, FormControl, Button, Select, MenuItem} from "@mui/material";
 import {useState} from "react";
 import '../../../assets/css/header.scss'
-import HeaderSearchBox from "../ui/HeaderSearchBox";
+import SearchBox from "./SearchBox";
 import {HeaderData} from "../../../data/HeaderData";
 import LoginPage from "../ui/LoginPage";
 import MobileNav from "./MobileNav";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CustomModal from "../ui/LoginModal";
-import LoginSection from "../ui/LoginPage";
 import useModal from "../../../hooks/useModal";
 import useNavBar from "../../../hooks/useNavBar";
 import {SocialLogin} from "../ui/SocialLogin";
@@ -18,6 +17,8 @@ import RegisterPage from "../ui/RegisterPage";
 import {SocialRegister} from "../ui/SocialRegister";
 import LoginModal from "../ui/LoginModal";
 import LatestSearchData from "../../../data/LatestSearchData";
+import useSelectSearch from "../../../hooks/useSelectSearch";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -28,7 +29,7 @@ const Container = styled.div`
   top: 0;
   height: 120px;
   background-color: #212124;
-  padding: 0 15%;
+  padding: 0 16%;
   z-index: 999;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   @media (max-width: 768px) {
@@ -39,7 +40,64 @@ const Container = styled.div`
   }
 `;
 
-const HeaderButton = styled(Button)`
+const Logo = styled(Button)`
+  && {
+    padding-top: 15px;
+    padding-left: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding-right: 0;
+
+    &:hover {
+      color: cornflowerblue;
+      background-color: transparent;
+    }
+  }
+
+  @media (max-width: 768px) {
+    grid-column-start: 3;
+    grid-column-end: 5;
+    //맨왼쪽 배치
+    padding-left: 0;
+    align-items: flex-end;
+    justify-content: space-between;
+
+
+  }
+`;
+
+
+const SelectSearchWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 25%;
+  width: 400px;
+  position: absolute;
+  top: 5%;
+  right:17%;
+  @media (min-width: 1024px) and (max-width: 1280px) {
+    right : 10%;
+  }
+  @media (max-width: 768px) {
+    padding-right: 40px;
+    padding-left: 5px;
+    position: relative;
+      //그리드 두번째줄 혼자 사용
+      grid-column-start: 1;
+      grid-column-end: 5;
+      grid-row-start: 2;
+      grid-row-end: 3;
+  }
+
+`
+
+
+
+const HeaderMenu = styled(Button)`
   && {
     color: white;
     background-color: transparent;
@@ -75,55 +133,24 @@ const HeaderTop = styled.div`
 
 
 
-const Logo = styled(Button)`
-  && {
-    padding-top: 15px;
-    padding-left: 10px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #FFFFFF;
-    cursor: pointer;
-   
-    &:hover {
-      color: cornflowerblue;
-      background-color: transparent;
-    }
-  }
-
-  @media (max-width: 768px) {
-    grid-column-start: 3;
-    grid-column-end: 4;
-    //맨왼쪽 배치
-    padding-left: 0;
-    align-items: flex-end;
-    justify-content: space-between;
-
-
-  }
-`;
 
 const RegisterContainer= styled.div`
-  display:  flex;
-  position: absolute;
-  background-color: white;
-  visibility: ${(props : { isLoginPage: boolean }) => props.isLoginPage ? 'hidden' : 'visible'};
-  flex-direction: row;
-  align-items: center;
-  transition: 0.3s ease-in-out;
-  opacity: ${(props: { isLoginPage: boolean }) => props.isLoginPage ?  '0': '100%'};
+  display: ${(props : { isLoginPage: boolean }) => props.isLoginPage ? 'none' : 'flex'};
+  width: 100%;
+  height: 100%;
+  //넘치면 스크롤바
   @media (max-width: 768px) {
-      width: 85%;
-        }
+      width: 100%;  }
     `
 ;
 
 const LoginContainer= styled.div`
-  display:  flex;
-  visibility: ${(props : { isLoginPage: boolean }) => props.isLoginPage ? 'visible' : 'hidden'};
-  flex-direction: row;
-  align-items: center;
-  transition: 0.3s ease-in-out;
-  opacity: ${(props: { isLoginPage: boolean }) => props.isLoginPage ?  '100%': '0'};
+    display: ${(props : { isLoginPage: boolean }) => props.isLoginPage ? 'flex' : 'none'};
+    height: 100%;
+    align-items: center;
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 
@@ -138,6 +165,7 @@ const MobileNavButton = styled(Button)`
       display: flex;
       grid-column-start: 1;
       grid-column-end: 2;
+      margin-right: 10px;
     }
 
     &:hover {
@@ -147,6 +175,7 @@ const MobileNavButton = styled(Button)`
     }
   }
 `;
+
 
 const NavBackground = styled.div`
   display:none;
@@ -181,11 +210,69 @@ const HeaderBottom = styled.div`
 
 
 
+interface SearchOption {
+    id: string;
+    title: string;
+    content:string;
+    footer: string;
+    optionValue: string|"";
+    type: "board" | "character";
+}
+
+
+
+const searchType = {
+    type : "character",
+    url:"/characters/?characterName=<characterName>&serverId=<serverId>"
+}
+
+interface HeaderProps {
+    title: string;
+    isLogin: boolean;
+    userId?: string;
+}
+
+interface UserDetail {
+    userId: string;
+    userAuthority: [string];
+}
 
 
 
 
-const Header = (props: { title: string; }) => {
+const Header = (props: HeaderProps) => {
+    const [searchValue,selectValue,handleSearchOnChange,handleSelectOnChange]= useSelectSearch({
+        initialSearchValue: "",
+        placeholder: "캐릭터 이름",
+        initialSelectValue:"all",
+    })
+    let navigate = useNavigate();
+    const handleCharacterSearchNavigate = (url:string,type:string,characterName:string,serverId:string) =>{
+        navigate(url.replace("<characterName>",characterName).replace("<serverId>",serverId));
+    }
+    const [searchOption, setSearchOption] = useState<SearchOption[]>([{
+id: "1",
+        title: "전체1",
+        content: "전체1",
+        footer: "전체1",
+        optionValue: "1",
+        type: "character"
+}, {
+        id: "2",
+        title: "전체2",
+        content: "전체2",
+        footer: "전체2",
+        optionValue: "2",
+        type: "character"
+    },
+        {
+            id: "3",
+            title: "전체3",
+            content: "전체3",
+            footer: "전체3",
+            optionValue: "3",
+            type: "character"
+        }]);
     const [isModalOpened, openModal,closeModal] = useModal();
     const [isNavbarOpened, openNavbar,closeNavbar] =  useNavBar(isModalOpened);
     const [isLoginPage, setIsLoginPage] = useState(true);
@@ -194,33 +281,39 @@ const Header = (props: { title: string; }) => {
             setIsLoginPage(!isLoginPage);
         },
         [isLoginPage]);
-    const [isLogin, setIsLogin] = useState(false);
+    const handleOptionMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        navigate("/character/?characterId="+e.currentTarget.attributes.getNamedItem("data-id")?.value+"&serverId="+e.currentTarget.attributes.getNamedItem("data-option")?.value);
+    }
     return (
         <Container>
             <HeaderTop>
                 <MobileNavButton onClick={openNavbar}>
                     <FontAwesomeIcon icon={faBars} size="lg"/>
                 </MobileNavButton>
-                <Logo>{props.title}</Logo>
-                <HeaderSearchBox data={HeaderData.serverList} title={"서버"}
-                latestSearchData={LatestSearchData}></HeaderSearchBox>
+                <Logo onClick={(e)=>{navigate("/")}}>{props.title}</Logo>
+                <SelectSearchWrapper>
+                <SearchBox selectOptions={HeaderData.serverList} placeholder={"캐릭터 이름"} useSearchOption={true}
+                           selectLoading={false} searchType={searchType}
+                           searchOptions={searchOption} searchValue={searchValue} selectValue={selectValue} handleSelectValueChange={handleSelectOnChange}
+                           handleSearchValueChange={handleSearchOnChange} handleNavigate={handleCharacterSearchNavigate} handleOptionMouseDown={handleOptionMouseDown}
+                />
+                </SelectSearchWrapper>
             </HeaderTop>
             <HeaderBottom>
                 {HeaderData.menuList.map((item, index) => {
                     return (
-                        <HeaderButton key={index} onClick={item.name==='로그인'? openModal:()=>{} }>{item.name}</HeaderButton>
+                        <HeaderMenu key={index} onClick={item.name==='로그인'? openModal:()=>{} }>{item.name}</HeaderMenu>
                     )
                 })
                 }
             </HeaderBottom>
-            {!isLogin && <LoginModal open={isModalOpened} handleClose={closeModal} isLoginPage={isLoginPage}>
+            {!props.isLogin && <LoginModal open={isModalOpened} handleClose={closeModal} isLoginPage={isLoginPage}>
                 <RegisterContainer isLoginPage={isLoginPage} id={"register-part"}>
-                    <SocialRegister/>
                     <RegisterPage handleChangeSection={handleChangeSection}/>
                 </RegisterContainer>
                 <LoginContainer isLoginPage={isLoginPage} id={"login-part"}>
                     <SocialLogin />
-                    <LoginSection handleChangeSection={handleChangeSection}/>
+                    <LoginPage handleChangeSection={handleChangeSection}/>
                 </LoginContainer>
             </LoginModal>}
             <MobileNav isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar} handleModalOpen={openModal}/>

@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import styled from "styled-components";
 import {ModalTitle} from "./ModalTitle";
-import {ImgOpacityButton} from "./ImgOpacityButton";
+import {ImgOpacityButton} from "../layout/ImgOpacityButton";
 import SocialLoginData from "../../../data/SocialLoginButons";
 
 const Container = styled.div`
@@ -25,7 +25,11 @@ const ButtonSection = styled.div`
     width:51%;
 `
 
-const RegisterButtons=(props:{data:{src:string,alt:string,type:string}[]})=>{
+interface LoginButtonsProps {
+    data: { src: string, alt: string, type: string }[]
+}
+
+const RegisterButtons=(props:LoginButtonsProps)=>{
     return(
         <>{props.data.map((item,index)=>(
             <ImgOpacityButton src={require("../../../assets/img/"+item.src)} alt={item.alt} scale={1.5} key={index} />

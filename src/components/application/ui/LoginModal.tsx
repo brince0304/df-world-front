@@ -8,12 +8,22 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 const style = {
+    display: 'flex' as 'flex',
+    alignItems: 'center' as 'center',
+    justifyContent: 'center' as 'center',
     position: 'absolute' as 'absolute',
+    overflow: 'scroll' as 'scroll',
+    scrollBehavior: 'smooth' as 'smooth',
+    //스크롤바 숨기기
+    '&::-webkit-scrollbar': {
+        display: 'none',
+    },
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     //props width
     width: 800,
+    height: 'auto',
     bgcolor: 'background.paper',
     borderRadius: 2,
     boxShadow: 24,
@@ -33,14 +43,13 @@ const ModalHeader = styled.div`
 
 const ModalBox = styled(Box)`
     &&{
-      display: grid; 
+      display: flex;
         flex-direction: column;
       padding-top: 10px;
-      height : ${(props:{isLoginPage:boolean}) => props.isLoginPage ? '450px' : '500px'};
-      transition: height 0.3s ease-in-out;
+      height: ${(props:{isLoginPage:boolean}) => props.isLoginPage ? '450px' : '550px'};
       @media (max-width: 768px) {
         width: 400px;
-        height : 600px;
+        height : 630px;
       }
     }
 `
@@ -63,13 +72,19 @@ const CloseButtonWrapper = styled.div`
 
 const ModalBody = styled.div`
     display: flex;
+  height: 100%;
+  width: 100%;
     flex-direction: row;
     align-items: center;
     padding: 20px 0;
     `
 
+interface LoginModalProps {
+    open:boolean,handleClose:()=>void, children:React.ReactNode, isLoginPage:boolean
+}
 
-export default function LoginModal (props:{open:boolean,handleClose:()=>void, children:React.ReactNode, isLoginPage:boolean}) {
+
+export default function LoginModal (props:LoginModalProps) {
     return (
         <Modal
             open={props.open}
@@ -77,10 +92,10 @@ export default function LoginModal (props:{open:boolean,handleClose:()=>void, ch
         >
             <Fade in={props.open}>
                 <ModalBox sx={style} isLoginPage={props.isLoginPage}   >
+                    <CloseButtonWrapper onClick={props.handleClose}>
+                        <FontAwesomeIcon icon={faXmark}/>
+                    </CloseButtonWrapper>
                     <ModalHeader>
-                        <CloseButtonWrapper onClick={props.handleClose}>
-                            <FontAwesomeIcon icon={faXmark}/>
-                        </CloseButtonWrapper>
                     </ModalHeader>
                     <ModalBody>
                         {props.children}
