@@ -33,7 +33,7 @@ function App() {
     const progress = useSelector((state: RootState) => state.app.progress);
     const dispatch = useAppDispatch();
     useEffect(() => {
-        getUser(dispatch);
+        dispatch(getUser());
     }, []);
     return (
             <div className="App">
