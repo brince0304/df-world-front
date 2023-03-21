@@ -25,7 +25,7 @@ const TableHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
+  padding: 5px 15px;
   font-size: 22px;
   color: #000;
   border-bottom: 1px solid #e5e5e5;
@@ -50,7 +50,7 @@ const TableButton = styled.div`
   }
 `
 
-const ArrowWrapper = styled.div`
+const IconWrapper = styled.div`
   color: silver;
   cursor: pointer;
 
@@ -61,7 +61,8 @@ const ArrowWrapper = styled.div`
 `;
 
 
-const SelectedButton = styled.div`
+const SelectedButton = styled.li`
+  list-style: none;
   padding: 5px 10px;
   font-size: 14px;
   color: black;
@@ -70,7 +71,8 @@ const SelectedButton = styled.div`
   border-right: 1px solid #e5e5e5;
 `;
 
-const NotSelectedButton = styled.div`
+const NotSelectedButton = styled.li`
+  list-style: none;
   padding: 5px 10px;
   font-size: 14px;
   color: silver;
@@ -95,9 +97,9 @@ const TableTitleWrapper = styled.div`
 `
 
 interface TableMenuProps {
-    isSelected: string,
+    isSelected?: string,
     menus: { name: string, id: string }[],
-    setIsSelected: (value: string) => void
+    setIsSelected?: (value: string) => void
 }
 
 const TableMenu = (props: TableMenuProps) => {
@@ -107,10 +109,10 @@ const TableMenu = (props: TableMenuProps) => {
                 //선택된 버튼
                 props.isSelected === item.id ?
                     <SelectedButton key={index}
-                                    onClick={() => props.setIsSelected(item.id)}>{item.name} </SelectedButton>
+                                    onClick={() => props.setIsSelected?.(item.id)}>{item.name} </SelectedButton>
                     :
                     <NotSelectedButton key={index}
-                                       onClick={() => props.setIsSelected(item.id)}>{item.name} </NotSelectedButton>
+                                       onClick={() => props.setIsSelected?.(item.id)}>{item.name} </NotSelectedButton>
             ))}
         </TableButton>
     );
@@ -119,12 +121,13 @@ const TableMenu = (props: TableMenuProps) => {
 
 interface TableCustomProps {
     title: string;
-    isSelected: string;
-    setIsSelected: (value: string) => void;
+    isSelected?: string;
+    setIsSelected?: (value: string) => void;
     menus?: { name: string, id: string }[];
     useMenu: boolean;
     isLoading: boolean;
-    useArrow: boolean;
+    useIcon: boolean;
+    icon?: React.ReactNode;
     onClickArrow?: () => void;
     children: React.ReactNode;
 }
@@ -136,12 +139,12 @@ export function TableCustom(props: TableCustomProps) {
                 <TableTitleWrapper>
                     <span>{props.title}</span>
                     {props.isLoading &&
-                        <ReactLoading type={"spinningBubbles"} color={"lightgray"} width={"25px"} height={"25px"}/>}
+                        <ReactLoading type={"spinningBubbles"} color={"gray"} width={"25px"} height={"25px"}/>}
                 </TableTitleWrapper>
-                {props.useArrow &&
-                    <ArrowWrapper onClick={props.onClickArrow}>
-                        <FontAwesomeIcon icon={faChevronRight} size="sm"/>
-                    </ArrowWrapper>}
+                {props.useIcon &&
+                    <IconWrapper onClick={props.onClickArrow}>
+                        {props.useIcon && props.icon}
+                    </IconWrapper>}
             </TableHeader>
             {props.useMenu && props.menus &&
                 <TableMenu isSelected={props.isSelected} menus={props.menus} setIsSelected={props.setIsSelected}/>}

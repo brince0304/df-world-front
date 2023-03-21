@@ -12,6 +12,7 @@ const CharacterImg = styled.img`
   width: 80px;
   height: 100px;
   scale: 3;
+  transform: translateY(5px);
 `;
 
 const ImgWrapper = styled.div`

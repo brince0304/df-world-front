@@ -1,16 +1,14 @@
 import '../../../assets/css/rankingTable.scss'
 import React, {useEffect, useState} from "react";
-import MainPageRankingData from "../../../data/MainPageRankingData";
 import {RankingCharacterImg} from "./RankingCharacterImg";
 import styled from "styled-components";
 import mainPageRankingData from "../../../data/MainPageRankingData";
-import tw from "tailwind-styled-components"
-import Grid2 from "@mui/material/Grid";
-import GridCell from "@mui/material/Grid";
-import GridRow from "@mui/material/Grid";
 import {TableCustom} from "../layout/TableCustom";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {faChevronRight, faExclamationTriangle, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {ErrorScreen} from "./ErrorScreen";
 
 
 const TableData = styled.div`
@@ -83,7 +81,7 @@ const TableRow = styled.div`
     cursor: pointer;
     //랭킹 아이콘 빼고 hover 시 이펙트
     img {
-      transform: scale(1.3);
+      transform: translateY(0px);
       opacity: 1;
       transition: all 0.7s ease;
     }
@@ -204,10 +202,10 @@ const RankingTableRow = (props: { data: RankingTableData[], type: string }) => {
     let navigate = useNavigate();
     const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
         const id = e.currentTarget.dataset;
-        navigate(`/characters/?serverId=${id.server}&characterId=${id.id}`);
+        navigate(`/details?serverId=${id.server}&characterId=${id.id}`);
     }
     return (
-        <>{
+        <>{ props.data.length > 0 &&
             props.data.map((item, index: number) => (
                 <TableRow key={index} id={item.characterId} onClick={onClick} data-id={item.characterId}
                           data-server={item.serverId}>
@@ -230,7 +228,6 @@ const RankingTableRow = (props: { data: RankingTableData[], type: string }) => {
                 </TableRow>
             ))
         }</>
-
     )
 }
 
@@ -257,12 +254,14 @@ export default function RankingTable(props: RankingTableProps) {
 
     return (
         <TableCustom title={props.title} isSelected={isSelected} setIsSelected={setIsSelected}
-                     menus={mainPageRankingData.rankingType} useMenu={true} useArrow={true}
+                     menus={mainPageRankingData.rankingType} useMenu={true} useIcon={true}
                      isLoading={isLoading}
                      onClickArrow={() => {
-                     }}>
+                     }} icon={<FontAwesomeIcon icon={faChevronRight} size="sm"/>}>
             <TableBody>
-                <RankingTableRow type={isSelected} data={data}/>
+                {data.length >0 &&!isError && <RankingTableRow type={isSelected} data={data}/>}
+                {data.length===0 &&!isError && <ErrorScreen icon={faXmark} size={"xl"} message={"데이터가 없습니다."}/>}
+                {isError && <ErrorScreen icon={faExclamationTriangle} size={"xl"} message={"데이터를 불러오는데 실패했습니다."}/>}
             </TableBody>
         </TableCustom>
     );

@@ -1,14 +1,14 @@
 .App {
   text-align: center;
-}
+  font-family: 'noto sans regular';}
 
 @font-face {
     font-family: '광양햇살';
     src: url('assets/fonts/Gwangyang Sunshine Regular(TTF용).ttf') format('truetype');
 }
 @font-face {
-    font-family: '나눔스퀘어 네오';
-    src: url('assets/fonts/NanumSquareNeoTTF-bRg.woff') format('truetype');
+    font-family: 'noto sans regular';
+    src: url('assets/fonts/NotoSansKR-Regular.otf') format('truetype');
 
 }
 
