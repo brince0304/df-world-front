@@ -187,7 +187,7 @@ export const MobileNav = (props: NavProps) => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const handleLogout = useCallback(() => {
-        logout(dispatch,navigate);
+        dispatch(logout());
     }, [logout, dispatch, navigate]);
     const handleModalOpen = useCallback(() => {
         dispatch(setLoginModalIsOpened(true))

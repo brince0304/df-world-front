@@ -360,7 +360,7 @@ const Header = (props: HeaderProps) => {
 
     const handleLogout = useCallback(
         () => {
-            logout(dispatch, navigate);
+            dispatch(logout());
         }, [dispatch, navigate, logout]);
     const profileIsOpened = useAppSelector((state: RootState) => state.login.profileOpened);
    const hasNotification = useAppSelector((state: RootState) => state.login.hasNotification);
