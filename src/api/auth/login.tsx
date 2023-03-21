@@ -1,21 +1,23 @@
 import axios from "axios";
 import {NavigateFunction, useNavigate} from "react-router-dom";
-import store from "../../redux/store";
+import store, {RootState} from "../../redux/store";
 import createInstance from "../../common/axios";
 import {Dispatch} from "redux";
 import {setLogin, setLoginModalIsOpened, setUser} from "../../redux";
+import {Action, ThunkAction} from "@reduxjs/toolkit";
 
 export const login=(data:{
     username:string,
-password:string }, setError:Function,dispatch:Dispatch, navigate:NavigateFunction)=>{
+password:string }, setError:Function, navigate:NavigateFunction):ThunkAction<void, RootState, unknown, Action>=>{
+    return async (dispatch:Dispatch)=>{
     const instance = createInstance("/users/login");
     instance.post('',data)
         .then((res)=>{
             const data = res.data.CURRENT_USER;
-            store.dispatch(setUser(data));
-            store.dispatch(setLogin(true));
+            dispatch(setUser(data));
+            dispatch(setLogin(true));
             alert(data.userId+"님 환영합니다.");
-            store.dispatch(setLoginModalIsOpened(false));
+            dispatch(setLoginModalIsOpened(false));
             window.location.reload();
         })
         .catch((err)=>{
@@ -29,4 +31,5 @@ password:string }, setError:Function,dispatch:Dispatch, navigate:NavigateFunctio
                 message:""
             })
         })
+}
 }

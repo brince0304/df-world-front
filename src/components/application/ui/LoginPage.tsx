@@ -13,6 +13,7 @@ import {login} from "../../../api/auth/login";
 import {useDispatch} from "react-redux";
 import {useCallback} from "react";
 import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "../../../redux/store";
 
 
 const TextFieldCustom = styled(TextField)`
@@ -165,7 +166,7 @@ const schema = yup.object().shape({
 
 const LoginPage = (props:{handleChangeSection:()=>void}) => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const {
         register,
         handleSubmit,
@@ -177,7 +178,7 @@ const LoginPage = (props:{handleChangeSection:()=>void}) => {
     });
 
     const onValid = useCallback((data: LoginProps) => {
-        login(data,setError,dispatch,navigate);
+        dispatch(login(data,setError,navigate));
     }, [dispatch, setError]);
     return (
                 <FormControl onSubmit={handleSubmit(onValid)} >
