@@ -9,8 +9,10 @@ import {TextField} from "@mui/material";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios from "axios";
-import {constants} from "http2";
+import {login} from "../../../api/auth/login";
+import {useDispatch} from "react-redux";
+import {useCallback} from "react";
+import {useNavigate} from "react-router-dom";
 
 
 const TextFieldCustom = styled(TextField)`
@@ -162,6 +164,8 @@ const schema = yup.object().shape({
 
 
 const LoginPage = (props:{handleChangeSection:()=>void}) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const {
         register,
         handleSubmit,
@@ -172,24 +176,9 @@ const LoginPage = (props:{handleChangeSection:()=>void}) => {
         resolver: yupResolver(schema),
     });
 
-    const onValid = (data: LoginProps) => {
-        axios.post("http://localhost:8080/users/login?username="+data.username+"&password="+data.password)
-            .then((res)=>{
-                if(res.status===200){
-
-                }
-            })
-            .catch((err)=>{
-                setError("username",{
-                    type:"manual",
-                    message:"아이디 또는 비밀번호가 일치하지 않습니다."
-                })
-                setError("password",{
-                    type:"manual",
-                    message:""
-                })
-            })
-    }
+    const onValid = useCallback((data: LoginProps) => {
+        login(data,setError,dispatch,navigate);
+    }, [dispatch, setError]);
     return (
                 <FormControl onSubmit={handleSubmit(onValid)} >
                     <ModalTitle title={"로그인"}    />
