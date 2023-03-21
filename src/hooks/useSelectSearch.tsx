@@ -1,5 +1,4 @@
 import {useCallback, useState} from "react";
-import {Navigate} from "react-router";
 
 type returnTypes = [string, string,(e: any) => void, (query: string) => void];
 
