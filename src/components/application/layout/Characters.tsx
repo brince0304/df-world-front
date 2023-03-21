@@ -4,6 +4,8 @@ import {getCharacters} from "../../../api/character/getCharacters";
 import {CharactersData} from "../../../interfaces/CharactersData";
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {useAppDispatch} from "../../../redux/store";
 
 
 const Container = styled.div`
@@ -312,6 +314,7 @@ export const Characters = () => {
     const page = searchParams.get('page');
     const characterName = searchParams.get('name');
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const onClickHandler = (e: React.MouseEvent) => {
         const target = e.target as HTMLElement;
         const characterId = target.getAttribute("data-id");
@@ -321,7 +324,7 @@ export const Characters = () => {
         }
     }
     useEffect(() => {
-         getCharacters(setIsError, setIsLoading, `http://localhost:8080/characters/?characterName=${characterName?characterName:""}&serverId=${serverId?serverId:""}&page=${page?page:"0"}`, setData);
+         dispatch(getCharacters(setIsError, setIsLoading, `http://localhost:8080/characters/?characterName=${characterName?characterName:""}&serverId=${serverId?serverId:""}&page=${page?page:"0"}`, setData));
     }, [characterName, serverId,page ]);
     return (
         <Container>
