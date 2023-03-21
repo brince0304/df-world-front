@@ -4,59 +4,56 @@ import styled from "styled-components";
 import SearchBar from '@mkyy/mui-search-bar';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import {SearchOption, SelectSearchProps} from "../../../interfaces/SeachBox";
+import {getCharactersAutoComplete} from "../../../api/character/getCharactersAutoComplete";
+import {AutoCompleteCharacterData} from "../../../interfaces/AutoCompleteCharacterData";
 
-
-
-interface SelectSearchProps {
-    selectOptions: { value: string; label: string; }[];
-    useSearchOption: boolean;
-    placeholder: string;
-    searchOptions?: SearchOption[];
-    setSearchOptions?: (data: any) => void;
-    selectLoading: boolean;
-    searchType: SearchType;
-    handleNavigate: (url: string, type: string, searchValue:string, selectValue:string) => void;
-    searchValue : string;
-    selectValue : string;
-    handleSearchValueChange : (query:string) => void;
-    handleSelectValueChange : (e: any) => void;
-    handleOptionMouseDown?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+interface SearchSelectContainerStyledProps {
+    width?: string;
+    height?: string;
 }
 
 
-
-
-const SearchSelectContainer = styled.form`
+const SearchSelectContainer = styled.form<SearchSelectContainerStyledProps>`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto auto auto;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding-top: 15px;
+  position: relative;
   height: 100%;
-  width: 400px;
-  position: absolute;
 `
 
 
-const searchBarStyle = {
-    border: "2px solid #2684FF",
-    borderRadius: "2px",
-    borderBottomRightRadius: "0px",
-    borderTopRightRadius: "0px",
-    borderRight: "0px",
-    borderRightStyle: "none",
+// max width 200px
+const SearchBarStyled = styled(SearchBar)`
+  && {
+    border: 2px solid ${(props: SearchOptionContainerStyledProps) => props.color ? props.color : "rgb(226, 226, 226)"};
+    border-radius: 2px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-right: 0px;
+    border-right-style: none;
+    width: 100%;
+  }
+`;
+
+
+interface SearchOptionContainerStyledProps {
+    color?: string;
 }
 
-const SearchOption = styled.div`
+const SearchOptionContainer = styled.div`
+  position: absolute;
+  top:100%;
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
-  border: 0px solid #2684FF;
+  border-radius: 3px;
+  border: 0px solid;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
   grid-column-start: 1;
   grid-column-end: 4;
@@ -66,11 +63,11 @@ const SearchOption = styled.div`
 
 const SearchOptionTitle = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   background-color: rgb(226, 226, 226);
-  padding: 8px 10px;
   color: gray;
   font-size: 13px;
   border-bottom: 0.5px solid silver;
@@ -90,6 +87,7 @@ const SearchOptionBody = styled.div`
 const OptionRow = styled.div`
   display: flex;
   width: 100%;
+
   &:hover {
     background-color: rgba(216, 239, 246, 0.49);
     cursor: pointer;
@@ -98,13 +96,21 @@ const OptionRow = styled.div`
 `;
 
 const OptionCell = styled.div`
-  display: flex;
-    flex-direction: row;
-    align-items: center;
-  justify-content: space-between;
+  display: grid;
+  align-items: center;
   width: 100%;
   padding: 10px 15px;
   font-size: 14px;
+  grid-template-columns: 40% 20% 20% 20%;
+`;
+
+const HistoryOptionCell = styled.div`
+  display: grid;
+  align-items: center;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 14px;
+  grid-template-columns: 40% 20% 25% 20%;
 `;
 
 const BoldNameWrapper = styled.div`
@@ -112,11 +118,18 @@ const BoldNameWrapper = styled.div`
   font-weight: bold;
 `
 
+const ContentWrapper = styled.div`
+    display: flex;
+    color : gray;
+       font-size: 12px;
+`
 
-const SearchBarWrapper = styled.div`
+
+const SearchBarWrapper = styled.div<SearchSelectContainerStyledProps>`
   display: flex;
   grid-column-start: 1;
-  grid-column-end:3;
+  grid-column-end: 3;
+  width: ${(props) => props.width ? props.width : "100%"};
 `
 
 const SelectWrapper = styled.div`
@@ -132,136 +145,199 @@ const LatestRemoveButtonWrapper = styled.div`
 `
 
 const NoDataWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    font-size: 14px;
-    color: #939393;
-      padding: 10px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  color: #939393;
+  padding: 10px 0px;
 `
 
 
 
-//셀렉트 박스와 검색창을 나란히 배치하는 styled div
 
-interface SearchOption {
-    id: string;
-    title: string;
-    content:string;
-    footer: string;
+const SearchOptionTitleWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    color: ${(props:{isSelected:boolean}) => props.isSelected ? "white" : "black"};
+  font-weight: bold;
+  padding: 8px 10px;
+  background-color: ${(props:{isSelected:boolean}) => props.isSelected ? "cornflowerblue" : "lightgray"};
+    &:hover {
+        cursor: pointer;
+      //cornflowerblue 보다 옅은 색으로 바꾸기
+        background-color:  rgb(216, 239, 246);
+        transition: 0.2s;
+    }
+  
 
-    optionValue: string | "";
-    type: "board" | "character";
-}
-
-
-interface SearchType {
-    type: string;
-    url: string;
-}
+`
 
 
 
-
-const SearchBox = (props: SelectSearchProps)  => {
-    const handleRemoveSearchOptions = (e:  React.MouseEvent<HTMLDivElement, MouseEvent>) =>{
-        if(props.searchOptions){
-        const targetId = e.currentTarget.attributes.getNamedItem("data-id")?.value;
-        props.searchOptions.splice(props.searchOptions.findIndex((option) => option.id === targetId),1);
-        }}
+const SearchBox = (props: SelectSearchProps) => {
+    const [isSelected, setIsSelected] = useState<number>(0);
     const [isFocused, setIsFocused] = useState<boolean>(false);
-    const handleOnFocus = useCallback((e:React.FocusEvent<HTMLInputElement>) => {
-        setIsFocused(true);
-    }, [setIsFocused]);
-    const handleOnBlur = useCallback((e:React.FocusEvent<HTMLInputElement>) => {
-        setIsFocused(false);
-    }, [setIsFocused]);
-    const handleSearch = () => {
-        if(props.searchValue ===""){
-            return;
+    const formRef = useRef<HTMLFormElement | null>(null);
+    const handleOutsideClick = (event: MouseEvent) => {
+        if (formRef.current && !formRef.current?.contains(event.target as Node)) {
+            setIsFocused(false);
         }
-        props.handleNavigate(props.searchType.url,props.searchType.type,props.searchValue,props.selectValue);
     };
 
+    useEffect(() => {
+        document.addEventListener("mousedown", handleOutsideClick);
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, []);
+    const handleSearch = () => {
+        if (props.searchValue === "") {
+            return;
+        }
+        setIsFocused(false);
+        props.handleNavigate(props.searchType.url, props.searchType.type, props.searchValue, props.selectValue);
+    };
+    const [autoCompleteData, setAutoCompleteData] = useState<SearchOption[]>([]);
+    useEffect(() => {
+        if (props.searchValue === "") {
+            setAutoCompleteData([]);
+            return;
+        } else if (props.searchValue.length > 0) {
+            if (props.autoCompleteUrl) {
+                const url = props.autoCompleteUrl.replace("{searchValue}", props.searchValue).replace("{selectValue}", props.selectValue);
+                props.autoCompleteHandler?.(url, setAutoCompleteData);
+            }
+        }
+
+    }, [props.searchValue, props.selectValue]);
+  const handleChangeIsSelected = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      setIsSelected(Number(e.currentTarget.attributes.getNamedItem("data-id")?.value));
+    }, [isSelected]);
+
     return (
-            <SearchSelectContainer >
-                <SearchBarWrapper onBlur={handleOnBlur} onFocus={handleOnFocus}>
-                    <SearchBar style={searchBarStyle}
-                               value={props.searchValue}
-                               onChange={props.handleSearchValueChange}
-                               onSearch={handleSearch}
-                               placeholder={props.placeholder}
+        <SearchSelectContainer ref={formRef} width={props.width} height={props.height}>
+            <SearchBarWrapper onFocus={(e)=>setIsFocused(true)} width={props.width}>
+                <SearchBarStyled
+                    value={props.searchValue} color={props.color}
+                    onChange={props.handleSearchValueChange}
+                    onSearch={handleSearch}
+                    placeholder={props.placeholder}
+                />
+            </SearchBarWrapper>
+            <SelectWrapper onMouseDown={(e)=>setIsFocused(false)}>
+                <Select
+                    styles={{
+                        control: (provided, state) => ({
+                            ...provided,
+                            border: "2px solid " + (props.color ? props.color : "rgb(226, 226, 226)"),
+                            borderRadius: "3px",
+                            borderLeftWidth: "1px",
+                            borderLeftColor: "silver",
+                            borderBottomLeftRadius: "0px",
+                            borderTopLeftRadius: "0px",
+                            backgroundColor: 'rgb(255, 255, 255)',
+                            boxShadow: '0 !important',
+                            width: "120px",
+                            //no scrollbar
+                            '&:hover': {},
+                            '@media (max-width: 768px)': {
+                                width: "147px",
+                            }
+                        }),
 
-                    />
-                </SearchBarWrapper>
-                <SelectWrapper>
-                    <Select
-                        styles={{
-                            control: (provided, state) => ({
-                                ...provided,
-                                border: "2px solid #2684FF",
-                                borderRadius: "3px",
-                                borderLeftWidth: "1px",
-                                borderLeftColor: "silver",
-                                borderBottomLeftRadius: "0px",
-                                borderTopLeftRadius: "0px",
-                                backgroundColor: 'rgb(255, 255, 255)',
-                                boxShadow: '0 !important',
-                                width: "140px",
-                                //no scrollbar
-                                '&:hover': {},
-                            }),
-
-                        }
-                        }
-                        defaultValue={props.selectOptions[0]}
-                        isLoading={props.selectLoading}
-                        options={props.selectOptions}
-                        onChange={props.handleSelectValueChange}
-                    />
-                </SelectWrapper>
-                {props.useSearchOption && isFocused && (
-                (<SearchOption>
+                    }
+                    }
+                    defaultValue={props.selectOptions[0]}
+                    isLoading={props.selectLoading}
+                    options={props.selectOptions}
+                    onChange={(e)=> {
+                       if(props.searchValue !== ""){
+                           props.handleSelectValueChange(e);
+                           setIsFocused(true);
+                       }
+                    }}
+                />
+            </SelectWrapper>
+            {props.useSearchOption && isFocused  && (
+                (<SearchOptionContainer color={props.color} >
                     <SearchOptionTitle>
-                        최근 검색 기록
+                        <SearchOptionTitleWrapper data-id={0}  isSelected={isSelected===0} onMouseDown={handleChangeIsSelected}>
+                            최근 검색 기록
+                        </SearchOptionTitleWrapper>
+                        <SearchOptionTitleWrapper data-id={1} isSelected={isSelected===1} onMouseDown={handleChangeIsSelected}>
+                            빠른 검색
+                        </SearchOptionTitleWrapper>
                     </SearchOptionTitle>
                     <SearchOptionBody>
-                        {props.searchOptions?.length!==0 && props.searchOptions?.map((data, index: number) => {
+                        {isSelected===0 ? props.searchOptions?.length!==0 && props.searchOptions?.map((data, index: number) => {
                                 return (
-                                    <OptionRow key={index} >
-                                        <OptionCell data-id={data.id}  data-title={data.title} data-option={data.optionValue}
-                                             onMouseDown={props.handleOptionMouseDown}
-                                             >
-                                        <div>
-                                            <BoldNameWrapper>
-                                                {data.title}
-                                            </BoldNameWrapper>
-                                        </div>
-                                        <div>
-                                            {data.content}
-                                        </div>
-                                        <div>
-                                            {data.footer}
-                                        </div>
-                                        </OptionCell>
-                                        <LatestRemoveButtonWrapper data-id={data.id} onMouseDown={handleRemoveSearchOptions}>
-                                                <FontAwesomeIcon icon={faXmark} size={"lg"}/>
+                                    <OptionRow key={index}>
+                                        <HistoryOptionCell data-id={data.id} data-title={data.title} data-option={data.optionValue2}
+                                                    onMouseDown={props.handleOptionMouseDown}
+                                        >
+                                                <BoldNameWrapper>
+                                                    {data.title}
+                                                </BoldNameWrapper>
+                                            <ContentWrapper>
+                                                {data.content}
+                                            </ContentWrapper>
+                                            <ContentWrapper>
+                                                {data.footer}
+                                            </ContentWrapper>
+                                            {data.optionValue1 && <ContentWrapper>
+                                                {data.optionValue1}
+                                            </ContentWrapper>}
+                                        </HistoryOptionCell>
+                                        <LatestRemoveButtonWrapper data-id={data.id}
+                                                                   onMouseDown={props.handleOptionRemove}>
+                                            <FontAwesomeIcon icon={faXmark} size={"lg"}/>
                                         </LatestRemoveButtonWrapper>
                                     </OptionRow>
                                 )
                             }
+                        ) :  autoCompleteData.map((item: SearchOption, index: number) => {
+                                return (
+                                    <OptionRow key={index}>
+                                        <OptionCell data-id={item.id} data-title={item.title} data-option={item.optionValue2}
+                                                    onMouseDown={props.handleOptionMouseDown}
+                                        >
+                                                <BoldNameWrapper>
+                                                    {item.title}
+                                                </BoldNameWrapper>
+                                            <ContentWrapper>
+                                                {item.content}
+                                            </ContentWrapper>
+                                            <ContentWrapper>
+                                                {item.footer}
+                                            </ContentWrapper>
+                                            {item.optionValue1 && <ContentWrapper>
+                                                {item.optionValue1}
+                                            </ContentWrapper>}
+                                        </OptionCell>
+                                    </OptionRow>
+                                )
+                            }
                         )}
-                        {props.searchOptions?.length === 0 && <OptionRow>
+                        {props.searchOptions?.length === 0 && isSelected===0 && <OptionRow>
                             <NoDataWrapper>
-                                최근 검색 결과가 없습니다.
+                                검색 기록이 없습니다.
+                            </NoDataWrapper>
+                        </OptionRow>}
+                        {autoCompleteData?.length === 0 && isSelected===1 && <OptionRow>
+                            <NoDataWrapper>
+                                데이터가 존재하지 않습니다.
                             </NoDataWrapper>
                         </OptionRow>}
                     </SearchOptionBody>
-                </SearchOption>)
-                )}
-            </SearchSelectContainer>
+                </SearchOptionContainer>)
+            )}
+        </SearchSelectContainer>
     )
 }
 

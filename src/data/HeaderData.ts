@@ -50,20 +50,12 @@ export const HeaderData = {
     ],
     menuList : [] =[
         {
-            name: "홈",
-            link: "/",
-        },
-        {
             name: "랭킹",
-            link: "/ranking",
-        },
-        {
-            name: "로그인",
-            link: "/login",
+            link: "/ranking/",
         },
         {
             name: "게시판",
-            link: "/register",
+            link: "/boards/",
         },
         ]
 }
