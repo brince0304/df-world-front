@@ -1,8 +1,9 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useState} from "react";
+
 
 type returnType = [boolean, () => void, () => void];
 
-const useNavBar = (isModalOpened?:boolean):returnType => {
+const useNavBar = ():returnType => {
     const [isNavBarOpen, setIsNavBarOpen] = useState(false);
     const handleNavbarOpen = useCallback(() => {
         setIsNavBarOpen(true);
@@ -10,10 +11,6 @@ const useNavBar = (isModalOpened?:boolean):returnType => {
     const handleNavbarClose = useCallback(() => {
         setIsNavBarOpen(false);
     }, []);
-
-    useEffect(() => {
-        handleNavbarClose();
-    }, [isModalOpened]);
 
     return [isNavBarOpen, handleNavbarOpen, handleNavbarClose];
 }

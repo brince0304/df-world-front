@@ -1,15 +1,29 @@
 import styled from 'styled-components';
-import react from 'react';
+import React, {useCallback} from 'react';
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    RootState,
+    useAppDispatch,
+    useAppSelector
+} from "../../../redux/store";
+import {logout} from "../../../api/auth/logout";
+import {HeaderProfile} from "../ui/HeaderProfile";
+import {Button} from "@mui/material";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBell, faCog, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
+import {setLoginModalIsOpened} from "../../../redux";
 
 
 const Container = styled.div`
   display: none;
   @media (max-width: 768px) {
     display: flex;
+    padding: 0rem 1rem;
     visibility: ${({isOpened}: { isOpened: boolean }) => (isOpened ? 'visible' : 'hidden')};
-    background-color: black;
+    background-color: #212124;
     height: 100vh;
-    width: 40%;
+    width: 45%;
     position: absolute;
     top: 0;
     left: 0;
@@ -26,9 +40,8 @@ const NavItem = styled.a`
   color: #fff;
   font-size: 1.5rem;
   text-decoration: none;
-  padding: 0.5rem 1rem;
   transition: 0.3s ease-in-out;
-
+  padding : 10px 0;
   &:hover {
     color: cornflowerblue;
   }
@@ -42,49 +55,187 @@ const NavMenu = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding-top: 25%;
   width: 100%;
   height: 100%;
 `;
 
 
-const NavBtnLink = styled.a`
-  border-radius: 50px;
-  background: #01bf71;
-  white-space: nowrap;
-  padding: 10px 22px;
-  color: #010606;
-  font-size: 16px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
 
-  &:hover {
-    transition: all 0.2s ease-in-out;
-    background: #fff;
-    color: #010606;
-  }
+const Division = styled.div`
+    width: 100%;
+    height: 1px;
+    background-color: #fff;
+    margin: 10px 0;
+  opacity : 0.5;
 `;
 
+const ProfileWrapper = styled.div`
+  display: flex;
+  position:relative;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
 
 //네비바 바깥 누르면 닫히는 함수
 
 interface NavProps {
     isOpened: boolean,
-    menuList: { name: string }[],
+    menuList: { name: string, link:string }[],
     handleClose: () => void,
-    handleModalOpen: () => void
 }
 
+const Logo = styled(Button)`
+  && {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top : 10%;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding-right: 0;
+
+    &:hover {
+      color: cornflowerblue;
+      background-color: transparent;
+    }
+  }
+  `
+
+
+const ProfileMenu = styled.ul`
+  position: absolute;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 2px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transform: translateX(110%);
+  opacity: ${(props: { isOpened: boolean }) => props.isOpened ? 1 : 0};
+  transition: opacity 0.3s ease-in-out;
+  z-index: 1;
+    background-color: white;
+  border-radius: 10px;
+    @media (max-width: 1200px) {
+    position: absolute;
+    right: 20%;
+    width: 200px;
+    }
+  
+  &:after{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 70%;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-right-color: white;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -8px;
+  }
+`
+
+const ProfileMenuList = styled.li`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+     height: 100%;
+`
+
+const MenuIconWrapper = styled.div`
+    display: flex;
+  position: relative;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 10px;
+  color : #212124;
+        &:hover {
+        color : cornflowerblue;
+        cursor: pointer;
+        transition: color 0.3s ease-in-out;
+    }
+`
+
+const NotificationWrapper = styled.div`
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+  background-color: red;
+  color: white;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    z-index: 1; 
+    `;
+
+
+
 export const MobileNav = (props: NavProps) => {
+    const isLogin = useAppSelector((state: RootState) => state.login.isLogin);
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const handleLogout = useCallback(() => {
+        logout(dispatch,navigate);
+    }, [logout, dispatch, navigate]);
+    const handleModalOpen = useCallback(() => {
+        dispatch(setLoginModalIsOpened(true))
+        props.handleClose();
+    } , [setLoginModalIsOpened, dispatch, props.handleClose]);
+  const profileIsOpened = useAppSelector((state: RootState) => state.login.profileOpened);
+  const hasNotification = useAppSelector((state: RootState) => state.login.hasNotification);
     return (
         <Container isOpened={props.isOpened}>
             <NavMenu>
+                <Logo onClick={(e)=>{
+                    navigate("/");
+                    props.handleClose();
+                }}>
+                    커뮤니티
+                </Logo>
+                {isLogin &&
+                    <ProfileWrapper>
+                    <HeaderProfile />
+                        {isLogin &&
+                            <ProfileMenu isOpened={profileIsOpened}>
+                                <ProfileMenuList>
+                                    <MenuIconWrapper>
+                                        <FontAwesomeIcon icon={faUser} size="lg"/>
+                                    </MenuIconWrapper>
+                                    <MenuIconWrapper>
+                                        <FontAwesomeIcon icon={faCog} size="lg"/>
+                                    </MenuIconWrapper>
+                                    <MenuIconWrapper>
+                                        <FontAwesomeIcon icon={faSignOutAlt} size="lg"/>
+                                    </MenuIconWrapper>
+                                    <MenuIconWrapper>
+                                        <FontAwesomeIcon icon={faBell} size="lg"/>
+                                        {hasNotification && <NotificationWrapper/> }
+                                    </MenuIconWrapper>
+                                </ProfileMenuList>
+                            </ProfileMenu>
+                        }
+                    </ProfileWrapper>
+                }
+                {isLogin && <Division/>}
+                {isLogin && <NavItem onClick={handleLogout}>로그아웃</NavItem>}
+                {!isLogin && <NavItem onClick={handleModalOpen}>로그인</NavItem>}
                 {props.menuList.map((item, index) => {
                         return (
-                            <NavItem key={index} onClick={item.name === '로그인' ? props.handleModalOpen : () => {
+                            <NavItem key={index} onClick={(e) => {
+                                navigate(item.link);
+                                props.handleClose();
                             }}>
                                 {item.name}
                             </NavItem>
