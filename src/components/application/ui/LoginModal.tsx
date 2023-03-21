@@ -5,6 +5,10 @@ import Box from "@mui/material/Box";
 import styled from "styled-components";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {ReactEventHandler, useCallback} from "react";
+import store, {RootState} from "../../../redux/store";
+import {useDispatch, useSelector} from "react-redux";
+import {setLoginModalIsOpened} from "../../../redux";
 
 
 const style = {
@@ -80,19 +84,25 @@ const ModalBody = styled.div`
     `
 
 interface LoginModalProps {
-    open:boolean,handleClose:()=>void, children:React.ReactNode, isLoginPage:boolean
+    children:React.ReactNode, isLoginPage:boolean
 }
 
 
 export default function LoginModal (props:LoginModalProps) {
+    const dispatch = useDispatch();
+    const isOpened = useSelector((state:RootState) => state.loginModal.isOpened);
+    const handleClose = useCallback((e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.preventDefault();
+        dispatch(setLoginModalIsOpened(false));
+    }, [dispatch]);
     return (
         <Modal
-            open={props.open}
-            onClose={props.handleClose}
+            open={isOpened}
+            onClose={handleClose}
         >
-            <Fade in={props.open}>
-                <ModalBox sx={style} isLoginPage={props.isLoginPage}   >
-                    <CloseButtonWrapper onClick={props.handleClose}>
+            <Fade in={isOpened}>
+                <ModalBox sx={style} isLoginPage={props.isLoginPage}>
+                    <CloseButtonWrapper onClick={handleClose}>
                         <FontAwesomeIcon icon={faXmark}/>
                     </CloseButtonWrapper>
                     <ModalHeader>

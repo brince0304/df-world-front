@@ -8,6 +8,7 @@ import SearchBox from "../components/application/layout/SearchBox";
 import {HeaderData} from "../data/HeaderData";
 import {SocialLogin} from "../components/application/ui/SocialLogin";
 import RegisterPage from "../components/application/ui/RegisterPage";
+import Header from "../components/application/layout/Header";
 
 const ComponentPreviews = () => {
     return (
