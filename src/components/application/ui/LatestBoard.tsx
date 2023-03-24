@@ -13,6 +13,7 @@ import ReactLoading from 'react-loading';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {ErrorScreen} from "./ErrorScreen";
 import {getLatestBoard} from "../../../api/board/getLatestBoard";
+import {Avatar} from "@mui/material";
 
 const BoardBody = styled.div`
   display: flex;
@@ -153,7 +154,7 @@ const BoardList = (props: { data: BoardData[] }) => {
                         <NicknameCreatedAtContainer>
                             <NicknameWrapper>
                                 <ProfileImgWrapper>
-                                    <img src={item.userProfileImgUrl} alt="profile"
+                                    <Avatar src={item.userProfileImgUrl} alt="profile"
                                          style={{width: "25px", height: "25px"}}/>
                                 </ProfileImgWrapper>
                                 <span>{item.userNickname}</span>
@@ -185,8 +186,8 @@ const LatestBoard = (props: BoardProps) => {
         }} isLoading={isLoading} icon={<FontAwesomeIcon icon={faChevronRight} size="sm"/>}>
             <BoardBody>
                 {data?.length > 0 && !isError && <BoardList data={data}/>}
-                {data?.length === 0 && !isError && <ErrorScreen icon={faXmark} size={"xl"} message={"게시글이 없습니다."}/>}
-                {isError && <ErrorScreen icon={faExclamationTriangle} size={"xl"} message={"게시글을 불러오는데 실패했습니다."}/>}
+                {data?.length === 0 && !isError && <ErrorScreen icon={faXmark}  message={"게시글이 없습니다."}/>}
+                {isError && <ErrorScreen icon={faExclamationTriangle}  message={"게시글을 불러오는데 실패했습니다."}/>}
             </BoardBody>
         </TableCustom>
     )

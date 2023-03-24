@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import LoadingBar from "./components/application/ui/LoadingBar";
 import {useSelector} from "react-redux";
 import {CharacterDetail} from "./components/application/layout/CharacterDetail";
+import {CircularProgress, createTheme, LinearProgress, ThemeProvider} from "@mui/material";
 
 
 
@@ -37,12 +38,8 @@ function App() {
     }, []);
     return (
             <div className="App">
-                {isLoading && <LoadingBar progress={progress}/>}
+                {isLoading && <LinearProgress value={progress}/>}
                 <Header title={"커뮤니티"} />
-                {isLoading && <LoadingWrapper>
-                <ReactLoading type={"spin"} color={"cornflowerblue"} width={"35px"} height={"35px"}/>
-                </LoadingWrapper>
-                }
                 <Routes>
                     <Route path="/" element={<Main />}></Route>
                     <Route path="/boards/" element={<Board />}></Route>

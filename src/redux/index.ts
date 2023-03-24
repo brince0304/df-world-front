@@ -53,7 +53,6 @@ export const loginSlice = createSlice({
         isLogin: false,
         user: {} as UserDetail,
         profileOpened: false,
-        hasNotification: false
     },
     reducers: {
         setLogin: (state, action) => {
@@ -62,15 +61,32 @@ export const loginSlice = createSlice({
         setUser: (state, action) => {
             state.user = action.payload;
         },
-        setHasNotification: (state, action) => {
-            state.hasNotification = action.payload;
-        },
+
         toggleProfileOpened: (state) => {
             state.profileOpened = !state.profileOpened;
         }
 
+
     }
 });
+
+
+export const notificationSlice = createSlice({
+    name: "notification",
+    initialState: {
+        hasNotification: false,
+        notificationCount: 0
+    },
+    reducers: {
+        setHasNotification: (state, action) => {
+            state.hasNotification = action.payload;
+        },
+        setNotificationCount: (state, action) => {
+            state.notificationCount = action.payload;
+        }
+    }
+});
+
 
 export const loginModal = createSlice({
     name: "loginModalIsOpened",
@@ -88,18 +104,21 @@ const reducers = combineReducers({
     app: appSlice.reducer,
     login: loginSlice.reducer,
     loginModal: loginModal.reducer,
-    searchHistory: historySlice.reducer
+    searchHistory: historySlice.reducer,
+    notification: notificationSlice.reducer
 });
 
 
 const persistConfig = {
     key: "persist",
     storage,
-    whitelist: ["searchHistory"]
+    whitelist: ["searchHistory","notification"]
 };
 
 
-export const {setLogin, setUser,toggleProfileOpened,setHasNotification} = loginSlice.actions;
+export const {setLogin, setUser,toggleProfileOpened} = loginSlice.actions;
+
+export const {setHasNotification,setNotificationCount} = notificationSlice.actions;
 export const {setLoginModalIsOpened} = loginModal.actions;
 export const {setIsLoading, setProgress, setIsError} = appSlice.actions;
 export const {setSearchHistory,pushSearchHistory,removeSearchHistory} = historySlice.actions;

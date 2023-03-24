@@ -5,7 +5,8 @@ import MainPageRankingData from "../../../data/MainPageRankingData";
 import LatestBoard from "../ui/LatestBoard";
 import BoardData from "../../../data/BoardData";
 import axios from "axios";
-const Container = styled.div`
+import {Container} from "@mui/material";
+const Container0 = styled.div`
   //container
   flex-direction: row;
   flex-wrap: wrap;

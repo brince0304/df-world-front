@@ -1,17 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import {Button} from "@mui/material";
 
-const Button = styled.img`
+const Image = styled.img`
   padding: 10px 0px;
   margin: 0px 10px;
   scale: ${(props: { scale: number | undefined }) => props.scale ? props.scale : 1};
-  opacity: 0.7;
-
-  &:hover {
-    opacity: 1.0;
-    transition: 0.3s;
-    cursor: pointer;
-  }
 `;
 
 
@@ -24,5 +18,8 @@ interface ImgOpacityButtonProps {
 }
 
 export function ImgOpacityButton(props: ImgOpacityButtonProps) {
-    return <Button src={props.src} alt={props.alt} scale={props.scale} width={props.width} height={props.height}/>;
+    return (
+        <Button>
+            <Image src={props.src} alt={props.alt} scale={props.scale} width={props.width} height={props.height}/>
+        </Button>);
 }

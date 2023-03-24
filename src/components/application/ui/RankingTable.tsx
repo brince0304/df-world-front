@@ -260,8 +260,8 @@ export default function RankingTable(props: RankingTableProps) {
                      }} icon={<FontAwesomeIcon icon={faChevronRight} size="sm"/>}>
             <TableBody>
                 {data.length >0 &&!isError && <RankingTableRow type={isSelected} data={data}/>}
-                {data.length===0 &&!isError && <ErrorScreen icon={faXmark} size={"xl"} message={"데이터가 없습니다."}/>}
-                {isError && <ErrorScreen icon={faExclamationTriangle} size={"xl"} message={"데이터를 불러오는데 실패했습니다."}/>}
+                {data.length===0 &&!isError && <ErrorScreen icon={faXmark}  message={"데이터가 없습니다."}/>}
+                {isError && <ErrorScreen icon={faExclamationTriangle} message={"데이터를 불러오는데 실패했습니다."}/>}
             </TableBody>
         </TableCustom>
     );
