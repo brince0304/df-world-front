@@ -58,20 +58,21 @@ const ModalBox = styled(Box)`
     }
 `
 
+
+
 const CloseButtonWrapper = styled.div`
   //우측 끝에 배치
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 10px 20px;
-    font-size: 25px;
-    color:silver;
-    cursor: pointer;
-    &:hover {
-        color: #282c34;
-        transition: 0.3s;
-        }
-    `
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  font-size: 25px;
+  color:silver;
+  cursor: pointer;
+  &:hover {
+    color: #282c34;
+    transition: 0.3s;
+  }
+`
 
 
 const ModalBody = styled.div`
@@ -100,7 +101,7 @@ export default function LoginModal (props:LoginModalProps) {
             open={isOpened}
             onClose={handleClose}
         >
-            <Fade in={isOpened}>
+            <Fade in={isOpened} unmountOnExit={true}>
                 <ModalBox sx={style} isLoginPage={props.isLoginPage}>
                     <CloseButtonWrapper onClick={handleClose}>
                         <FontAwesomeIcon icon={faXmark}/>
@@ -113,6 +114,5 @@ export default function LoginModal (props:LoginModalProps) {
                 </ModalBox>
             </Fade>
         </Modal>
-
     );
 }

@@ -7,6 +7,8 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {SearchOption, SelectSearchProps} from "../../../interfaces/SeachBox";
 import {getCharactersAutoComplete} from "../../../api/character/getCharactersAutoComplete";
 import {AutoCompleteCharacterData} from "../../../interfaces/AutoCompleteCharacterData";
+import {Button, Card, Collapse, Grow, ListItemButton} from "@mui/material";
+import Fade from "@mui/material/Fade";
 
 interface SearchSelectContainerStyledProps {
     width?: string;
@@ -44,7 +46,7 @@ interface SearchOptionContainerStyledProps {
     color?: string;
 }
 
-const SearchOptionContainer = styled.div`
+const SearchOptionContainer = styled(Card)`
   position: absolute;
   top:100%;
   display: flex;
@@ -116,6 +118,7 @@ const HistoryOptionCell = styled.div`
 const BoldNameWrapper = styled.div`
   display: flex;
   font-weight: bold;
+  color: black;
 `
 
 const ContentWrapper = styled.div`
@@ -264,8 +267,9 @@ const SearchBox = (props: SelectSearchProps) => {
                     }}
                 />
             </SelectWrapper>
-            {props.useSearchOption && isFocused  && (
-                (<SearchOptionContainer color={props.color} >
+            {props.useSearchOption && (
+                (<Fade in={isFocused} unmountOnExit={true}>
+                    <SearchOptionContainer color={props.color} >
                     <SearchOptionTitle>
                         <SearchOptionTitleWrapper data-id={0}  isSelected={isSelected===0} onMouseDown={handleChangeIsSelected}>
                             최근 검색 기록
@@ -277,9 +281,12 @@ const SearchBox = (props: SelectSearchProps) => {
                     <SearchOptionBody>
                         {isSelected===0 ? props.searchOptions?.length!==0 && props.searchOptions?.map((data, index: number) => {
                                 return (
-                                    <OptionRow key={index}>
+                                    <Button key={index} sx={{padding:0}}>
                                         <HistoryOptionCell data-id={data.id} data-title={data.title} data-option={data.optionValue2}
-                                                    onMouseDown={props.handleOptionMouseDown}
+                                                    onMouseDown={(e)=>{
+                                                        props.handleOptionMouseDown?.(e);
+                                                        setIsFocused(false);}
+                                                    }
                                         >
                                                 <BoldNameWrapper>
                                                     {data.title}
@@ -298,14 +305,17 @@ const SearchBox = (props: SelectSearchProps) => {
                                                                    onMouseDown={props.handleOptionRemove}>
                                             <FontAwesomeIcon icon={faXmark} size={"lg"}/>
                                         </LatestRemoveButtonWrapper>
-                                    </OptionRow>
+                                    </Button>
                                 )
                             }
                         ) :  autoCompleteData.map((item: SearchOption, index: number) => {
                                 return (
-                                    <OptionRow key={index}>
+                                    <ListItemButton key={index} sx={{padding:0}}>
                                         <OptionCell data-id={item.id} data-title={item.title} data-option={item.optionValue2}
-                                                    onMouseDown={props.handleOptionMouseDown}
+                                                    onMouseDown={(e)=>{
+                                                        props.handleOptionMouseDown?.(e);
+                                                        setIsFocused(false);}
+                                                    }
                                         >
                                                 <BoldNameWrapper>
                                                     {item.title}
@@ -320,7 +330,7 @@ const SearchBox = (props: SelectSearchProps) => {
                                                 {item.optionValue1}
                                             </ContentWrapper>}
                                         </OptionCell>
-                                    </OptionRow>
+                                    </ListItemButton>
                                 )
                             }
                         )}
@@ -335,7 +345,8 @@ const SearchBox = (props: SelectSearchProps) => {
                             </NoDataWrapper>
                         </OptionRow>}
                     </SearchOptionBody>
-                </SearchOptionContainer>)
+                </SearchOptionContainer>
+                </Fade>)
             )}
         </SearchSelectContainer>
     )

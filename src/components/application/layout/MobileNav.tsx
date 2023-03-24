@@ -9,10 +9,11 @@ import {
 } from "../../../redux/store";
 import {logout} from "../../../api/auth/logout";
 import {HeaderProfile} from "../ui/HeaderProfile";
-import {Button} from "@mui/material";
+import {Badge, Button, Collapse, Grow, IconButton, Tooltip, Zoom} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faCog, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
 import {setLoginModalIsOpened} from "../../../redux";
+import Fade from "@mui/material/Fade";
 
 
 const Container = styled.div`
@@ -111,14 +112,11 @@ const ProfileMenu = styled.ul`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  left: 0;
+  left: 100%;
   top: 2px;
   width: 100%;
   height: 100%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  transform: translateX(110%);
-  opacity: ${(props: { isOpened: boolean }) => props.isOpened ? 1 : 0};
-  transition: opacity 0.3s ease-in-out;
   z-index: 1;
     background-color: white;
   border-radius: 10px;
@@ -194,7 +192,8 @@ export const MobileNav = (props: NavProps) => {
         props.handleClose();
     } , [setLoginModalIsOpened, dispatch, props.handleClose]);
   const profileIsOpened = useAppSelector((state: RootState) => state.login.profileOpened);
-  const hasNotification = useAppSelector((state: RootState) => state.login.hasNotification);
+  const hasNotification = useAppSelector((state: RootState) => state.notification.hasNotification);
+  const notificationCount = useAppSelector((state: RootState) => state.notification.notificationCount);
     return (
         <Container isOpened={props.isOpened}>
             <NavMenu>
@@ -208,23 +207,35 @@ export const MobileNav = (props: NavProps) => {
                     <ProfileWrapper>
                     <HeaderProfile />
                         {isLogin &&
-                            <ProfileMenu isOpened={profileIsOpened}>
+                            <Zoom  in={profileIsOpened} unmountOnExit={true}>
+                            <ProfileMenu>
                                 <ProfileMenuList>
-                                    <MenuIconWrapper>
-                                        <FontAwesomeIcon icon={faUser} size="lg"/>
-                                    </MenuIconWrapper>
-                                    <MenuIconWrapper>
-                                        <FontAwesomeIcon icon={faCog} size="lg"/>
-                                    </MenuIconWrapper>
-                                    <MenuIconWrapper>
-                                        <FontAwesomeIcon icon={faSignOutAlt} size="lg"/>
-                                    </MenuIconWrapper>
-                                    <MenuIconWrapper>
-                                        <FontAwesomeIcon icon={faBell} size="lg"/>
-                                        {hasNotification && <NotificationWrapper/> }
-                                    </MenuIconWrapper>
+                                    <Tooltip title={"마이페이지"} placement={"bottom"}>
+                                        <IconButton>
+                                            <MenuIconWrapper>
+                                                <FontAwesomeIcon icon={faUser} size="sm"/>
+                                            </MenuIconWrapper>
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title={"설정"} placement={"bottom"}>
+                                        <IconButton>
+                                            <MenuIconWrapper>
+                                                <FontAwesomeIcon icon={faCog} size="sm"/>
+                                            </MenuIconWrapper>
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title={"알림"} placement={"bottom"}>
+                                        <IconButton>
+                                            <Badge badgeContent={notificationCount} color="primary" invisible={!hasNotification}>
+                                                <MenuIconWrapper>
+                                                    <FontAwesomeIcon icon={faBell} size="sm"/>
+                                                </MenuIconWrapper>
+                                            </Badge>
+                                        </IconButton>
+                                    </Tooltip>
                                 </ProfileMenuList>
                             </ProfileMenu>
+                            </Zoom>
                         }
                     </ProfileWrapper>
                 }

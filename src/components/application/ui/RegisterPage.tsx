@@ -112,28 +112,7 @@ const SignUpText = styled.span`
   }
 `
 
-const SocialRegisterTitle = styled.span`
-    display: flex;
-    flex-basis: 100%;
-    align-items: center;
-    color: rgba(0, 0, 0, 0.35);
-    font-size: 15px;
-    margin: 8px 0px;
-    &:hover {
-        color: #1976d2;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-    //양옆에 줄
-    &::before,
-    &::after {
-      content: "";
-      flex-grow: 1;
-      height: 1px;
-      background-color: rgba(0, 0, 0, 0.35);
-      margin: 0px 8px;
-  }
-`
+
 
 
 const SocialRegisterBox = styled.div`
@@ -216,6 +195,18 @@ const LoginWrapper = styled.div`
     flex-direction: row;
      padding: 10px 0px;
     `;
+
+const DivisionLine = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.35);
+    margin: 0px 8px;
+    `;
+
 
 
 const RegisterPage = (props: { handleChangeSection: () => void }) => {
@@ -306,18 +297,6 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
                                                 }}>이미 계정이 존재하나요?</span>
                     <SignUpText onClick={props.handleChangeSection}>로그인</SignUpText>
                 </LoginWrapper>
-
-                <SocialRegisterTitle onClick={(e)=>{
-                    e.preventDefault();
-                    //클릭한 부분까지 스크롤
-                    const element = document.getElementById("socialRegister");
-                    if(element){
-                        element.scrollIntoView({behavior: "smooth"});
-                    }
-                }}>소셜 계정으로 회원가입</SocialRegisterTitle>
-                <SocialRegisterBox id="socialRegister">
-                    <SocialRegisterButtons data={SocialLoginData.circleButtons}/>
-                </SocialRegisterBox>
             </SignUpFooter>
         </div>
 );

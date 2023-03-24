@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useRef} from "react";
 import styled from "styled-components";
-import {Button} from "@mui/material";
+import {Avatar, Badge, Button, Divider, IconButton, Tooltip, tooltipClasses, TooltipProps, Zoom} from "@mui/material";
+import {Collapse} from "@mui/material";
 import {useState} from "react";
 import '../../../assets/css/header.scss'
 import SearchBox from "./SearchBox";
@@ -27,6 +28,9 @@ import {getCharactersAutoComplete} from "../../../api/character/getCharactersAut
 import {setLoginModalIsOpened, setSearchHistory} from "../../../redux";
 import {useSelector} from "react-redux";
 import {removeCharacterHistory} from "../../../api/character/getCharacterDetail";
+import Typography from "@mui/material/Typography";
+import ProfileIconChangeModal from "./ProfileIconChangeModal";
+import Fade from "@mui/material/Fade";
 
 
 const Container = styled.div`
@@ -267,22 +271,15 @@ const ProfileMenu = styled.ul`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  left: 0;
+  right: 100%;
   top: 0;
   width: 100%;
   height: 100%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transform: translateX(-100%);
-  opacity: ${(props: { isOpened: boolean }) => props.isOpened ? 1 : 0};
-  transition: opacity 0.3s ease-in-out;
   z-index: 1;
   @media (max-width: 768px) {
     display: none;
   }
     @media (max-width: 1200px) {
-    position: absolute;
-    right: 20%;
-    width: 200px;
     }
 `
 
@@ -324,8 +321,30 @@ const NotificationWrapper = styled.div`
     `;
 
 
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: '#f5f5f9',
+        color: 'rgba(0, 0, 0, 0.87)',
+        maxWidth: "100%",
+        width: "300px",
+        height: "auto",
+        border: '2px solid #dadde9',
+        boxShadow: '0 0 30px 0 rgba(0, 0, 0, 0.1)',
+        fontSize: "0.9rem",
+    },
+}));
 
-
+const ProfileNicknameWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+`;
 
 
 const Header = (props: HeaderProps) => {
@@ -363,14 +382,25 @@ const Header = (props: HeaderProps) => {
             dispatch(logout());
         }, [dispatch, navigate, logout]);
     const profileIsOpened = useAppSelector((state: RootState) => state.login.profileOpened);
-   const hasNotification = useAppSelector((state: RootState) => state.login.hasNotification);
+   const hasNotification = useAppSelector((state: RootState) => state.notification.hasNotification);
    const searchHistory = useSelector((state: RootState) => state.searchHistory.searchHistory.searchHistory);
+   const notificationCount = useSelector((state: RootState) => state.notification.notificationCount);
     const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const targetId = e.currentTarget.attributes.getNamedItem("data-id")?.value;
         if(targetId){
             dispatch(removeCharacterHistory(targetId));
         }
     }
+    const user = useAppSelector((state: RootState) => state.login.user);
+    const [profileChangeModalIsOpened, setProfileChangeModalIsOpened] = useState(false);
+    const handleProfileChangeModalOpen = useCallback(
+        () => {
+            setProfileChangeModalIsOpened(true);
+        }, [setProfileChangeModalIsOpened]);
+    const handleProfileChangeModalClose = useCallback(
+        () => {
+            setProfileChangeModalIsOpened(false);
+        }, [setProfileChangeModalIsOpened]);
     return (
         <Container>
             <HeaderTop>
@@ -407,28 +437,52 @@ const Header = (props: HeaderProps) => {
                 </HeaderMenuWrapper>
                 <ProfileContainer>
                     {isLogin &&
-                        <ProfileMenu isOpened={profileIsOpened}>
+                        <Zoom in={profileIsOpened} unmountOnExit mountOnEnter>
+                        <ProfileMenu>
                            <ProfileMenuList>
+                               <Tooltip title={"마이페이지"} placement={"bottom"}>
+                                   <IconButton>
                                <MenuIconWrapper>
-                                      <FontAwesomeIcon icon={faUser} size="lg"/>
+                                      <FontAwesomeIcon icon={faUser} size="sm"/>
                                </MenuIconWrapper>
-                               <MenuIconWrapper>
-                                   <FontAwesomeIcon icon={faCog} size="lg"/>
-                               </MenuIconWrapper>
-                               <MenuIconWrapper>
-                                   <FontAwesomeIcon icon={faSignOutAlt} size="lg"/>
-                               </MenuIconWrapper>
-                               <MenuIconWrapper>
-                                   <FontAwesomeIcon icon={faBell} size="lg"/>
-                                   {hasNotification && <NotificationWrapper/> }
-                               </MenuIconWrapper>
+                                   </IconButton>
+                                 </Tooltip>
+                               <Tooltip title={"설정"} placement={"bottom"}>
+                                   <IconButton>
+                                       <MenuIconWrapper>
+                                           <FontAwesomeIcon icon={faCog} size="sm"/>
+                                       </MenuIconWrapper>
+                                   </IconButton>
+                               </Tooltip>
+                                   <Tooltip title={"알림"} placement={"bottom"}>
+                                       <IconButton>
+                                           <Badge color="primary" badgeContent={notificationCount} invisible={!hasNotification}>
+                                           <MenuIconWrapper>
+                                               <FontAwesomeIcon icon={faBell} size="sm"/>
+                                           </MenuIconWrapper>
+                                           </Badge>
+                                       </IconButton>
+                                   </Tooltip>
                            </ProfileMenuList>
                         </ProfileMenu>
+                        </Zoom >
                     }
                     {isLogin &&
+                        <HtmlTooltip title={
+                            <React.Fragment>
+                            <ProfileNicknameWrapper>
+                                <IconButton onClick={handleProfileChangeModalOpen}>
+                                <Avatar alt={user.nickname} src={user.profileImgPath} sx={{ width: 30, height: 30 ,backgroundColor:"white",border:"1px solid #2e2e2e"}}/>
+                                </IconButton>
+                                 {user.nickname}
+                            </ProfileNicknameWrapper>
+                        </React.Fragment>} placement={"bottom"} TransitionComponent={Zoom} >
+                        <Badge color="primary"  badgeContent={notificationCount} invisible={profileIsOpened}>
                         <ProfileWrapper>
                             <HeaderProfile/>
-                        </ProfileWrapper>}
+                        </ProfileWrapper>
+                        </Badge>
+                        </HtmlTooltip>}
                 </ProfileContainer>
             </HeaderBottom>
             {!isLogin && <LoginModal isLoginPage={isLoginPage}>
@@ -437,9 +491,15 @@ const Header = (props: HeaderProps) => {
                 </RegisterContainer>
                 <LoginContainer isLoginPage={isLoginPage} id={"login-part"}>
                     <SocialLogin/>
+                    <Divider orientation={"vertical"} flexItem={true} sx={{
+                        '@media (max-width: 768px)': {
+                            display: 'none',
+                    }
+                    }}/>
                     <LoginPage handleChangeSection={handleChangeSection}/>
                 </LoginContainer>
             </LoginModal>}
+            {isLogin && <ProfileIconChangeModal isOpened={profileChangeModalIsOpened} handleClose={handleProfileChangeModalClose}/>}
             <MobileNav isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar}/>
             <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar}/>
         </Container>

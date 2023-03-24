@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {ModalTitle} from "./ModalTitle";
 import {ImgOpacityButton} from "../layout/ImgOpacityButton";
 import SocialLoginData from "../../../data/SocialLoginButons";
+import {Divider} from "@mui/material";
 
 const Container = styled.div`
   display: flex;
@@ -43,7 +44,7 @@ const LoginButtons = (props: LoginButtonsProps) => {
 export function SocialLogin() {
     return (
         <Container>
-            <ModalTitle title={"소셜 로그인"}/>
+            <Divider orientation="vertical" flexItem={true}>소셜 아이디로 로그인</Divider>
             <ButtonSection>
                 <LoginButtons data={SocialLoginData.squareButtons}/>
             </ButtonSection>
