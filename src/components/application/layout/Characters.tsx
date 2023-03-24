@@ -6,41 +6,11 @@ import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useAppDispatch} from "../../../redux/store";
+import {Card, Container, Grid} from "@mui/material";
 
 
-const Container = styled.div`
-  display: grid;
-  flex-direction: row;
-  flex-wrap: wrap;
-  background-color: #fff;
-  padding: 0 17%;
-  width: 100%;
-  grid-column-gap: 2%;
-  grid-row-gap: 1%;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column-gap: 2%;
-    grid-row-gap: 1%;
-    padding: 0 1%;
 
-  }
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 1%;
-    grid-row-gap: 0%;
-    padding: 0 1%;
-  }
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 1%;
-    grid-row-gap: 0%;
-    padding: 0 1%;
-  }
-
-`;
-
-const CharacterCard = styled.div`
+const CharacterCard = styled(Card)`
     display: flex;
   overflow: hidden;
     flex-direction: column;
@@ -109,7 +79,6 @@ const CharacterCardHeader = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 20%;
 `;
 const CharacterServerNameBadgeWrapper = styled.div`
     display: flex;
@@ -195,7 +164,7 @@ const StatTitleBadgeWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color:#CA955C;
+    color: cornflowerblue;
   width:85%;
   background-color:#f7f8fd;
     border-radius: 5px;
@@ -220,7 +189,6 @@ const ResultTitleWrapper = styled.div`
   flex-direction: row;
   background-color: white;
   border-radius: 10px;
-  
     align-items: center;
     width: 100%;
     height: 20%;
@@ -228,8 +196,8 @@ const ResultTitleWrapper = styled.div`
     font-weight: 600;
     color: #000;
     text-align: center;
-    padding: 30px;
-   margin-top: 20px;
+    padding: 5px;
+   margin-bottom: 20px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
   grid-column: 1 / 5;
   @media (max-width: 768px) {
@@ -316,9 +284,8 @@ export const Characters = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const onClickHandler = (e: React.MouseEvent) => {
-        const target = e.target as HTMLElement;
-        const characterId = target.getAttribute("data-id");
-        const serverId = target.getAttribute("data-server");
+        const characterId = e.currentTarget.getAttribute("data-id");
+        const serverId = e.currentTarget.getAttribute("data-server");
         if(characterId && serverId) {
             navigate(`/details/?serverId=${serverId}&characterId=${characterId}`);
         }
@@ -340,8 +307,10 @@ export const Characters = () => {
                 </ResultTitleFooterWrapper>
 
             </ResultTitleWrapper>
+            <Grid container spacing={3}>
             {data.content?.map((character,index:number) => {
                 return (
+                    <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
                     <CharacterCard key={index} data-id={character.characterId} data-server={character.serverId} onClick={onClickHandler} >
                         <CharacterCardHeader>
                             <CharacterJobNameBadgeWrapper>
@@ -376,7 +345,7 @@ export const Characters = () => {
                                     </StatValueWrapper>
                                 </CharacterStatWrapper>
                                 <CharacterStatWrapper>
-                                    <StatTitleBadgeWrapper>
+                                    <StatTitleBadgeWrapper style={{color:"darkred"}}>
                                         피해증가
                                     </StatTitleBadgeWrapper>
                                     <StatValueWrapper>
@@ -386,9 +355,10 @@ export const Characters = () => {
                             </CharacterStatContainer>
                         </CharacterDetailsContainer>
                     </CharacterCard>
+                    </Grid>
                 )
-            })
-            }
+            })}
+            </Grid>
         </Container>
     );
 }

@@ -4,15 +4,15 @@ import mainPageRankingData from "../../../data/MainPageRankingData";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import ReactLoading from "react-loading";
+import {Button, Card, IconButton, ListItemButton} from "@mui/material";
 
-const TableContainer = styled.div`
+const TableContainer = styled(Card)`
   border: 1px solid #e5e5e5;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
   margin-bottom: 20px;
   border-radius: 10px;
   width: 100%;
-
   @media (max-width: 768px) {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -61,30 +61,34 @@ const IconWrapper = styled.div`
 `;
 
 
-const SelectedButton = styled.li`
-  list-style: none;
-  padding: 5px 10px;
-  font-size: 14px;
-  color: black;
-  cursor: pointer;
-  background-color: #f2f2f2;
-  border-right: 1px solid #e5e5e5;
+const SelectedButton = styled(ListItemButton)`
+  &&{  
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: black;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    border-right: 1px solid #e5e5e5;}
+
 `;
 
-const NotSelectedButton = styled.li`
-  list-style: none;
-  padding: 5px 10px;
-  font-size: 14px;
-  color: silver;
-  font-weight: 0;
-  cursor: pointer;
-  background-color: white;
-  border-right: 1px solid #e5e5e5;
+const NotSelectedButton = styled(ListItemButton)`
+  &&{  list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: silver;
+    font-weight: 0;
+    cursor: pointer;
+    background-color: white;
+    border-right: 1px solid #e5e5e5;}
 
-  &:hover {
-    color: black;
-    background-color: #f2f2f2;
-  }
 `;
 
 const TableTitleWrapper = styled.div`
@@ -107,12 +111,8 @@ const TableMenu = (props: TableMenuProps) => {
         <TableButton>
             {props.menus.map((item: { name: string, id: string; }, index: number) => (
                 //선택된 버튼
-                props.isSelected === item.id ?
-                    <SelectedButton key={index}
-                                    onClick={() => props.setIsSelected?.(item.id)}>{item.name} </SelectedButton>
-                    :
-                    <NotSelectedButton key={index}
-                                       onClick={() => props.setIsSelected?.(item.id)}>{item.name} </NotSelectedButton>
+                    <Button key={index} color={props.isSelected === item.id ? "primary" : "inherit"}
+                                    onClick={() => props.setIsSelected?.(item.id)}>{item.name} </Button>
             ))}
         </TableButton>
     );
@@ -142,9 +142,9 @@ export function TableCustom(props: TableCustomProps) {
                         <ReactLoading type={"spinningBubbles"} color={"gray"} width={"25px"} height={"25px"}/>}
                 </TableTitleWrapper>
                 {props.useIcon &&
-                    <IconWrapper onClick={props.onClickArrow}>
+                    <IconButton onClick={props.onClickArrow}>
                         {props.useIcon && props.icon}
-                    </IconWrapper>}
+                    </IconButton>}
             </TableHeader>
             {props.useMenu && props.menus &&
                 <TableMenu isSelected={props.isSelected} menus={props.menus} setIsSelected={props.setIsSelected}/>}

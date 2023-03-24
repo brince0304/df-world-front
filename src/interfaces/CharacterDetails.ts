@@ -95,7 +95,7 @@ export interface CharacterAbility {
   guildName: string;
   buffPower?: any;
   damageIncrease?: any;
-  characterImgPath?: any;
+  characterImgPath?: string;
   status: Statu[];
 }
 
@@ -142,6 +142,29 @@ export interface CharacterEquipmentDetails {
   itemBuff: ItemBuff;
   hashtag: any[];
 }
+export interface CharacterEntityDto {
+  createdAt: any
+  createdBy: any
+  modifiedAt: any
+  modifiedBy: any
+  characterId: string
+  characterName: string
+  serverId: string
+  level: number
+  jobId: string
+  jobGrowId: string
+  jobName: string
+  jobGrowName: string
+  adventureFame: any
+  adventureName: string
+  guildId: string
+  guildName: string
+  buffPower: number
+  damageIncrease: number
+  characterImgPath: string
+  serverName: string
+}
+
 
 export interface  CharacterDetails{
   characterPercentByJobName: string;
@@ -156,4 +179,5 @@ export interface  CharacterDetails{
   characterRank: number;
   characterEquipmentDetails: CharacterEquipmentDetails[];
   buffStatus: string[];
+  characterEntityDto: CharacterEntityDto;
 }
