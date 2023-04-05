@@ -1,17 +1,18 @@
-import axios from "axios";
+
 import {NavigateFunction, useNavigate} from "react-router-dom";
 import store, {RootState} from "../../redux/store";
-import createInstance from "../../common/axios";
+import createInstance from "../../common/axiosInstance";
 import {Dispatch} from "redux";
 import {setLogin, setLoginModalIsOpened, setUser} from "../../redux";
 import {Action, ThunkAction} from "@reduxjs/toolkit";
+import {USER_LOGIN_URL} from "../../data/ApiUrl";
+import axios from "../../common/axiosInstance";
 
 export const login=(data:{
     username:string,
 password:string }, setError:Function, navigate:NavigateFunction):ThunkAction<void, RootState, unknown, Action>=>{
     return async (dispatch:Dispatch)=>{
-    const instance = createInstance("/users/login");
-    instance.post('',data)
+    axios().post(USER_LOGIN_URL,data)
         .then((res)=>{
             const data = res.data.CURRENT_USER;
             dispatch(setUser(data));

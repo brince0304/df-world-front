@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useAppDispatch} from "../../../redux/store";
 import {Card, Container, Grid} from "@mui/material";
+import {CHARACTER_SEARCH_URL} from "../../../data/ApiUrl";
 
 
 
@@ -291,10 +292,10 @@ export const Characters = () => {
         }
     }
     useEffect(() => {
-         dispatch(getCharacters(setIsError, setIsLoading, `http://localhost:8080/characters/?characterName=${characterName?characterName:""}&serverId=${serverId?serverId:""}&page=${page?page:"0"}`, setData));
+         dispatch(getCharacters(setIsError,  CHARACTER_SEARCH_URL+`?characterName=${characterName?characterName:""}&serverId=${serverId?serverId:""}&page=${page?page:"0"}`, setData));
     }, [characterName, serverId,page ]);
     return (
-        <Container>
+        <Container maxWidth={"lg"}>
             <ResultTitleWrapper>
                 <ResultServerNameWrapper>
                     {getServerName(serverId?serverId:"")}

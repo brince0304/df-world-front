@@ -34,7 +34,7 @@ export interface Pageable {
   unpaged: boolean;
 }
 
-export interface BoardData {
+export interface BoardListData {
   content: Content[];
   pageable: Pageable;
   last: boolean;

@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRotateRight,faSkullCrossbones} from "@fortawesome/free-solid-svg-icons";
 import {ErrorScreen} from "../ui/ErrorScreen";
 import {IconButton, Tooltip} from "@mui/material";
+import {CHARACTER_DETAIL_URL} from "../../../data/ApiUrl";
 
 
 const Container = styled.div`
@@ -63,8 +64,8 @@ const CharacterImgWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 250px;
-    height: 280px;
+       width: 260px;
+    height: 299px;
     border-radius: 10px;
     background-image: url("http://localhost:8080/images/icon_char/bg_char.jpg");
    background-size: cover;
@@ -92,7 +93,7 @@ const CharacterTitleWrapper = styled.div`
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-     font-size: 20px;
+     font-size: 30px;
     font-weight: 700;
     color: #000;
   `;
@@ -103,7 +104,7 @@ const CharacterServerNameJobNameContainer = styled.div`
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    font-size: 12px;
+    font-size: 15px;
   `;
 
 const ServerNameBadgeWrapper = styled.div`
@@ -119,7 +120,7 @@ const AdventureNameGuildNameContainer = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    font-size: 12px;
+    font-size: 15px;
     `;
 
 const AdventureNameGuildNameWrapper = styled.div`
@@ -134,7 +135,7 @@ const CharacterRankingContainer = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    font-size: 12px;
+    font-size: 15px;
    gap: 1px;
 `;
 
@@ -183,12 +184,12 @@ export const CharacterDetail = () => {
     const dispatch = useAppDispatch();
     useEffect(() => {
         if (characterId && serverId) {
-            dispatch(getCharacterDetail(`http://localhost:8080/characters/detail?characterId=${characterId?characterId:""}&serverId=${serverId?serverId:""}`,setData));
+            dispatch(getCharacterDetail(CHARACTER_DETAIL_URL+`?characterId=${characterId?characterId:""}&serverId=${serverId?serverId:""}`,setData));
         }
     }, [characterId,serverId]);
     const handleRefresh= useCallback(() => {
         if (characterId && serverId) {
-            dispatch(getCharacterDetail(`http://localhost:8080/characters/detail?characterId=${characterId?characterId:""}&serverId=${serverId?serverId:""}`,setData));
+            dispatch(getCharacterDetail(CHARACTER_DETAIL_URL+`?characterId=${characterId?characterId:""}&serverId=${serverId?serverId:""}`,setData));
         }
     }, [characterId,serverId]);
     return (

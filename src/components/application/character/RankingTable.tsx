@@ -3,12 +3,12 @@ import React, {useEffect, useState} from "react";
 import {RankingCharacterImg} from "./RankingCharacterImg";
 import styled from "styled-components";
 import mainPageRankingData from "../../../data/MainPageRankingData";
-import {TableCustom} from "../layout/TableCustom";
+import {TableCustom} from "../ui/TableCustom";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {faChevronRight, faExclamationTriangle, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {ErrorScreen} from "./ErrorScreen";
+import {ErrorScreen} from "../ui/ErrorScreen";
 
 
 const TableData = styled.div`
@@ -22,23 +22,7 @@ const TableData = styled.div`
 `
 
 
-const RankingBadge = styled.div`
-  && {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: black;
-    font-size: 14px;
-    color: white;
-    //영역 축소
-    -webkit-border-radius: 20%;
-  }
-`
+
 
 
 const TableBody = styled.div`
@@ -256,10 +240,11 @@ export default function RankingTable(props: RankingTableProps) {
         <TableCustom title={props.title} isSelected={isSelected} setIsSelected={setIsSelected}
                      menus={mainPageRankingData.rankingType} useMenu={true} useIcon={true}
                      isLoading={isLoading}
-                     onClickArrow={() => {
+                     onClickIcon={() => {
                      }} icon={<FontAwesomeIcon icon={faChevronRight} size="sm"/>}>
             <TableBody>
                 {data.length >0 &&!isError && <RankingTableRow type={isSelected} data={data}/>}
+
                 {data.length===0 &&!isError && <ErrorScreen icon={faXmark}  message={"데이터가 없습니다."}/>}
                 {isError && <ErrorScreen icon={faExclamationTriangle} message={"데이터를 불러오는데 실패했습니다."}/>}
             </TableBody>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useState} from "react";
+import React, {ReactNode, useState} from "react";
 import mainPageRankingData from "../../../data/MainPageRankingData";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
@@ -111,7 +111,8 @@ const TableMenu = (props: TableMenuProps) => {
         <TableButton>
             {props.menus.map((item: { name: string, id: string; }, index: number) => (
                 //선택된 버튼
-                    <Button key={index} color={props.isSelected === item.id ? "primary" : "inherit"}
+                    <Button key={index} color={props.isSelected === item.id ? "warning" : "inherit"}
+                            sx={{padding:"2px 5px"}}
                                     onClick={() => props.setIsSelected?.(item.id)}>{item.name} </Button>
             ))}
         </TableButton>
@@ -120,7 +121,7 @@ const TableMenu = (props: TableMenuProps) => {
 
 
 interface TableCustomProps {
-    title: string;
+    title: ReactNode;
     isSelected?: string;
     setIsSelected?: (value: string) => void;
     menus?: { name: string, id: string }[];
@@ -128,7 +129,7 @@ interface TableCustomProps {
     isLoading: boolean;
     useIcon: boolean;
     icon?: React.ReactNode;
-    onClickArrow?: () => void;
+    onClickIcon?: () => void;
     children: React.ReactNode;
 }
 
@@ -142,7 +143,7 @@ export function TableCustom(props: TableCustomProps) {
                         <ReactLoading type={"spinningBubbles"} color={"gray"} width={"25px"} height={"25px"}/>}
                 </TableTitleWrapper>
                 {props.useIcon &&
-                    <IconButton onClick={props.onClickArrow}>
+                    <IconButton onClick={props.onClickIcon}>
                         {props.useIcon && props.icon}
                     </IconButton>}
             </TableHeader>

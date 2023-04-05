@@ -1,19 +1,17 @@
 import  {RootState} from "../../redux/store";
-import createInstance from "../../common/axios";
+import createInstance from "../../common/axiosInstance";
 import {CharacterDetails} from "../../interfaces/CharacterDetails";
 import {pushSearchHistory, removeSearchHistory, setIsLoading, setProgress} from "../../redux";
 import {SearchOption} from "../../interfaces/SeachBox";
 import {Action, ThunkAction} from "@reduxjs/toolkit";
+import axios from "../../common/axiosInstance";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 export const getCharacterDetail = (url:string,setData:({}:CharacterDetails)=>void): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch, getState) => {
-        const instance = createInstance(url);
-        try {
-            dispatch(setIsLoading(true));
-            dispatch(setProgress(10));
-            dispatch(setProgress(25));
-            const res = await instance.get('')
-            dispatch(setProgress(50));
+        dispatch(setIsLoading(true));
+        axios().get(url).then((res) => {
             const history = {
                 id : res.data.characterAbility.characterId,
                 title : res.data.characterAbility.characterName,
@@ -32,18 +30,13 @@ export const getCharacterDetail = (url:string,setData:({}:CharacterDetails)=>voi
                 }
                 dispatch(pushSearchHistory(history));
             }
-            dispatch(setProgress(70));
-            dispatch(setProgress(100));
             dispatch(setIsLoading(false));
             setData(res.data);
-        } catch (error) {
-            dispatch(setProgress(70));
-            dispatch(setProgress(100));
+        }).catch((err) => {
             dispatch(setIsLoading(false));
             setIsLoading(false);
-        }
-    };
-};
+        })
+}};
 
 export const removeCharacterHistory  = (id:string): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch, getState) => {

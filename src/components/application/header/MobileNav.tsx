@@ -1,19 +1,18 @@
 import styled from 'styled-components';
 import React, {useCallback} from 'react';
 import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {
     RootState,
     useAppDispatch,
     useAppSelector
 } from "../../../redux/store";
 import {logout} from "../../../api/auth/logout";
-import {HeaderProfile} from "../ui/HeaderProfile";
+import {HeaderProfile} from "./HeaderProfile";
 import {Badge, Button, Collapse, Grow, IconButton, Tooltip, Zoom} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faCog, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
 import {setLoginModalIsOpened} from "../../../redux";
-import Fade from "@mui/material/Fade";
+
 
 
 const Container = styled.div`
@@ -164,20 +163,6 @@ const MenuIconWrapper = styled.div`
         transition: color 0.3s ease-in-out;
     }
 `
-
-const NotificationWrapper = styled.div`
-    display: flex;
-    position: absolute;
-    top: 0;
-    right: 0;
-  background-color: red;
-  color: white;
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
-    z-index: 1; 
-    `;
-
 
 
 export const MobileNav = (props: NavProps) => {

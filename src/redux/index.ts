@@ -61,7 +61,6 @@ export const loginSlice = createSlice({
         setUser: (state, action) => {
             state.user = action.payload;
         },
-
         toggleProfileOpened: (state) => {
             state.profileOpened = !state.profileOpened;
         }
@@ -112,7 +111,7 @@ const reducers = combineReducers({
 const persistConfig = {
     key: "persist",
     storage,
-    whitelist: ["searchHistory","notification"]
+    whitelist: ["searchHistory","notification","login"]
 };
 
 

@@ -1,9 +1,8 @@
-import axios from "axios";
 import {setInterceptors} from "./interceptors";
-
-const createInstance = (url:string) => {
+import axios from 'axios';
+const createInstance = () => {
     const instance = axios.create({
-        baseURL: url,
+        baseURL: 'http://localhost:3000',
         timeout: 100000000
     });
 

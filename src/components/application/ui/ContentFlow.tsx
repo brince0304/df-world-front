@@ -5,7 +5,7 @@ import {
     Grid,
     IconButton,
     List,
-    ListItem, Slide,
+    ListItem, ListItemButton, Slide,
     Stack,
     styled, Tab, Tabs,
     Tooltip, tooltipClasses, TooltipProps,
@@ -39,10 +39,6 @@ const ChipDetail = {
     fontSize: "0.9rem",
     fontWeight: "bold",
     color: "#000000",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-    width: "auto",
 }
 
 const ChipWrapper = styled(Box)`
@@ -104,7 +100,7 @@ function TabPanel(props: { children?: React.ReactNode, value: number, index: num
 }
 
 
-export const ContentFlow = (props: { data: ContentFlowProps[], handleNavigate:(id:number)=>void, flowTitle:ReactNode }) => {
+export const ContentFlow = (props: { data: ContentFlowProps[], handleNavigate:(id:number)=>void, flowTitle:ReactNode, chipColor :  "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning" | undefined}) => {
     const [index, setIndex] = useState(1);
     const [direction, setDirection] = useState<boolean>(true);
     const handleLeftClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -114,43 +110,43 @@ export const ContentFlow = (props: { data: ContentFlowProps[], handleNavigate:(i
         setIndex(index + 1);
     }
     return (
-        <div style={{width: "100%",display:"flex",flexDirection:"column",padding:"10px"}}>
-            {props.flowTitle}
-            <Grid container direction={"row"} spacing={0} sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-            <Grid item xs={9} sm={10} direction={"row"} md={10}>
-                <CustomContainer id={"chip-container"}>
+        <div style={{width: "100%",display:"flex",flexDirection:"column"}}>
+            <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",width:"100%"}}>
+                {props.flowTitle}
+                {props.data.length!==0 &&  <div style={{display:"flex",flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
+                    <IconButton onClick={handleLeftClick} disabled={index === 1}>
+                        <KeyboardDoubleArrowLeft/>
+                    </IconButton>
+                    <Typography variant={"body2"}>{index}/{props.data.length}</Typography>
+                    <IconButton onClick={handleRightClick} disabled={index === props.data.length}>
+                        <KeyboardDoubleArrowRight/>
+                    </IconButton>
+                </div>
+                }
+            </div>
+                <ListItemButton id={"chip-container"} sx={{padding:0,
+                    whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",width:"auto"}}>
                     {props.data.map((item, chipIndex) => (
                         <TabPanel value={index} index={chipIndex + 1} key={chipIndex}>
                             <Zoom in={index === chipIndex + 1} timeout={200}>
+
                                 <ChipWrapper>
                                         <Chip avatar={<Avatar src={item.avatarSrc} alt={item.avatarName}/>}
-                                              label={item.avatarName} sx={ChipDetail} color={"default"}
+                                              label={item.avatarName} sx={ChipDetail} color={props.chipColor}
                                         />
-                                    <Button onClick={(e)=>props.handleNavigate(item.id)} sx={{marginRight: "20px",}} >
-                                        <Tooltip placement={"bottom"} title={item.content} key={chipIndex}
+                                    <div onClick={(e)=>props.handleNavigate(item.id)} style={{marginLeft: "10px", display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                        <Tooltip placement={"bottom"} title={item.content} key={chipIndex} arrow
                                                  id={"chip-item-" + item.id.toString()}>
-                                            <TitleWrapper  sx={{ display: 'inline-block' }}>
+                                            <TitleWrapper >
                                                 {item.title}
                                             </TitleWrapper>
                                         </Tooltip>
-                                    </Button>
+                                    </div>
                                 </ChipWrapper>
                             </Zoom>
                         </TabPanel>
                     ))}
-                </CustomContainer>
-            </Grid>
-            <Grid item xs={3} sm={2} direction={"row"} md={2}
-                  sx={{display: "flex", justifyContent: "center", alignItems: "center", width: "100%"}}>
-                <IconButton onClick={handleLeftClick} disabled={index === 1}>
-                    <KeyboardDoubleArrowLeft/>
-                </IconButton>
-                <Typography variant={"body2"}>{index}/{props.data.length}</Typography>
-                <IconButton onClick={handleRightClick} disabled={index === props.data.length}>
-                    <KeyboardDoubleArrowRight/>
-                </IconButton>
-            </Grid>
-            </Grid>
+                </ListItemButton>
 
         </div>
     );

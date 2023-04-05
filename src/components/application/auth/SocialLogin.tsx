@@ -1,8 +1,8 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import styled from "styled-components";
-import {ModalTitle} from "./ModalTitle";
-import {ImgOpacityButton} from "../layout/ImgOpacityButton";
+import {ModalTitle} from "../ui/ModalTitle";
+import {ImgOpacityButton} from "../ui/ImgOpacityButton";
 import SocialLoginData from "../../../data/SocialLoginButons";
 import {Divider} from "@mui/material";
 

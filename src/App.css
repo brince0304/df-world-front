@@ -1,7 +1,11 @@
 .App {
   text-align: center;
-  font-family: 'noto sans regular';}
+}
 
+@font-face {
+  font-family:'Core Sans';
+    src: url('assets/fonts/SCDream4.otf') format('truetype');
+}
 @font-face {
     font-family: '광양햇살';
     src: url('assets/fonts/Gwangyang Sunshine Regular(TTF용).ttf') format('truetype');
@@ -10,6 +14,10 @@
     font-family: 'noto sans regular';
     src: url('assets/fonts/NotoSansKR-Regular.otf') format('truetype');
 
+}
+
+.toastui-editor-contents p {
+  font-size: 18px;
 }
 
 .App-logo {

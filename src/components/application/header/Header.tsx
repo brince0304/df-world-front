@@ -4,16 +4,15 @@ import {Avatar, Badge, Button, Divider, IconButton, Tooltip, tooltipClasses, Too
 import {Collapse} from "@mui/material";
 import {useState} from "react";
 import '../../../assets/css/header.scss'
-import SearchBox from "./SearchBox";
 import {HeaderData} from "../../../data/HeaderData";
-import LoginPage from "../ui/LoginPage";
+import LoginPage from "../auth/LoginPage";
 import MobileNav from "./MobileNav";
 import {faBars, faBell, faCog, faRing, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import useNavBar from "../../../hooks/useNavBar";
-import {SocialLogin} from "../ui/SocialLogin";
-import RegisterPage from "../ui/RegisterPage";
-import LoginModal from "../ui/LoginModal";
+import {SocialLogin} from "../auth/SocialLogin";
+import RegisterPage from "../auth/RegisterPage";
+import LoginModal from "../auth/LoginModal";
 import useSelectSearch from "../../../hooks/useSelectSearch";
 import {useNavigate} from "react-router-dom";
 import store, {
@@ -23,14 +22,15 @@ import store, {
 
 import {RootState} from "../../../redux/store";
 import {logout} from "../../../api/auth/logout";
-import {HeaderProfile} from "../ui/HeaderProfile";
+import {HeaderProfile} from "./HeaderProfile";
 import {getCharactersAutoComplete} from "../../../api/character/getCharactersAutoComplete";
 import {setLoginModalIsOpened, setSearchHistory} from "../../../redux";
 import {useSelector} from "react-redux";
 import {removeCharacterHistory} from "../../../api/character/getCharacterDetail";
 import Typography from "@mui/material/Typography";
-import ProfileIconChangeModal from "./ProfileIconChangeModal";
+import ProfileIconChangeModal from "../auth/ProfileIconChangeModal";
 import Fade from "@mui/material/Fade";
+import {NewSearchBox} from "../ui/NewSearchBox";
 
 
 const Container = styled.div`
@@ -48,6 +48,7 @@ const Container = styled.div`
   @media (max-width: 1024px) {
     padding: 0 4%;
   }
+  font-family : 'Core Sans'
 `;
 
 const Logo = styled(Button)`
@@ -59,6 +60,7 @@ const Logo = styled(Button)`
     color: #FFFFFF;
     cursor: pointer;
     padding-right: 0;
+    font-family : 'Core Sans';
 
     &:hover {
       color: cornflowerblue;
@@ -85,6 +87,7 @@ const SelectSearchWrapper = styled.div`
   margin-left: 25%;
   margin-top:15px;
   width: 350px;
+  height:36px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -107,6 +110,7 @@ const HeaderMenu = styled(Button)`
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
+    font-family : 'Core Sans';
 
     &:hover {
       color: cornflowerblue;
@@ -133,7 +137,7 @@ const HeaderTop = styled.div`
 
 
 const RegisterContainer = styled.div`
-          display: ${(props: { isLoginPage: boolean }) => props.isLoginPage ? 'none' : 'flex'};
+          display: ${(props: { isloginpage: boolean }) => props.isloginpage ? 'none' : 'flex'};
           width: 100%;
           height: 100%;
           //넘치면 스크롤바
@@ -144,7 +148,7 @@ const RegisterContainer = styled.div`
 ;
 
 const LoginContainer = styled.div`
-  display: ${(props: { isLoginPage: boolean }) => props.isLoginPage ? 'flex' : 'none'};
+  display: ${(props: { isloginpage: boolean }) => props.isloginpage ? 'flex' : 'none'};
   height: 100%;
   align-items: center;
   @media (max-width: 768px) {
@@ -206,20 +210,8 @@ const HeaderBottom = styled.div`
 `;
 
 
-interface SearchOption {
-    id: string;
-    title: string;
-    content: string;
-    footer: string;
-    optionValue: string | "";
-    type: "board" | "character";
-}
 
 
-const searchType = {
-    type: "character",
-    url: "/characters/<serverId>?name=<characterName>"
-}
 
 interface HeaderProps {
     title: string;
@@ -307,20 +299,6 @@ const MenuIconWrapper = styled.div`
     }
 `
 
-const NotificationWrapper = styled.div`
-    display: flex;
-    position: absolute;
-    top: 0;
-    right: 0;
-  background-color: red;
-  color: white;
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
-    z-index: 1; 
-    `;
-
-
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -348,23 +326,17 @@ const ProfileNicknameWrapper = styled.div`
 
 
 const Header = (props: HeaderProps) => {
-    const [searchValue, selectValue, handleSearchOnChange, handleSelectOnChange] = useSelectSearch({
-        initialSearchValue: "",
-        placeholder: "캐릭터 이름",
-        initialSelectValue: "all",
-    })
-
     let navigate = useNavigate();
-    const handleCharacterSearchNavigate = (url: string, type: string, characterName: string, serverId: string) => {
-        navigate(url.replace("<characterName>", characterName).replace("<serverId>", serverId));
+    const handleCharacterSearchNavigate = ( characterName: string, serverId: string) => {
+        navigate(`/characters/${serverId}?name=${characterName}`);
     }
     const [isNavbarOpened, openNavbar, closeNavbar] = useNavBar();
-    const [isLoginPage, setIsLoginPage] = useState(true);
+    const [isloginpage, setIsloginpage] = useState<boolean>(true);
     const handleChangeSection = useCallback(
         () => {
-            setIsLoginPage(!isLoginPage);
+            setIsloginpage(!isloginpage);
         },
-        [isLoginPage]);
+        [isloginpage]);
     const handleOptionMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         navigate("/details/?characterId=" + e.currentTarget.attributes.getNamedItem("data-id")?.value + "&serverId=" + e.currentTarget.attributes.getNamedItem("data-option")?.value);
     }
@@ -401,6 +373,7 @@ const Header = (props: HeaderProps) => {
         () => {
             setProfileChangeModalIsOpened(false);
         }, [setProfileChangeModalIsOpened]);
+
     return (
         <Container>
             <HeaderTop>
@@ -411,18 +384,12 @@ const Header = (props: HeaderProps) => {
                     navigate("/")
                 }}>{props.title}</Logo>
                 <SelectSearchWrapper>
-                    <SearchBox selectOptions={HeaderData.serverList} placeholder={"캐릭터 이름"} useSearchOption={true}
-                               selectLoading={false} searchType={searchType} color="cornflowerblue"
-                               searchOptions={searchHistory} searchValue={searchValue} selectValue={selectValue}
-                               handleSelectValueChange={handleSelectOnChange}
-                               handleSearchValueChange={handleSearchOnChange}
-                               handleNavigate={handleCharacterSearchNavigate}
-                               handleOptionMouseDown={handleOptionMouseDown}
-                               useAutoComplete={true}
-                               autoCompleteUrl={"/characters/autoComplete?name={searchValue}&serverId={selectValue}"}
-                               autoCompleteHandler={getCharactersAutoComplete}
-                               handleOptionRemove={handleRemoveSearchOptions}
-                    />
+                    <NewSearchBox placeholder={"캐릭터 검색"}
+                        direction={"down"} handleNavigate={handleCharacterSearchNavigate} filterOptions={HeaderData.serverList}
+                                  searchHistoryMouseDown={handleOptionMouseDown} removeSearchHistory={handleRemoveSearchOptions} useSearchOption={true} searchHistory={searchHistory}
+                                  autoCompleteHandler={getCharactersAutoComplete}  autoCompleteUrl={"/characters/autoComplete?name={searchValue}&serverId={selectValue}"}
+                                  />
+
                 </SelectSearchWrapper>
             </HeaderTop>
             <HeaderBottom>
@@ -485,11 +452,11 @@ const Header = (props: HeaderProps) => {
                         </HtmlTooltip>}
                 </ProfileContainer>
             </HeaderBottom>
-            {!isLogin && <LoginModal isLoginPage={isLoginPage}>
-                <RegisterContainer isLoginPage={isLoginPage} id={"register-part"}>
+            {!isLogin && <LoginModal isloginpage={isloginpage}>
+                <RegisterContainer isloginpage={isloginpage.valueOf()} id={"register-part"}>
                     <RegisterPage handleChangeSection={handleChangeSection}/>
                 </RegisterContainer>
-                <LoginContainer isLoginPage={isLoginPage} id={"login-part"}>
+                <LoginContainer isloginpage={isloginpage.valueOf()} id={"login-part"}>
                     <SocialLogin/>
                     <Divider orientation={"vertical"} flexItem={true} sx={{
                         '@media (max-width: 768px)': {

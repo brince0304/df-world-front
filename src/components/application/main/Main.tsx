@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 import React from "react";
-import RankingTable from "../ui/RankingTable";
+import RankingTable from "../character/RankingTable";
 import MainPageRankingData from "../../../data/MainPageRankingData";
-import LatestBoard from "../ui/LatestBoard";
+import LatestBoard from "../board/LatestBoard";
 import BoardData from "../../../data/BoardData";
 import axios from "axios";
-import {Container} from "@mui/material";
+import {Container, Divider, IconButton, InputBase, Paper} from "@mui/material";
+import Box from "@mui/material/Box";
+import SearchIcon from "@mui/icons-material/Search";
+import {NewSearchBox} from "../ui/NewSearchBox";
+import Board from "../board/Board";
+import {HeaderData} from "../../../data/HeaderData";
+import {CHARACTER_MAINPAGE_RANKING_URL, LATEST_BOARD_URL} from "../../../data/ApiUrl";
 const Container0 = styled.div`
   //container
   flex-direction: row;
@@ -48,12 +54,12 @@ const LatestBoardContainer = styled.div`
 
 const Main = () =>{
     return(
-        <Container>
+        <Container maxWidth={"md"}>
             <LatestBoardContainer>
-                <LatestBoard title={"공지사항"} url={"/boards/latest?boardType="} />
-                <LatestBoard title={"통합 게시판"} boardTypes={BoardData.boardTypes} url={"/boards/latest?boardType="} />
+                <LatestBoard title={"공지사항"} url={LATEST_BOARD_URL} />
+                <LatestBoard title={"통합 게시판"} boardTypes={BoardData.boardTypes} url={LATEST_BOARD_URL} />
             </LatestBoardContainer>
-                <RankingTable data={MainPageRankingData} title={"캐릭터 랭킹"} url={"/characters/mainRank?searchType="}/>
+                <RankingTable data={MainPageRankingData} title={"캐릭터 랭킹"} url={CHARACTER_MAINPAGE_RANKING_URL}/>
         </Container>
     );
 }

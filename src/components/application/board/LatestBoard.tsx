@@ -1,6 +1,6 @@
 import react, {useEffect} from "react";
 import styled from "styled-components";
-import {TableCustom} from "../layout/TableCustom";
+import {TableCustom} from "../ui/TableCustom";
 import BoardData from "../../../data/BoardData";
 import React from "react";
 import boardData from "../../../data/BoardData";
@@ -11,9 +11,11 @@ import {faChevronRight, faExclamationTriangle, faHeart} from "@fortawesome/free-
 import {faComment} from "@fortawesome/free-solid-svg-icons";
 import ReactLoading from 'react-loading';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
-import {ErrorScreen} from "./ErrorScreen";
+import {ErrorScreen} from "../ui/ErrorScreen";
 import {getLatestBoard} from "../../../api/board/getLatestBoard";
-import {Avatar} from "@mui/material";
+import {Avatar, ListItemButton} from "@mui/material";
+import {ChatBubbleOutlineOutlined, FavoriteBorderOutlined, MessageOutlined} from "@mui/icons-material";
+import Typography from "@mui/material/Typography";
 
 const BoardBody = styled.div`
   display: flex;
@@ -59,6 +61,8 @@ const BoardFooter = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
   gap: 20px;
   font-size: 14px;
 
@@ -73,14 +77,19 @@ const LikeCommentWrapper = styled.div`
 `;
 
 const LikeCommentContainer = styled.div`
-  display: grid;
-  grid-template-columns: 70px 70px;
+  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  width: 100%;
 `
 
 const NicknameCreatedAtContainer = styled.div`
   display: grid;
-  justify-content: flex-start;
+  justify-content: space-between;
     align-items: center;
+
+  width: 100%;
   grid-template-columns: 140px 80px;
 `
 
@@ -96,6 +105,13 @@ const ProfileImgWrapper = styled.div`
     height: 100%;
   }
 `
+const IconContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+  `;
 
 const NicknameWrapper = styled.div`
   display: flex;
@@ -132,24 +148,10 @@ const BoardList = (props: { data: BoardData[] }) => {
     }
     return (
         <>{props.data.map((item, index: number) => (
-                <BoardCell key={index} onClick={onClickHandler} data-id={item.id}>
+                <ListItemButton key={index} onClick={onClickHandler} data-id={item.id} sx={{display: "flex", flexDirection: "column", width: "100%",gap:"6px"}}>
                     <BoardTitle>
                         <span>{item.boardTitle}</span>
                     </BoardTitle>
-                    <LikeCommentContainer>
-                        <LikeCommentWrapper>
-                        <span><FontAwesomeIcon icon={faHeart} style={{
-                            padding: "0 2px 0 5px",
-                        }
-                        }/> {item.boardLikeCount}</span>
-                        </LikeCommentWrapper>
-                        <LikeCommentWrapper>
-                        <span><FontAwesomeIcon icon={faComment} style={{
-                            padding: "0 2px 0 5px",
-                        }
-                        }/> {item.commentCount}</span>
-                        </LikeCommentWrapper>
-                    </LikeCommentContainer>
                     <BoardFooter>
                         <NicknameCreatedAtContainer>
                             <NicknameWrapper>
@@ -157,12 +159,31 @@ const BoardList = (props: { data: BoardData[] }) => {
                                     <Avatar src={item.userProfileImgUrl} alt="profile"
                                          style={{width: "25px", height: "25px"}}/>
                                 </ProfileImgWrapper>
-                                <span>{item.userNickname}</span>
+                                <Typography sx={{
+                                    fontSize: "14px",
+                                    fontFamily: "Core Sans"
+                                }}>{item.userNickname}</Typography>
                             </NicknameWrapper>
-                            <span>{item.createdAt}</span>
                         </NicknameCreatedAtContainer>
                     </BoardFooter>
-                </BoardCell>
+                    <LikeCommentContainer>
+                        <IconContainer>
+                            <LikeCommentWrapper>
+                        <span><FavoriteBorderOutlined  style={{
+                            padding: "0 2px 0 5px",
+                        }
+                        }/> {item.boardLikeCount}</span>
+                        </LikeCommentWrapper>
+                            <LikeCommentWrapper>
+                        <span><ChatBubbleOutlineOutlined  style={{
+                            padding: "0 2px 0 5px",
+                        }
+                        }/> {item.commentCount}</span>
+                            </LikeCommentWrapper>
+                        </IconContainer>
+                        <span style={{justifyContent:"flex-end"}}>{item.createdAt}</span>
+                    </LikeCommentContainer>
+                </ListItemButton>
             )
         )}</>
     )
@@ -179,11 +200,11 @@ const LatestBoard = (props: BoardProps) => {
     useEffect(() => {
         getLatestBoard(setIsError, setIsLoading, props.url,isSelected, setData);
     }, [isSelected]);
+    let navigate = useNavigate();
 
     return (
         <TableCustom menus={props.boardTypes} title={props.title} isSelected={isSelected} setIsSelected={setIsSelected}
-                     useMenu={true} useIcon={true} onClickArrow={() => {
-        }} isLoading={isLoading} icon={<FontAwesomeIcon icon={faChevronRight} size="sm"/>}>
+                     useMenu={true} useIcon={true} onClickIcon={()=>navigate('/boards/?boardType='+isSelected)} isLoading={isLoading} icon={<FontAwesomeIcon icon={faChevronRight} size="sm"/>}>
             <BoardBody>
                 {data?.length > 0 && !isError && <BoardList data={data}/>}
                 {data?.length === 0 && !isError && <ErrorScreen icon={faXmark}  message={"게시글이 없습니다."}/>}

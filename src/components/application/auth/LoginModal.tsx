@@ -35,7 +35,7 @@ const style = {
 };
 
 
-const ModalHeader = styled.div`
+export const ModalHeader = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -50,7 +50,7 @@ const ModalBox = styled(Box)`
       display: flex;
         flex-direction: column;
       padding-top: 10px;
-      height: ${(props:{isLoginPage:boolean}) => props.isLoginPage ? '450px' : '550px'};
+      height: ${(props:{isloginpage:string}) => props.isloginpage ? '450px' : '550px'};
       @media (max-width: 768px) {
         width: 400px;
         height : 630px;
@@ -60,7 +60,7 @@ const ModalBox = styled(Box)`
 
 
 
-const CloseButtonWrapper = styled.div`
+export const CloseButtonWrapper = styled.div`
   //우측 끝에 배치
   position: absolute;
   right: 10px;
@@ -75,17 +75,18 @@ const CloseButtonWrapper = styled.div`
 `
 
 
-const ModalBody = styled.div`
+export const ModalBody = styled.div`
     display: flex;
+  position: relative;
   height: 100%;
   width: 100%;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     padding: 20px 0;
     `
 
 interface LoginModalProps {
-    children:React.ReactNode, isLoginPage:boolean
+    children:React.ReactNode, isloginpage:boolean
 }
 
 
@@ -102,7 +103,7 @@ export default function LoginModal (props:LoginModalProps) {
             onClose={handleClose}
         >
             <Fade in={isOpened} unmountOnExit={true}>
-                <ModalBox sx={style} isLoginPage={props.isLoginPage}>
+                <ModalBox sx={style} isloginpage={props.isloginpage.toString()}>
                     <CloseButtonWrapper onClick={handleClose}>
                         <FontAwesomeIcon icon={faXmark}/>
                     </CloseButtonWrapper>

@@ -11,7 +11,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {setLoginModalIsOpened} from "../../../redux";
 import {Avatar, Divider, IconButton} from "@mui/material";
 import {profileIconData} from "../../../data/ProfileIconData";
-import createInstance from "../../../common/axios";
+import createInstance from "../../../common/axiosInstance";
+import axios from "../../../common/axiosInstance";
 
 
 const style = {
@@ -121,7 +122,7 @@ export default function ProfileIconChangeModal (props:ProfileIconChangeModalProp
                 alert("아이콘 변경에 실패하였습니다.");
                 return;
             }else if(url){
-                createInstance(url).put("")
+                axios().put(url)
                     .then((res) => {
                         if(res.status === 200){
                             alert("변경되었습니다.");
@@ -154,8 +155,8 @@ export default function ProfileIconChangeModal (props:ProfileIconChangeModalProp
                             <span>아이콘을 선택해주세요!</span>
                         </IconSelectorWrapper>
                         <ProfileIconChangeContainer>
-                            {data.map((datum) => (
-                                <IconButton data-id={datum.url} onClick={handleChangeIcon}>
+                            {data.map((datum,index) => (
+                                <IconButton data-id={datum.url} onClick={handleChangeIcon} key={index}>
                                 <Avatar src={"/images/icon_char/"+datum.name} sx={{width: 30, height: 30, margin: 1}}/>
                                 </IconButton>
                             ))}

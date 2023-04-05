@@ -2,8 +2,8 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import styled from "styled-components";
 import {useInput} from "../../../hooks/useInput";
-import {ModalTitle} from "./ModalTitle";
-import {ImgOpacityButton} from "../layout/ImgOpacityButton";
+import {ModalTitle} from "../ui/ModalTitle";
+import {ImgOpacityButton} from "../ui/ImgOpacityButton";
 import SocialLoginData from "../../../data/SocialLoginButons";
 import {Checkbox, FormControlLabel, TextField} from "@mui/material";
 import {useCheckbox} from "../../../hooks/useCheckbox";
@@ -14,6 +14,8 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 import {useCallback} from "react";
+import {USER_REGISTER_URL} from "../../../data/ApiUrl";
+import {RegisterFormProps, registerUser} from "../../../api/auth/registerUser";
 
 const FormControl = styled.form`
   display: grid;
@@ -147,14 +149,7 @@ const passwordMatch = (password: string, passwordCheck: string) => {
     return true;
 }
 
-interface RegisterFormProps {
-    email: string;
-    userId: string;
-    nickname: string;
-    password: string;
-    passwordCheck: string;
-    isAgree: boolean;
-}
+
 
 
 const schema = yup
@@ -220,44 +215,10 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
         resolver: yupResolver(schema),
     });
     const onValid = (data: RegisterFormProps) => {
-              registerUser(data);
+              registerUser(data,setError);
     };
 
-    async function registerUser(data: RegisterFormProps) {
-        const response = await axios.post("http://localhost:8080/users", {
-            userId: data.userId,
-            nickname: data.nickname,
-            email: data.email,
-            password: data.password,
-            passwordCheck: data.passwordCheck
-        }).then((response) => {
-            if(response.status === 200){
-                alert("회원가입이 완료되었습니다.");
-                window.location.href = "/";
-            }
-        }).catch((error) => {
-            if(error.response.status === 409) {
-                console.log(error.response.data);
-                if(error.response.data.indexOf("아이디") !== -1){
-                    setError("userId", {
-                        type: "manual",
-                        message: error.response.data
-                    });
-                }else if (error.response.data.indexOf("이메일") !== -1) {
-                    setError("email", {
-                        type: "manual",
-                        message: error.response.data
-                    });
-                    }else if(error.response.data.indexOf("닉네임") !== -1){
-                    setError("nickname", {
-                        type: "manual",
-                        message: error.response.data
-                    });
-                }else{
-                    alert(error.response.data);
-                }}
-        });
-    }
+
     return (
         <div>
         <ModalTitle title={"회원가입"}/>

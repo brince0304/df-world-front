@@ -1,5 +1,5 @@
 import store, { UserDetail} from "../redux/store";
-import axios from "./axios";
+import axios from "./axiosInstance";
 import {AxiosInstance} from "axios";
 import {useDispatch} from "react-redux";
 import {setLogin, setUser} from "../redux";
@@ -29,7 +29,6 @@ export function setInterceptors(instance: AxiosInstance) {
 
     instance.interceptors.response.use(
         (response) => {
-
             // 응답 전처리 로직
             return response;
         },
