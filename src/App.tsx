@@ -10,26 +10,17 @@ import {getUser} from "./api/auth/getUser";
 import {Characters} from "./components/application/character/Characters";
 import ReactLoading from "react-loading";
 import styled from 'styled-components';
-import LoadingBar from "./components/application/ui/LoadingBar";
 import {useSelector} from "react-redux";
 import {CharacterDetail} from "./components/application/character/CharacterDetail";
 import {CircularProgress, createTheme, LinearProgress, ThemeProvider} from "@mui/material";
 import {WriteBoard} from "./components/application/board/WriteBoard";
 import {BOARD_LIST_URL} from "./data/ApiUrl";
 import {BoardDetail} from "./components/application/board/BoardDetail";
+import {Footer} from "./components/application/footer/Footer";
+import {BOARD_INSERT_FORM_ROUTE, BOARD_ROUTE} from "./data/routeLink";
+import {BadRequest} from "./components/application/error/BadRequest";
 
 
-
-
-
-
-const LoadingWrapper = styled.div`
-    display: flex;
-    position: absolute;
-    top: 0;
-    right: 0;
-  z-index: 1000;
-    `;
 
 
 function App() {
@@ -46,11 +37,13 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Main />}></Route>
                     <Route path={BOARD_LIST_URL} element={<Board />}></Route>
-                    <Route path="/boards/write" element={<WriteBoard />}></Route>
+                    <Route path={BOARD_INSERT_FORM_ROUTE} element={<WriteBoard />}></Route>
                     <Route path="/characters/:serverId" element={<Characters />}></Route>
                     <Route path="/details/" element={<CharacterDetail />}></Route>
-                    <Route path="/boards/:boardId" element={<BoardDetail />}></Route>
+                    <Route path={BOARD_ROUTE} element={<BoardDetail />}></Route>
+                    <Route path="/*" element={<BadRequest />}></Route>
                 </Routes>
+                <Footer />
             </div>
     );
 }

@@ -33,7 +33,7 @@ import Fade from "@mui/material/Fade";
 import {NewSearchBox} from "../ui/NewSearchBox";
 
 
-const Container = styled.div`
+const Container = styled.header`
   //헤더 그림자
   position: sticky;
   top: 0;

@@ -28,10 +28,14 @@ const actions = [
 ];
 
 const CustomBox = styled(Box)`
+    display: none;
     position: fixed;
     bottom: 16px;
     right: 16px;
     z-index: 1000;
+  @media (max-width: 1024px) {
+    display: block;
+  }
 `;
 
 const boardSearchType = {
@@ -39,7 +43,7 @@ const boardSearchType = {
     url:"/boards/"
 } as SearchType
 
-const boardSelectOptions = {
+export const boardSelectOptions = {
     types :[
         {value:"title", label:"제목"},
         {value:"content", label:"내용"},

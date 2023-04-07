@@ -100,7 +100,8 @@ function TabPanel(props: { children?: React.ReactNode, value: number, index: num
 }
 
 
-export const ContentFlow = (props: { data: ContentFlowProps[], handleNavigate:(id:number)=>void, flowTitle:ReactNode, chipColor :  "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning" | undefined}) => {
+export const ContentFlow = (props: { data: ContentFlowProps[], handleNavigate:(id:number)=>void, flowTitle:ReactNode, chipColor :  "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
+noDataWrapper:ReactNode}) => {
     const [index, setIndex] = useState(1);
     const [direction, setDirection] = useState<boolean>(true);
     const handleLeftClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -124,12 +125,11 @@ export const ContentFlow = (props: { data: ContentFlowProps[], handleNavigate:(i
                 </div>
                 }
             </div>
-                <ListItemButton id={"chip-container"} sx={{padding:0,
+            {props.data.length!==0  &&  <ListItemButton id={"chip-container"} sx={{padding:0,
                     whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",width:"auto"}}>
                     {props.data.map((item, chipIndex) => (
                         <TabPanel value={index} index={chipIndex + 1} key={chipIndex}>
                             <Zoom in={index === chipIndex + 1} timeout={200}>
-
                                 <ChipWrapper>
                                         <Chip avatar={<Avatar src={item.avatarSrc} alt={item.avatarName}/>}
                                               label={item.avatarName} sx={ChipDetail} color={props.chipColor}
@@ -147,6 +147,8 @@ export const ContentFlow = (props: { data: ContentFlowProps[], handleNavigate:(i
                         </TabPanel>
                     ))}
                 </ListItemButton>
+            }
+            {props.data.length===0 && props.noDataWrapper}
 
         </div>
     );

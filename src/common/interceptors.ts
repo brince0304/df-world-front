@@ -1,10 +1,8 @@
-import store, { UserDetail} from "../redux/store";
+import store, {UserDetail} from "../redux/store";
 import axios from "./axiosInstance";
 import {AxiosInstance} from "axios";
 import {useDispatch} from "react-redux";
 import {setLogin, setUser} from "../redux";
-
-
 
 
 export function setInterceptors(instance: AxiosInstance) {
@@ -33,10 +31,9 @@ export function setInterceptors(instance: AxiosInstance) {
             return response;
         },
         (error) => {
-            if(error.response.status === 401){
+            if (error.response.status === 401) {
                 store.dispatch(setLogin(false));
                 store.dispatch(setUser({}));
-                alert("로그인이 필요합니다.")
             }
             // 응답 에러 처리 로직
             return Promise.reject(error);

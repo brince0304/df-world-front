@@ -217,7 +217,7 @@ const ResultTitleWrapper = styled.div`
 
 
 
-const getServerName=(serverId: string) => {
+export const getServerName=(serverId: string) => {
      switch (serverId) {
             case "all":
                 return "전체";
@@ -234,9 +234,12 @@ const getServerName=(serverId: string) => {
          case "adventure":
                 return "모험단";
                 case "diregie":
+
                 return "디레지에";
                 case "siroco":
                 return "시로코";
+         case "cain":
+                return "카인";
      }
 }
 
