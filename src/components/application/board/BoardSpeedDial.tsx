@@ -75,30 +75,17 @@ export const boardSelectOptions = {
     let navigate = useNavigate();
 
     useEffect(() => {
-    if(!isLogin){
-        actions.push({icon: <LoginIcon />, name: '로그인'})
-    }
+
     }, []);
     const handleOpenSearchBox = () => {
         setSearchBoxIsOpened(!searchBoxIsOpened);
     }
-    const handleOpenPagination = () => {
-        setPaginationIsOpened(!paginationIsOpened);
-    }
-
     const handleClick =(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const id = e.currentTarget.dataset.id;
         if(id === "글쓰기"){
-            if(isLogin){
                 navigate(BOARD_WRITE_URL+`?type=${props.boardType}&request=add`);
-            }else{
-                alert("로그인이 필요한 서비스입니다.");
-                dispatch(setLoginModalIsOpened(true));
-            }
         }else if(id === "검색"){
             handleOpenSearchBox();
-        }else if(id === "로그인"){
-            dispatch(setLoginModalIsOpened(true));
         }
     }
     const handleNavigate =(searchType:string, searchKeyword: string)=> {
@@ -126,7 +113,7 @@ export const boardSelectOptions = {
                 icon={<DragHandleRounded />}
             >
                 {actions.map((action) => (
-                   <SpeedDialAction
+                     <SpeedDialAction
                         key={action.name}
                         icon={action.icon}
                         tooltipTitle={action.name}

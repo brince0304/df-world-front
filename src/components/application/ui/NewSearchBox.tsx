@@ -240,9 +240,9 @@ const FilterOptionWrapper = styled(Typography)`
 
 
 export const NewSearchBox = (props: SearchProps) => {
-    const [open, setOpen] = React.useState(false);
-    const [selectedFilter, setSelectedFilter] = React.useState<{label:string,value:string}>({label:props.filterOptions[0].label,value:props.filterOptions[0].value});
-    const [searchValue, setSearchValue] = React.useState("");
+    const [open, setOpen] = useState(false);
+    const [selectedFilter, setSelectedFilter] = useState<{label:string,value:string}>({label:props.filterOptions[0].label,value:props.filterOptions[0].value});
+    const [searchValue, setSearchValue] = useState("");
     const [isselected, setIsselected] = useState<number>(0);
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement | null>(null);

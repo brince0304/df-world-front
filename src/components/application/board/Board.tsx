@@ -11,7 +11,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 
 import {
-    Avatar,
+    Avatar, Button,
     Chip,
     Container, Divider,
     Grid,
@@ -40,7 +40,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Loading from "react-loading";
 import {ErrorScreen} from "../ui/ErrorScreen";
 import SearchIcon from "@mui/icons-material/Search";
-import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL, BOARD_LIST_URL} from "../../../data/ApiUrl";
+import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL, BOARD_LIST_URL, BOARD_WRITE_URL} from "../../../data/ApiUrl";
 import {getBoardList} from "../../../api/board/getBoardList";
 import {useAppDispatch} from "../../../redux/store";
 import {BoardSkeleton} from "../loading/BoardSkeleton";
@@ -234,7 +234,7 @@ export const BestArticleNoDataWrapper = () => {
 };
 
 
-const CharacterContent = (props: { characterName:string,serverId:string,characterImgUrl:string,adventureName:string }) => {
+const CharacterContent = (props: { characterName: string, serverId: string, characterImgUrl: string, adventureName: string }) => {
     return (
         <Box sx={{
             display: "flex",
@@ -245,7 +245,7 @@ const CharacterContent = (props: { characterName:string,serverId:string,characte
             height: "100%",
             gap: "2px",
         }}>
-            <Avatar src={props.characterImgUrl} sx={{width: "100px", height: "100px"}}  variant="rounded"/>
+            <Avatar src={props.characterImgUrl} sx={{width: "100px", height: "100px"}} variant="rounded"/>
             <Typography fontFamily={"Core Sans"} fontSize={"13px"}>{props.characterName}</Typography>
             <Typography fontFamily={"Core Sans"} fontSize={"12px"}>{props.adventureName}</Typography>
             <Typography fontFamily={"Core Sans"} fontSize={"12px"}>{getServerName(props.serverId)}</Typography>
@@ -308,9 +308,9 @@ export const LongMenu = (props: { menuList: MenuItem[], boardType: string }) => 
                 }}
             >
                 {props.menuList.map((item) => (
-                    <MenuItem key={item.type} selected={props.boardType === item.type} onClick={handleClose}
+                    <MenuItem key={item.type} selected={props.boardType === item.type} onClick={handleClose} component={"div"}
                               data-type={item.type}>
-                        <Typography variant="inherit" noWrap fontFamily={"Core Sans"} fontWeight={"bold"}>
+                        <Typography variant="inherit" noWrap fontFamily={"Core Sans"} fontWeight={"bold"} component={"span"}>
                             {item.label}
                         </Typography>
                     </MenuItem>
@@ -337,7 +337,7 @@ export const getSearchType = (type: string) => {
         case "characterName":
             return "캐릭터";
     }
-}
+};
 
 const MenuListItem = [
     {type: "ALL", icon: <AllInbox/>, label: "전체"},
@@ -460,7 +460,8 @@ const Board = () => {
             <TableCustom title={
                 <TableTitleWrapper>
                     {!keyword && !searchType && <TableTitle>{getBoardType(boardType)}</TableTitle>}
-                    {keyword && searchType && <TableTitle>{getBoardType(boardType)} - {getSearchType(searchType)} : {keyword}</TableTitle>}
+                    {keyword && searchType &&
+                        <TableTitle>{getBoardType(boardType)} - {getSearchType(searchType)} : {keyword}</TableTitle>}
                     <BoardCountWrapper>{data?.totalElements}개의 게시글</BoardCountWrapper>
                 </TableTitleWrapper>
             } useMenu={false} isLoading={isLoading} useIcon={true}
@@ -471,6 +472,33 @@ const Board = () => {
                                      <BestArticleTitleComponent/>
                                  } noDataWrapper={<BestArticleNoDataWrapper/>}/>
                 </Box>
+                {data && !isLoading &&
+                    <Box sx={
+                        {
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            padding: "10px 10px 10px 10px",
+                            flexDirection: "row",
+                            gap: "10px",
+                            borderTop: "1px solid #e0e0e0",
+                            borderBottom: "1px solid #e0e0e0",
+                            width:"100%",
+                            "@media (max-width:1024px)": {
+                                display: "none"
+                            }
+                        }}>
+                        <Box sx={{width: "60%", height: "40px"}}>
+                            <NewSearchBox placeholder={"검색"} direction={"down"} filterOptions={boardSelectOptions.types}
+                                          useSearchOption={false} handleNavigate={handleNavigateToSearchResult}/>
+                        </Box>
+                        <Box>
+                            <Button sx={{textAlign:"right",}} onClick={() => navigate(BOARD_WRITE_URL + `?boardType=${boardType}&request=add`)}>
+                                <Typography fontFamily={"Core Sans"} color={"black"} fontWeight={"bold"} component={"span"} fontSize={"15px"}>글쓰기</Typography>
+                            </Button>
+                        </Box>
+                    </Box>
+                }
                 {isLoading && <BoardSkeleton/>}
                 {!isLoading && data?.content?.map((item) => (
                         <ListItemButton key={item.id} onClick={() => navigate(`/boards/${item.id}`)}
@@ -491,20 +519,25 @@ const Board = () => {
                                         </Tooltip>
                                     ))}
                                     {item.character &&
-                                        <Tooltip title={<CharacterContent characterName={item.character.characterName} serverId={item.character.serverId} characterImgUrl={item.character.characterImageUrl} adventureName={item.character.adventureName}/>} placement="top">
-                                        <Chip avatar={<Avatar src={item.character?.characterImageUrl} sx={{
-                                        fontSize: "10px",
-                                        "& > img": {
-                                            objectFit: "cover",
-                                            objectPosition: "center",
-                                            height: "500%",
-                                            width: "1300%",
-                                            backgroundColor: "#c4c4c4",
-                                        }
-                                    }}></Avatar>} label={item.character?.characterName} color="default" clickable={true}
-                                                             sx={{fontSize: "10px", fontWeight: "bold"}} size="small"
-                                                             data-name={item.character.characterName}
-                                                             onClick={handleCharacterTagClick}/>
+                                        <Tooltip title={<CharacterContent characterName={item.character.characterName}
+                                                                          serverId={item.character.serverId}
+                                                                          characterImgUrl={item.character.characterImageUrl}
+                                                                          adventureName={item.character.adventureName}/>}
+                                                 placement="top">
+                                            <Chip avatar={<Avatar src={item.character?.characterImageUrl} sx={{
+                                                fontSize: "10px",
+                                                "& > img": {
+                                                    objectFit: "cover",
+                                                    objectPosition: "center",
+                                                    height: "500%",
+                                                    width: "1300%",
+                                                    backgroundColor: "#c4c4c4",
+                                                }
+                                            }}></Avatar>} label={item.character?.characterName} color="default"
+                                                  clickable={true}
+                                                  sx={{fontSize: "10px", fontWeight: "bold"}} size="small"
+                                                  data-name={item.character.characterName}
+                                                  onClick={handleCharacterTagClick}/>
                                         </Tooltip>}
                                 </BoardTagContainer>
                                 <BoardTitleWrapper>{item.boardTitle}</BoardTitleWrapper>
@@ -547,22 +580,16 @@ const Board = () => {
                     <Box sx={
                         {
                             display: "flex",
-                            justifyContent: "center",
+                            justifyContent: "flex-start",
                             alignItems: "center",
                             padding: "10px 10px 10px 10px",
-                            flexDirection: "column",
+                            flexDirection: "row",
                             gap: "10px",
-                            '@media (max-width:1024px)':{
-                                display: "none"
-                            }
-                        }}>
-                        <Box>
-                            <NewSearchBox placeholder={"검색"} direction={"up"} filterOptions={boardSelectOptions.types}
-                                          useSearchOption={false} handleNavigate={handleNavigateToSearchResult}/>
-                        </Box>
+                            borderTop: "1px solid #e0e0e0",
+                        }
+                    }>
                         <Pagination count={data?.totalPages} page={page + 1} onChange={handleChangePage}/>
-                    </Box>
-                }
+                    </Box>}
                 <SpeedDial boardType={boardType} totalPages={data ? data.totalPages : 0}
                            currentPage={data ? data.number : 0}
                            handlePaginationChange={handleChangePageByModal}/>

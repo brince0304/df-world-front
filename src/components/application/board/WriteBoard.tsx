@@ -44,7 +44,7 @@ import {getBoardDetail} from "../../../api/board/getBoardDetail";
 import {putBoard} from "../../../api/board/putBoard";
 import {getHashtagList} from "../../../api/board/getHashtagList";
 import {BOARD_LIST_ROUTE} from "../../../data/routeLink";
-import {setIsLoading} from "../../../redux";
+import {setIsLoading, setLoginModalIsOpened} from "../../../redux";
 
 
 const BoardWriteFormTitleWrapper = styled(Box)`
@@ -362,7 +362,8 @@ export const WriteBoard = () => {
     useEffect(() => {
         if (!isLogin) {
             alert("로그인이 필요한 서비스입니다.");
-            navigate("/");
+            navigate(-1);
+            dispatch(setLoginModalIsOpened(true));
         }
         let tagify = new Tagify(document.getElementById("tagify") as HTMLInputElement, {
             whitelist: [],

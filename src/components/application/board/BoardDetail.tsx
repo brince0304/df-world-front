@@ -9,7 +9,7 @@ import {
     Button,
     Divider,
     Zoom,
-    FormControl, TextField, InputBase, IconButton, CircularProgress
+    FormControl, TextField, InputBase, IconButton, CircularProgress, Grow
 } from "@mui/material";
 import {useParams} from "react-router";
 import Box from "@mui/material/Box";
@@ -17,7 +17,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {BoardDetailData} from "../../../interfaces/BoardDetailData";
 import {BestArticleNoDataWrapper, BestArticleTitleComponent, getBoardType} from "./Board";
 import {setIsError, setIsLoading} from "../../../redux";
-import {RootState, useAppDispatch} from "../../../redux/store";
+import {RootState, useAppDispatch, UserDetail} from "../../../redux/store";
 import {useSelector} from "react-redux";
 import {getBoardDetail} from "../../../api/board/getBoardDetail";
 import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL, BOARD_WRITE_URL} from "../../../data/ApiUrl";
@@ -34,7 +34,11 @@ import {Delete, Favorite, FavoriteBorder} from "@mui/icons-material";
 import {postBoardLike} from "../../../api/board/postBoardLike";
 import EditIcon from "@mui/icons-material/Edit";
 import SendIcon from "@mui/icons-material/Send";
-import {CommentListData} from "../../../interfaces/CommentListData";
+import {
+    CommentListData,
+    CommentListDataComments,
+    CommentListDataLikeResponses
+} from "../../../interfaces/CommentListData";
 import {getBoardComment} from "../../../api/boardComment/getBoardComment";
 import Loading from "react-loading";
 import * as yup from "yup";
@@ -52,6 +56,10 @@ import {BadRequest} from "../error/BadRequest";
 import {BoardDetailSkeleton} from "../loading/BoardDetailSkeleton";
 import {postCommentLike} from "../../../api/boardComment/postCommentLike";
 import {BOARD_INSERT_FORM_ROUTE, BOARD_UPDATE_FORM_ROUTE} from "../../../data/routeLink";
+import ReactDOM from "react-dom/client";
+import {putBoardComment} from "../../../api/boardComment/putBoardComment";
+import {postChildrenComment} from "../../../api/boardComment/postChildrenComment";
+import {getChildrenComment} from "../../../api/boardComment/getChildrenComment";
 
 
 const TagContainer = styled(Box)`
@@ -221,9 +229,430 @@ export interface CommentForm {
     commentContent: string;
 }
 
+
 const schema = yup.object().shape({
-    commentContent: yup.string().required("댓글을 입력해주세요.").min(2, "댓글을 2자 이상 입력해주세요..").max(1000, "댓글은 1000자 이내로 입력해주세요.")
+    commentContent: yup.string().required("댓글을 입력해주세요.").min(2, "댓글을 2자 이상 입력해주세요").max(1000, "댓글은 1000자 이내로 입력해주세요.")
 });
+
+
+const CommentList = (props: { comment: CommentListDataComments, user: UserDetail, handleGetBoardComment: (boardId: string) => void, boardId: string, likeResponse: CommentListDataLikeResponses[] }) => {
+    const [isReplyOpen, setIsReplyOpen] = useState(false);
+    const commentLikeLog = props.likeResponse.map((comment) => {
+        if (comment.isLike) {
+            return comment.id;
+        }
+    });
+    const [isLiked, setIsLiked] = useState(commentLikeLog.includes(props.comment.id));
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [childrenComments, setChildrenComments] = useState<CommentListDataComments[]>([]);
+    const commentContent = props.comment.commentContent.split("\n").map((line, index) => {
+        return (
+            <Typography sx={{
+                fontSize: "15px",
+                fontFamily: "Core Sans",
+                textAlign: "left"
+            }}  key={index}>
+                {line}
+                {index !== props.comment.commentContent.split("\n").length - 1 ? <br/> : null}
+            </Typography>
+        );
+    });
+    const handleCommentLike = (boardId: string, commentId: string) => {
+        if (boardId) {
+            postCommentLike(boardId, commentId).then((res) => {
+                if (res.status === 200) {
+                    setIsLiked(!isLiked);
+                    const dom = document.getElementById("comment-like-count-" + commentId);
+                    if (dom) {
+                        dom.innerText = res.data.toString();
+                    }
+                }
+            }).catch((err) => {
+                alert("댓글 좋아요에 실패했습니다.");
+            });
+        }
+    };
+
+    useEffect(() => {
+        handleGetChildrenComment();
+    }, []);
+
+
+    const handleToggleEdit = useCallback(() => {
+        setIsEditOpen(!isEditOpen);
+    }, [isEditOpen]);
+
+    const handleUpdateComment = (commentId: string, data: CommentForm) => {
+        if (props.boardId && props.user && props.user.userId === props.comment.userId) {
+            if (window.confirm("수정하시겠습니까?")) {
+                putBoardComment(commentId, props.boardId, data).then((res) => {
+                    if (res.status === 200) {
+                        props.handleGetBoardComment(props.boardId);
+                        alert("댓글이 수정되었습니다.");
+                        setIsEditOpen(false);
+                    }
+                }).catch((err) => {
+                    alert("댓글 수정에 실패했습니다.");
+                });
+            }
+        } else {
+            alert("댓글 수정 권한이 없습니다.");
+        }
+    };
+
+    const onValidUpdateComment = (data: CommentForm) => {
+        handleUpdateComment(props.comment.id.toString(), data);
+    };
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: {errors},
+    } = useForm<CommentForm>({
+        mode: "onChange",
+        resolver: yupResolver(schema),
+    });
+
+
+
+
+    const handleDeleteComment = (commentId: string) => {
+        if (props.boardId && window.confirm("댓글을 삭제하시겠습니까?")) {
+            deleteBoardComment(commentId).then((res) => {
+                if (res.status === 200) {
+                    props.handleGetBoardComment(props.boardId);
+                    alert("댓글이 삭제되었습니다.");
+                    handleGetChildrenComment();
+
+                }
+            }).catch((err) => {
+                alert("댓글 삭제에 실패했습니다.");
+            });
+        }
+    };
+    const handleToggleOpenReply = useCallback(() => {
+        setIsReplyOpen(!isReplyOpen);
+        if (!isReplyOpen) {
+            handleGetChildrenComment();
+        }
+    }, [isReplyOpen]);
+
+    const handleGetChildrenComment = useCallback(() => {
+        getChildrenComment(props.boardId.toString(), props.comment.id.toString()).then((res) => {
+            if (res.status === 200) {
+                setChildrenComments(res.data);
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, [isReplyOpen]);
+
+
+    return (
+        <Box id={"comment-" + props.comment.id} sx={{paddingTop: "20px", position: "relative"}}>
+            <Box sx={{display: "flex", alignItems: "center", flexDirection: "row"}}>
+                <Avatar src={props.comment.userProfileImgUrl} sx={{width: "25px", height: "25px"}}/>
+                <Typography sx={{
+                    fontSize: "15px",
+                    fontWeight: "bold",
+                    fontFamily: "Core Sans",
+                    marginLeft: "10px",
+                }}>{props.comment.userNickname}</Typography>
+                <Typography sx={{
+                    fontSize: "12px",
+                    marginLeft: "10px",
+                    color: "gray"
+                }}> {props.comment.createdAt}</Typography>
+                {props.user && props.user.userId === props.comment.userId &&
+                    <Box sx={{display: "flex", marginLeft: "auto", alignItems: "center"}}>
+                        <Button sx={commentButtonStyle} onClick={handleToggleEdit}>{isEditOpen ? "취소" : "수정"}</Button>
+                        <Button sx={commentButtonStyle} onClick={(e) => {
+                            handleDeleteComment(props.comment.id.toString());
+                        }}>삭제</Button>
+                    </Box>}
+
+            </Box>
+            <Box sx={{
+                marginTop: "10px",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                width: "100%",
+            }}>
+                {!isEditOpen && commentContent}
+                {isEditOpen &&
+                    <Box sx={{width: "100%"}} component={"form"} onSubmit={handleSubmit(onValidUpdateComment)}>
+                        <Paper sx={{width: "100%", padding: "10px", borderRadius: "10px"}}>
+                            <InputBase {...register("commentContent")} multiline
+                                       defaultValue={props.comment.commentContent}
+                                       sx={{width: "100%", fontSize: "15px", fontFamily: "Core Sans"}}/>
+                        </Paper>
+                        <Box sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            marginTop: "5px",
+                            width: "100%"
+                        }}>
+                            <Typography sx={{
+                                color: "red",
+                                fontSize: "12px",
+                            }}>{errors.commentContent ? errors.commentContent.message : " "}</Typography>
+                            <Button sx={commentButtonStyle} type="submit" style={{marginRight: "auto"}}>
+                                수정하기
+                            </Button>
+                            <Box/>
+                        </Box>
+                    </Box>
+                }
+                <Box sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    flexDirection: "row",
+                    marginTop: "5px",
+                    width: "100%"
+                }}>
+                    <Button sx={commentButtonStyle}
+                            onClick={handleToggleOpenReply}>답글 {childrenComments?.length}개</Button>
+                    <FormControlLabel sx={{scale: "0.7", marginLeft: "0px"}}
+                                      id={"comment-like-" + props.comment.id}
+                                      control={<Checkbox color={"error"} checkedIcon={<Favorite/>}
+                                                         icon={<FavoriteBorder/>}/>}
+                                      checked={isLiked} label={
+                        <LikeCountWrapper id={"comment-like-count-" + props.comment.id}>
+                            {props.comment.commentLikeCount}
+                        </LikeCountWrapper>} onClick={(e) => {
+                        handleCommentLike(props.boardId, props.comment.id.toString());
+                    }}/>
+                </Box>
+                <Box id={"comment-reply-" + props.comment.id}>
+                </Box>
+                <Grow in={isReplyOpen} mountOnEnter unmountOnExit>
+                    <Box>
+                        <ReplyInsertForm boardId={props.boardId} handleGetBoardComment={props.handleGetBoardComment}
+                                            handleGetChildrenComment={handleGetChildrenComment} commentId={props.comment.id.toString()}
+                                            user={props.user}
+                        />
+                        <Box>
+                            {childrenComments?.map((reply: CommentListDataComments) => {
+                                return (
+                                    <ReplyList comment={reply} user={props.user}
+                                               handleGetBoardComment={props.handleGetBoardComment}
+                                               boardId={props.boardId} handleDeleteComment={handleDeleteComment}
+                                               isLiked={commentLikeLog.includes(reply.id)} key={reply.id}
+                                               handleGetChildrenComment={handleGetChildrenComment}/>
+                                );
+                            })}
+                        </Box>
+                    </Box>
+                </Grow>
+            </Box>
+        </Box>
+    );
+};
+
+const ReplyInsertForm = (props:{boardId:string,handleGetBoardComment:(boardId:string)=>void, handleGetChildrenComment:()=>void,commentId:string,user:UserDetail}) => {
+    const {register, handleSubmit, formState: {errors}, setValue} = useForm<CommentForm>({
+        mode: "onChange",
+        resolver: yupResolver(schema)
+    });
+
+    const handlePostChildrenComment = (commentId: string, boardId: string, data: CommentForm) => {
+        if (!props.user.userId) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+        postChildrenComment(commentId, boardId, data).then((res) => {
+            if (res.status === 200) {
+                props.handleGetBoardComment(props.boardId);
+                props.handleGetChildrenComment();
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
+    const handleValidPostChildrenComment = (data: CommentForm) => {
+        handlePostChildrenComment(props.commentId, props.boardId, data);
+        setValue("commentContent", "");
+    };
+
+    return (
+        <form onSubmit={handleSubmit(handleValidPostChildrenComment)} style={{width: "100%"}}>
+            <CommentContainer>
+                <InputBase sx={{width: "100%"}}
+                           placeholder={props.user.userId ? "답글을 입력하세요." : "로그인이 필요합니다."}
+                           id={"comment-input"} {...register("commentContent")}
+                           disabled={!props.user.userId}/>
+                <IconButton type="submit" disabled={!props.user.userId}>
+                    <SendIcon/>
+                </IconButton>
+            </CommentContainer>
+            <Typography sx={{
+                color: "red",
+                fontSize: "12px",
+                marginLeft: "10px",
+                textAlign: "left",
+                marginTop: "5px"
+            }}>{errors.commentContent ? errors.commentContent.message : " "}</Typography>
+        </form>
+    )
+}
+
+const ReplyList = (props
+                       : {
+    comment: CommentListDataComments, user: UserDetail, handleGetBoardComment: (boardId: string) => void, boardId: string,
+    handleDeleteComment: (boardId: string) => void, isLiked: boolean, handleGetChildrenComment: () => void
+}) => {
+    const [isEdit, setIsEdit] = useState(false);
+    const [isLiked, setIsLiked] = useState(props.isLiked);
+    const commentContent = props.comment.commentContent.split("\n").map((line, index) => {
+        return (
+            <Typography sx={{
+                fontSize: "15px",
+                fontFamily: "Core Sans",
+                textAlign: "left"
+            }} key={index}>
+                {line}
+                {index !== props.comment.commentContent.split("\n").length - 1 ? <br/> : null}
+            </Typography>
+        );
+    });
+
+    const handleCommentLike = (boardId: string, commentId: string) => {
+        if (boardId) {
+            postCommentLike(boardId, commentId).then((res) => {
+                if (res.status === 200) {
+                    setIsLiked(!isLiked);
+                    const dom = document.getElementById("comment-like-count-" + commentId);
+                    if (dom) {
+                        dom.innerText = res.data.toString();
+                    }
+                }
+            }).catch((err) => {
+                alert("댓글 좋아요에 실패했습니다.");
+            });
+        }
+    };
+
+    const handleToggleEdit = useCallback(() => {
+        setIsEdit(!isEdit);
+    }, [isEdit]);
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: {errors},
+    } = useForm<CommentForm>({
+        mode: "onChange",
+        resolver: yupResolver(schema),
+    });
+
+
+    const handleUpdateComment = (commentId: string, data: CommentForm) => {
+        if (props.boardId && props.user && props.user.userId === props.comment.userId) {
+            if (window.confirm("수정하시겠습니까?")) {
+                putBoardComment(commentId, props.boardId, data).then((res) => {
+                    if (res.status === 200) {
+                        props.handleGetBoardComment(props.boardId);
+                        alert("댓글이 수정되었습니다.");
+                        setIsEdit(false);
+                        props.handleGetChildrenComment();
+                    }
+                }).catch((err) => {
+                    alert("댓글 수정에 실패했습니다.");
+                });
+            }
+        } else {
+            alert("댓글 수정 권한이 없습니다.");
+        }
+    };
+
+    const onValidUpdateComment = (data: CommentForm) => {
+        handleUpdateComment(props.comment.id.toString(), data);
+    };
+
+
+    return (
+        <Box id={"comment-" + props.comment.id} sx={{paddingTop: "20px", paddingLeft: "20px"}}>
+            <Box sx={{display: "flex", alignItems: "center", flexDirection: "row"}}>
+                <Avatar src={props.comment.userProfileImgUrl} sx={{width: "25px", height: "25px"}}/>
+                <Typography sx={{
+                    fontSize: "15px",
+                    fontWeight: "bold",
+                    fontFamily: "Core Sans",
+                    marginLeft: "10px",
+                }}>{props.comment.userNickname}</Typography>
+                <Typography sx={{
+                    fontSize: "12px",
+                    marginLeft: "10px",
+                    color: "gray"
+                }}> {props.comment.createdAt}</Typography>
+                {props.user && props.user.userId === props.comment.userId &&
+                    <Box sx={{display: "flex", marginLeft: "auto", alignItems: "center"}}>
+                        <Button sx={commentButtonStyle} onClick={handleToggleEdit}>{isEdit ? "취소" : "수정"}</Button>
+                        <Button sx={commentButtonStyle} onClick={(e) => {
+                            props.handleDeleteComment(props.comment.id.toString());
+                        }}>삭제</Button>
+                    </Box>}
+
+            </Box>
+            <Box sx={{
+                marginTop: "10px",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                width: "100%",
+            }}>
+                {!isEdit && commentContent}
+                {isEdit &&
+                    <Box sx={{width: "100%"}} component={"form"} onSubmit={handleSubmit(onValidUpdateComment)}>
+                        <Paper sx={{width: "100%", padding: "10px", borderRadius: "10px"}}>
+                            <InputBase {...register("commentContent")} multiline
+                                       defaultValue={props.comment.commentContent}
+                                       sx={{width: "100%", fontSize: "15px", fontFamily: "Core Sans"}}/>
+                        </Paper>
+                        <Box sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            marginTop: "5px",
+                            width: "100%"
+                        }}>
+                            <Typography sx={{
+                                color: "red",
+                                fontSize: "12px",
+                            }}>{errors.commentContent ? errors.commentContent.message : " "}</Typography>
+                            <Button sx={commentButtonStyle} type="submit" style={{marginRight: "auto"}}>
+                                수정하기
+                            </Button>
+                            <Box/>
+                        </Box>
+                    </Box>
+                }
+            </Box>
+            <Box sx={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                marginTop: "10px"
+            }}>
+                <FormControlLabel sx={{scale: "0.7"}}
+                                  id={"comment-like-" + props.comment.id}
+                                  control={<Checkbox color={"error"} checkedIcon={<Favorite/>}
+                                                     icon={<FavoriteBorder/>}/>}
+                                  checked={isLiked} label={
+                    <LikeCountWrapper id={"comment-like-count-" + props.comment.id}>
+                        {props.comment.commentLikeCount}
+                    </LikeCountWrapper>} onClick={(e) => {
+                    handleCommentLike(props.boardId, props.comment.id.toString());
+                }}/>
+            </Box>
+        </Box>
+    );
+
+};
 
 
 export const BoardDetail = () => {
@@ -242,20 +671,6 @@ export const BoardDetail = () => {
     const [bestComments, setBestComments] = useState<ContentFlowProps[]>([]);
     const [isBoardDetailError, setIsBoardDetailError] = useState<boolean>(false);
     const isLoading = useSelector((state: RootState) => state.app.isLoading);
-
-
-    const handleGetBoardComment = useCallback((boardId: string) => {
-        setIsCommentLoading(true);
-        getBoardComment(boardId).then((res) => {
-            setCommentData(res.data);
-            setIsCommentError(false);
-            setIsCommentLoading(false);
-            handleSetBestComment(res.data);
-        }).catch((err) => {
-            setIsCommentError(true);
-            setIsCommentLoading(false);
-        });
-    }, []);
 
 
     const handleSetBestComment = useCallback((commentList: CommentListData) => {
@@ -317,33 +732,19 @@ export const BoardDetail = () => {
         }
     };
 
-    const handleCommentLike = (boardId: string, commentId: string) => {
-        if (boardId) {
-            postCommentLike(boardId, commentId).then((res) => {
-                if (res.status === 200) {
-                    const dom = document.getElementById("comment-like-count-" + commentId);
-                    if (dom) {
-                        dom.innerText = res.data.toString();
-                    }
-                }
-            }).catch((err) => {
-                alert("댓글 좋아요에 실패했습니다.");
-            });
-        }
-    };
+    const handleGetBoardComment = useCallback((boardId: string) => {
+        setIsCommentLoading(true);
+        getBoardComment(boardId).then((res) => {
+            setCommentData(res.data);
+            setIsCommentError(false);
+            setIsCommentLoading(false);
+            handleSetBestComment(res.data);
+        }).catch((err) => {
+            setIsCommentError(true);
+            setIsCommentLoading(false);
+        });
+    }, []);
 
-    const handleDeleteComment = (commentId: string) => {
-        if (boardId && window.confirm("댓글을 삭제하시겠습니까?")) {
-            deleteBoardComment(commentId).then((res) => {
-                if (res.status === 200) {
-                    handleGetBoardComment(boardId);
-                    alert("댓글이 삭제되었습니다.");
-                }
-            }).catch((err) => {
-                alert("댓글 삭제에 실패했습니다.");
-            });
-        }
-    };
 
     const handleDeleteBoard = (boardId: string) => {
         if (window.confirm("게시글을 삭제하시겠습니까?")) {
@@ -372,7 +773,7 @@ export const BoardDetail = () => {
         if (typeof boardId === "string") {
             navigate(BOARD_UPDATE_FORM_ROUTE.replace("{boardId}", boardId).replace("{boardType}", boardType));
         }
-    }
+    };
 
 
     const handleNavigateToBoardList = () => {
@@ -380,7 +781,7 @@ export const BoardDetail = () => {
     };
 
     const handleNavigateToBoardInsert = () => {
-        navigate(BOARD_INSERT_FORM_ROUTE);
+        navigate(BOARD_INSERT_FORM_ROUTE + "?boardType=" + boardType + "&request=add");
     };
     const handleCommentSubmit = (data: CommentForm) => {
         if (user && boardId) {
@@ -396,7 +797,6 @@ export const BoardDetail = () => {
 
         }
     };
-
 
 
     const onInvalid = (errors: any) => {
@@ -415,21 +815,23 @@ export const BoardDetail = () => {
                     </Box>
                     <BoardDetailContainer>
                         <TagContainer>
-                            <Chip label={getBoardType(boardData?.article?.boardType)} size={"small"} color={"primary"} sx={{fontWeight:"bold"}}
+                            <Chip label={getBoardType(boardData?.article?.boardType)} size={"small"} color={"primary"}
+                                  sx={{fontWeight: "bold"}}
                                   clickable/>
-                            {boardData?.article?.hashtags?.map((hashtag,index) => (
-                                <Chip key={index} label={"#" + hashtag} size={"small"} color={"default"} sx={{fontWeight:"bold"}}/>
+                            {boardData?.article?.hashtags?.map((hashtag, index) => (
+                                <Chip key={index} label={"#" + hashtag} size={"small"} color={"default"}
+                                      sx={{fontWeight: "bold"}}/>
                             ))}
                             {boardData?.article?.character && <Chip avatar={
                                 <Avatar src={boardData?.article?.character?.characterImageUrl} sx={{
-                                    fontWeight: "bold",
                                     "& > img": {
                                         objectFit: "cover",
                                         objectPosition: "center",
                                         height: "400%",
                                     }
                                 }}/>
-                            } label={boardData?.article?.character?.characterName} size={"small"} color={"default"}/>}
+                            } label={boardData?.article?.character?.characterName} sx={{fontWeight: "bold",}}
+                                                                    size={"small"} color={"default"}/>}
                         </TagContainer>
                         <BoardTitleWrapper>
                             {boardData?.article?.boardTitle}
@@ -475,18 +877,25 @@ export const BoardDetail = () => {
                         </Box>
                         <Divider sx={{marginTop: "10px", marginBottom: "10px"}}/>
                         <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", marginLeft: "auto"}}>
-                            <Button sx={{marginRight: "10px"}}>목록</Button>
-                            <Button>글 쓰기</Button>
+                            <Button sx={{marginRight: "10px"}} onClick={handleNavigateToBoardList}>
+                                <Typography sx={{fontSize: "14px", fontWeight: "bold", fontFamily: "Core Sans"}}
+                                            color={"black"} component={"span"}>돌아가기</Typography>
+                            </Button>
+                            <Button onClick={handleNavigateToBoardInsert}>
+                                <Typography sx={{fontSize: "14px", fontWeight: "bold", fontFamily: "Core Sans"}}
+                                            color={"black"} component={"span"}>글쓰기</Typography>
+                            </Button>
                         </Box>
                         <ContentFlow data={bestComments} handleNavigate={handleBestCommentNavigate}
                                      flowTitle={<BestCommentTitle>베스트</BestCommentTitle>} chipColor={"default"}
                                      noDataWrapper={<BestCommentNoDataWrapper/>}/>
                         <BoardWriterWrapper sx={{fontSize: "14px", marginLeft: 0, paddingBottom: "10px"}}>
                             댓글 {commentData?.comments?.length}개
-                            <CircularProgress size={18} sx={{
+                            <CircularProgress size={15} sx={{
                                 display: isCommentLoading ? "block" : "none",
                                 marginLeft: "10px",
-                                justifyContent: "center"
+                                justifyContent: "center",
+                                alignItems: "center"
                             }}/>
                         </BoardWriterWrapper>
                         <Box>
@@ -510,7 +919,8 @@ export const BoardDetail = () => {
                                     <InputBase sx={{width: "100%"}}
                                                placeholder={user.userId ? "댓글을 입력하세요." : "로그인이 필요합니다."} {...register("commentContent")}
                                                id={"comment-input"}
-                                               disabled={!user.userId}/>
+                                               disabled={!user.userId}
+                                               multiline/>
                                     <IconButton type="submit" disabled={!user.userId}>
                                         <SendIcon/>
                                     </IconButton>
@@ -520,68 +930,16 @@ export const BoardDetail = () => {
                                 fontSize: "12px",
                                 color: "red",
                                 textAlign: "left",
-                                marginTop: "10px"
+                                marginTop: "5px"
                             }}>{errors.commentContent?.message}</Typography>
                         </Box>
                         <Box>
                             {commentData?.comments?.map((comment, index) => (
-                                <Box key={index} id={"comment-" + comment.id} sx={{paddingTop: "20px"}}>
-                                    <Box sx={{display: "flex", alignItems: "center", flexDirection: "row"}}>
-                                        <Avatar src={comment.userProfileImgUrl} sx={{width: "25px", height: "25px"}}/>
-                                        <Typography sx={{
-                                            fontSize: "15px",
-                                            fontWeight: "bold",
-                                            fontFamily: "Core Sans",
-                                            marginLeft: "10px",
-                                        }}>{comment.userNickname}</Typography>
-                                        <Typography sx={{
-                                            fontSize: "12px",
-                                            marginLeft: "10px",
-                                            color: "gray"
-                                        }}> {comment.createdAt}</Typography>
-                                        {user && user.userId === comment.userId &&
-                                            <Box sx={{display: "flex", marginLeft: "auto", alignItems: "center"}}>
-                                                <Button sx={commentButtonStyle}>수정</Button>
-                                                <Button sx={commentButtonStyle} onClick={(e) => {
-                                                    handleDeleteComment(comment.id.toString());
-                                                }}>삭제</Button>
-                                            </Box>}
-
-                                    </Box>
-                                    <Box sx={{
-                                        marginTop: "10px",
-                                        justifyContent: "flex-start",
-                                        alignItems: "center",
-                                        width: "100%",
-                                    }}>
-                                        <Typography sx={{
-                                            fontSize: "15px",
-                                            fontFamily: "Core Sans",
-                                            textAlign: "left"
-                                        }}>{comment.commentContent}</Typography>
-                                    </Box>
-                                    <Box sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        flexDirection: "row",
-                                        marginTop: "10px"
-                                    }}>
-                                        <Button sx={commentButtonStyle}>답글</Button>
-                                        <FormControlLabel sx={{scale: "0.7", marginLeft: "5px"}}
-                                                          id={"comment-like-" + comment.id}
-                                                          control={<Checkbox color={"error"} checkedIcon={<Favorite/>}
-                                                                             icon={<FavoriteBorder/>}/>}
-                                                          checked={commentData.likeResponses.includes({
-                                                              id: comment.id,
-                                                              isLike: true
-                                                          })} label={
-                                            <LikeCountWrapper id={"comment-like-count-" + comment.id}>
-                                                {comment.commentLikeCount}
-                                            </LikeCountWrapper>} onClick={(e) => {
-                                            handleCommentLike(boardData?.article?.id.toString(), comment.id.toString());
-                                        }}/>
-                                    </Box>
-                                </Box>
+                                comment.isParent &&
+                                <CommentList  key={comment.id} comment={comment} user={user}
+                                             handleGetBoardComment={handleGetBoardComment}
+                                             boardId={boardId ? boardId : "0"}
+                                             likeResponse={commentData.likeResponses}/>
                             ))}
                         </Box>
                     </BoardDetailContainer>

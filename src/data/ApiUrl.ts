@@ -24,6 +24,12 @@ export const BOARD_COMMENT_POST_URL = "/comments";
 
 export const BOARD_COMMENT_DELETE_URL = "/comments?commentId=";
 
+export const BOARD_COMMENT_UPDATE_URL = "/comments";
+
+export const BOARD_COMMENT_CHILDREN_POST_URL = "/comments?parentId=";
+
+export const BOARD_COMMENT_CHILDREN_GET_URL = "/comments/{boardId}/{commentId}";
+
 export const CHARACTER_DETAIL_URL = "/characters/detail";
 
 export const CHARACTER_SEARCH_URL = "/characters/";
