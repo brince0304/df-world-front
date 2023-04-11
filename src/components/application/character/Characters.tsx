@@ -6,8 +6,8 @@ import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useAppDispatch} from "../../../redux/store";
-import {Card, Container, Grid} from "@mui/material";
-import {CHARACTER_SEARCH_URL} from "../../../data/ApiUrl";
+import {Card, Container, Grid, Pagination} from "@mui/material";
+import {BOARD_LIST_URL, CHARACTER_SEARCH_URL} from "../../../data/ApiUrl";
 
 
 
@@ -287,6 +287,11 @@ export const Characters = () => {
     const characterName = searchParams.get('name');
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+
+
+    const handleChangePage = (e: React.ChangeEvent<unknown>, newPage: number) => {
+        navigate(`/characters/${serverId}?page=${newPage-1}&name=${characterName?characterName:""}`);
+    };
     const onClickHandler = (e: React.MouseEvent) => {
         const characterId = e.currentTarget.getAttribute("data-id");
         const serverId = e.currentTarget.getAttribute("data-server");
@@ -309,6 +314,7 @@ export const Characters = () => {
                 <ResultTitleFooterWrapper>
                     님의 검색결과
                 </ResultTitleFooterWrapper>
+                <Pagination count={data.totalPages} page={data.number+1} onChange={handleChangePage} color="primary" />
 
             </ResultTitleWrapper>
             <Grid container spacing={3}>

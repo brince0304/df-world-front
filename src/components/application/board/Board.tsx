@@ -1,6 +1,6 @@
 import {TableCustom} from "../ui/TableCustom";
 import {useParams, useNavigate, useLocation, useNavigation} from "react-router";
-import React, {ReactNode, useCallback, useEffect, useState} from "react";
+import React, {MouseEventHandler, ReactNode, useCallback, useEffect, useState} from "react";
 import {BoardListData} from "../../../interfaces/BoardListData";
 import axios from "axios";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import {faChevronRight, faComment, faExclamationTriangle, faXmark} from "@fortaw
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SpeedDial, {boardSelectOptions} from "./BoardSpeedDial";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import InfoIcon from '@mui/icons-material/Info';
 
 
 import {
@@ -79,6 +80,8 @@ const BoardBody = (props: BoardListData) => {
         )
     );
 };
+
+
 
 const SelectOptions = [
     {value: "title", label: "제목"},
@@ -234,10 +237,16 @@ export const BestArticleNoDataWrapper = () => {
 };
 
 
-const CharacterContent = (props: { characterName: string, serverId: string, characterImgUrl: string, adventureName: string }) => {
+const CharacterContent = (props: { characterName: string, serverId: string, characterImgUrl: string, adventureName: string,characterId:string }) => {
+    let navigate = useNavigate();
+    const handleNavigateToCharacterDetail = (e:React.MouseEvent) => {
+        e.stopPropagation();
+        navigate(`/details/?characterId=${props.characterId}&serverId=${props.serverId}`);
+    }
     return (
         <Box sx={{
             display: "flex",
+            position:"relative",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
@@ -245,6 +254,9 @@ const CharacterContent = (props: { characterName: string, serverId: string, char
             height: "100%",
             gap: "2px",
         }}>
+            <IconButton sx={{position:"absolute", top:0 , right:0}} onClick={handleNavigateToCharacterDetail} >
+                <InfoIcon/>
+            </IconButton>
             <Avatar src={props.characterImgUrl} sx={{width: "100px", height: "100px"}} variant="rounded"/>
             <Typography fontFamily={"Core Sans"} fontSize={"13px"}>{props.characterName}</Typography>
             <Typography fontFamily={"Core Sans"} fontSize={"12px"}>{props.adventureName}</Typography>
@@ -447,6 +459,13 @@ const Board = () => {
             setIsLoading(false);
         });
     };
+    const handleNavigateToDetail = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+        const id = e.currentTarget.getAttribute("data-id");
+        if (id) {
+            navigate(`/boards/${id}`);
+        }
+    }
     useEffect(() => {
             handleGetBoardList(BOARD_LIST_URL + `?boardType=${boardType}&page=${page}&searchType=${searchType}&keyword=${keyword}`);
             getBestArticles(BOARD_BEST_ARTICLE_URL + `${boardType}`, BOARD_LIST_URL, setBestArticleData);
@@ -501,8 +520,8 @@ const Board = () => {
                 }
                 {isLoading && <BoardSkeleton/>}
                 {!isLoading && data?.content?.map((item) => (
-                        <ListItemButton key={item.id} onClick={() => navigate(`/boards/${item.id}`)}
-                                        sx={{width: "100%", border: "0.2px solid #e0e0e0"}}>
+                        <ListItemButton key={item.id} onClick={handleNavigateToDetail} sx={{width: "100%", border: "0.2px solid #e0e0e0"}}
+                                        data-id={item.id}>
                             <BoardContainer>
                                 <BoardTagContainer>
                                     <Chip label={getBoardType(item.boardType)} color="info" clickable={true}
@@ -511,7 +530,7 @@ const Board = () => {
                                     {item.hashtags.map((tag, index) => (
                                         <Tooltip key={index} title={isHashtagLoading ? <HashtagLoading/> : hashtagContent}
                                                  placement="top"
-                                                 data-tag={tag}
+                                                 data-tag={tag} disableInteractive
                                                  onMouseOver={handleGetBoardCountByHashtagName}>
                                             <Chip label={"#" + tag} color="default" clickable={true}
                                                   sx={{fontSize: "10px", fontWeight: "bold"}} size="small" data-tag={tag}
@@ -522,7 +541,8 @@ const Board = () => {
                                         <Tooltip title={<CharacterContent characterName={item.character.characterName}
                                                                           serverId={item.character.serverId}
                                                                           characterImgUrl={item.character.characterImageUrl}
-                                                                          adventureName={item.character.adventureName}/>}
+                                                                          adventureName={item.character.adventureName}
+                                        characterId={item.character.characterId} />}
                                                  placement="top">
                                             <Chip avatar={<Avatar src={item.character?.characterImageUrl} sx={{
                                                 fontSize: "10px",

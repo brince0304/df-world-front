@@ -225,7 +225,11 @@ const boardCategory = [
     },
     {
         name: "사건/사고",
-        id: "REPORT"
+        id: "REPORT",
+    },
+    {
+        name: "공지",
+        id: "NOTICE",
     }];
 
 const toolbarItems = [
@@ -251,12 +255,11 @@ export const WriteBoard = () => {
     let navigate = useNavigate();
     const searchParams = new URLSearchParams(location.search);
     const [content, setContent] = useState("");
-    const [boardType, setBoardType] = useState("FREE");
-    const [boardTypeLabel, setBoardTypeLabel] = useState(boardType ? getBoardType(boardType) : "자유");
     const isLogin = useSelector((state: RootState) => state.login.isLogin);
     const userDetail = useSelector((state: RootState) => state.login.user);
     const type = searchParams.get("request");
-    const boardTypeParam = searchParams.get("type");
+    const boardTypeParam = searchParams.get("boardType");
+    const [boardType, setBoardType] = useState(boardTypeParam === 'ALL' ? 'FREE' : boardTypeParam);
     const boardId = searchParams.get("boardId");
     const dispatch = useAppDispatch();
     //캐릭터 검색용 state
@@ -275,13 +278,10 @@ export const WriteBoard = () => {
     }, []);
     const [data, setData] = useState<Content[]>([]);
     const [isCharacterSearchLoading, setIsCharacterSearchLoading] = useState(false);
-    const handleClick = (e: React.MouseEvent) => {
-        const target = e.currentTarget.getAttribute("data-id");
-        if (target === "캐릭터 등록") {
-            setCharacterSearchModalIsOpened(true);
-        } else if (target === "뒤로가기") {
-            navigate(-1);
-        }
+
+
+    const handleNavigateBack = () => {
+        navigate(-1);
     };
 
     const handleSetBoardForm = (boardId: string, tuiEditor: EditorCore, tagify: Tagify<never>) => {
@@ -294,7 +294,6 @@ export const WriteBoard = () => {
             setValue("boardTitle", res.data.article.boardTitle);
             setValue("boardContent", res.data.article.boardContent);
             setValue("hashtag", res.data.article.hashtag);
-            setBoardTypeLabel(getBoardType(res.data.article.boardType));
             if (res.data.article.character) {
                 setValue("characterId", res.data.article.character.characterId);
                 setValue("serverId", res.data.article.character.serverId);
@@ -440,14 +439,6 @@ export const WriteBoard = () => {
             }
             tagify.loading(false);
         });
-
-
-        if (boardTypeParam) {
-            setBoardType(boardTypeParam);
-            setBoardTypeLabel(getBoardType(boardTypeParam));
-            const boardTypeSelect = document.getElementById("boardTypeSelect") as HTMLSelectElement;
-            boardTypeSelect.value = boardTypeParam;
-        }
         return () => {
             tagify.destroy();
             tuieditor.destroy();
@@ -516,7 +507,7 @@ export const WriteBoard = () => {
                     <FormControl sx={{width: "30%", height: "100%"}} variant={"standard"}>
                         <InputLabel>카테고리</InputLabel>
                         <Select
-                            value={boardType === "ALL" ? "" : boardType}
+                            defaultValue={boardType}
                             label="카테고리"
                             {...register("boardType")}
                             id="boardTypeSelect"
@@ -597,7 +588,7 @@ export const WriteBoard = () => {
                         color: "white",
                         fontWeight: "bold"
                     }} type="submit">{type === "add" ? "작성" : "수정"}</Button>
-                    <Button variant={"contained"} sx={{
+                    <Button variant={"contained"} onClick={handleNavigateBack} sx={{
                         width: "100px",
                         height: "40px",
                         backgroundColor: "#3f51b5",
