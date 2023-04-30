@@ -1,19 +1,19 @@
 import {useLocation, useParams} from "react-router";
 import React, {useEffect, useState} from "react";
 import {getCharacters} from "../../../api/character/getCharacters";
-import {CharactersData} from "../../../interfaces/CharactersData";
+import {CharactersData, Content} from "../../../interfaces/CharactersData";
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useAppDispatch} from "../../../redux/store";
-import {Card, Container, Grid, Pagination} from "@mui/material";
+import {Card, Container, Grid, IconButton, Pagination} from "@mui/material";
 import {BOARD_LIST_URL, CHARACTER_SEARCH_URL} from "../../../data/ApiUrl";
-
-
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 const CharacterCard = styled(Card)`
     display: flex;
   overflow: hidden;
+  position:relative;
     flex-direction: column;
     width: 100%;
     height: 100%;
@@ -276,6 +276,65 @@ const ResultTitleFooterWrapper = styled.div`
     margin: 5px;
   `;
 
+export const CharacterList = (props:{data:Content[], onClick: (e:React.MouseEvent)=>void,deletable?:boolean,adventure?:boolean}) => {
+    return (
+        <Grid container spacing={3}>
+            {props.data.map((character,index:number) => {
+                return (
+                    <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
+                        <CharacterCard key={index} data-id={character.characterId} data-server={character.serverId} onClick={props.onClick} >
+                            {props.deletable && <IconButton style={{position:"absolute",right:"-5px",top:"-5px",zIndex:100,color:"#FF4949"}}><RemoveCircleIcon/></IconButton>}
+                            <CharacterCardHeader>
+                                <CharacterJobNameBadgeWrapper>
+                                    {character.jobGrowName}
+                                </CharacterJobNameBadgeWrapper>
+                                <CharacterServerNameBadgeWrapper>
+                                    {character.serverName}
+                                </CharacterServerNameBadgeWrapper>
+                            </CharacterCardHeader>
+                            <CharacterImgWrapper>
+                                <img src={character.characterImgPath} alt={character.characterName}/>
+                            </CharacterImgWrapper>
+                            <CharacterDetailsContainer>
+                                <CharacterAdventureFameWrapper>
+                                    <img id="rankIcon" src={require('../../../assets/img/rankingtable/icon_status_fame.png')} alt="icon"
+                                         style={{width: "15px", height: "15px", marginRight:"5px"}}/>
+                                    <span style={{  color: "#CA955C"}}>{character.adventureFame}</span>
+                                </CharacterAdventureFameWrapper>
+                                <CharacterNameWrapper>
+                                    {character.characterName}
+                                </CharacterNameWrapper>
+                                <CharacterAdventureNameWrapper>
+                                    {props.adventure && character.adventureName?`내 모험단 (${character.adventureName})`:" \u00A0"}
+                                    {!props.adventure && character.adventureName?`${character.adventureName}`:" \u00A0"}
+                                </CharacterAdventureNameWrapper>
+                                <CharacterStatContainer>
+                                    <CharacterStatWrapper>
+                                        <StatTitleBadgeWrapper>
+                                            버프력
+                                        </StatTitleBadgeWrapper>
+                                        <StatValueWrapper>
+                                            {character.buffPower? character.buffPower:"\u00A0"}
+                                        </StatValueWrapper>
+                                    </CharacterStatWrapper>
+                                    <CharacterStatWrapper>
+                                        <StatTitleBadgeWrapper style={{color:"darkred"}}>
+                                            피해증가
+                                        </StatTitleBadgeWrapper>
+                                        <StatValueWrapper>
+                                            {character.damageIncrease ? character.damageIncrease:"\u00A0"}
+                                        </StatValueWrapper>
+                                    </CharacterStatWrapper>
+                                </CharacterStatContainer>
+                            </CharacterDetailsContainer>
+                        </CharacterCard>
+                    </Grid>
+                )
+            })}
+        </Grid>
+    )
+}
+
 export const Characters = () => {
     let {serverId} = useParams();
     const [isError, setIsError] = useState(false);
@@ -287,8 +346,6 @@ export const Characters = () => {
     const characterName = searchParams.get('name');
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-
-
     const handleChangePage = (e: React.ChangeEvent<unknown>, newPage: number) => {
         navigate(`/characters/${serverId}?page=${newPage-1}&name=${characterName?characterName:""}`);
     };
@@ -315,60 +372,8 @@ export const Characters = () => {
                     님의 검색결과
                 </ResultTitleFooterWrapper>
                 <Pagination count={data.totalPages} page={data.number+1} onChange={handleChangePage} color="primary" />
-
             </ResultTitleWrapper>
-            <Grid container spacing={3}>
-            {data.content?.map((character,index:number) => {
-                return (
-                    <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
-                    <CharacterCard key={index} data-id={character.characterId} data-server={character.serverId} onClick={onClickHandler} >
-                        <CharacterCardHeader>
-                            <CharacterJobNameBadgeWrapper>
-                                {character.jobGrowName}
-                            </CharacterJobNameBadgeWrapper>
-                            <CharacterServerNameBadgeWrapper>
-                                {character.serverName}
-                            </CharacterServerNameBadgeWrapper>
-                        </CharacterCardHeader>
-                        <CharacterImgWrapper>
-                        <img src={character.characterImgPath} alt={character.characterName}/>
-                    </CharacterImgWrapper>
-                        <CharacterDetailsContainer>
-                            <CharacterAdventureFameWrapper>
-                                <img id="rankIcon" src={require('../../../assets/img/rankingtable/icon_status_fame.png')} alt="icon"
-                                     style={{width: "15px", height: "15px", marginRight:"5px"}}/>
-                                <span style={{  color: "#CA955C"}}>{character.adventureFame}</span>
-                            </CharacterAdventureFameWrapper>
-                            <CharacterNameWrapper>
-                               {character.characterName}
-                            </CharacterNameWrapper>
-                            <CharacterAdventureNameWrapper>
-                                {character.adventureName?character.adventureName:" \u00A0"}
-                            </CharacterAdventureNameWrapper>
-                            <CharacterStatContainer>
-                                <CharacterStatWrapper>
-                                    <StatTitleBadgeWrapper>
-                                        버프력
-                                    </StatTitleBadgeWrapper>
-                                    <StatValueWrapper>
-                                        {character.buffPower? character.buffPower:"\u00A0"}
-                                    </StatValueWrapper>
-                                </CharacterStatWrapper>
-                                <CharacterStatWrapper>
-                                    <StatTitleBadgeWrapper style={{color:"darkred"}}>
-                                        피해증가
-                                    </StatTitleBadgeWrapper>
-                                    <StatValueWrapper>
-                                    {character.damageIncrease ? character.damageIncrease:"\u00A0"}
-                                    </StatValueWrapper>
-                                </CharacterStatWrapper>
-                            </CharacterStatContainer>
-                        </CharacterDetailsContainer>
-                    </CharacterCard>
-                    </Grid>
-                )
-            })}
-            </Grid>
+            {data.content&& <CharacterList data={data.content} onClick={onClickHandler}/>}
         </Container>
     );
 }

@@ -2,6 +2,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {useNavigate} from "react-router-dom";
+import Box from "@mui/material/Box";
 const NoDataWrapper = styled.div`
       display: flex;
         flex-direction: column;
@@ -16,9 +18,23 @@ const NoDataWrapper = styled.div`
        grid-column-start: 1;
           grid-column-end: 3;
 `
+const StyledBox = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+        height: 100%;
+`;
+
+
+
+
+
 
 export const ErrorScreen = (props:{icon:IconProp,message:string;}) => {
+
     return (
-        <NoDataWrapper><FontAwesomeIcon icon={props.icon} size={"xl"}/>{props.message}</NoDataWrapper>
+            <NoDataWrapper><FontAwesomeIcon icon={props.icon} size={"xl"}/>{props.message}</NoDataWrapper>
     );
 }

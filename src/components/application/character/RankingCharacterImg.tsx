@@ -9,8 +9,8 @@ interface CharacterImgProps {
 }
 
 const CharacterImg = styled.img`
-  width: 80px;
-  height: 100px;
+  width: 120px;
+  height: 80px;
   scale: 3;
   transform: translateY(5px);
 `;
@@ -20,7 +20,7 @@ const ImgWrapper = styled.div`
   height: 100%;
   overflow: hidden;
   position: relative;
-  display: inline-block;
+  display: flex;
   margin-left: 20px;
 
 `

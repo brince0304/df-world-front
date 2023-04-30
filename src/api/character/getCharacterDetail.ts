@@ -1,14 +1,14 @@
 import  {RootState} from "../../redux/store";
 import createInstance from "../../common/axiosInstance";
-import {CharacterDetails} from "../../interfaces/CharacterDetails";
 import {pushSearchHistory, removeSearchHistory, setIsLoading, setProgress} from "../../redux";
 import {SearchOption} from "../../interfaces/SeachBox";
 import {Action, ThunkAction} from "@reduxjs/toolkit";
 import axios from "../../common/axiosInstance";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
+import {CharacterDetailJson} from "../../interfaces/CharacterDetailJson";
 
-export const getCharacterDetail = (url:string,setData:({}:CharacterDetails)=>void): ThunkAction<void, RootState, unknown, Action> => {
+export const getCharacterDetail = (url:string,setData:({}:CharacterDetailJson)=>void,setIsError:(isError:boolean)=>void): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch, getState) => {
         dispatch(setIsLoading(true));
         axios().get(url).then((res) => {
@@ -32,9 +32,11 @@ export const getCharacterDetail = (url:string,setData:({}:CharacterDetails)=>voi
             }
             dispatch(setIsLoading(false));
             setData(res.data);
+            setIsError(false);
         }).catch((err) => {
             dispatch(setIsLoading(false));
             setIsLoading(false);
+            setIsError(true);
         })
 }};
 

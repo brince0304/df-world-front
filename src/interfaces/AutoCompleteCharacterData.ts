@@ -7,5 +7,5 @@ export interface AutoCompleteCharacterData {
   jobGrowName: string;
   adventureName?: any;
   level: string;
-}; 
+}
 

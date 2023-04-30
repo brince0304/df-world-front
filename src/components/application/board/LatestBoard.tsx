@@ -150,7 +150,7 @@ const BoardList = (props: { data: BoardData[] }) => {
         <>{props.data.map((item, index: number) => (
                 <ListItemButton key={index} onClick={onClickHandler} data-id={item.id} sx={{display: "flex", flexDirection: "column", width: "100%",gap:"6px"}}>
                     <BoardTitle>
-                        <span>{item.boardTitle}</span>
+                        {item.boardTitle}
                     </BoardTitle>
                     <BoardFooter>
                         <NicknameCreatedAtContainer>
@@ -169,19 +169,19 @@ const BoardList = (props: { data: BoardData[] }) => {
                     <LikeCommentContainer>
                         <IconContainer>
                             <LikeCommentWrapper>
-                        <span><FavoriteBorderOutlined  style={{
+                        <Typography><FavoriteBorderOutlined  style={{
                             padding: "0 2px 0 5px",
                         }
-                        }/> {item.boardLikeCount}</span>
+                        }/> {item.boardLikeCount}</Typography>
                         </LikeCommentWrapper>
                             <LikeCommentWrapper>
-                        <span><ChatBubbleOutlineOutlined  style={{
+                        <Typography><ChatBubbleOutlineOutlined  style={{
                             padding: "0 2px 0 5px",
                         }
-                        }/> {item.commentCount}</span>
+                        }/> {item.commentCount}</Typography>
                             </LikeCommentWrapper>
                         </IconContainer>
-                        <span style={{justifyContent:"flex-end"}}>{item.createdAt}</span>
+                        <Typography sx={{justifyContent:"flex-end"}}>{item.createdAt}</Typography>
                     </LikeCommentContainer>
                 </ListItemButton>
             )

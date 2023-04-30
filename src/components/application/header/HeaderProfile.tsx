@@ -3,7 +3,7 @@ import {RootState, useAppDispatch, useAppSelector} from "../../../redux/store";
 import {useDispatch, useSelector} from "react-redux";
 import {useCallback, useState} from "react";
 import {toggleProfileOpened} from "../../../redux";
-import {Avatar, ListItemButton} from "@mui/material";
+import {Avatar, Button, ListItemButton} from "@mui/material";
 
 const Container = styled.div`
   display: flex;
@@ -70,12 +70,12 @@ export const HeaderProfile = () => {
         }, [dispatch, toggleProfileOpened]);
 
     return (
-        <ListItemButton onClick={handleProfileClick}>
+        <Button onClick={handleProfileClick}>
                 <Avatar src={userData?.profileImgPath} alt="profile" sx={{ width: 30, height: 30 ,backgroundColor:"white",border:"1px solid #f5f5f5"}}/>
             <ProfileNicknameWrapper>
                 <span style={{marginLeft: '10px'}}>{userData?.nickname}</span>
             </ProfileNicknameWrapper>
-        </ListItemButton>
+        </Button>
 
     );
 }

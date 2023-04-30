@@ -11,7 +11,6 @@ import {Characters} from "./components/application/character/Characters";
 import ReactLoading from "react-loading";
 import styled from 'styled-components';
 import {useSelector} from "react-redux";
-import {CharacterDetail} from "./components/application/character/CharacterDetail";
 import {CircularProgress, createTheme, LinearProgress, ThemeProvider} from "@mui/material";
 import {WriteBoard} from "./components/application/board/WriteBoard";
 import {BOARD_LIST_URL} from "./data/ApiUrl";
@@ -19,10 +18,24 @@ import {BoardDetail} from "./components/application/board/BoardDetail";
 import {Footer} from "./components/application/footer/Footer";
 import {BOARD_INSERT_FORM_ROUTE, BOARD_ROUTE} from "./data/routeLink";
 import {BadRequest} from "./components/application/error/BadRequest";
+import {CharacterDetail} from "./components/application/character/CharacterDetail";
+import {MyPage} from "./components/application/myPage/MyPage";
 
 
 
+const light = createTheme({
+    palette: {
+        mode: "light",
+    },
+});
 
+
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+});
 function App() {
     const isLoading = useSelector((state: RootState) => state.app.isLoading);
     const progress = useSelector((state: RootState) => state.app.progress);
@@ -42,6 +55,7 @@ function App() {
                     <Route path="/details/" element={<CharacterDetail />}></Route>
                     <Route path={BOARD_ROUTE} element={<BoardDetail />}></Route>
                     <Route path="/*" element={<BadRequest />}></Route>
+                    <Route path="/mypage/" element={<MyPage />}></Route>
                 </Routes>
                 <Footer />
             </div>

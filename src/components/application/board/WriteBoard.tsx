@@ -162,7 +162,7 @@ const CharacterDetailContainer = styled(Grid)`
 `;
 
 
-const CharactersList = (props: { data: Content[], handleClick: (characterId: string, serverId: string, characterName: string) => void }) => {
+export const CharactersListForModal = (props: { data: Content[], handleClick: (characterId: string, serverId: string, characterName: string) => void }) => {
     return (
         <Box sx={{
             width: "100%",
@@ -610,7 +610,7 @@ export const WriteBoard = () => {
                                   autoCompleteUrl={"/characters/autoComplete?name={searchValue}&serverId={selectValue}"}
                     />
                 </SearchBoxWrapper>
-                {data?.length > 0 && <CharactersList handleClick={handleSetCharacterDetails} data={data}/>}
+                {data?.length > 0 && <CharactersListForModal handleClick={handleSetCharacterDetails} data={data}/>}
                 {data?.length === 0 && !isCharacterSearchLoading &&
                     <ErrorScreen icon={faExclamationCircle} message={"검색 결과가 없습니다."}/>}
             </CharacterSearchModal>

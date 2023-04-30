@@ -26,9 +26,9 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     //props width
-    width: '300px',
+    width: '400px',
     height: 'auto',
-    bgcolor: 'background.paper',
+    bgcolor: '#252627',
     borderRadius: 2,
     boxShadow: 24,
     p: 1,
@@ -60,7 +60,7 @@ export const CloseButtonWrapper = styled.div`
   //우측 끝에 배치
   position: absolute;
   right: 10px;
-  top: 0px;
+  top: 10px;
   font-size: 25px;
   color:silver;
   cursor: pointer;
@@ -78,7 +78,8 @@ export const ModalBody = styled.div`
   width: 100%;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0;
+    padding: 0px 0;
+  background-color: #252627;
     `
 
 interface LoginModalProps {
@@ -100,6 +101,9 @@ export default function CharacterEquipmentModal (props:LoginModalProps) {
         >
             <Fade in={props.isOpened} unmountOnExit mountOnEnter>
                 <ModalBox sx={style}>
+                    <CloseButtonWrapper onClick={handleClose}>
+                        <FontAwesomeIcon icon={faXmark}/>
+                    </CloseButtonWrapper>
                     <ModalBody>
                         {props.children}
                     </ModalBody>

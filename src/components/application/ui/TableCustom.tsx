@@ -5,6 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import ReactLoading from "react-loading";
 import {Button, Card, IconButton, ListItemButton} from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 const TableContainer = styled(Card)`
   border: 1px solid #e5e5e5;
@@ -138,7 +139,7 @@ export function TableCustom(props: TableCustomProps) {
         <TableContainer>
             <TableHeader>
                 <TableTitleWrapper>
-                    <span>{props.title}</span>
+                    <Typography fontFamily={"Core Sans"}>{props.title}</Typography>
                     {props.isLoading &&
                         <ReactLoading type={"spinningBubbles"} color={"gray"} width={"25px"} height={"25px"}/>}
                 </TableTitleWrapper>

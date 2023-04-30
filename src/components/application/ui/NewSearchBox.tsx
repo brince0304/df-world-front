@@ -90,26 +90,26 @@ const HistoryOptionCell = styled(Box)`
   grid-template-columns: 40% 20% 25% 20%;
 `;
 
-const BoldNameWrapper = styled(Box)`
+const BoldNameWrapper = styled(Typography)`
   display: flex;
   font-weight: bold;
   color: black;
 `
 
-const ContentWrapper = styled(Box)`
+const ContentWrapper = styled(Typography)`
   display: flex;
   color: gray;
   font-size: 12px;
 `
 
 
-const LatestRemoveButtonWrapper = styled(Box)`
+const LatestRemoveButtonWrapper = styled(Typography)`
   display: flex;
   color: #939393;
   padding: 15px 15px;
 `
 
-const NoDataWrapper = styled(Box)`
+const NoDataWrapper = styled(Typography)`
   display: flex;
   justify-content: center;
   align-items: center;
