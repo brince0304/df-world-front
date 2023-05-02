@@ -6,7 +6,7 @@ import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useAppDispatch} from "../../../redux/store";
-import {Card, Container, Grid, IconButton, Pagination} from "@mui/material";
+import {Card, Container, Grid, IconButton, Pagination, Tooltip} from "@mui/material";
 import {BOARD_LIST_URL, CHARACTER_SEARCH_URL} from "../../../data/ApiUrl";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
@@ -276,14 +276,18 @@ const ResultTitleFooterWrapper = styled.div`
     margin: 5px;
   `;
 
-export const CharacterList = (props:{data:Content[], onClick: (e:React.MouseEvent)=>void,deletable?:boolean,adventure?:boolean}) => {
+export const CharacterList = (props:{data:Content[], onClick: (e:React.MouseEvent)=>void,deletable?:boolean,adventure?:boolean, onClickDeleteButton?:(e:React.MouseEvent)=>void}) => {
     return (
         <Grid container spacing={3}>
             {props.data.map((character,index:number) => {
                 return (
                     <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
                         <CharacterCard key={index} data-id={character.characterId} data-server={character.serverId} onClick={props.onClick} >
-                            {props.deletable && <IconButton style={{position:"absolute",right:"-5px",top:"-5px",zIndex:100,color:"#FF4949"}}><RemoveCircleIcon/></IconButton>}
+                            {props.deletable && props.onClickDeleteButton &&
+                                <Tooltip title={"캐릭터 삭제"} placement="top">
+                                <IconButton style={{position:"absolute",right:"-5px",top:"-5px",zIndex:100,color:"#FF4949"}} data-id={character.characterId} data-server={character.serverId}  onClick={props.onClickDeleteButton}><RemoveCircleIcon/></IconButton>
+                                </Tooltip>
+                            }
                             <CharacterCardHeader>
                                 <CharacterJobNameBadgeWrapper>
                                     {character.jobGrowName}

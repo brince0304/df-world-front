@@ -68,7 +68,7 @@ export const boardSelectOptions = {
 
  export default function  BasicSpeedDial (props:{boardType:string,totalPages:number,currentPage:number,
      handlePaginationChange: (event: React.ChangeEvent<unknown>, value: number) => void}) {
-    const isLogin = useSelector((state: RootState) => state.login.isLogin);
+    const isLogin = useSelector((state: RootState) => state.auth.isAuthenticated);
     const  dispatch = useAppDispatch();
     const [searchBoxIsOpened, setSearchBoxIsOpened] = useState(false);
     const [paginationIsOpened, setPaginationIsOpened] = useState(false);

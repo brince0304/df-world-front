@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {
     RootState,
@@ -106,7 +106,7 @@ const Logo = styled(Button)`
   `
 
 
-const ProfileMenu = styled.ul`
+const ProfileMenu = styled.div`
   position: absolute;
   flex-direction: row;
   align-items: center;
@@ -122,7 +122,7 @@ const ProfileMenu = styled.ul`
     @media (max-width: 1200px) {
     position: absolute;
     right: 20%;
-    width: 200px;
+    width: 140px;
     }
   
   &:after{
@@ -140,12 +140,13 @@ const ProfileMenu = styled.ul`
   }
 `
 
-const ProfileMenuList = styled.li`
+const ProfileMenuList = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
      height: 100%;
+  gap: 10px;
 `
 
 const MenuIconWrapper = styled.div`
@@ -155,18 +156,13 @@ const MenuIconWrapper = styled.div`
     align-items: center;
     justify-content: center;
     height: 100%;
-    padding: 0 10px;
-  color : #212124;
-        &:hover {
-        color : cornflowerblue;
-        cursor: pointer;
-        transition: color 0.3s ease-in-out;
-    }
+  color : #121212;
+  
 `
 
 
 export const MobileNav = (props: NavProps) => {
-    const isLogin = useAppSelector((state: RootState) => state.login.isLogin);
+    const isLogin = useAppSelector((state: RootState) => state.auth.isAuthenticated);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const handleLogout = useCallback(() => {
@@ -176,9 +172,19 @@ export const MobileNav = (props: NavProps) => {
         dispatch(setLoginModalIsOpened(true))
         props.handleClose();
     } , [setLoginModalIsOpened, dispatch, props.handleClose]);
-  const profileIsOpened = useAppSelector((state: RootState) => state.login.profileOpened);
   const hasNotification = useAppSelector((state: RootState) => state.notification.hasNotification);
   const notificationCount = useAppSelector((state: RootState) => state.notification.notificationCount);
+  const [profileIsOpened, setProfileIsOpened] = useState(false);
+    const handleProfileOpen = useCallback(() => {
+        setProfileIsOpened(!profileIsOpened);
+    }, [profileIsOpened]);
+    const handleNavigateToMyPage = useCallback(() => {
+        navigate("/mypage/");
+        props.handleClose();
+
+
+        
+    }, [navigate]);
     return (
         <Container isOpened={props.isOpened}>
             <NavMenu>
@@ -190,32 +196,32 @@ export const MobileNav = (props: NavProps) => {
                 </Logo>
                 {isLogin &&
                     <ProfileWrapper>
-                    <HeaderProfile />
+                    <HeaderProfile onClick={handleProfileOpen}/>
                         {isLogin &&
-                            <Zoom  in={profileIsOpened} unmountOnExit={true}>
+                            <Zoom  in={profileIsOpened}>
                             <ProfileMenu>
                                 <ProfileMenuList>
                                     <Tooltip title={"마이페이지"} placement={"bottom"}>
-                                        <IconButton>
+                                        <IconButton onClick={handleNavigateToMyPage}>
                                             <MenuIconWrapper>
                                                 <FontAwesomeIcon icon={faUser} size="sm"/>
                                             </MenuIconWrapper>
                                         </IconButton>
                                     </Tooltip>
-                                    <Tooltip title={"설정"} placement={"bottom"}>
-                                        <IconButton>
-                                            <MenuIconWrapper>
-                                                <FontAwesomeIcon icon={faCog} size="sm"/>
-                                            </MenuIconWrapper>
-                                        </IconButton>
-                                    </Tooltip>
                                     <Tooltip title={"알림"} placement={"bottom"}>
                                         <IconButton>
-                                            <Badge badgeContent={notificationCount} color="primary" invisible={!hasNotification}>
+                                            {notificationCount===0 &&
                                                 <MenuIconWrapper>
                                                     <FontAwesomeIcon icon={faBell} size="sm"/>
                                                 </MenuIconWrapper>
-                                            </Badge>
+                                            }
+                                            {notificationCount!==0 &&
+                                                <Badge badgeContent={notificationCount} color="primary" >
+                                                    <MenuIconWrapper>
+                                                        <FontAwesomeIcon icon={faBell} size="sm"/>
+                                                    </MenuIconWrapper>
+                                                </Badge>
+                                            }
                                         </IconButton>
                                     </Tooltip>
                                 </ProfileMenuList>

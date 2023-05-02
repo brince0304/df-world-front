@@ -5,7 +5,7 @@ import {
     Divider,
     FormControl,
     Grid, Grow,
-    InputLabel, LinearProgress, ListItemButton, ListItemText, MenuItem,
+    InputLabel, LinearProgress, List, ListItemButton, ListItemText, MenuItem,
     Select,
     styled,
     TextField, Zoom
@@ -36,7 +36,7 @@ import {CharacterSearchModal} from "../character/CharacterSearchModal";
 import {ErrorScreen} from "../ui/ErrorScreen";
 import {Editor, EditorCore} from "@toast-ui/editor";
 import {BOARD_DETAIL_URL, BOARD_GET_CHARACTERS_URL} from "../../../data/ApiUrl";
-import {getBoardCharacterSearch} from "../../../api/board/getBoardCharacterSearch";
+import {getCharacterList} from "../../../api/board/getCharacterList";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import {HookImageResponse, postImage} from "../../../api/board/postImage";
 import {postBoard} from "../../../api/board/postBoard";
@@ -164,7 +164,7 @@ const CharacterDetailContainer = styled(Grid)`
 
 export const CharactersListForModal = (props: { data: Content[], handleClick: (characterId: string, serverId: string, characterName: string) => void }) => {
     return (
-        <Box sx={{
+        <List sx={{
             width: "100%",
             flexDirection: "column",
             display: "flex",
@@ -174,7 +174,7 @@ export const CharactersListForModal = (props: { data: Content[], handleClick: (c
         }}>
             {props.data.map((character, index) => {
                 return (
-                    <ListItemButton key={index} sx={{width: "100%", position: "relative"}}
+                    <ListItemButton key={index} sx={{width: "100%", position: "relative",padding:'10px 15px'}}
                                     onClick={(e) => props.handleClick(character.characterId, character.serverId, character.characterName)}>
                         <Avatar sx={{
                             position: "absolute", left: 0, backgroundColor: "white", border: "1px solid lightgray",
@@ -201,7 +201,7 @@ export const CharactersListForModal = (props: { data: Content[], handleClick: (c
                     </ListItemButton>
                 );
             })}
-        </Box>
+        </List>
     );
 };
 
@@ -255,8 +255,8 @@ export const WriteBoard = () => {
     let navigate = useNavigate();
     const searchParams = new URLSearchParams(location.search);
     const [content, setContent] = useState("");
-    const isLogin = useSelector((state: RootState) => state.login.isLogin);
-    const userDetail = useSelector((state: RootState) => state.login.user);
+    const isLogin = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const userDetail = useSelector((state: RootState) => state.auth.userDetail);
     const type = searchParams.get("request");
     const boardTypeParam = searchParams.get("boardType");
     const [boardType, setBoardType] = useState(boardTypeParam === 'ALL' ? 'FREE' : boardTypeParam);
@@ -322,7 +322,13 @@ export const WriteBoard = () => {
         }
     };
     const handleSearch = (searchValue: string, selectValue: string) => {
-        getBoardCharacterSearch(setIsCharacterSearchLoading, setData, BOARD_GET_CHARACTERS_URL + `?characterName=${searchValue}&serverId=${selectValue}`);
+        getCharacterList(BOARD_GET_CHARACTERS_URL.replace("{serverId}", selectValue).replace("{characterName}", searchValue)).then((res) => {
+            setData(res.data);
+            setIsCharacterSearchLoading(false);
+        }).catch((err) => {
+            alert("캐릭터 검색에 실패했습니다.");
+            setIsCharacterSearchLoading(false);
+        });
     };
     const handleSetCharacterDetails = useCallback((characterId: string, serverId: string, characterName: string) => {
         if (window.confirm("해당 캐릭터를 등록하시겠습니까?")) {

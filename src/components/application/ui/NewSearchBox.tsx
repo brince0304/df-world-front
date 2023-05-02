@@ -205,7 +205,6 @@ interface SearchProps {
 
     handleNavigate: (searchValue:string, selectValue:string) => void;
 
-
     autoCompleteUrl ?: string;
 
     autoCompleteHandler ?: (url:string,setData:({}:SearchOption[])=>void) => void;
@@ -267,7 +266,7 @@ export const NewSearchBox = (props: SearchProps) => {
         if (searchValue === "") {
             setAutoCompleteData([]);
             return;
-        } else if (searchValue.length > 0) {
+        } else if (searchValue.length > 0 && isselected ===1) {
             if (props.autoCompleteUrl) {
                 const url = props.autoCompleteUrl.replace("{searchValue}", searchValue).replace("{selectValue}", selectedFilter.value);
                 props.autoCompleteHandler?.(url, setAutoCompleteData);

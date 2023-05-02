@@ -61,16 +61,10 @@ const ProfileDetailsWrapper = styled.div`
     transition: all 0.3s ease;
     `
 
-export const HeaderProfile = () => {
-    const userData = useAppSelector((state: RootState) => state.login.user);
-    const dispatch = useAppDispatch();
-    const handleProfileClick = useCallback(
-        () => {
-            dispatch(toggleProfileOpened());
-        }, [dispatch, toggleProfileOpened]);
-
+export const HeaderProfile = (props:{onClick:()=>void}) => {
+    const userData = useAppSelector((state: RootState) => state.auth.userDetail);
     return (
-        <Button onClick={handleProfileClick}>
+        <Button onClick={props.onClick}>
                 <Avatar src={userData?.profileImgPath} alt="profile" sx={{ width: 30, height: 30 ,backgroundColor:"white",border:"1px solid #f5f5f5"}}/>
             <ProfileNicknameWrapper>
                 <span style={{marginLeft: '10px'}}>{userData?.nickname}</span>

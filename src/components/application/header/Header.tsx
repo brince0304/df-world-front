@@ -1,6 +1,18 @@
 import React, {useCallback, useEffect, useRef} from "react";
 import styled from "styled-components";
-import {Avatar, Badge, Button, Divider, IconButton, Tooltip, tooltipClasses, TooltipProps, Zoom} from "@mui/material";
+import {
+    Avatar,
+    Badge,
+    Box,
+    Button,
+    Divider,
+    IconButton,
+    List, ListItem, ListItemButton,
+    Tooltip,
+    tooltipClasses,
+    TooltipProps,
+    Zoom
+} from "@mui/material";
 import {Collapse} from "@mui/material";
 import {useState} from "react";
 import "../../../assets/css/header.scss";
@@ -255,46 +267,24 @@ const HeaderMenuWrapper = styled.ul`
 
 `;
 
-const ProfileMenu = styled.ul`
-  position: absolute;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  right: 100%;
-  top: 0;
+const ProfileMenu = styled(Box)`
+  display: flex;
   width: 100%;
   height: 100%;
-  z-index: 1;
+    align-items: center;
+    justify-content: center;
+  padding: 0 15px;
+  gap: 10px;
+  
+  
   @media (max-width: 768px) {
     display: none;
   }
-  @media (max-width: 1200px) {
-  }
 `;
 
-const ProfileMenuList = styled.li`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-`;
 
 const MenuIconWrapper = styled.div`
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 0 10px;
-  color: white;
-
-  &:hover {
-    color: cornflowerblue;
-    cursor: pointer;
-    transition: color 0.3s ease-in-out;
-  }
+  color: #181818;
 `;
 
 const profileMenuList = [
@@ -303,21 +293,18 @@ const profileMenuList = [
         link: "/mypage/",
         icon: <FontAwesomeIcon icon={faUser} size="sm"/>
     },
-    {
-
-    }
+    {}
 ];
 
 const HtmlTooltip = styled(({className, ...props}: TooltipProps) => (
     <Tooltip {...props} classes={{popper: className}}/>
 ))(({theme}) => ({
     [`& .${tooltipClasses.tooltip}`]: {
-        backgroundColor: "#f5f5f9",
+        backgroundColor: "#F8F8F8",
         color: "rgba(0, 0, 0, 0.87)",
-        maxWidth: "100%",
         width: "300px",
-        height: "auto",
-        border: "2px solid #dadde9",
+        height: "100%",
+        border: "1px solid #dadde9",
         boxShadow: "0 0 30px 0 rgba(0, 0, 0, 0.1)",
         fontSize: "0.9rem",
     },
@@ -331,45 +318,46 @@ const ProfileNicknameWrapper = styled.div`
   margin-left: 10px;
   font-size: 0.9rem;
   font-weight: 600;
+  gap : 10px;
+  padding: 10px 0px;
 `;
 
 export const HeaderProfileMenuBox = () => {
-    const profileIsOpened = useSelector((state:RootState) => state.login.profileOpened);
     const notificationCount = useSelector((state: RootState) => state.notification.notificationCount);
-    const hasNotification = useSelector((state: RootState) => state.notification.hasNotification);
     let navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const handleNavigateToMypage =()=>{
+    const handleNavigateToMypage = () => {
         navigate("/mypage/");
-        dispatch(toggleProfileOpened)
+        dispatch(toggleProfileOpened);
     };
 
     return (
-        <Zoom in={profileIsOpened} unmountOnExit mountOnEnter>
-            <ProfileMenu>
-                <ProfileMenuList>
-                    <Tooltip title={"마이페이지"}  placement={"bottom"} onClick={handleNavigateToMypage}>
-                        <IconButton>
-                            <MenuIconWrapper>
-                                <FontAwesomeIcon icon={faUser} size="sm"/>
-                            </MenuIconWrapper>
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title={"알림"} placement={"bottom"}>
-                        <IconButton>
-                            <Badge color="primary" badgeContent={notificationCount}
-                                   invisible={!hasNotification}>
-                                <MenuIconWrapper>
-                                    <FontAwesomeIcon icon={faBell} size="sm"/>
-                                </MenuIconWrapper>
-                            </Badge>
-                        </IconButton>
-                    </Tooltip>
-                </ProfileMenuList>
-            </ProfileMenu>
-        </Zoom>
-    )
-}
+        <ProfileMenu>
+            <Tooltip title={"마이페이지"} placement={"bottom"} onClick={handleNavigateToMypage}>
+                <MenuIconWrapper>
+                    <IconButton>
+                    <FontAwesomeIcon icon={faUser} size="sm"/>
+                    </IconButton>
+                </MenuIconWrapper>
+            </Tooltip>
+            <Tooltip title={"알림"} placement={"bottom"}>
+
+                <MenuIconWrapper>
+                    <IconButton>
+                    {notificationCount === 0 ?
+                        <FontAwesomeIcon icon={faBell} size="sm"/>
+                        :
+                        <Badge badgeContent={notificationCount} color="primary">
+                            <FontAwesomeIcon icon={faBell} size="sm"/>
+                        </Badge>
+                    }
+                    </IconButton>
+                </MenuIconWrapper>
+            </Tooltip>
+
+        </ProfileMenu>
+    );
+};
 
 
 const Header = (props: HeaderProps) => {
@@ -387,7 +375,7 @@ const Header = (props: HeaderProps) => {
     const handleOptionMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         navigate("/details/?characterId=" + e.currentTarget.attributes.getNamedItem("data-id")?.value + "&serverId=" + e.currentTarget.attributes.getNamedItem("data-option")?.value);
     };
-    const isLogin = useAppSelector((state: RootState) => state.login.isLogin);
+    const isAuthenticated = useAppSelector((state: RootState) => state.auth.isAuthenticated);
 
     const dispatch = useAppDispatch();
 
@@ -400,8 +388,7 @@ const Header = (props: HeaderProps) => {
         () => {
             dispatch(logout());
         }, [dispatch, navigate, logout]);
-    const profileIsOpened = useAppSelector((state: RootState) => state.login.profileOpened);
-    const hasNotification = useAppSelector((state: RootState) => state.notification.hasNotification);
+    const [profileIsOpened, setProfileIsOpened] = useState(false);
     const searchHistory = useSelector((state: RootState) => state.searchHistory.searchHistory.searchHistory);
     const notificationCount = useSelector((state: RootState) => state.notification.notificationCount);
     const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -410,17 +397,12 @@ const Header = (props: HeaderProps) => {
             dispatch(removeCharacterHistory(targetId));
         }
     };
-    const user = useAppSelector((state: RootState) => state.login.user);
-    const [profileChangeModalIsOpened, setProfileChangeModalIsOpened] = useState(false);
-    const handleProfileChangeModalOpen = useCallback(
-        () => {
-            setProfileChangeModalIsOpened(true);
-        }, [setProfileChangeModalIsOpened]);
-    const handleProfileChangeModalClose = useCallback(
-        () => {
-            setProfileChangeModalIsOpened(false);
-        }, [setProfileChangeModalIsOpened]);
+    const user = useAppSelector((state: RootState) => state.auth.userDetail);
 
+    const handleClickProfile = useCallback(
+        () => {
+            setProfileIsOpened(!profileIsOpened);
+        }, [profileIsOpened, setProfileIsOpened]);
     return (
         <Container>
             <HeaderTop>
@@ -450,35 +432,36 @@ const Header = (props: HeaderProps) => {
                             navigate(item.link);
                         }}>{item.name}</HeaderMenu>;
                     })}
-                    {isLogin ? <HeaderMenu onClick={handleLogout}>로그아웃</HeaderMenu> :
+                    {isAuthenticated ? <HeaderMenu onClick={handleLogout}>로그아웃</HeaderMenu> :
                         <HeaderMenu onClick={handleModalOpen}>로그인</HeaderMenu>}
                 </HeaderMenuWrapper>
                 <ProfileContainer>
-                    {isLogin && <HeaderProfileMenuBox/>}
-                    {isLogin &&
+
+                    {isAuthenticated &&
                         <HtmlTooltip title={
                             <React.Fragment>
-                                <ProfileNicknameWrapper>
-                                    <IconButton onClick={handleProfileChangeModalOpen}>
-                                        <Avatar alt={user.nickname} src={user.profileImgPath} sx={{
-                                            width: 30,
-                                            height: 30,
-                                            backgroundColor: "white",
-                                            border: "1px solid #2e2e2e"
-                                        }}/>
-                                    </IconButton>
-                                    {user.nickname}
-                                </ProfileNicknameWrapper>
+                                <Box>
+                                    <ProfileNicknameWrapper>
+                                            <Avatar alt={user.nickname} src={user.profileImgPath} sx={{
+                                                width: 30,
+                                                height: 30,
+                                                backgroundColor: "white",
+                                                border: "1px solid #2e2e2e"
+                                            }}/>
+                                        {user.nickname}
+                                    </ProfileNicknameWrapper>
+                                    <HeaderProfileMenuBox/>
+                                </Box>
                             </React.Fragment>} placement={"bottom"} TransitionComponent={Zoom}>
-                            <Badge color="primary" badgeContent={notificationCount} invisible={profileIsOpened}>
+                            <Badge color="primary" badgeContent={notificationCount}>
                                 <ProfileWrapper>
-                                    <HeaderProfile/>
+                                    <HeaderProfile onClick={handleClickProfile}/>
                                 </ProfileWrapper>
                             </Badge>
                         </HtmlTooltip>}
                 </ProfileContainer>
             </HeaderBottom>
-            {!isLogin && <LoginModal isloginpage={isloginpage}>
+            {!isAuthenticated && <LoginModal isloginpage={isloginpage}>
                 <RegisterContainer isloginpage={isloginpage.valueOf()} id={"register-part"}>
                     <RegisterPage handleChangeSection={handleChangeSection}/>
                 </RegisterContainer>
@@ -492,8 +475,7 @@ const Header = (props: HeaderProps) => {
                     <LoginPage handleChangeSection={handleChangeSection}/>
                 </LoginContainer>
             </LoginModal>}
-            {isLogin && <ProfileIconChangeModal isOpened={profileChangeModalIsOpened}
-                                                handleClose={handleProfileChangeModalClose}/>}
+
             <MobileNav isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar}/>
             <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar}/>
         </Container>

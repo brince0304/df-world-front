@@ -659,7 +659,7 @@ export const BoardDetail = () => {
     const dispatch = useAppDispatch();
     const {boardId} = useParams<{ boardId: string }>();
     let navigate = useNavigate();
-    const user = useSelector((state: RootState) => state.login.user);
+    const user = useSelector((state: RootState) => state.auth.userDetail);
     const [boardData, setBoardData] = useState<BoardDetailData>({} as BoardDetailData);
     const boardType = boardData?.article?.boardType ? boardData?.article?.boardType : "ALL";
     const [bestArticle, setBestArticle] = useState<ContentFlowProps[]>([]);

@@ -12,7 +12,7 @@ export const BOARD_BEST_ARTICLE_URL = "/boards/best?boardType=";
 
 export const BOARD_LIKE_URL = "/boards/like-board?boardId=";
 
-export const BOARD_GET_CHARACTERS_URL = "/boards/characters/";
+export const BOARD_GET_CHARACTERS_URL = "/boards/characters/?characterName={characterName}&serverId={serverId}";
 
 export const BOARD_DELETE_URL = "/boards?boardId="
 
@@ -41,3 +41,9 @@ export const USER_DETAIL_URL = "/users/details";
 export const USER_LOGOUT_URL = "/users/logout";
 
 export const USER_REGISTER_URL = "/users";
+
+export  const USER_CHARACTERS_SEARCH_URL = "/users/characters/?characterName={characterName}&serverId={serverId}";
+
+export const USER_CHARACTERS_POST_URL = "/users/characters?characterId={characterId}&serverId={serverId}";
+
+export const USER_CHARACTERS_DELETE_URL = "/users/characters?characterId={characterId}&serverId={serverId}";

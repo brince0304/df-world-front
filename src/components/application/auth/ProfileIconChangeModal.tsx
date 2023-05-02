@@ -6,13 +6,10 @@ import styled from "styled-components";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ReactEventHandler, useCallback} from "react";
-import store, {RootState} from "../../../redux/store";
-import {useDispatch, useSelector} from "react-redux";
-import {setLoginModalIsOpened} from "../../../redux";
 import {Avatar, Divider, IconButton} from "@mui/material";
 import {profileIconData} from "../../../data/ProfileIconData";
-import createInstance from "../../../common/axiosInstance";
 import axios from "../../../common/axiosInstance";
+import ImageUploader from "./ImageUploader";
 
 
 const style = {
@@ -31,7 +28,7 @@ const style = {
     transform: 'translate(-50%, -50%)',
     //props width
     width: 800,
-    height: 'auto',
+    height: 600,
     bgcolor: 'background.paper',
     borderRadius: 2,
     boxShadow: 24,
@@ -55,7 +52,7 @@ const ModalBox = styled(Box)`
       display: flex;
         flex-direction: column;
       padding-top: 20px;
-      height: 250px;
+      height: 450px;
       width: 500px;
     }
 `
@@ -146,13 +143,15 @@ export default function ProfileIconChangeModal (props:ProfileIconChangeModalProp
                     <CloseButtonWrapper onClick={props.handleClose}>
                         <FontAwesomeIcon icon={faXmark}/>
                     </CloseButtonWrapper>
+
                     <ModalHeader>
                         프로필 아이콘을 변경합니다!
                     </ModalHeader>
+                    <ImageUploader/>
                     <Divider variant="middle" />
                     <ModalBody>
                         <IconSelectorWrapper>
-                            <span>아이콘을 선택해주세요!</span>
+                            <span>혹은 기본 아이콘을 선택해주세요!</span>
                         </IconSelectorWrapper>
                         <ProfileIconChangeContainer>
                             {data.map((datum,index) => (

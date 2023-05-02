@@ -47,19 +47,19 @@ export const appSlice = createSlice({
     }
 });
 
-export const loginSlice = createSlice({
-    name: "login",
+export const authSlice = createSlice({
+    name: "auth",
     initialState: {
-        isLogin: false,
-        user: {} as UserDetail,
+        isAuthenticated: false,
+        userDetail: {} as UserDetail,
         profileOpened: false,
     },
     reducers: {
         setLogin: (state, action) => {
-            state.isLogin = action.payload;
+            state.isAuthenticated = action.payload;
         },
         setUser: (state, action) => {
-            state.user = action.payload;
+            state.userDetail = action.payload;
         },
         toggleProfileOpened: (state) => {
             state.profileOpened = !state.profileOpened;
@@ -101,7 +101,7 @@ export const loginModal = createSlice({
 
 const reducers = combineReducers({
     app: appSlice.reducer,
-    login: loginSlice.reducer,
+    auth: authSlice.reducer,
     loginModal: loginModal.reducer,
     searchHistory: historySlice.reducer,
     notification: notificationSlice.reducer
@@ -115,7 +115,7 @@ const persistConfig = {
 };
 
 
-export const {setLogin, setUser,toggleProfileOpened} = loginSlice.actions;
+export const {setLogin, setUser,toggleProfileOpened} = authSlice.actions;
 
 export const {setHasNotification,setNotificationCount} = notificationSlice.actions;
 export const {setLoginModalIsOpened} = loginModal.actions;

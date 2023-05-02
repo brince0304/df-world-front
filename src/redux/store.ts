@@ -3,7 +3,7 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {SearchOption} from "../interfaces/SeachBox";
 import storage from "redux-persist/lib/storage";
 import {persistReducer, persistStore} from "redux-persist";
-import redux, {appSlice, historySlice, loginModal, loginSlice} from "./index";
+import redux, {appSlice, historySlice, loginModal, authSlice} from "./index";
 export interface UserDetail {
     userId: string;
     nickname: string;
@@ -18,7 +18,7 @@ export interface UserDetail {
 
     serverName : string;
 
-    characterCount : string;
+    characterCount : number;
 }
 
 
