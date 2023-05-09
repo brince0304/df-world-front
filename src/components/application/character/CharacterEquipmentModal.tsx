@@ -1,9 +1,6 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../redux/store";
 import {useCallback} from "react";
-import {setLoginModalIsOpened} from "../../../redux";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -31,7 +28,6 @@ const style = {
     bgcolor: '#252627',
     borderRadius: 2,
     boxShadow: 24,
-    p: 1,
 };
 
 
@@ -42,28 +38,26 @@ export const ModalHeader = styled.div`
     align-items: center;
     font-size: 22px;
     font-weight: 700;
-    color: #000;
+    color: #121212;
     `
 
 const ModalBox = styled(Box)`
-    &&{
         display: flex;
         flex-direction: column;
-        padding-top: 10px;
        height:450px;
-    }
+      position: relative;
+  
 `
 
 
 
-export const CloseButtonWrapper = styled.div`
+const CloseButtonWrapper = styled.div`
   //우측 끝에 배치
-  position: absolute;
-  right: 10px;
-  top: 10px;
+  position: fixed;
   font-size: 25px;
   color:silver;
   cursor: pointer;
+  z-index: 10;
   &:hover {
     color: #282c34;
     transition: 0.3s;
@@ -78,8 +72,9 @@ export const ModalBody = styled.div`
   width: 100%;
     flex-direction: column;
     align-items: center;
-    padding: 0px 0;
-  background-color: #252627;
+    padding: 10px;
+  background-color: transparent;
+  
     `
 
 interface LoginModalProps {
@@ -90,19 +85,20 @@ interface LoginModalProps {
 
 
 export default function CharacterEquipmentModal (props:LoginModalProps) {
-    const handleClose = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        e.stopPropagation();
+    const handleClose = useCallback(() => {
         props.setIsOpened(false);
     }, [props.setIsOpened]);
     return (
         <Modal
             open={props.isOpened}
-            onClose={handleClose}
+            onClose={(e)=>{
+                props.setIsOpened(false);
+            }}
         >
             <Fade in={props.isOpened} unmountOnExit mountOnEnter>
                 <ModalBox sx={style}>
                     <CloseButtonWrapper onClick={handleClose}>
-                        <FontAwesomeIcon icon={faXmark}/>
+                        <FontAwesomeIcon  icon={faXmark} />
                     </CloseButtonWrapper>
                     <ModalBody>
                         {props.children}

@@ -3,7 +3,7 @@ import {NavigateFunction, useNavigate} from "react-router-dom";
 import store, {RootState} from "../../redux/store";
 import createInstance from "../../common/axiosInstance";
 import {Dispatch} from "redux";
-import {setLogin, setLoginModalIsOpened, setUser} from "../../redux";
+import {setLogin, setLoginModalOpened, setUser} from "../../redux";
 import {Action, ThunkAction} from "@reduxjs/toolkit";
 import {USER_LOGIN_URL} from "../../data/ApiUrl";
 import axios from "../../common/axiosInstance";
@@ -18,7 +18,7 @@ password:string }, setError:Function, navigate:NavigateFunction):ThunkAction<voi
             dispatch(setUser(data));
             dispatch(setLogin(true));
             alert(data.userId+"님 환영합니다.");
-            dispatch(setLoginModalIsOpened(false));
+            dispatch(setLoginModalOpened(false));
             window.location.reload();
         })
         .catch((err)=>{

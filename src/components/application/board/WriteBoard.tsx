@@ -28,7 +28,6 @@ import {faExclamationCircle, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {Content} from "../../../interfaces/CharactersData";
 import * as React from "react";
 import {ArrowBack, Error, HighlightOffOutlined, Label, PersonAdd} from "@mui/icons-material";
-import {removeCharacterHistory} from "../../../api/character/getCharacterDetail";
 import {NewSearchBox} from "../ui/NewSearchBox";
 import {HeaderData} from "../../../data/HeaderData";
 import {getCharactersAutoComplete} from "../../../api/character/getCharactersAutoComplete";
@@ -44,7 +43,7 @@ import {getBoardDetail} from "../../../api/board/getBoardDetail";
 import {putBoard} from "../../../api/board/putBoard";
 import {getHashtagList} from "../../../api/board/getHashtagList";
 import {BOARD_LIST_ROUTE} from "../../../data/routeLink";
-import {setIsLoading, setLoginModalIsOpened} from "../../../redux";
+import {removeCharacterHistory, setIsLoading, setLoginModalOpened} from "../../../redux";
 
 
 const BoardWriteFormTitleWrapper = styled(Box)`
@@ -162,29 +161,27 @@ const CharacterDetailContainer = styled(Grid)`
 `;
 
 
-export const CharactersListForModal = (props: { data: Content[], handleClick: (characterId: string, serverId: string, characterName: string) => void }) => {
+export const CharactersListForModal = (props: {
+    data: Content[],
+    handleClick: (characterId: string, serverId: string, characterName: string) => void
+}) => {
     return (
-        <List sx={{
-            width: "100%",
-            flexDirection: "column",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative"
+        <List sx={{width: "100%", display: "flex", flexDirection: "column",
+            marginTop:"20px", maxHeight:"100%", overflowY:"scroll"
         }}>
             {props.data.map((character, index) => {
                 return (
-                    <ListItemButton key={index} sx={{width: "100%", position: "relative",padding:'10px 15px'}}
+                    <ListItemButton key={index} sx={{width: "100%", position: "relative", padding: "10px 15px"}}
                                     onClick={(e) => props.handleClick(character.characterId, character.serverId, character.characterName)}>
                         <Avatar sx={{
-                            position: "absolute", left: 0, backgroundColor: "white", border: "1px solid lightgray",
+                            position: "absolute", left: "3%", backgroundColor: "white", border: "1px solid lightgray",
                             "& > img": {
                                 height: "300%",
                                 objectFit: "cover",
                                 objectPosition: "center",
                             }
                         }} src={character.characterImgPath} variant={"rounded"}/>
-                        <ListItemText sx={{paddingLeft: "13%"}}
+                        <ListItemText sx={{paddingLeft: "20%"}}
                                       primary={character.characterName} secondary={
                             <CharacterDetailContainer container spacing={1}>
                                 <Grid item xs={3}>
@@ -259,7 +256,7 @@ export const WriteBoard = () => {
     const userDetail = useSelector((state: RootState) => state.auth.userDetail);
     const type = searchParams.get("request");
     const boardTypeParam = searchParams.get("boardType");
-    const [boardType, setBoardType] = useState(boardTypeParam === 'ALL' ? 'FREE' : boardTypeParam);
+    const [boardType, setBoardType] = useState(boardTypeParam === "ALL" ? "FREE" : boardTypeParam);
     const boardId = searchParams.get("boardId");
     const dispatch = useAppDispatch();
     //캐릭터 검색용 state
@@ -314,7 +311,7 @@ export const WriteBoard = () => {
     };
 
 
-    const searchHistory = useSelector((state: RootState) => state.searchHistory.searchHistory.searchHistory);
+    const searchHistory = useSelector((state: RootState) => state.history.characterHistory);
     const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const targetId = e.currentTarget.attributes.getNamedItem("data-id")?.value;
         if (targetId) {
@@ -368,9 +365,9 @@ export const WriteBoard = () => {
         if (!isLogin) {
             alert("로그인이 필요한 서비스입니다.");
             navigate(-1);
-            dispatch(setLoginModalIsOpened(true));
+            dispatch(setLoginModalOpened(true));
         }
-        let tagify = new Tagify(document.getElementById("tagify") as HTMLInputElement, {
+        const tagify = new Tagify(document.getElementById("tagify") as HTMLInputElement, {
             whitelist: [],
             maxTags: 5,
             callbacks: {
@@ -420,25 +417,26 @@ export const WriteBoard = () => {
             }
         }
 
-        tagify.on("input", (e)=>{
+        tagify.on("input", (e) => {
             tagify.loading(true).dropdown.hide.call(tagify);
-            if(e.detail.value.length>7){
+            if (e.detail.value.length > 7) {
                 tagify.loading(false);
                 tagify.settings.validate = (tagData: { value: string }) => {
-                    setError("hashtag", {type: "manual", message: "해시태그는 7자 이하로 입력해주세요."})
+                    setError("hashtag", {type: "manual", message: "해시태그는 7자 이하로 입력해주세요."});
                     setTimeout(() => {
                         clearErrors("hashtag");
                     }, 2000);
                     return tagData.value.length <= 7;
-                }
+                };
                 return;
             }
-            const query= e.detail.value;
-            if(query.length > 0){
-                getHashtagList(query).then((res)=>{
+            const query = e.detail.value;
+            if (query.length > 0) {
+                getHashtagList(query).then((res) => {
                     const array = [] as string[];
-                    res.data.map((item: { name:string,count:number }) => {
-                        array.push(`${item.name}`)});
+                    res.data.map((item: { name: string, count: number }) => {
+                        array.push(`${item.name}`);
+                    });
                     tagify.settings.whitelist = array;
                     tagify.dropdown.show.call(tagify, query);
                 });
@@ -448,7 +446,7 @@ export const WriteBoard = () => {
         return () => {
             tagify.destroy();
             tuieditor.destroy();
-        }
+        };
     }, []);
     const {
         register,
@@ -479,9 +477,9 @@ export const WriteBoard = () => {
         setValue("boardContent", value);
     };
 
-    const handleNavigateToBoardListByType = (boardType:string) => {
+    const handleNavigateToBoardListByType = (boardType: string) => {
         navigate(BOARD_LIST_ROUTE);
-    }
+    };
 
 
     const handlePost = (data: BoardInsertDataProps) => {
@@ -509,7 +507,8 @@ export const WriteBoard = () => {
             <form
                 onSubmit={type === "add" ? handleSubmit(handlePost, onInvalid) : handleSubmit(handleUpdate, onInvalid)}>
                 <BoardWriteFormTitleWrapper>
-                    <Typography variant={"h4"} sx={{fontWeight: "bold"}} fontFamily={"Core Sans"}>{type === "add" ? "글 작성" : "글 수정"}</Typography>
+                    <Typography variant={"h4"} sx={{fontWeight: "bold"}}
+                                fontFamily={"Core Sans"}>{type === "add" ? "글 작성" : "글 수정"}</Typography>
                     <FormControl sx={{width: "30%", height: "100%"}} variant={"standard"}>
                         <InputLabel>카테고리</InputLabel>
                         <Select
@@ -521,13 +520,13 @@ export const WriteBoard = () => {
                                 fontFamily: "Core Sans",
                                 fontSize: "14px",
                                 fontWeight: "bold",
-                                }}
+                            }}
                         >
                             {boardCategory.map((boardType, index) => {
-                                return <MenuItem  sx={{
-                                fontFamily: "Core Sans",
-                                fontSize: "14px",
-                                fontWeight: "bold",
+                                return <MenuItem sx={{
+                                    fontFamily: "Core Sans",
+                                    fontSize: "14px",
+                                    fontWeight: "bold",
                                 }} value={boardType.id} data-value={boardType.id} key={index}
                                                  onClick={handleSelectChange}>{boardType.name}</MenuItem>;
                             })}
@@ -544,11 +543,11 @@ export const WriteBoard = () => {
                                variant={"outlined"} error={!!errors.boardTitle}
                                helperText={errors.boardTitle?.message}
                                label={"제목"}
-                               defaultValue={type==='update' ? " ":""}
+                               defaultValue={type === "update" ? " " : ""}
                                {...register("boardTitle")}
                                sx={{
-                                      width: "100%",
-                                        height: "100%",
+                                   width: "100%",
+                                   height: "100%",
                                    fontSize: "20px",
                                    fontWeight: "bold",
                                    display: "flex",
@@ -556,17 +555,20 @@ export const WriteBoard = () => {
                     <HashtagWrapper>
                         <input type="text" id="tagify" placeholder="해시태그를 입력해보세요!"/>
                     </HashtagWrapper>
-                        <Typography variant={"body2"} sx={{color: "gray",textAlign:"left"}}>태그는 7자 이하로 5개까지 가능합니다.</Typography>
+                    <Typography variant={"body2"} sx={{color: "gray", textAlign: "left"}}>태그는 7자 이하로 5개까지
+                        가능합니다.</Typography>
                 </Box>
                 <Box width={"100%"} height={"90%"} paddingTop={"20px"}>
                     <div id={"tui-editor-container"}/>
                     {errors.boardContent?.message &&
-                        <Typography variant={"body2"} sx={{color: "red",textAlign:"left"}}>{errors.boardContent?.message}</Typography>}
+                        <Typography variant={"body2"}
+                                    sx={{color: "red", textAlign: "left"}}>{errors.boardContent?.message}</Typography>}
                 </Box>
                 <SetCharacterContainer>
                     {!characterId &&
                         <Zoom in={characterId === ""}>
-                            <Chip icon={<FontAwesomeIcon icon={faXmark} style={{padding:"5px"}}/>} color={"default"} label={"캐릭터를 링크해보세요!"}
+                            <Chip icon={<FontAwesomeIcon icon={faXmark} style={{padding: "5px"}}/>} color={"default"}
+                                  label={"캐릭터를 링크해보세요!"}
                                   size="medium" sx={{fontWeight: "bold"}} clickable onClick={handleOpenModal}/>
                         </Zoom>
                     }
@@ -603,19 +605,16 @@ export const WriteBoard = () => {
                     }}>취소</Button>
                 </FormFooter>
             </form>
-            <CharacterSearchModal isOpened={characterSearchModalIsOpened} handleClose={handleCloseModal}>
-                {isCharacterSearchLoading && <LinearProgress sx={{width: "100%", position: "absolute", top: 5}}/>}
-                <SearchBoxWrapper>
-                    <NewSearchBox placeholder={"캐릭터 검색"}
-                                  direction={"down"} handleNavigate={handleSearch}
-                                  filterOptions={HeaderData.serverList}
-                                  searchHistoryMouseDown={handleOptionMouseDown}
-                                  removeSearchHistory={handleRemoveSearchOptions} useSearchOption={true}
-                                  searchHistory={searchHistory}
-                                  autoCompleteHandler={getCharactersAutoComplete}
-                                  autoCompleteUrl={"/characters/autoComplete?name={searchValue}&serverId={selectValue}"}
-                    />
-                </SearchBoxWrapper>
+            <CharacterSearchModal isLoading={isCharacterSearchLoading}
+                isOpened={characterSearchModalIsOpened} handleClose={handleCloseModal} serachBox={<NewSearchBox placeholder={"캐릭터 검색"}
+                                                                                                                                  direction={"down"} handleNavigate={handleSearch}
+                                                                                                                                  filterOptions={HeaderData.serverList}
+                                                                                                                                  searchHistoryMouseDown={handleOptionMouseDown}
+                                                                                                                                  removeSearchHistory={handleRemoveSearchOptions} useSearchOption={true}
+                                                                                                                                  searchHistory={searchHistory}
+                                                                                                                                  autoCompleteHandler={getCharactersAutoComplete}
+                                                                                                                                  autoCompleteUrl={"/characters/autoComplete?name={searchValue}&serverId={selectValue}"}
+            />} >
                 {data?.length > 0 && <CharactersListForModal handleClick={handleSetCharacterDetails} data={data}/>}
                 {data?.length === 0 && !isCharacterSearchLoading &&
                     <ErrorScreen icon={faExclamationCircle} message={"검색 결과가 없습니다."}/>}

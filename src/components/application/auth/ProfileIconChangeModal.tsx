@@ -84,7 +84,8 @@ const ModalBody = styled.div`
 
 interface ProfileIconChangeModalProps {
     isOpened:boolean,
-    handleClose:ReactEventHandler<HTMLDivElement>,
+    handleClose: ()=>void,
+    refresh : () => void;
 }
 
 const ProfileIconChangeContainer = styled.div`
@@ -123,7 +124,8 @@ export default function ProfileIconChangeModal (props:ProfileIconChangeModalProp
                     .then((res) => {
                         if(res.status === 200){
                             alert("변경되었습니다.");
-                            window.location.reload();
+                            props.handleClose();
+                            props.refresh();
                         }else{
                             alert("아이콘 변경에 실패하였습니다.");
                         }

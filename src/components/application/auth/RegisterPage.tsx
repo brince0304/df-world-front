@@ -1,20 +1,12 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import styled from "styled-components";
-import {useInput} from "../../../hooks/useInput";
 import {ModalTitle} from "../ui/ModalTitle";
 import {ImgOpacityButton} from "../ui/ImgOpacityButton";
-import SocialLoginData from "../../../data/SocialLoginButons";
 import {Checkbox, FormControlLabel, TextField} from "@mui/material";
-import {useCheckbox} from "../../../hooks/useCheckbox";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAt, faCheck} from "@fortawesome/free-solid-svg-icons";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios from "axios";
-import {useCallback} from "react";
-import {USER_REGISTER_URL} from "../../../data/ApiUrl";
 import {RegisterFormProps, registerUser} from "../../../api/auth/registerUser";
 
 const FormControl = styled.form`
@@ -152,37 +144,7 @@ const passwordMatch = (password: string, passwordCheck: string) => {
 
 
 
-const schema = yup
-    .object({
-        userId: yup
-            .string()
-            .required("아이디를 입력해주세요.")
-            .matches(/^[a-zA-Z0-9]{8,20}$/, "영문, 숫자를 포함한 8~20자리"),
-        email: yup
-            .string()
-            .required("이메일을 입력해주세요.")
-            .email("이메일 형식이 아닙니다."),
-        nickname: yup
-            .string()
-            .required("닉네임을 입력해주세요.")
-    .matches(/^[a-zA-Z0-9가-힣]{2,8}$/, "한글, 영문, 숫자를 포함한 2~8자리"),
-        password: yup
-            .string()
-            .required("비밀번호를 입력해주세요.")
-            .matches(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/, "영문, 숫자, 특수문자를 포함한 8~20자리"),
-        passwordCheck: yup
-            .string()
-            .required("비밀번호를 확인해주세요.")
-            .test("password", "비밀번호가 일치하지 않습니다.", function (value) {
-                    return passwordMatch(this.parent.password, this.parent.passwordCheck);
-                }
-            ),
-        isAgree: yup
-            .boolean()
-            .required("약관에 동의해주세요.")
-            .oneOf([true], "약관에 동의해주세요.")
-    })
-    .required();
+
 
 
 const LoginWrapper = styled.div`
@@ -205,6 +167,38 @@ const DivisionLine = styled.div`
 
 
 const RegisterPage = (props: { handleChangeSection: () => void }) => {
+    const schema = yup
+        .object({
+            userId: yup
+                .string()
+                .required("아이디를 입력해주세요.")
+                .matches(/^[a-zA-Z0-9]{8,20}$/, "영문, 숫자를 포함한 8~20자리"),
+            email: yup
+                .string()
+                .required("이메일을 입력해주세요.")
+                .email("이메일 형식이 아닙니다."),
+            nickname: yup
+                .string()
+                .required("닉네임을 입력해주세요.")
+                .matches(/^[a-zA-Z0-9가-힣]{2,8}$/, "한글, 영문, 숫자를 포함한 2~8자리"),
+            password: yup
+                .string()
+                .required("비밀번호를 입력해주세요.")
+                .matches(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/, "영문, 숫자, 특수문자를 포함한 8~20자리"),
+            passwordCheck: yup
+                .string()
+                .required("비밀번호를 확인해주세요.")
+                .test("password", "비밀번호가 일치하지 않습니다.", function (value) {
+                        return passwordMatch(this.parent.password, this.parent.passwordCheck);
+                    }
+                ),
+            isAgree: yup
+                .boolean()
+                .required("약관에 동의해주세요.")
+                .oneOf([true], "약관에 동의해주세요.")
+        })
+        .required();
+
     const {
         register,
         handleSubmit,
@@ -219,22 +213,25 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
     };
 
 
+
+
+
     return (
         <div>
         <ModalTitle title={"회원가입"}/>
     <FormControl onSubmit={handleSubmit(onValid)}>
-        <TextFieldCustom label={"아이디"} error={errors.userId ? true:false} type="text"  helperText={errors.userId?.message}
+        <TextFieldCustom label={"아이디"} error={!!errors.userId} type="text" helperText={errors.userId?.message}
                          {...register("userId")}>
         </TextFieldCustom>
-        <TextFieldCustom label={"닉네임"} error={errors.nickname? true:false} type="text"  helperText={errors.nickname?.message}
+        <TextFieldCustom label={"닉네임"} error={!!errors.nickname} type="text" helperText={errors.nickname?.message}
                          {...register("nickname")}>
         </TextFieldCustom>
-                <TextFieldCustom label={"이메일"} error={errors.email? true:false} type="email"  helperText={errors.email?.message}
+                <TextFieldCustom label={"이메일"} error={!!errors.email} type="email" helperText={errors.email?.message}
                                  {...register("email")}>
                 </TextFieldCustom>
-            <TextFieldCustom label={"비밀번호"} error={errors.password? true:false} type="password" placeholder={"xxxxxxx"} helperText={errors.password?.message}
+            <TextFieldCustom label={"비밀번호"} error={!!errors.password} type="password" placeholder={"xxxxxxx"} helperText={errors.password?.message}
                              {...register("password")}/>
-            <TextFieldCustom label={"비밀번호 확인"} error={errors.passwordCheck? true:false} type="password" helperText={errors.passwordCheck?.message}
+            <TextFieldCustom label={"비밀번호 확인"} error={!!errors.passwordCheck} type="password" helperText={errors.passwordCheck?.message}
                              {...register("passwordCheck")}/>
 
         <BodyFooter>

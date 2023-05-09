@@ -4,25 +4,22 @@ import {UserDetail} from "./store";
 import {persistReducer} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-const initialState = {
-    searchHistory: [] as SearchOption[],
-    // 다른 프로퍼티
-}
+
 
 export const historySlice = createSlice({
-    name: "searchHistory",
+    name: "history",
     initialState: {
-        searchHistory : initialState
+        characterHistory : [] as SearchOption[]
     },
     reducers: {
-        setSearchHistory: (state, action) => {
-            state.searchHistory.searchHistory = action.payload;
+        setCharacterHistory: (state, action) => {
+            state.characterHistory = action.payload;
         },
-        pushSearchHistory: (state, action) => {
-            state.searchHistory.searchHistory.push(action.payload);
+        pushCharacterHistory: (state, action) => {
+            state.characterHistory.push(action.payload);
         },
-        removeSearchHistory: (state, action) => {
-            state.searchHistory.searchHistory = state.searchHistory.searchHistory.filter((item:SearchOption)=>item.id !== action.payload);
+        removeCharacterHistory: (state, action) => {
+            state.characterHistory = state.characterHistory.filter((item:SearchOption)=>item.id !== action.payload);
         }
     }
 });
@@ -87,14 +84,14 @@ export const notificationSlice = createSlice({
 });
 
 
-export const loginModal = createSlice({
-    name: "loginModalIsOpened",
+export const modalSlice = createSlice({
+    name: "modal",
     initialState: {
-        isOpened: false
+        loginModalOpened: false
     },
     reducers: {
-        setLoginModalIsOpened: (state, action) => {
-            state.isOpened = action.payload;
+        setLoginModalOpened: (state, action) => {
+            state.loginModalOpened = action.payload;
         }
     }
 });
@@ -102,8 +99,8 @@ export const loginModal = createSlice({
 const reducers = combineReducers({
     app: appSlice.reducer,
     auth: authSlice.reducer,
-    loginModal: loginModal.reducer,
-    searchHistory: historySlice.reducer,
+    modal: modalSlice.reducer,
+    history: historySlice.reducer,
     notification: notificationSlice.reducer
 });
 
@@ -111,16 +108,16 @@ const reducers = combineReducers({
 const persistConfig = {
     key: "persist",
     storage,
-    whitelist: ["searchHistory","notification","login"]
+    whitelist: ["history","notification","auth"]
 };
 
 
 export const {setLogin, setUser,toggleProfileOpened} = authSlice.actions;
 
 export const {setHasNotification,setNotificationCount} = notificationSlice.actions;
-export const {setLoginModalIsOpened} = loginModal.actions;
+export const {setLoginModalOpened} = modalSlice.actions;
 export const {setIsLoading, setProgress, setIsError} = appSlice.actions;
-export const {setSearchHistory,pushSearchHistory,removeSearchHistory} = historySlice.actions;
+export const {setCharacterHistory,pushCharacterHistory,removeCharacterHistory} = historySlice.actions;
 
 export default persistReducer(persistConfig, reducers);
 

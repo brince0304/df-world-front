@@ -8,7 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ReactEventHandler, useCallback} from "react";
 import store, {RootState} from "../../../redux/store";
 import {useDispatch, useSelector} from "react-redux";
-import {setLoginModalIsOpened} from "../../../redux";
+import {setLoginModalOpened} from "../../../redux";
 
 
 const style = {
@@ -62,8 +62,9 @@ const ModalBox = styled(Box)`
 
 export const CloseButtonWrapper = styled.div`
   //우측 끝에 배치
-  position: absolute;
-  right: 10px;
+  position: sticky;
+  margin-left: auto;
+    margin-right: 0px;
   top: 0px;
   font-size: 25px;
   color:silver;
@@ -82,7 +83,7 @@ export const ModalBody = styled.div`
   width: 100%;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0;
+    padding: 20px 20px;
     `
 
 interface LoginModalProps {
@@ -92,10 +93,10 @@ interface LoginModalProps {
 
 export default function LoginModal (props:LoginModalProps) {
     const dispatch = useDispatch();
-    const isOpened = useSelector((state:RootState) => state.loginModal.isOpened);
+    const isOpened = useSelector((state:RootState) => state.modal.loginModalOpened);
     const handleClose = useCallback((e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
-        dispatch(setLoginModalIsOpened(false));
+        dispatch(setLoginModalOpened(false));
     }, [dispatch]);
     return (
         <Modal

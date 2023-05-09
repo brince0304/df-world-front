@@ -36,9 +36,8 @@ import {RootState} from "../../../redux/store";
 import {logout} from "../../../api/auth/logout";
 import {HeaderProfile} from "./HeaderProfile";
 import {getCharactersAutoComplete} from "../../../api/character/getCharactersAutoComplete";
-import {setLoginModalIsOpened, setSearchHistory, toggleProfileOpened} from "../../../redux";
+import {setLoginModalOpened, setCharacterHistory, toggleProfileOpened, removeCharacterHistory} from "../../../redux";
 import {useSelector} from "react-redux";
-import {removeCharacterHistory} from "../../../api/character/getCharacterDetail";
 import Typography from "@mui/material/Typography";
 import ProfileIconChangeModal from "../auth/ProfileIconChangeModal";
 import Fade from "@mui/material/Fade";
@@ -324,7 +323,7 @@ const ProfileNicknameWrapper = styled.div`
 
 export const HeaderProfileMenuBox = () => {
     const notificationCount = useSelector((state: RootState) => state.notification.notificationCount);
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const handleNavigateToMypage = () => {
         navigate("/mypage/");
@@ -361,7 +360,7 @@ export const HeaderProfileMenuBox = () => {
 
 
 const Header = (props: HeaderProps) => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const handleCharacterSearchNavigate = (characterName: string, serverId: string) => {
         navigate(`/characters/${serverId}?name=${characterName}`);
     };
@@ -381,15 +380,15 @@ const Header = (props: HeaderProps) => {
 
     const handleModalOpen = useCallback(
         () => {
-            dispatch(setLoginModalIsOpened(true));
-        }, [dispatch, setLoginModalIsOpened]);
+            dispatch(setLoginModalOpened(true));
+        }, [dispatch, setLoginModalOpened]);
 
     const handleLogout = useCallback(
         () => {
             dispatch(logout());
         }, [dispatch, navigate, logout]);
     const [profileIsOpened, setProfileIsOpened] = useState(false);
-    const searchHistory = useSelector((state: RootState) => state.searchHistory.searchHistory.searchHistory);
+    const searchHistory = useSelector((state: RootState) => state.history.characterHistory);
     const notificationCount = useSelector((state: RootState) => state.notification.notificationCount);
     const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const targetId = e.currentTarget.attributes.getNamedItem("data-id")?.value;

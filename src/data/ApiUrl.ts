@@ -47,3 +47,9 @@ export  const USER_CHARACTERS_SEARCH_URL = "/users/characters/?characterName={ch
 export const USER_CHARACTERS_POST_URL = "/users/characters?characterId={characterId}&serverId={serverId}";
 
 export const USER_CHARACTERS_DELETE_URL = "/users/characters?characterId={characterId}&serverId={serverId}";
+
+export const USER_ACTIVITIES_GET_URL = "/users/activities/?type={type}&sortBy={sortBy}&page={page}";
+
+export const USER_VALIDATE_NICKNAME_URL = "/users/check?nickname={nickname}";
+
+export const USER_DETAIL_UPDATE_NICKNAME_URL = "/users?nickname={nickname}";

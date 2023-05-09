@@ -183,12 +183,12 @@ const LoginPage = (props:{handleChangeSection:()=>void}) => {
     }, [dispatch, setError]);
     return (
                 <FormControl onSubmit={handleSubmit(onValid)} >
-                    <ModalTitle title={"로그인"}    />
+                    <ModalTitle title={"로그인"}/>
                     <div>
-                        <TextFieldCustom error={errors.username? true:false} type="text" label={"아이디"}
-                        helperText={errors.username?.message} {...register("username")} />
-                        <TextFieldCustom error={errors.password? true:false} type="password" label={"비밀번호"}
-                        helperText={errors.password?.message} {...register("password")} />
+                        <TextFieldCustom error={!!errors.username} type="text" label={"아이디"}
+                                         helperText={errors.username?.message} {...register("username")} />
+                        <TextFieldCustom error={!!errors.password} type="password" label={"비밀번호"}
+                                         helperText={errors.password?.message} {...register("password")} />
                     </div>
                     <BodyFooter>
                         <MissingPassword>

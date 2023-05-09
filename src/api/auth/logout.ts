@@ -5,7 +5,7 @@ import store, {
     UserDetail
 } from "../../redux/store";
 import {NavigateFunction} from "react-router-dom";
-import {setHasNotification, setLogin, setLoginModalIsOpened, setUser} from "../../redux";
+import {setHasNotification, setLogin, setLoginModalOpened, setUser} from "../../redux";
 import {Action, ThunkAction} from "@reduxjs/toolkit";
 import axios from "../../common/axiosInstance";
 import {USER_LOGOUT_URL} from "../../data/ApiUrl";
@@ -17,7 +17,7 @@ export const logout=() : ThunkAction<void, RootState, unknown, Action>=> {
                 dispatch(setLogin(false));
                 dispatch(setUser({} as UserDetail));
                 dispatch(setHasNotification(false));
-                dispatch(setLoginModalIsOpened(false));
+                dispatch(setLoginModalOpened(false));
                 alert("로그아웃 되었습니다.")
                 window.location.reload();
             })

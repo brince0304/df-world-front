@@ -11,7 +11,7 @@ import {HeaderProfile} from "./HeaderProfile";
 import {Badge, Button, Collapse, Grow, IconButton, Tooltip, Zoom} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faCog, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
-import {setLoginModalIsOpened} from "../../../redux";
+import {setLoginModalOpened} from "../../../redux";
 
 
 
@@ -169,9 +169,9 @@ export const MobileNav = (props: NavProps) => {
         dispatch(logout());
     }, [logout, dispatch, navigate]);
     const handleModalOpen = useCallback(() => {
-        dispatch(setLoginModalIsOpened(true))
+        dispatch(setLoginModalOpened(true))
         props.handleClose();
-    } , [setLoginModalIsOpened, dispatch, props.handleClose]);
+    } , [setLoginModalOpened, dispatch, props.handleClose]);
   const hasNotification = useAppSelector((state: RootState) => state.notification.hasNotification);
   const notificationCount = useAppSelector((state: RootState) => state.notification.notificationCount);
   const [profileIsOpened, setProfileIsOpened] = useState(false);
@@ -181,9 +181,10 @@ export const MobileNav = (props: NavProps) => {
     const handleNavigateToMyPage = useCallback(() => {
         navigate("/mypage/");
         props.handleClose();
+        setProfileIsOpened(false);
 
 
-        
+
     }, [navigate]);
     return (
         <Container isOpened={props.isOpened}>

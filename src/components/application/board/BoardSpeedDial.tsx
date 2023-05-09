@@ -1,25 +1,17 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
-import {Avatar, Badge, Chip, IconButton, Pagination, Slide, Stack, styled, Zoom} from "@mui/material";
+import { IconButton, Pagination, Slide,styled} from "@mui/material";
 import ModeIcon from '@mui/icons-material/Mode';
 import SearchIcon from '@mui/icons-material/Search';
 import {useSelector} from "react-redux";
 import {RootState, useAppDispatch} from "../../../redux/store";
 import {useEffect, useState} from "react";
-import LoginIcon from '@mui/icons-material/Login';
-import {SearchType, SelectSearchProps} from "../../../interfaces/SeachBox";
-import Fade from "@mui/material/Fade";
+import {SearchType} from "../../../interfaces/SeachBox";
 import {useNavigate} from "react-router-dom";
 import {NewSearchBox} from "../ui/NewSearchBox";
 import {DragHandleRounded, HighlightOffOutlined} from "@mui/icons-material";
-import {setLoginModalIsOpened} from "../../../redux";
 import {BOARD_LIST_URL, BOARD_WRITE_URL} from "../../../data/ApiUrl";
 
 const actions = [
