@@ -52,10 +52,10 @@ export const authSlice = createSlice({
         profileOpened: false,
     },
     reducers: {
-        setLogin: (state, action) => {
+        setIsAuthenticated: (state, action) => {
             state.isAuthenticated = action.payload;
         },
-        setUser: (state, action) => {
+        setUserDetails: (state, action) => {
             state.userDetail = action.payload;
         },
         toggleProfileOpened: (state) => {
@@ -112,7 +112,7 @@ const persistConfig = {
 };
 
 
-export const {setLogin, setUser,toggleProfileOpened} = authSlice.actions;
+export const {setIsAuthenticated, setUserDetails,toggleProfileOpened} = authSlice.actions;
 
 export const {setHasNotification,setNotificationCount} = notificationSlice.actions;
 export const {setLoginModalOpened} = modalSlice.actions;

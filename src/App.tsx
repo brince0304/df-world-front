@@ -20,6 +20,8 @@ import {BOARD_INSERT_FORM_ROUTE, BOARD_ROUTE} from "./data/routeLink";
 import {BadRequest} from "./components/application/error/BadRequest";
 import {CharacterDetail} from "./components/application/character/CharacterDetail";
 import {MyPage} from "./components/application/myPage/MyPage";
+import {setNotificationCount} from "./redux";
+import {EventSourceProvider, useEventSource} from "react-sse-hooks";
 
 
 
@@ -40,6 +42,15 @@ function App() {
     const isLoading = useSelector((state: RootState) => state.app.isLoading);
     const progress = useSelector((state: RootState) => state.app.progress);
     const dispatch = useAppDispatch();
+    const userDetails = useSelector((state: RootState) => state.auth.userDetail);
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const eventSource = useEventSource({
+        source: "/sub?userId=" + userDetails.userId,
+        options: {
+            withCredentials: true,
+        }
+}
+) as EventSource;
     useEffect(() => {
         dispatch(getUser());
     }, []);

@@ -180,11 +180,8 @@ export const MobileNav = (props: NavProps) => {
     }, [profileIsOpened]);
     const handleNavigateToMyPage = useCallback(() => {
         navigate("/mypage/");
-        props.handleClose();
         setProfileIsOpened(false);
-
-
-
+        props.handleClose();
     }, [navigate]);
     return (
         <Container isOpened={props.isOpened}>
@@ -192,6 +189,7 @@ export const MobileNav = (props: NavProps) => {
                 <Logo onClick={(e)=>{
                     navigate("/");
                     props.handleClose();
+                    setProfileIsOpened(false);
                 }}>
                     커뮤니티
                 </Logo>
@@ -239,6 +237,7 @@ export const MobileNav = (props: NavProps) => {
                             <NavItem key={index} onClick={(e) => {
                                 navigate(item.link);
                                 props.handleClose();
+                                setProfileIsOpened(false);
                             }}>
                                 {item.name}
                             </NavItem>

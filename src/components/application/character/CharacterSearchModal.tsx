@@ -77,7 +77,13 @@ serachBox:ReactNode,isLoading:boolean}) => {
         >
             <Fade in={props.isOpened} unmountOnExit={true}>
                 <Box sx={style} >
+                    {props.isLoading && <LinearProgress sx={{
+                        position: 'absolute',
+                        top: '0',
+                        zIndex: 1020,
+                        width:'100%'}}/>}
                     <ModalBody>
+
                         <Box sx={{
                             display: 'flex',
                             width: '100%',

@@ -223,7 +223,7 @@ const EquipmentBaklInfoDetail = (props : {data: CharacterDetailCharacterEquipmen
             <Typography fontSize={"12px"} color={"#4AA356"}>바칼 융합 옵션</Typography>
             {props.data.options.map((bakalInfo, index) => {
                 return(
-                    <Box>
+                    <Box key={index}>
                         <Typography fontSize={"12px"} color={"#4AA356"}>{index+1}옵션</Typography>
                         <Typography fontSize={"12px"} color={"#BAB290"}
                                     sx={{whiteSpace: "pre-wrap"}}>{bakalInfo.explainDetail}</Typography>
@@ -394,6 +394,9 @@ const CharacterEquipmentDetail = (props: {
     const handleModalOpen = useCallback(() => {
         setIsModalOpened(true);
     }, []);
+    const handleModalClose = useCallback(() => {
+        setIsModalOpened(false);
+    }, []);
     return (
         <ListItemButton sx={{
             display: "flex",
@@ -407,7 +410,7 @@ const CharacterEquipmentDetail = (props: {
         }}
                         onClick={handleModalOpen}
         >
-            <CharacterEquipmentModal isOpened={isModalOpened} setIsOpened={setIsModalOpened}>
+            <CharacterEquipmentModal isOpened={isModalOpened} setIsOpened={handleModalClose}>
                 {props.detail && <CharacterEquipmentModalDetail detail={props.detail}
                                                                 equipment={props.equipment}/>}
             </CharacterEquipmentModal>

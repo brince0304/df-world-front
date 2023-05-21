@@ -9,6 +9,7 @@ import {ReactEventHandler, useCallback} from "react";
 import store, {RootState} from "../../../redux/store";
 import {useDispatch, useSelector} from "react-redux";
 import {setLoginModalOpened} from "../../../redux";
+import {Dialog, DialogContent} from "@mui/material";
 
 
 const style = {
@@ -52,8 +53,8 @@ const ModalBox = styled(Box)`
       padding-top: 10px;
       height: ${(props:{isloginpage:string}) => props.isloginpage ? '450px' : '550px'};
       @media (max-width: 768px) {
-        width: 400px;
-        height : 630px;
+        width: 350px;
+        height : 450px;
       }
     }
 `
@@ -99,22 +100,13 @@ export default function LoginModal (props:LoginModalProps) {
         dispatch(setLoginModalOpened(false));
     }, [dispatch]);
     return (
-        <Modal
+        <Dialog
             open={isOpened}
             onClose={handleClose}
         >
-            <Fade in={isOpened} unmountOnExit={true}>
-                <ModalBox sx={style} isloginpage={props.isloginpage.toString()}>
-                    <CloseButtonWrapper onClick={handleClose}>
-                        <FontAwesomeIcon icon={faXmark}/>
-                    </CloseButtonWrapper>
-                    <ModalHeader>
-                    </ModalHeader>
-                    <ModalBody>
+                <DialogContent>
                         {props.children}
-                    </ModalBody>
-                </ModalBox>
-            </Fade>
-        </Modal>
+                </DialogContent>
+        </Dialog>
     );
 }

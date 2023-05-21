@@ -4,9 +4,9 @@ import {
     Card, Collapse,
     Container,
     Dialog, DialogContent, DialogTitle,
-    Divider, FormControl, IconButton, InputBase,
+    Divider, FormControl, IconButton, InputBase, LinearProgress,
     List,
-    ListItemButton,
+    ListItemButton, ListItemText,
     styled, TextField, Tooltip
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -31,22 +31,24 @@ import {getCharactersAutoComplete} from "../../../api/character/getCharactersAut
 import {faExclamationCircle} from "@fortawesome/free-solid-svg-icons";
 import {CharacterSearchModal} from "../character/CharacterSearchModal";
 import * as React from "react";
-import {CharactersListForModal} from "../board/WriteBoard";
+import {BoardInsertDataProps, CharactersListForModal} from "../board/WriteBoard";
 import {getCharacterList} from "../../../api/board/getCharacterList";
 import {BOARD_GET_CHARACTERS_URL, USER_CHARACTERS_POST_URL, USER_CHARACTERS_SEARCH_URL} from "../../../data/ApiUrl";
 import {postCharacterToUserAccount} from "../../../api/myPage/postCharacterToUserAccount";
 import deleteCharacterFromUserAccount from "../../../api/myPage/deleteCharacterFromUserAccount";
 import ProfileIconChangeModal from "../auth/ProfileIconChangeModal";
-import {removeCharacterHistory} from "../../../redux";
-import ActivitiesModal, {ActivitiesModalContent} from "./ActivitiesModal";
+import {removeCharacterHistory, setIsAuthenticated, setUserDetails} from "../../../redux";
+import ActivitiesModal from "./ActivitiesModal";
 import {getUser} from "../../../api/auth/getUser";
-import {FieldErrors, useForm, UseFormRegister, UseFormWatch} from "react-hook-form";
+import {FieldErrors, SubmitErrorHandler, useForm, UseFormRegister, UseFormWatch} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import getValidateNickname from "../../../api/myPage/getValidateNickname";
 import {ValidateForm} from "../ui/ValidateForm";
 import putChangeNickname from "../../../api/myPage/putChangeNickname";
+import putChangePassword from "../../../api/myPage/putChangePassword";
+import {logout} from "../../../api/auth/logout";
 
 const UserProfileCardStyled = styled(Card)`
   display: flex;
@@ -153,23 +155,31 @@ const UserProfile = () => {
     );
 };
 
-interface UserDetailForm {
+interface IForm {
     nickname: string;
     password: string;
+    passwordValidate: string;
     passwordConfirm: string;
 }
 
 
-const UserDetailEditModal = (props: { open: boolean, onClose: () => void,refresh:()=>void }) => {
-    const passwordMatch = (value1: string, value2: string) => {
-        return value1 === value2;
+const UserDetailEditModal = (props: { open: boolean, onClose: () => void, refresh: () => void }) => {
+    const passwordMatch = (password: string, passwordCheck: string) => {
+        if (password !== "" && passwordCheck !== "") {
+            return password === passwordCheck;
+        }
+        return true;
     };
     const schema = yup.object().shape({
-        nickname: yup.string().min(2, "닉네임은 2자리 이상이어야 합니다.").max(8, "닉네임은 8자리 이하여야 합니다.").matches(/^[a-zA-Z0-9가-힣]{2,8}$/, "한글, 영문, 숫자를 포함한 2~8자리"),
+        nickname: yup.string().min(2, "닉네임은 2자리 이상이어야 합니다.").max(8, "닉네임은 8자리 이하여야 합니다."),
+        passwordValidate: yup.string(),
         password: yup.string().min(8, "비밀번호는 8자리 이상이어야 합니다.").matches(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/, "영문, 숫자, 특수문자를 포함한 8~20자리"),
-        passwordConfirm: yup.string().min(8, "비밀번호는 8자리 이상이어야 합니다.").test("password", "비밀번호가 일치하지 않습니다.", function (value) {
-            return passwordMatch(this.parent.password, this.parent.passwordCheck);
-        }),
+        passwordConfirm: yup
+            .string()
+            .test("password", "비밀번호가 일치하지 않습니다.", function (value) {
+                    return passwordMatch(this.parent.password, this.parent.passwordConfirm);
+                }
+            ),
     });
     const {
         register,
@@ -178,47 +188,52 @@ const UserDetailEditModal = (props: { open: boolean, onClose: () => void,refresh
         setError,
         formState: {errors,},
         setFocus
-    } = useForm<UserDetailForm>({
+    } = useForm<IForm>({
         resolver: yupResolver(schema),
         mode: "onChange",
     });
 
+    const dispatch = useAppDispatch();
     const [isNicknameValidated, setIsNicknameValidated] = useState<boolean>(false);
     const [isNicknameChecked, setIsNicknameChecked] = useState<boolean>(false);
+    const nicknameFormProps = {
+        register: register,
+        watch: watch,
+        validatedMessage: "사용 가능한 닉네임입니다.",
+        inValidatedMessage: "이미 사용중인 닉네임입니다.",
+        defaultTooltipMessage: "중복 확인",
+        formName: "nickname",
+        errors: errors.nickname,
+        validateFunction: getValidateNickname,
+        placeholder: "변경할 닉네임",
+        isChecked: isNicknameChecked,
+        setIsChecked: setIsNicknameChecked,
+        setIsValidated: setIsNicknameValidated,
+        isValidated: isNicknameValidated,
+        setFocus: setFocus,
+        helperText: "한글, 영문, 숫자를 포함한 2~8자리",
+        fontFamily: "Core Sans",
+    };
 
-    const nicknameFormProps =  {
-        register : register,
-        watch : watch,
-        validatedMessage : "사용 가능한 닉네임입니다.",
-        inValidatedMessage : "이미 사용중인 닉네임입니다.",
-        defaultTooltipMessage : "중복 확인",
-        formName : "nickname",
-        errors : errors.nickname,
-        validateFunction : getValidateNickname,
-        width : 250,
-        height : 40,
-        placeholder : "변경할 닉네임",
-        isChecked : isNicknameChecked,
-        setIsChecked : setIsNicknameChecked,
-        setIsValidated : setIsNicknameValidated,
-        isValidated : isNicknameValidated,
-        setFocus : setFocus,
-    }
-    const handleUpdateNickname = (nickname:string) => {
-        if(window.confirm("닉네임을 변경하시겠습니까?")){
+
+    const handleUpdateNickname = (nickname: string) => {
+        if (window.confirm("닉네임을 변경하시겠습니까?")) {
             putChangeNickname(nickname).then((res) => {
-            alert("닉네임이 변경되었습니다.");
-            props.onClose();
-            props.refresh();
-        }).catch((err) => {
-            console.log(err);
-        });
-    };}
+                alert("닉네임이 변경되었습니다.");
+                props.onClose();
+                props.refresh();
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+        ;
+    };
     const [openPasswordEditSection, setOpenPasswordEditSection] = useState<boolean>(false);
     const [openNicknameEditSection, setOpenNicknameEditSection] = useState<boolean>(false);
     const handleTogglePasswordEditSection = () => {
         setOpenPasswordEditSection(!openPasswordEditSection);
     };
+    const navigate = useNavigate();
     const handleToggleNicknameEditSection = () => {
         setOpenNicknameEditSection(!openNicknameEditSection);
     };
@@ -226,8 +241,39 @@ const UserDetailEditModal = (props: { open: boolean, onClose: () => void,refresh
         setIsNicknameValidated(false);
         setIsNicknameChecked(false);
     }, [watch("nickname")]);
-    // @ts-ignore
-    // @ts-ignore
+    const arrowDropIconStyleNickname = {
+        color: openNicknameEditSection ? "#121212" : "#9e9e9e",
+        "&:hover": {
+            color: openNicknameEditSection ? "#121212" : "#9e9e9e",
+        },
+        transform: openNicknameEditSection ? "rotate(180deg)" : "rotate(0deg)",
+        transition: "all 0.3s ease-in-out",
+    }
+
+    const arrowDropIconStylePassword = {
+        color: openPasswordEditSection ? "#121212" : "#9e9e9e",
+        "&:hover": {
+            color: openPasswordEditSection ? "#121212" : "#9e9e9e",
+        },
+        transform: openPasswordEditSection ? "rotate(180deg)" : "rotate(0deg)",
+        transition: "all 0.3s ease-in-out",
+
+    }
+
+    const handleUpdatePassword =(e:React.MouseEvent) => {
+        e.preventDefault();
+        const data = {
+            password: watch("passwordValidate"),
+            passwordValidate: watch("password"),
+        }
+        putChangePassword(data.passwordValidate,data.password).then((res)=>{
+            alert("비밀번호가 변경되었습니다. 다시 로그인 해주세요");
+            dispatch(logout());
+            navigate("/");
+        }).catch((err)=>{
+            alert(err.response.data);
+        })
+    };
     return (
         <Dialog open={props.open} onClose={props.onClose}
                 sx={{
@@ -236,8 +282,7 @@ const UserDetailEditModal = (props: { open: boolean, onClose: () => void,refresh
                         height: "500px",
                         maxWidth: "100%",
                         maxHeight: "100%",
-                    }
-                }}>
+                    }}}>
             <DialogTitle>
                 <Typography component={"span"} fontFamily={"Core Sans"} fontSize={"1.5rem"} fontWeight={"bold"}>회원정보
                     수정 </Typography>
@@ -258,32 +303,26 @@ const UserDetailEditModal = (props: { open: boolean, onClose: () => void,refresh
                     }} onClick={handleToggleNicknameEditSection}>
                         <Typography component={"span"} fontFamily={"Core Sans"} fontSize={"1rem"} color={"#121212"}
                                     fontWeight={"bold"}>닉네임 변경</Typography>
-                        <ArrowDropDownIcon sx={{
-                            color: openNicknameEditSection ? "#121212" : "#9e9e9e",
-                            "&:hover": {
-                                color: openNicknameEditSection ? "#121212" : "#9e9e9e",
-                            },
-                            transform: openNicknameEditSection ? "rotate(180deg)" : "rotate(0deg)",
-                            transition: "all 0.3s ease-in-out",
-                        }}/>
+                        <ArrowDropDownIcon sx={arrowDropIconStyleNickname}/>
                     </Button>
                 </Box>
                 <Collapse orientation={"vertical"} in={openNicknameEditSection} mountOnEnter unmountOnExit>
                     <FormControl style={{
                         display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
                     }}>
                         <ValidateForm {...nicknameFormProps} />
-                        <Button variant={"contained"} disabled={!!errors.nickname || !watch("nickname") || !isNicknameValidated}
-                        onClick={(e)=>{
-                            handleUpdateNickname(watch("nickname"))}}>변경</Button>
+                        <Button variant={"contained"}
+                                sx={{
+                                    width: "100%",
+                                }}
+                                disabled={!!errors.nickname || !watch("nickname") || !isNicknameValidated}
+                                onClick={(e) => {
+                                    handleUpdateNickname(watch("nickname"));
+                                }}>변경</Button>
                     </FormControl>
-                    <Typography component={"span"} fontFamily={"Core Sans"} fontSize={"0.7rem"} color={
-                        errors.nickname ? "#f44336" : (isNicknameChecked ? (isNicknameValidated ? "#4caf50" : "#f44336") : "#bdbdbd")
-                    }>
-                        2자~10자의 한글, 영문, 숫자만 사용 가능합니다.
-                    </Typography>
                 </Collapse>
                 <Box sx={{
                     display: "flex",
@@ -300,57 +339,46 @@ const UserDetailEditModal = (props: { open: boolean, onClose: () => void,refresh
                     }} onClick={handleTogglePasswordEditSection}>
                         <Typography component={"span"} fontFamily={"Core Sans"} fontSize={"1rem"} color={"#121212"}
                                     fontWeight={"bold"}>비밀번호 변경</Typography>
-                        <ArrowDropDownIcon sx={{
-                            color: openPasswordEditSection ? "#121212" : "#9e9e9e",
-                            "&:hover": {
-                                color: openPasswordEditSection ? "#121212" : "#9e9e9e",
-                            },
-                            transform: openPasswordEditSection ? "rotate(180deg)" : "rotate(0deg)",
-                            transition: "all 0.3s ease-in-out",
-
-                        }}/>
+                        <ArrowDropDownIcon sx={arrowDropIconStylePassword}/>
                     </Button>
                 </Box>
                 <Collapse orientation={"vertical"} in={openPasswordEditSection} mountOnEnter unmountOnExit>
-                    <Box sx={{
+                    <FormControl sx={{
                         display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
+                        flexDirection: "column",
+                        justifyContent: "center",
                         alignItems: "center",
+                        width: "100%",
                     }}>
                         <TextField fullWidth variant={"standard"} margin={"normal"}
+                                   {...register("passwordValidate")}
                                    label={
                                        <Typography component={"span"} fontFamily={"Core Sans"} fontSize={"1rem"}
                                                    fontWeight={"bold"}>현재 비밀번호</Typography>
                                    } type={"password"}/>
-                    </Box>
-                    <Box sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}>
                         <TextField fullWidth variant={"standard"} margin={"normal"}
+                                   helperText={
+                                       <Typography component={"span"} fontFamily={"Core Sans"} fontSize={"0.75rem"}>
+                                           {errors.password?.message}</Typography>
+                                   }
                                    {...register("password")} error={!!errors.password}
                                    label={
                                        <Typography component={"span"} fontFamily={"Core Sans"} fontSize={"1rem"}
                                                    fontWeight={"bold"}>변경할 비밀번호</Typography>
                                    } type={"password"}/>
-                    </Box>
-                    <Box sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}>
                         <TextField fullWidth variant={"standard"} margin={"normal"}
+                                   helperText={
+                                       <Typography component={"span"} fontFamily={"Core Sans"} fontSize={"0.75rem"}
+                                       >{errors.passwordConfirm?.message}</Typography>
+                                   }
                                    {...register("passwordConfirm")} error={!!errors.passwordConfirm}
                                    label={
                                        <Typography component={"span"} fontFamily={"Core Sans"} fontSize={"1rem"}
                                                    fontWeight={"bold"}>비밀번호 확인</Typography>
                                    } type={"password"}/>
-                    </Box>
-                    <Button variant={"text"} color={"primary"} sx={{marginLeft: "auto"}}>변경</Button>
+                        <Button variant={"contained"} color={"primary"} disabled={!!errors.password || !!errors.passwordConfirm || !watch("password") || !watch("passwordConfirm")
+                            || !watch("passwordValidate")} sx={{width: "100%"}} onClick={handleUpdatePassword} >변경</Button>
+                    </FormControl>
                 </Collapse>
             </DialogContent>
         </Dialog>
@@ -460,10 +488,9 @@ const UserProfileMenuList = (props: { refresh: () => void }) => {
                 );
             })}
             <ActivitiesModal activitiesModalOpened={openActivityHistoryModal}
-                             handleClose={handleCloseActivityHistoryModal}>
-                <ActivitiesModalContent/>
-            </ActivitiesModal>
-            <UserDetailEditModal open={openEditProfileModal} onClose={handleCloseEditProfileModal} refresh={props.refresh}/>
+                             handleClose={handleCloseActivityHistoryModal}/>
+            <UserDetailEditModal open={openEditProfileModal} onClose={handleCloseEditProfileModal}
+                                 refresh={props.refresh}/>
             <ProfileMenuButton onClick={handleProfileChangeModalOpen}>
                 <Avatar sx={{width: "20px", height: "20px"}} src={user.profileImgPath}/>
                 <Typography component={"span"} fontSize={"0.8rem"}>프로필 변경</Typography>

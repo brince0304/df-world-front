@@ -53,3 +53,5 @@ export const USER_ACTIVITIES_GET_URL = "/users/activities/?type={type}&sortBy={s
 export const USER_VALIDATE_NICKNAME_URL = "/users/check?nickname={nickname}";
 
 export const USER_DETAIL_UPDATE_NICKNAME_URL = "/users?nickname={nickname}";
+
+export const USER_DETAIL_UPDATE_PASSWORD_URL = "/users?password={password}&newPassword={newPassword}";
