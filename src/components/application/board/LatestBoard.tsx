@@ -13,7 +13,7 @@ import ReactLoading from 'react-loading';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {ErrorScreen} from "../ui/ErrorScreen";
 import {getLatestBoard} from "../../../api/board/getLatestBoard";
-import {Avatar, ListItemButton} from "@mui/material";
+import {Avatar, IconButton, ListItemButton} from "@mui/material";
 import {ChatBubbleOutlineOutlined, FavoriteBorderOutlined, MessageOutlined} from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
 
@@ -204,7 +204,8 @@ const LatestBoard = (props: BoardProps) => {
 
     return (
         <TableCustom menus={props.boardTypes} title={props.title} isSelected={isSelected} setIsSelected={setIsSelected}
-                     useMenu={true} useIcon={true} onClickIcon={()=>navigate('/boards/?boardType='+isSelected)} isLoading={isLoading} icon={<FontAwesomeIcon icon={faChevronRight} size="sm"/>}>
+                     useMenu={true} useIcon={true}  isLoading={isLoading} icon={<IconButton onClick={()=>navigate('/boards/?boardType='+isSelected)}>
+            <FontAwesomeIcon icon={faChevronRight} size="sm"/></IconButton>}>
             <BoardBody>
                 {data?.length > 0 && !isError && <BoardList data={data}/>}
                 {data?.length === 0 && !isError && <ErrorScreen icon={faXmark}  message={"게시글이 없습니다."}/>}

@@ -15,7 +15,7 @@ import {useParams} from "react-router";
 import Box from "@mui/material/Box";
 import React, {useCallback, useEffect, useState} from "react";
 import {BoardDetailData} from "../../../interfaces/BoardDetailData";
-import {BestArticleNoDataWrapper, BestArticleTitleComponent, getBoardType} from "./Board";
+import {BestArticleNoDataWrapper, BestArticleTitleComponent, CharacterChip, getBoardType, TagChip} from "./Board";
 import {setIsError, setIsLoading} from "../../../redux";
 import {RootState, useAppDispatch, UserDetail} from "../../../redux/store";
 import {useSelector} from "react-redux";
@@ -817,21 +817,13 @@ export const BoardDetail = () => {
                         <TagContainer>
                             <Chip label={getBoardType(boardData?.article?.boardType)} size={"small"} color={"primary"}
                                   sx={{fontWeight: "bold"}}
-                                  clickable/>
+                                  />
                             {boardData?.article?.hashtags?.map((hashtag, index) => (
-                                <Chip key={index} label={"#" + hashtag} size={"small"} color={"default"}
-                                      sx={{fontWeight: "bold"}}/>
+                                <TagChip key={index} boardType={boardData.article.boardType} tag={hashtag}/>
                             ))}
-                            {boardData?.article?.character && <Chip avatar={
-                                <Avatar src={boardData?.article?.character?.characterImageUrl} sx={{
-                                    "& > img": {
-                                        objectFit: "cover",
-                                        objectPosition: "center",
-                                        height: "400%",
-                                    }
-                                }}/>
-                            } label={boardData?.article?.character?.characterName} sx={{fontWeight: "bold",}}
-                                                                    size={"small"} color={"default"}/>}
+                            {boardData?.article?.character &&
+                            <CharacterChip characterName={boardData.article.character.characterName} characterImgUrl={boardData.article.character.characterImageUrl}
+                                           adventureName={boardData.article.character.adventureName} serverId={boardData.article.character.serverId} characterId={boardData.article.character.characterId}/>}
                         </TagContainer>
                         <BoardTitleWrapper>
                             {boardData?.article?.boardTitle}

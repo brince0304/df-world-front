@@ -7,14 +7,23 @@ import {setLoginModalOpened} from "../../../redux";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock, faComment, faEye, faHeart, faXmark, IconDefinition} from "@fortawesome/free-solid-svg-icons";
+import {
+    faBell,
+    faClock,
+    faComment,
+    faEye,
+    faHeart,
+    faList,
+    faXmark,
+    IconDefinition
+} from "@fortawesome/free-solid-svg-icons";
 import CloseIcon from "@mui/icons-material/Close";
 import {
     Avatar,
-    Button, Chip,
+    Button, Card, Chip,
     Dialog, DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, Grow,
     IconButton,
     List,
     ListItemButton,
@@ -121,6 +130,40 @@ const BoardList = styled(List)`
   width: 100%;
 `;
 
+interface ITypeMenu {
+    type: string,
+    setType: (type: string) => void,
+    label: string,
+    icon: IconProp
+
+}
+
+const StyledCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px;
+  position: absolute;
+    top: 0;
+    left: 0;
+`;
+
+
+const TypeMenu = (typeMenu: ITypeMenu[]) => {
+
+    return (
+        <StyledCard>
+            <List>
+                <ListItemButton>
+                </ListItemButton>
+            </List>
+
+        </StyledCard>
+    );
+};
+
 export const ActivitiesModalBoardTemplate = (props: { data: BoardActivitiesJson }) => {
     const navigate = useNavigate();
     const handleNavigateToBoard = useCallback((boardId: number) => {
@@ -204,7 +247,7 @@ export const ActivitiesModalBoardTemplate = (props: { data: BoardActivitiesJson 
                                           paddingRight: "0",
                                       }} size={"small"}/>
                             </Box>
-                            <Typography variant="h6" component="span"
+                            <Typography component="span"
                                         fontFamily={"Core Sans"}
                                         sx={{
                                             fontSize: 14, fontWeight: 400, color: "#000", display: "inline-block",
@@ -225,20 +268,18 @@ export const ActivitiesModalBoardTemplate = (props: { data: BoardActivitiesJson 
 
 interface IToogleButtonGroup {
     value: string,
-        icon: IconDefinition,
+    icon: IconDefinition,
     tooltipTitle: string,
-    tooltipPlacement: TooltipProps['placement']
+    tooltipPlacement: TooltipProps["placement"]
 }
 
 
 const ToggleButtonGroupComponent = (
-
-    props:{
+    props: {
         sortBy: string,
         handleChangeSortBy: (event: React.MouseEvent<HTMLElement>, newAlignment: "" | "like" | "commentCount" | "view") => void,
-        groups : IToogleButtonGroup[]
+        groups: IToogleButtonGroup[]
     }
-
 ) => {
     return (
         <ToggleButtonGroup
@@ -246,25 +287,26 @@ const ToggleButtonGroupComponent = (
             value={props.sortBy}
             exclusive
             onChange={props.handleChangeSortBy}
-            aria-label="text alignment"
         >
             {props.groups.map((group, index) => {
-            return(<Tooltip title={group.tooltipTitle} placement={group.tooltipPlacement}
-                                key={index}
-            >
-                <ToggleButton value={group.value}
-                              disabled={props.sortBy === group.value}
-                              selected={props.sortBy === group.value}
-                >
-                    <FontAwesomeIcon icon={group.icon} />
-                </ToggleButton>
-            </Tooltip>)
+                return (
+
+                <Tooltip title={group.tooltipTitle} placement={group.tooltipPlacement}
+                         key={index}>
+                    <ToggleButton value={group.value}
+                                  selected={props.sortBy === group.value}>
+                        <FontAwesomeIcon icon={group.icon}/>
+                    </ToggleButton>
+                </Tooltip>
+                );
             })}
         </ToggleButtonGroup>
-    )
-}
+    );
+};
 
 export default function ActivitiesModal(props: ActivitiesModalProps) {
+
+
     const [isSortBy, setIsSortBy] = useState<"commentCount" | "like" | "view" | "">("");
     const userDetail = useSelector((state: RootState) => state.auth.userDetail);
     const [category, setCategory] = useState<"board" | "comment" | "notification">("board");
@@ -273,6 +315,43 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
     const [boardActivities, setBoardActivities] = useState<BoardActivitiesJson>({} as BoardActivitiesJson);
     const [commentActivities, setCommentActivities] = useState<CommentActivitiesJson>({} as CommentActivitiesJson);
     const [notificationActivities, setNotificationActivities] = useState<NotificationActivities>({} as NotificationActivities);
+    const [isMenuClicked , setIsMenuClicked] = useState<boolean>(false);
+
+    const categories = [{
+        type: "board",
+        setType: setCategory,
+        label: "게시글",
+        icon: faList
+    }, {
+        type: "comment",
+        setType: setCategory,
+        label: "댓글",
+        icon: faComment
+    }, {
+        type: "notification",
+        setType: setCategory,
+        label: "알림",
+        icon: faBell
+    },
+    ] as ITypeMenu[];
+
+    const getTypeName = (type: string) => {
+        if (type === 'board'){
+            return "게시글";
+        }
+        if (type === 'comment'){
+            return "댓글";
+        }
+        if (type === 'notification'){
+            return "알림";
+        }
+        return "";
+    }
+
+
+    const handleClickMenu = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+        setIsMenuClicked(true);
+    }, [isMenuClicked]);
 
     const handleSetBoardActivities = useCallback((data: BoardActivitiesJson) => {
         setBoardActivities(data);
@@ -286,7 +365,7 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
         setNotificationActivities(data);
     }, [notificationActivities]);
 
-    const handleChangeSortBy = useCallback((event: React.MouseEvent<HTMLElement,MouseEvent>,value: "" | "view" | "like" | "commentCount") => {
+    const handleChangeSortBy = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>, value: "" | "view" | "like" | "commentCount") => {
         setSortBy(value);
         setPage(0);
     }, [sortBy]);
@@ -311,31 +390,31 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
 
     const boardToggleButtonGroups: IToogleButtonGroup[] =
         [
-        {
-            value: "",
-            icon: faClock,
-            tooltipTitle: "최신순",
-            tooltipPlacement: "top",
-        },
-        {
-            value: "view",
-            icon: faEye,
-            tooltipTitle: "조회순",
-            tooltipPlacement: "top",
-        },
-        {
-            value: "like",
-            icon: faHeart,
-            tooltipTitle: "좋아요순",
-            tooltipPlacement: "top",
-        },
-        {
-            value: "commentCount",
-            icon: faComment,
-            tooltipTitle: "댓글순",
-            tooltipPlacement: "top",
-        },
-    ]
+            {
+                value: "",
+                icon: faClock,
+                tooltipTitle: "최신순",
+                tooltipPlacement: "top",
+            },
+            {
+                value: "view",
+                icon: faEye,
+                tooltipTitle: "조회순",
+                tooltipPlacement: "top",
+            },
+            {
+                value: "like",
+                icon: faHeart,
+                tooltipTitle: "좋아요순",
+                tooltipPlacement: "top",
+            },
+            {
+                value: "commentCount",
+                icon: faComment,
+                tooltipTitle: "댓글순",
+                tooltipPlacement: "top",
+            },
+        ];
 
 
     return (
@@ -361,7 +440,7 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
                     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
                 }}
             >
-                <Typography variant="h6" component="h6" sx={{fontSize: 18, fontWeight: 700, color: "#000"}}
+                <Typography  component="span" sx={{fontSize: 18, fontWeight: 700, color: "#000"}}
                             fontFamily="Core Sans"
                 >
                     활동 내역
@@ -372,12 +451,14 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
                         flexDirection: "row",
                         justifyContent: "center",
                         alignItems: "center",
+                        position:"relative"
 
                     }
                 }>
-                    <Button>
-                        게시글
+                    <Button onClick={handleClickMenu}>
+                        {getTypeName(category)}
                     </Button>
+
                     <Button>
                         닫기
                     </Button>
@@ -413,10 +494,11 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
                         alignItems: "center",
                         width: "100%",
                     }}>
-                        <ToggleButtonGroupComponent sortBy={sortBy} handleChangeSortBy={handleChangeSortBy} groups={boardToggleButtonGroups}/>
-                    <Pagination count={boardActivities.totalPages} page={page + 1} onChange={(e, page) => {
-                        setPage(page - 1);
-                    }}/>
+                        <ToggleButtonGroupComponent sortBy={sortBy} handleChangeSortBy={handleChangeSortBy}
+                                                    groups={boardToggleButtonGroups}/>
+                        <Pagination count={boardActivities.totalPages} page={page + 1} onChange={(e, page) => {
+                            setPage(page - 1);
+                        }}/>
                     </Box>
                 }
             </DialogActions>

@@ -1,53 +1,49 @@
 import {TableCustom} from "../ui/TableCustom";
-import {useParams, useNavigate, useLocation, useNavigation} from "react-router";
-import React, {MouseEventHandler, ReactNode, useCallback, useEffect, useState} from "react";
+import {useNavigate, useLocation} from "react-router";
+import React, {ReactNode, useCallback, useEffect, useState} from "react";
 import {BoardListData} from "../../../interfaces/BoardListData";
-import axios from "axios";
 import styled from "styled-components";
-import {faChevronRight, faComment, faExclamationTriangle, faXmark} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faExclamationTriangle, faXmark} from "@fortawesome/free-solid-svg-icons";
 import SpeedDial, {boardSelectOptions} from "./BoardSpeedDial";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
 
 
 import {
     Avatar, Button,
+    Card,
     Chip,
     Container, Divider,
     Grid,
-    IconButton, InputBase,
+    Grow,
+    IconButton, InputBase, Link,
     ListItem,
     ListItemButton,
     Menu, MenuItem, Pagination, Paper, Select,
     Skeleton, TextField,
-    Tooltip
+    Tooltip, tooltipClasses, Zoom
 } from "@mui/material";
 import {ContentFlow, ContentFlowProps} from "../ui/ContentFlow";
-import {ContentFlowData} from "../../../interfaces/ContentFlowData";
 import StarIcon from "@mui/icons-material/Star";
 import {getBestArticles} from "../../../api/board/getBestArticles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {
     AllInbox, Announcement,
-    ChatBubbleOutlined, ChatBubbleOutlineOutlined,
+    ChatBubbleOutlineOutlined,
     FavoriteBorderOutlined,
-    FavoriteOutlined, FreeBreakfast, LocalMall,
-    MonitorHeart, QuestionAnswer,
+    FreeBreakfast, LocalMall,
+    QuestionAnswer,
     RemoveRedEyeOutlined, Work
 } from "@mui/icons-material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import Loading from "react-loading";
 import {ErrorScreen} from "../ui/ErrorScreen";
-import SearchIcon from "@mui/icons-material/Search";
 import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL, BOARD_LIST_URL, BOARD_WRITE_URL} from "../../../data/ApiUrl";
 import {getBoardList} from "../../../api/board/getBoardList";
 import {useAppDispatch} from "../../../redux/store";
 import {BoardSkeleton} from "../loading/BoardSkeleton";
 import {getBoardCoundByHashtag} from "../../../api/board/getBoardCoundByHashtag";
 import {NewSearchBox} from "../ui/NewSearchBox";
-import BoardData from "../../../data/BoardData";
 import {getServerName} from "../character/Characters";
 
 
@@ -73,21 +69,6 @@ export function getBoardType(p: string | undefined) {
 }
 
 
-const BoardBody = (props: BoardListData) => {
-    return (
-        props.content.map((data, index: number) => {
-            }
-        )
-    );
-};
-
-
-
-const SelectOptions = [
-    {value: "title", label: "제목"},
-    {value: "content", label: "내용"},
-];
-
 export const BestArticleTitle = styled.div`
   display: flex;
   align-items: center;
@@ -105,17 +86,21 @@ const BoardContainer = styled(Box)`
 
 `;
 
-const BoardTitleWrapper = styled(Typography)`
+const BoardTitleWrapper = styled(Link)`
   display: inline-block;
   font-size: 18px;
   font-weight: 600;
-  color: #000;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-width: 100%;
+  width: 100%;
   margin-right: 10px;
   padding-top: 5px;
+  cursor: pointer;
+  &&{
+    color: #121212;
+    text-decoration: none;
+  }
 `;
 
 const BoardTagContainer = styled(Box)`
@@ -203,6 +188,15 @@ const BoardCountWrapper = styled(Typography)`
   }
 `;
 
+const HtmlTooltip = styled(({className, ...props}) => (
+    <Tooltip {...props} classes={{popper: className}}/>
+))(({theme}) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+        maxWidth: 220,
+        border: "1px solid #dadde9",
+    }
+}));
+
 const HashtagLoading = () => {
     return (
         <Box sx={{
@@ -238,16 +232,22 @@ export const BestArticleNoDataWrapper = () => {
 };
 
 
-const CharacterContent = (props: { characterName: string, serverId: string, characterImgUrl: string, adventureName: string,characterId:string }) => {
+const CharacterContent = (props: {
+    characterName: string,
+    serverId: string,
+    characterImgUrl: string,
+    adventureName: string,
+    characterId: string
+}) => {
     let navigate = useNavigate();
-    const handleNavigateToCharacterDetail = (e:React.MouseEvent) => {
+    const handleNavigateToCharacterDetail = (e: React.MouseEvent) => {
         e.stopPropagation();
         navigate(`/details/?characterId=${props.characterId}&serverId=${props.serverId}`);
-    }
+    };
     return (
         <Box sx={{
             display: "flex",
-            position:"relative",
+            position: "relative",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
@@ -255,9 +255,12 @@ const CharacterContent = (props: { characterName: string, serverId: string, char
             height: "100%",
             gap: "2px",
         }}>
-            <IconButton sx={{position:"absolute", top:0 , right:0}} onClick={handleNavigateToCharacterDetail} >
+            <Tooltip title={"클릭하여 캐릭터 상세 정보를 확인하세요."} placement="top" arrow>
+            <IconButton sx={{position: "absolute", top: "-5px", right: "-5px", zIndex:"100",color:"white"}}
+                        onClick={handleNavigateToCharacterDetail}>
                 <InfoIcon/>
             </IconButton>
+            </Tooltip>
             <Avatar src={props.characterImgUrl} sx={{width: "100px", height: "100px"}} variant="rounded"/>
             <Typography fontFamily={"Core Sans"} fontSize={"13px"}>{props.characterName}</Typography>
             <Typography fontFamily={"Core Sans"} fontSize={"12px"}>{props.adventureName}</Typography>
@@ -300,8 +303,10 @@ export const LongMenu = (props: { menuList: MenuItem[], boardType: string }) => 
     };
 
     return (
-        <div>
+        <Box>
             <IconButton
+                aria-label="more"
+                id="long-button"
                 onClick={handleClick}
             >
                 <MoreVertIcon/>
@@ -321,15 +326,16 @@ export const LongMenu = (props: { menuList: MenuItem[], boardType: string }) => 
                 }}
             >
                 {props.menuList.map((item) => (
-                    <MenuItem key={item.type} selected={props.boardType === item.type} onClick={handleClose} component={"div"}
+                    <MenuItem key={item.type} selected={props.boardType === item.type} onClick={handleClose}
+                              component={"div"}
                               data-type={item.type}>
-                        <Typography variant="inherit" noWrap fontFamily={"Core Sans"} fontWeight={"bold"} component={"span"}>
+                        <Typography  noWrap fontFamily={"Core Sans"} fontWeight={"bold"}>
                             {item.label}
                         </Typography>
                     </MenuItem>
                 ))}
             </Menu>
-        </div>
+        </Box>
     );
 };
 
@@ -363,9 +369,102 @@ const MenuListItem = [
 
 export const BestArticleTitleComponent = () => {
     return (
-        <BestArticleTitle><StarIcon/>인기글</BestArticleTitle>
+        <BestArticleTitle><StarIcon/> <Typography fontFamily={"Core Sans"}>인기글</Typography></BestArticleTitle>
     );
 };
+
+
+export const CharacterChip = (props: {
+    characterName: string,
+    characterImgUrl: string,
+    adventureName: string,
+    serverId: string,
+    characterId: string
+}) => {
+    const chipStyle = {
+        fontSize: "10px",
+        "& > img": {
+            objectFit: "cover",
+            objectPosition: "center",
+            height: "500%",
+            width: "1300%",
+            backgroundColor: "#c4c4c4",
+        }
+    };
+    return (
+        <Tooltip title={
+            <CharacterContent characterName={props.characterName} serverId={props.serverId}
+                              characterId={props.characterId}
+                                characterImgUrl={props.characterImgUrl} adventureName={props.adventureName}/>
+        } placement="top" arrow>
+        <Chip avatar={<Avatar src={props.characterImgUrl} sx={chipStyle}></Avatar>} label={props.characterName} color="default"
+              sx={{fontSize: "10px", fontWeight: "bold"}} size="small"
+              data-name={props.characterName}
+        />
+        </Tooltip>
+    );
+};
+
+
+export const TagChip = (props:{boardType:string, tag:string}) => {
+    const navigate = useNavigate();
+    const [hashtagContent, setHashtagContent] = useState<ReactNode>();
+    const [isHashtagLoading, setIsHashtagLoading] = useState<boolean>(false);
+    const hashtagContentStyle = {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        gap: "5px",
+    };
+    const [hashtagCountArray, setHashtagCountArray] = useState<{ name: string, count: number }[]>([]);
+    const handleGetBoardCountByHashtagName = useCallback(async (e: React.MouseEvent) => {
+        if (isHashtagLoading) {
+            setIsHashtagLoading(false);
+        }
+        const name = e.currentTarget.getAttribute("data-tag");
+        const hashtag = hashtagCountArray.find((item) => item.name === name);
+        if (hashtag) {
+            setIsHashtagLoading(false);
+            setHashtagContent(<HashtagContent count={hashtag.count}/>);
+            return;
+        }
+        if (name) {
+            setIsHashtagLoading(true);
+            getBoardCoundByHashtag(name).then((res) => {
+                if (res.data) {
+                    setIsHashtagLoading(false);
+                    setHashtagCountArray([...hashtagCountArray, {name, count: res.data}]);
+                    setHashtagContent(<HashtagContent count={res.data}/>);
+                }
+            }).catch((err) => {
+                setIsHashtagLoading(false);
+                setHashtagContent(<Box sx={hashtagContentStyle}>
+                    <Typography fontFamily={"Core Sans"} fontSize={"15px"}>정보를 불러올 수 없습니다.</Typography>
+                </Box>);
+            });
+        }
+    }, [hashtagCountArray, isHashtagLoading]);
+
+    const handleTagClick = (e: React.MouseEvent<HTMLElement>) => {
+        const keyword = e.currentTarget.getAttribute("data-tag")!;
+        navigate(BOARD_LIST_URL + `?boardType=${props.boardType}&searchType=hashtag&keyword=${keyword}`);
+        e.stopPropagation();
+    };
+
+    return (
+        <Tooltip title={isHashtagLoading ? <HashtagLoading/> : hashtagContent}
+                     placement="top"
+                     data-tag={props.tag} disableInteractive
+                     onMouseOver={handleGetBoardCountByHashtagName}>
+        <Chip label={"#" + props.tag} color="default" clickable={true}
+              sx={{fontSize: "10px", fontWeight: "bold"}} size="small" data-tag={props.tag}
+              onClick={handleTagClick}/>
+    </Tooltip>
+    )
+}
 
 
 const Board = () => {
@@ -392,7 +491,6 @@ const Board = () => {
     const [hashtagContent, setHashtagContent] = useState<ReactNode>();
     const [isHashtagLoading, setIsHashtagLoading] = useState<boolean>(false);
     const [hashtagCountArray, setHashtagCountArray] = useState<{ name: string, count: number }[]>([]);
-
     const handleGetBoardCountByHashtagName = useCallback(async (e: React.MouseEvent) => {
         if (isHashtagLoading) {
             setIsHashtagLoading(false);
@@ -445,11 +543,7 @@ const Board = () => {
         navigate(BOARD_LIST_URL + `?boardType=${boardType}&searchType=hashtag&keyword=${keyword}`);
         e.stopPropagation();
     };
-    const handleCharacterTagClick = (e: React.MouseEvent<HTMLElement>) => {
-        const keyword = e.currentTarget.getAttribute("data-name")!;
-        navigate(BOARD_LIST_URL + `?boardType=ALL&searchType=characterName&keyword=${keyword}`);
-        e.stopPropagation();
-    };
+
     const handleGetBoardList = (url: string) => {
         setIsLoading(true);
         getBoardList(url).then((res) => {
@@ -462,11 +556,12 @@ const Board = () => {
     };
     const handleNavigateToDetail = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
+        e.preventDefault();
         const id = e.currentTarget.getAttribute("data-id");
         if (id) {
             navigate(`/boards/${id}`);
         }
-    }
+    };
     useEffect(() => {
             handleGetBoardList(BOARD_LIST_URL + `?boardType=${boardType}&page=${page}&searchType=${searchType}&keyword=${keyword}`);
             getBestArticles(BOARD_BEST_ARTICLE_URL + `${boardType}`, BOARD_LIST_URL, setBestArticleData);
@@ -485,7 +580,8 @@ const Board = () => {
                     <BoardCountWrapper>{data?.totalElements}개의 게시글</BoardCountWrapper>
                 </TableTitleWrapper>
             } useMenu={false} isLoading={isLoading} useIcon={true}
-                         icon={<LongMenu menuList={MenuListItem} boardType={boardType}/>}>
+                         icon={<LongMenu menuList={MenuListItem} boardType={boardType}/>}
+            >
                 <Box sx={{padding: "10px 10px 10px 10px"}}>
                     <ContentFlow data={bestArticleData} handleNavigate={handleBestArticleNavigate} chipColor={"default"}
                                  flowTitle={
@@ -503,7 +599,7 @@ const Board = () => {
                             gap: "10px",
                             borderTop: "1px solid #e0e0e0",
                             borderBottom: "1px solid #e0e0e0",
-                            width:"100%",
+                            width: "100%",
                             "@media (max-width:1024px)": {
                                 display: "none"
                             }
@@ -513,15 +609,18 @@ const Board = () => {
                                           useSearchOption={false} handleNavigate={handleNavigateToSearchResult}/>
                         </Box>
                         <Box>
-                            <Button sx={{textAlign:"right",}} onClick={() => navigate(BOARD_WRITE_URL + `?boardType=${boardType}&request=add`)}>
-                                <Typography fontFamily={"Core Sans"} color={"black"} fontWeight={"bold"} component={"span"} fontSize={"15px"}>글쓰기</Typography>
+                            <Button sx={{textAlign: "right",}}
+                                    onClick={() => navigate(BOARD_WRITE_URL + `?boardType=${boardType}&request=add`)}>
+                                <Typography fontFamily={"Core Sans"} color={"black"} fontWeight={"bold"}
+                                            component={"span"} fontSize={"15px"}>글쓰기</Typography>
                             </Button>
                         </Box>
                     </Box>
                 }
                 {isLoading && <BoardSkeleton/>}
                 {!isLoading && data?.content?.map((item) => (
-                        <ListItemButton key={item.id} onClick={handleNavigateToDetail} sx={{width: "100%", border: "0.2px solid #e0e0e0"}}
+                        <ListItem key={item.id}
+                                        sx={{width: "100%", border: "0.2px solid #e0e0e0"}}
                                         data-id={item.id}>
                             <BoardContainer>
                                 <BoardTagContainer>
@@ -529,39 +628,17 @@ const Board = () => {
                                           sx={{fontSize: "10px", fontWeight: "bold"}} size="small"
                                           data-type={item.boardType} onClick={handleTypeTagClick}/>
                                     {item.hashtags.map((tag, index) => (
-                                        <Tooltip key={index} title={isHashtagLoading ? <HashtagLoading/> : hashtagContent}
-                                                 placement="top"
-                                                 data-tag={tag} disableInteractive
-                                                 onMouseOver={handleGetBoardCountByHashtagName}>
-                                            <Chip label={"#" + tag} color="default" clickable={true}
-                                                  sx={{fontSize: "10px", fontWeight: "bold"}} size="small" data-tag={tag}
-                                                  onClick={handleTagClick}/>
-                                        </Tooltip>
+                                        <TagChip key={index} boardType={boardType} tag={tag}/>
                                     ))}
                                     {item.character &&
-                                        <Tooltip title={<CharacterContent characterName={item.character.characterName}
-                                                                          serverId={item.character.serverId}
-                                                                          characterImgUrl={item.character.characterImageUrl}
-                                                                          adventureName={item.character.adventureName}
-                                        characterId={item.character.characterId} />}
-                                                 placement="top">
-                                            <Chip avatar={<Avatar src={item.character?.characterImageUrl} sx={{
-                                                fontSize: "10px",
-                                                "& > img": {
-                                                    objectFit: "cover",
-                                                    objectPosition: "center",
-                                                    height: "500%",
-                                                    width: "1300%",
-                                                    backgroundColor: "#c4c4c4",
-                                                }
-                                            }}></Avatar>} label={item.character?.characterName} color="default"
-                                                  clickable={true}
-                                                  sx={{fontSize: "10px", fontWeight: "bold"}} size="small"
-                                                  data-name={item.character.characterName}
-                                                  onClick={handleCharacterTagClick}/>
-                                        </Tooltip>}
+                                        <CharacterChip characterName={item.character.characterName}
+                                                       characterImgUrl={item.character.characterImageUrl}
+                                                       adventureName={item.character.adventureName}
+                                                       serverId={item.character.serverId}
+                                                       characterId={item.character.characterId}/>
+                                    }
                                 </BoardTagContainer>
-                                <BoardTitleWrapper>{item.boardTitle}</BoardTitleWrapper>
+                                <BoardTitleWrapper onClick={handleNavigateToDetail} data-id={item.id}>{item.boardTitle}</BoardTitleWrapper>
                                 <BoardAuthorWrapper>
                                     <Avatar src={item.userProfileImgUrl} sx={{width: 24, height: 24, bgcolor: "#c4c4c4"}}/>
                                     <Typography sx={{
@@ -571,7 +648,7 @@ const Board = () => {
                                     }}>{item.userNickname}</Typography>
                                 </BoardAuthorWrapper>
                                 <BoardCommentContainer>
-                                    <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+                                    <Box style={{display: "flex", flexDirection: "row", gap: "10px"}}>
                                         <BoardIconWrapper>
                                             <FavoriteBorderOutlined sx={{fontSize: "14px"}}/>
                                             <BoardIconValues>{item.boardLikeCount}</BoardIconValues>
@@ -584,14 +661,14 @@ const Board = () => {
                                             <RemoveRedEyeOutlined sx={{fontSize: "14px"}}/>
                                             <BoardIconValues>{item.boardViewCount}</BoardIconValues>
                                         </BoardIconWrapper>
-                                    </div>
+                                    </Box>
                                     <BoardCreatedAtWrapper>
                                         <Typography
                                             sx={{fontSize: "12px", fontFamily: "Core Sans"}}>{item.createdAt}</Typography>
                                     </BoardCreatedAtWrapper>
                                 </BoardCommentContainer>
                             </BoardContainer>
-                        </ListItemButton>
+                        </ListItem>
                     )
                 )
                 }

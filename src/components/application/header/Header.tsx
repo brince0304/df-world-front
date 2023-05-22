@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from "react";
+import React, {useCallback} from "react";
 import styled from "styled-components";
 import {
     Avatar,
@@ -7,25 +7,22 @@ import {
     Button,
     Divider,
     IconButton,
-    List, ListItem, ListItemButton,
     Tooltip,
     tooltipClasses,
     TooltipProps,
     Zoom
 } from "@mui/material";
-import {Collapse} from "@mui/material";
 import {useState} from "react";
 import "../../../assets/css/header.scss";
 import {HeaderData} from "../../../data/HeaderData";
 import LoginPage from "../auth/LoginPage";
 import MobileNav from "./MobileNav";
-import {faBars, faBell, faCog, faRing, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faBell, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import useNavBar from "../../../hooks/useNavBar";
 import {SocialLogin} from "../auth/SocialLogin";
 import RegisterPage from "../auth/RegisterPage";
 import LoginModal from "../auth/LoginModal";
-import useSelectSearch from "../../../hooks/useSelectSearch";
 import {useNavigate} from "react-router-dom";
 import store, {
     useAppDispatch,
@@ -36,11 +33,8 @@ import {RootState} from "../../../redux/store";
 import {logout} from "../../../api/auth/logout";
 import {HeaderProfile} from "./HeaderProfile";
 import {getCharactersAutoComplete} from "../../../api/character/getCharactersAutoComplete";
-import {setLoginModalOpened, setCharacterHistory, toggleProfileOpened, removeCharacterHistory} from "../../../redux";
+import {setLoginModalOpened, toggleProfileOpened, removeCharacterHistory} from "../../../redux";
 import {useSelector} from "react-redux";
-import Typography from "@mui/material/Typography";
-import ProfileIconChangeModal from "../auth/ProfileIconChangeModal";
-import Fade from "@mui/material/Fade";
 import {NewSearchBox} from "../ui/NewSearchBox";
 
 
@@ -286,14 +280,7 @@ const MenuIconWrapper = styled.div`
   color: #181818;
 `;
 
-const profileMenuList = [
-    {
-        name: "마이페이지",
-        link: "/mypage/",
-        icon: <FontAwesomeIcon icon={faUser} size="sm"/>
-    },
-    {}
-];
+
 
 const HtmlTooltip = styled(({className, ...props}: TooltipProps) => (
     <Tooltip {...props} classes={{popper: className}}/>
@@ -435,7 +422,6 @@ const Header = (props: HeaderProps) => {
                         <HeaderMenu onClick={handleModalOpen}>로그인</HeaderMenu>}
                 </HeaderMenuWrapper>
                 <ProfileContainer>
-
                     {isAuthenticated &&
                         <HtmlTooltip title={
                             <React.Fragment>

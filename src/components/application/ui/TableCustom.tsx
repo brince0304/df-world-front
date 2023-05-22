@@ -130,7 +130,6 @@ interface TableCustomProps {
     isLoading: boolean;
     useIcon: boolean;
     icon?: React.ReactNode;
-    onClickIcon?: () => void;
     children: React.ReactNode;
 }
 
@@ -143,10 +142,7 @@ export function TableCustom(props: TableCustomProps) {
                     {props.isLoading &&
                         <ReactLoading type={"spinningBubbles"} color={"gray"} width={"25px"} height={"25px"}/>}
                 </TableTitleWrapper>
-                {props.useIcon &&
-                    <IconButton onClick={props.onClickIcon}>
-                        {props.useIcon && props.icon}
-                    </IconButton>}
+                {props.useIcon && props.icon}
             </TableHeader>
             {props.useMenu && props.menus &&
                 <TableMenu isSelected={props.isSelected} menus={props.menus} setIsSelected={props.setIsSelected}/>}

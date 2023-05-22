@@ -9,8 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {faChevronRight, faExclamationTriangle, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ErrorScreen} from "../ui/ErrorScreen";
-import {ListItemButton} from "@mui/material";
-import Typography from "@mui/material/Typography";
+import IconButton from '@mui/material/IconButton';
 
 
 const TableData = styled.div`
@@ -242,8 +241,10 @@ export default function RankingTable(props: RankingTableProps) {
         <TableCustom title={props.title} isSelected={isSelected} setIsSelected={setIsSelected}
                      menus={mainPageRankingData.rankingType} useMenu={true} useIcon={true}
                      isLoading={isLoading}
-                     onClickIcon={() => {
-                     }} icon={<FontAwesomeIcon icon={faChevronRight} size="sm"/>}>
+                     icon={
+            <IconButton>
+                <FontAwesomeIcon icon={faChevronRight} size="sm"/>
+            </IconButton>}>
             <TableBody>
                 {data.length >0 &&!isError && <RankingTableRow type={isSelected} data={data}/>}
 
