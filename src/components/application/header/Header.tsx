@@ -438,11 +438,9 @@ const Header = (props: HeaderProps) => {
                                     <HeaderProfileMenuBox/>
                                 </Box>
                             </React.Fragment>} placement={"bottom"} TransitionComponent={Zoom}>
-                            <Badge color="primary" badgeContent={notificationCount}>
                                 <ProfileWrapper>
                                     <HeaderProfile onClick={handleClickProfile}/>
                                 </ProfileWrapper>
-                            </Badge>
                         </HtmlTooltip>}
                 </ProfileContainer>
             </HeaderBottom>

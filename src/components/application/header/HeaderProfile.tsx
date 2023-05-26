@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import {RootState, useAppDispatch, useAppSelector} from "../../../redux/store";
 import {useDispatch, useSelector} from "react-redux";
-import {useCallback, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {toggleProfileOpened} from "../../../redux";
-import {Avatar, Button, ListItemButton} from "@mui/material";
+import {Avatar, Badge, Button, ListItemButton} from "@mui/material";
 
 const Container = styled.div`
   display: flex;
@@ -63,9 +63,12 @@ const ProfileDetailsWrapper = styled.div`
 
 export const HeaderProfile = (props:{onClick:()=>void}) => {
     const userData = useAppSelector((state: RootState) => state.auth.userDetail);
+    const notification = useAppSelector((state: RootState) => state.notification);
     return (
         <Button onClick={props.onClick}>
-                <Avatar src={userData?.profileImgPath} alt="profile" sx={{ width: 30, height: 30 ,backgroundColor:"white",border:"1px solid #f5f5f5"}}/>
+            <Badge color="primary" badgeContent={notification.notificationCount}>
+            <Avatar src={userData?.profileImgPath} alt="profile" sx={{ width: 30, height: 30 ,backgroundColor:"white",border:"1px solid #f5f5f5"}}/>
+            </Badge>
             <ProfileNicknameWrapper>
                 <span style={{marginLeft: '10px'}}>{userData?.nickname}</span>
             </ProfileNicknameWrapper>

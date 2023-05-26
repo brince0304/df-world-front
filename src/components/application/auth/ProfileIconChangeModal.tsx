@@ -149,7 +149,7 @@ export default function ProfileIconChangeModal (props:ProfileIconChangeModalProp
                     <ModalHeader>
                         프로필 아이콘을 변경합니다!
                     </ModalHeader>
-                    <ImageUploader/>
+                    <ImageUploader refresh={props.refresh} handleClose={props.handleClose}/>
                     <Divider variant="middle" />
                     <ModalBody>
                         <IconSelectorWrapper>

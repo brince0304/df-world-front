@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import getFile from "../../../api/file/getFile";
 import putAvatar from "../../../api/myPage/putAvatar";
 
-export default function ImageUploader() {
+export default function ImageUploader(props:{refresh:()=>void,handleClose:()=>void}) {
     const user = useSelector((state: RootState) => state.auth.userDetail);
     const [profile, setProfile] = useState<File | null>(null);
     const [profileUrl, setProfileUrl] = useState<string>("");
@@ -23,7 +23,8 @@ export default function ImageUploader() {
             formData.append("file", profile);
             putAvatar( formData).then((res) => {
                 window.alert("프로필 사진이 변경되었습니다.");
-                window.location.reload();
+                props.refresh();
+                props.handleClose();
             }).catch((err) => {
                 window.alert("프로필 사진 변경에 실패하였습니다.");
                 console.log(err);

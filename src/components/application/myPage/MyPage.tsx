@@ -1,5 +1,5 @@
 import {
-    Avatar,
+    Avatar, Badge,
     Box, Button,
     Card, Collapse,
     Container,
@@ -192,7 +192,7 @@ const UserDetailEditModal = (props: { open: boolean, onClose: () => void, refres
         resolver: yupResolver(schema),
         mode: "onChange",
     });
-
+    const userDetails = useSelector((state: RootState) => state.auth.userDetail);
     const dispatch = useAppDispatch();
     const [isNicknameValidated, setIsNicknameValidated] = useState<boolean>(false);
     const [isNicknameChecked, setIsNicknameChecked] = useState<boolean>(false);
@@ -394,6 +394,7 @@ const UserProfileMenuList = (props: { refresh: () => void }) => {
     const [openProfileIconChangeModal, setOpenProfileIconChangeModal] = useState(false);
     const user = useSelector((state: RootState) => state.auth.userDetail);
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const notification = useSelector((state: RootState) => state.notification);
     const dispatch = useAppDispatch();
     const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const targetId = e.currentTarget.attributes.getNamedItem("data-id")?.value;
@@ -464,7 +465,7 @@ const UserProfileMenuList = (props: { refresh: () => void }) => {
             icon: <EditIcon/>
         },
         {
-            label: "캐릭터 등록",
+            label: "캐릭터 링크",
             onClick: handleOpenCharacterLinkModal,
             icon: <AttachFileIcon/>
         },
@@ -484,6 +485,10 @@ const UserProfileMenuList = (props: { refresh: () => void }) => {
                     <ProfileMenuButton key={index} onClick={menu.onClick}>
                         {menu.icon}
                         <Typography component={"span"} fontSize={"0.8rem"}>{menu.label}</Typography>
+                        {menu.label === '활동내역' && <Badge sx={{
+                            marginLeft: "10px"
+                        }} color={"primary"}
+                               badgeContent={notification.notificationCount} />}
                     </ProfileMenuButton>
                 );
             })}
@@ -628,7 +633,7 @@ export const MyPage = () => {
                                 fontFamily={"Core Sans"} fontSize={"1.5rem"} fontWeight={"bold"} sx={{
                         textAlign: "left",
                         marginBottom: "10px"
-                    }}>{userData.characterCount === 0 ? "캐릭터가 등록되지 않았습니다." : `내 캐릭터 ${userData.characterCount}개`}</Typography>
+                    }}>{userData.characterCount === 0 ? "링크된 캐릭터가 존재하지 않습니다." : `내 캐릭터 ${userData.characterCount}개`}</Typography>
                     {myPageResponse?.userDetail?.characters.length > 0 &&
                         <UserCharacterCard data={myPageResponse.userDetail.characters}
                                            refresh={handleGetMyPageResponse}/>}

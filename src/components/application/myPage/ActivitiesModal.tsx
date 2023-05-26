@@ -1,23 +1,19 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
-import {useCallback, useEffect} from "react";
-import {setLoginModalOpened} from "../../../redux";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
+import {useCallback, useEffect, useRef} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faBell,
     faClock,
-    faComment,
+    faComment, faEllipsisV,
     faEye,
     faHeart,
     faList,
     faXmark,
     IconDefinition
 } from "@fortawesome/free-solid-svg-icons";
-import CloseIcon from "@mui/icons-material/Close";
 import {
     Avatar,
     Button, Card, Chip,
@@ -26,8 +22,7 @@ import {
     DialogTitle, Grow,
     IconButton,
     List,
-    ListItemButton,
-    ListItemText, Pagination,
+    ListItemButton, Menu, MenuItem, Pagination, Popper,
     styled, ToggleButton, ToggleButtonGroup, Tooltip, TooltipProps
 } from "@mui/material";
 import {useState} from "react";
@@ -39,82 +34,8 @@ import Typography from "@mui/material/Typography";
 import {getBoardType} from "../board/Board";
 import {useNavigate} from "react-router-dom";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const style = {
-    display: "flex" as "flex",
-    alignItems: "center" as "center",
-    justifyContent: "center" as "center",
-    position: "absolute" as "absolute",
-    overflow: "scroll" as "scroll",
-    scrollBehavior: "smooth" as "smooth",
-    //스크롤바 숨기기
-    "&::-webkit-scrollbar": {
-        display: "none",
-    },
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    //props width
-    width: "auto",
-    height: "auto",
-    bgcolor: "background.paper",
-    borderRadius: 2,
-    boxShadow: 24,
-};
-
-
-export const ModalHeader = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-size: 22px;
-  font-weight: 700;
-  color: #000;
-`;
-
-const ModalBox = styled(Box)`
-  && {
-    display: flex;
-    flex-direction: column;
-    padding-top: 10px;
-    width: 400px;
-    height: 600px;
-    position: relative;
-  }
-`;
-
-
-export const CloseButtonWrapper = styled(Box)`
-  //우측 끝에 배치
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: sticky;
-  font-size: 25px;
-  margin-left: auto;
-  margin-right: 15px;
-  top: 0px;
-  color: silver;
-  cursor: pointer;
-  z-index: 10;
-
-  &:hover {
-    color: #282c34;
-    transition: 0.3s;
-  }
-`;
-
-
-export const ModalBody = styled(Box)`
-  display: flex;
-  position: relative;
-  height: 100%;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
-`;
 
 interface ActivitiesModalProps {
     activitiesModalOpened: boolean,
@@ -146,23 +67,32 @@ const StyledCard = styled(Card)`
   width: 100%;
   padding: 10px;
   position: absolute;
-    top: 0;
-    left: 0;
+  top: 0;
+  left: 0;
 `;
 
 
-const TypeMenu = (typeMenu: ITypeMenu[]) => {
+const SquareChip = styled(Chip)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 1rem;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 5px;
+  padding-left: 0;
+  padding-right: 0;
+`;
 
-    return (
-        <StyledCard>
-            <List>
-                <ListItemButton>
-                </ListItemButton>
-            </List>
+const TitleHeader = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+`;
 
-        </StyledCard>
-    );
-};
 
 export const ActivitiesModalBoardTemplate = (props: { data: BoardActivitiesJson }) => {
     const navigate = useNavigate();
@@ -181,31 +111,14 @@ export const ActivitiesModalBoardTemplate = (props: { data: BoardActivitiesJson 
                             flexDirection: "column",
                             alignItems: "flex-start",
                         }}>
-                            <Box sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "flex-start",
-                                gap: "5px"
-                            }}>
-                                <Chip label={getBoardType(item.boardType)} sx={{
-                                    height: "1rem", fontSize: 10,
-                                    fontWeight: 700,
-                                    borderRadius: 1,
-                                    paddingLeft: "0",
-                                    paddingRight: "0",
-                                }} size={"small"}
-                                      color={"primary"}/>
-                                {item.character && <Chip avatar={
+                            <TitleHeader>
+                                <SquareChip label={getBoardType(item.boardType)} size={"small"}
+                                            color={"primary"}/>
+                                {item.character && <SquareChip avatar={
                                     <Avatar src={item.character.characterImageUrl} sx={{
                                         backgroundColor: "white",
                                     }}/>
                                 } label={item.character.characterName} sx={{
-                                    height: "1rem", fontSize: 10,
-                                    fontWeight: 700,
-                                    borderRadius: 1,
-                                    paddingLeft: "0",
-                                    paddingRight: "0",
                                     "& .MuiChip-avatar": {
                                         width: "0.7rem",
                                         height: "0.7rem",
@@ -215,47 +128,31 @@ export const ActivitiesModalBoardTemplate = (props: { data: BoardActivitiesJson 
                                     }
                                 }} size={"small"}
                                 />}
-                                <Chip icon={<FontAwesomeIcon icon={faHeart}
-                                                             style={{width: "0.75rem", height: "0.75rem"}}
-                                />}
-                                      variant={"outlined"}
-                                      label={item.boardLikeCount} sx={{
-                                    height: "1rem", fontSize: 10,
-                                    fontWeight: 700,
-                                    borderRadius: 1,
-                                    paddingLeft: "0",
-                                    paddingRight: "0",
-                                }} size={"small"}/>
-                                <Chip icon={<FontAwesomeIcon icon={faComment}
-                                                             style={{width: "0.7rem", height: "0.7rem"}}
-                                />}
-                                      variant={"outlined"}
-                                      label={item.commentCount} sx={{
-                                    height: "1rem", fontSize: 10,
-                                    fontWeight: 700,
-                                    borderRadius: 1,
-                                    paddingLeft: "0",
-                                    paddingRight: "0",
-                                }} size={"small"}/>
-                                <Chip label={item.createdAt}
-                                      variant={"outlined"}
-                                      sx={{
-                                          height: "1rem", fontSize: 10,
-                                          fontWeight: 700,
-                                          borderRadius: 1,
-                                          paddingLeft: "0",
-                                          paddingRight: "0",
-                                      }} size={"small"}/>
-                            </Box>
+                                <SquareChip icon={<FontAwesomeIcon icon={faHeart}
+                                                                   style={{width: "0.7rem", height: "0.7rem", paddingLeft:"3px"}}/>}
+                                            variant={"outlined"}
+                                            label={item.boardLikeCount} size={"small"}/>
+                                <SquareChip icon={<FontAwesomeIcon icon={faComment}
+                                                                   style={{width: "0.7rem", height: "0.7rem", paddingLeft:"3px"}}/>}
+                                            variant={"outlined"}
+                                            label={item.commentCount} size={"small"}/>
+                                <SquareChip label={item.createdAt}
+                                            sx={{
+                                                paddingLeft:0,
+                                                paddingRight:0
+                                            }}
+                                            variant={"outlined"} size={"small"}/>
+                            </TitleHeader>
                             <Typography component="span"
                                         fontFamily={"Core Sans"}
-                                        sx={{
-                                            fontSize: 14, fontWeight: 400, color: "#000", display: "inline-block",
-                                            whiteSpace: "nowrap",
-                                            textOverflow: "ellipsis",
-                                            overflow: "hidden",
-                                            width: "320px"
-                                        }}>
+                                        fontSize={14}
+                                        fontWeight={400}
+                                        color={"#000"}
+                                        display={"inline-block"}
+                                        whiteSpace={"nowrap"}
+                                        textOverflow={"ellipsis"}
+                                        overflow={"hidden"}
+                                        width={"380px"}>
                                 {item.boardTitle}
                             </Typography>
                         </Box>
@@ -266,7 +163,7 @@ export const ActivitiesModalBoardTemplate = (props: { data: BoardActivitiesJson 
     );
 };
 
-interface IToogleButtonGroup {
+interface IToggleButtonGroup {
     value: string,
     icon: IconDefinition,
     tooltipTitle: string,
@@ -278,7 +175,7 @@ const ToggleButtonGroupComponent = (
     props: {
         sortBy: string,
         handleChangeSortBy: (event: React.MouseEvent<HTMLElement>, newAlignment: "" | "like" | "commentCount" | "view") => void,
-        groups: IToogleButtonGroup[]
+        groups: IToggleButtonGroup[]
     }
 ) => {
     return (
@@ -288,21 +185,120 @@ const ToggleButtonGroupComponent = (
             exclusive
             onChange={props.handleChangeSortBy}
         >
+            // TODO : disable 됐을 때 툴팁 안 뜨도록
             {props.groups.map((group, index) => {
                 return (
 
-                <Tooltip title={group.tooltipTitle} placement={group.tooltipPlacement}
-                         key={index}>
-                    <ToggleButton value={group.value}
-                                  selected={props.sortBy === group.value}>
-                        <FontAwesomeIcon icon={group.icon}/>
-                    </ToggleButton>
-                </Tooltip>
+                    <Tooltip title={group.tooltipTitle} placement={group.tooltipPlacement}
+                             key={index}>
+                        <ToggleButton value={group.value}
+                                      selected={props.sortBy === group.value}>
+                            <FontAwesomeIcon icon={group.icon}/>
+                        </ToggleButton>
+                    </Tooltip>
                 );
             })}
         </ToggleButtonGroup>
     );
 };
+
+
+
+const MenuButton = (props: { handleChange:(value:string)=>void, menuList : ITypeMenu[], isSelected : string}) => {
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = (e:React.MouseEvent) => {
+        const type = e.currentTarget.attributes.getNamedItem("data-type")?.value;
+        if(type) {
+            props.handleChange(type);
+        }
+        setAnchorEl(null);
+    };
+
+    return (
+        <div>
+            <IconButton
+                aria-label="more"
+                id="long-button"
+                aria-controls={open ? 'long-menu' : undefined}
+                aria-expanded={open ? 'true' : undefined}
+                aria-haspopup="true"
+                onClick={handleClick}
+            >
+                <MoreVertIcon />
+            </IconButton>
+            <Menu
+                id="menu-list"
+                MenuListProps={{
+                    'aria-labelledby': 'long-button',
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        maxHeight: 48 * 4.5,
+                        width: '10ch',
+                    },
+                }}
+            >
+                {props.menuList.map((menu,index) => (
+                    <MenuItem key={index} selected={menu.type === props.isSelected} data-type={menu.type} onClick={handleClose}>
+                        <Typography fontFamily={"Core Sans"} fontSize={13} fontWeight={700}>
+                            {menu.label}
+                        </Typography>
+                    </MenuItem>
+                ))}
+            </Menu>
+        </div>
+    );
+};
+
+const StyledDialogTitle = styled(DialogTitle)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+`;
+
+const StyledDialogContent = styled(DialogContent)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding:0;
+`;
+
+const StyledDialogActions = styled(DialogActions)`
+  display: flex;
+  border-top: 0px solid #e0e0e0;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+`;
+
+const StyledDialogTitleMenuBox = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+`;
+
+const PaginationToggleGroupBox = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
 
 export default function ActivitiesModal(props: ActivitiesModalProps) {
 
@@ -315,7 +311,6 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
     const [boardActivities, setBoardActivities] = useState<BoardActivitiesJson>({} as BoardActivitiesJson);
     const [commentActivities, setCommentActivities] = useState<CommentActivitiesJson>({} as CommentActivitiesJson);
     const [notificationActivities, setNotificationActivities] = useState<NotificationActivities>({} as NotificationActivities);
-    const [isMenuClicked , setIsMenuClicked] = useState<boolean>(false);
 
     const categories = [{
         type: "board",
@@ -336,22 +331,22 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
     ] as ITypeMenu[];
 
     const getTypeName = (type: string) => {
-        if (type === 'board'){
+        if (type === "board") {
             return "게시글";
         }
-        if (type === 'comment'){
+        if (type === "comment") {
             return "댓글";
         }
-        if (type === 'notification'){
+        if (type === "notification") {
             return "알림";
         }
         return "";
+    };
+
+    const handleChangeCategory = (type:string)=>{
+        setCategory(type as "board" | "comment" | "notification");
+        setPage(0);
     }
-
-
-    const handleClickMenu = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-        setIsMenuClicked(true);
-    }, [isMenuClicked]);
 
     const handleSetBoardActivities = useCallback((data: BoardActivitiesJson) => {
         setBoardActivities(data);
@@ -388,7 +383,7 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
     }, [category, sortBy, page]);
 
 
-    const boardToggleButtonGroups: IToogleButtonGroup[] =
+    const boardToggleButtonGroups: IToggleButtonGroup[] =
         [
             {
                 value: "",
@@ -429,79 +424,35 @@ export default function ActivitiesModal(props: ActivitiesModalProps) {
             open={props.activitiesModalOpened}
             onClose={props.handleClose}
         >
-            <DialogTitle
-                sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    borderBottom: "1px solid #e0e0e0",
-                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-                }}
-            >
-                <Typography  component="span" sx={{fontSize: 18, fontWeight: 700, color: "#000"}}
-                            fontFamily="Core Sans"
-                >
+            <StyledDialogTitle>
+                <Typography component="span" sx={{fontSize: 18, fontWeight: 700, color: "#000"}}
+                            fontFamily="Core Sans">
                     활동 내역
                 </Typography>
-                <Box sx={
-                    {
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        position:"relative"
-
-                    }
-                }>
-                    <Button onClick={handleClickMenu}>
-                        {getTypeName(category)}
-                    </Button>
-
+                <StyledDialogTitleMenuBox>
+                    <MenuButton handleChange={handleChangeCategory} isSelected={category} menuList={categories}/>
                     <Button>
                         닫기
                     </Button>
-                </Box>
+                </StyledDialogTitleMenuBox>
 
-            </DialogTitle>
-            <DialogContent
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    width: "100%",
-                    height: "100%",
-                    position: "relative",
-                }}>
+            </StyledDialogTitle>
+            <StyledDialogContent>
                 {category === "board" && boardActivities.content &&
                     <ActivitiesModalBoardTemplate data={boardActivities}/>}
-            </DialogContent>
-            <DialogActions
-                sx={{
-                    display: "flex",
-                    borderTop: "0px solid #e0e0e0",
-                    boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.25)",
-                }}
-            >
+            </StyledDialogContent>
+            <StyledDialogActions>
 
                 {category === "board" &&
-                    <Box sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: "100%",
-                    }}>
+                    <PaginationToggleGroupBox>
                         <ToggleButtonGroupComponent sortBy={sortBy} handleChangeSortBy={handleChangeSortBy}
                                                     groups={boardToggleButtonGroups}/>
                         <Pagination count={boardActivities.totalPages} page={page + 1} onChange={(e, page) => {
                             setPage(page - 1);
                         }}/>
-                    </Box>
+                    </PaginationToggleGroupBox>
                 }
-            </DialogActions>
+            </StyledDialogActions>
         </Dialog>
     );
 }
