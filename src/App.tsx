@@ -1,28 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Header from './components/application/header/Header';
-import Main from './components/application/main/Main';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Board from "./components/application/board/Board";
+import React, {useEffect} from "react";
+import "./App.css";
+import Main from "./pages/Home";
+import {Route, Routes} from "react-router-dom";
+import Board from "./pages/Board/";
 import {RootState, useAppDispatch} from "./redux/store";
-import {getUser} from "./api/auth/getUser";
-import {Characters} from "./components/application/character/Characters";
-import ReactLoading from "react-loading";
-import styled from 'styled-components';
+import {getUser} from "./apis/auth/getUser";
+import Characters from "./pages/Characters";
 import {useSelector} from "react-redux";
-import {CircularProgress, createTheme, LinearProgress, ThemeProvider} from "@mui/material";
-import {WriteBoard} from "./components/application/board/WriteBoard";
+import {createTheme, LinearProgress} from "@mui/material";
+import WriteBoard from "./pages/Board/Write";
 import {BOARD_LIST_URL} from "./data/ApiUrl";
-import {BoardDetail} from "./components/application/board/BoardDetail";
+import BoardDetail from "./pages/Board/Detail";
 import {Footer} from "./components/application/footer/Footer";
 import {BOARD_INSERT_FORM_ROUTE, BOARD_ROUTE} from "./data/routeLink";
 import {BadRequest} from "./components/application/error/BadRequest";
-import {CharacterDetail} from "./components/application/character/CharacterDetail";
-import {MyPage} from "./components/application/myPage/MyPage";
-import {setNotificationCount} from "./redux";
-import {EventSourceProvider, useEventSource} from "react-sse-hooks";
-
+import CharacterDetail from "./pages/Characters/Detail";
+import MyPage from "./pages/MyPage";
+import {useEventSource} from "react-sse-hooks";
+import Header from "./components/Header";
 
 
 const light = createTheme({

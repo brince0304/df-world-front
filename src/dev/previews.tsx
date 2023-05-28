@@ -2,18 +2,13 @@ import React from 'react';
 import {ComponentPreview, Previews} from '@react-buddy/ide-toolbox';
 import {PaletteTree} from './palette';
 import App from "../App";
-import RankingTable from "../components/application/character/RankingTable";
-import MainPageRankingData from "../data/MainPageRankingData";
-import {HeaderData} from "../data/HeaderData";
-import {SocialLogin} from "../components/application/auth/SocialLogin";
-import RegisterPage from "../components/application/auth/RegisterPage";
-import Header from "../components/application/header/Header";
-import Board from "../components/application/board/Board";
-import {BoardDetailSkeleton} from "../components/application/loading/BoardDetailSkeleton";
-import {BoardDetail} from "../components/application/board/BoardDetail";
-import {BoardSkeleton} from "../components/application/loading/BoardSkeleton";
-import {WriteBoard} from "../components/application/board/WriteBoard";
-import Main from "../components/application/main/Main";
+import BoardDetailSkeleton from "../components/Skeleton/BoardDetailSkeleton";
+import BoardDetail from "../pages/Board/Detail";
+import BoardListSkeleton from "../components/Skeleton/BoardListSkeleton ";
+import WriteBoard from "../pages/Board/Write";
+import Main from '../pages/Home';
+import Board from '../pages/Board';
+import ValidateForm from "../components/ValidateTextField";
 
 const ComponentPreviews = () => {
     return (
@@ -34,12 +29,12 @@ const ComponentPreviews = () => {
                 <BoardDetail/>
             </ComponentPreview>
             <ComponentPreview path="/BoardSkeleton">
-                <BoardSkeleton/>
+                <BoardListSkeleton/>
             </ComponentPreview>
             <ComponentPreview path="/WriteBoard">
                 <WriteBoard/>
             </ComponentPreview>
-            <ComponentPreview path="/Main">
+            <ComponentPreview path="/Index">
                 <Main/>
             </ComponentPreview>
         </Previews>
