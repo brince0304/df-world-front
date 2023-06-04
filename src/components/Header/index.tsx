@@ -134,25 +134,8 @@ const HeaderTop = styled.div`
 `;
 
 
-const RegisterContainer = styled.div`
-          display: ${(props: { isloginpage: boolean }) => props.isloginpage ? "none" : "flex"};
-          width: 100%;
-          height: 100%;
-          //넘치면 스크롤바
-          @media (max-width: 768px) {
-            width: 100%;
-          }
-    `
-;
 
-const LoginContainer = styled.div`
-  display: ${(props: { isloginpage: boolean }) => props.isloginpage ? "flex" : "none"};
-  height: 100%;
-  align-items: center;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
+
 
 
 const MobileNavButton = styled(Button)`
@@ -347,12 +330,7 @@ const Header = (props: HeaderProps) => {
         navigate(`/characters/${serverId}?name=${characterName}`);
     };
     const [isNavbarOpened, openNavbar, closeNavbar] = useNavBar();
-    const [isloginpage, setIsloginpage] = useState<boolean>(true);
-    const handleChangeSection = useCallback(
-        () => {
-            setIsloginpage(!isloginpage);
-        },
-        [isloginpage]);
+
     const handleOptionMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         navigate("/details/?characterId=" + e.currentTarget.attributes.getNamedItem("data-id")?.value + "&serverId=" + e.currentTarget.attributes.getNamedItem("data-option")?.value);
     };
@@ -438,20 +416,7 @@ const Header = (props: HeaderProps) => {
                         </HtmlTooltip>}
                 </ProfileContainer>
             </HeaderBottom>
-            {!isAuthenticated && <LoginModal isloginpage={isloginpage}>
-                <RegisterContainer isloginpage={isloginpage.valueOf()} id={"register-part"}>
-                    <RegisterPage handleChangeSection={handleChangeSection}/>
-                </RegisterContainer>
-                <LoginContainer isloginpage={isloginpage.valueOf()} id={"postSignIn-part"}>
-                    <SocialLogin/>
-                    <Divider orientation={"vertical"} flexItem={true} sx={{
-                        "@media (max-width: 768px)": {
-                            display: "none",
-                        }
-                    }}/>
-                    <LoginPage handleChangeSection={handleChangeSection}/>
-                </LoginContainer>
-            </LoginModal>}
+            {!isAuthenticated && <LoginModal/>}
 
             <MobileHeader isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar}/>
             <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar}/>
