@@ -1,4 +1,3 @@
-import createInstance from "../../common/axiosInstance";
 import {BestArticleType} from "../../interfaces/BestArticleType";
 import {BestArticles} from "../../interfaces/ArticleType";
 import {ContentFlowProps} from "../../components/BestContent";
@@ -9,10 +8,10 @@ import Typography from "@mui/material/Typography";
 import {Chip, styled} from "@mui/material";
 import Box from "@mui/material/Box";
 import {ChatBubbleOutlineOutlined} from "@mui/icons-material";
-import axios from "../../common/axiosInstance";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMessage} from "@fortawesome/free-solid-svg-icons";
 import {getBoardType} from "../../pages/Board";
+import createInstance from "../index";
 
 
 
@@ -60,7 +59,7 @@ const Container = styled(Box)`
 
 
 export const getBestArticles = async (url:string,dataUrl : string,setData:(data:ContentFlowProps[])=>void) => {
-    axios().get(url).then((res:any)=>{
+    createInstance.get(url).then((res:any)=>{
         const data = res.data.bestArticles as BestArticles[];
         const contentFlowData = [] as ContentFlowProps[];
         data.forEach((item)=>{

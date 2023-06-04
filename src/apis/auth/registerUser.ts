@@ -1,6 +1,5 @@
 import {USER_LOGIN_URL, USER_REGISTER_URL} from "../../data/ApiUrl";
-import axios from "../../common/axiosInstance";
-import createInstance from "../../common/axiosInstance";
+import createInstance from "../index";
 
 export interface RegisterFormProps {
     email: string;
@@ -12,7 +11,7 @@ export interface RegisterFormProps {
 }
 
 export async function registerUser(data: RegisterFormProps,setError:any) {
-    const response = axios().post(USER_REGISTER_URL, {
+    const response = createInstance.post(USER_REGISTER_URL, {
         userId: data.userId,
         nickname: data.nickname,
         email: data.email,

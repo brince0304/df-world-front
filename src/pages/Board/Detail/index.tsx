@@ -18,7 +18,7 @@ import Box from "@mui/material/Box";
 import React, {useCallback, useEffect, useState} from "react";
 import {BoardDetailData} from "../../../interfaces/BoardDetailData";
 import {setIsLoading} from "../../../redux";
-import {RootState, useAppDispatch, UserDetail} from "../../../redux/store";
+import {RootState, useAppDispatch} from "../../../redux/store";
 import {useSelector} from "react-redux";
 import {getBoardDetail} from "../../../apis/board/getBoardDetail";
 import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL} from "../../../data/ApiUrl";
@@ -55,6 +55,7 @@ import {putBoardComment} from "../../../apis/boardComment/putBoardComment";
 import {postChildrenComment} from "../../../apis/boardComment/postChildrenComment";
 import {getChildrenComment} from "../../../apis/boardComment/getChildrenComment";
 import {BestArticleNoDataWrapper, BestArticleTitleComponent, CharacterChip, getBoardType, TagChip} from "..";
+import { UserDetail } from "../../../apis/data";
 
 
 const TagContainer = styled(Box)`

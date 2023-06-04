@@ -1,6 +1,6 @@
-import axiosInstance from "../../common/axiosInstance";
+import createInstance from "../index";
 
 export const postCommentLike = async (boardId: string, commentId: string) => {
     const url = `/comments/like-comment?commentId=${commentId}&boardId=${boardId}`;
-    return await axiosInstance().post(url);
+    return await createInstance.post(url);
 }

@@ -5,11 +5,10 @@ import Box from "@mui/material/Box";
 import styled from "styled-components";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {ReactEventHandler, useCallback} from "react";
 import {Avatar, Divider, IconButton} from "@mui/material";
 import {profileIconData} from "../../../data/ProfileIconData";
-import axios from "../../../common/axiosInstance";
 import ImageUploader from "../../../components/ImageUploader";
+import axiosInstance from "../../../apis/index";
 
 
 const style = {
@@ -120,7 +119,7 @@ export default function ProfileIconChangeModal (props:ProfileIconChangeModalProp
                 alert("아이콘 변경에 실패하였습니다.");
                 return;
             }else if(url){
-                axios().put(url)
+                axiosInstance.put(url)
                     .then((res) => {
                         if(res.status === 200){
                             alert("변경되었습니다.");

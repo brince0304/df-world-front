@@ -1,6 +1,6 @@
 
-import axiosInstance from "../../common/axiosInstance";
+import createInstance from "../index";
 
 export const getBoardDetail = async (url:string) => {
-    return await axiosInstance().get(url);
+    return await createInstance.get(url);
 }

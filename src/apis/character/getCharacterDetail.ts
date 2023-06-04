@@ -1,17 +1,16 @@
 import  {RootState} from "../../redux/store";
-import createInstance from "../../common/axiosInstance";
 import {pushCharacterHistory, removeCharacterHistory, setIsLoading, setProgress} from "../../redux";
 import {SearchOption} from "../../interfaces/SeachBox";
 import {Action, ThunkAction} from "@reduxjs/toolkit";
-import axios from "../../common/axiosInstance";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
 import {CharacterDetailJson} from "../../interfaces/CharacterDetailJson";
+import createInstance from "../index";
 
 export const getCharacterDetail = (url:string,setData:({}:CharacterDetailJson)=>void,setIsError:(isError:boolean)=>void): ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch, getState) => {
         dispatch(setIsLoading(true));
-        axios().get(url).then((res) => {
+        createInstance.get(url).then((res) => {
             const history = {
                 id : res.data.characterAbility.characterId,
                 title : res.data.characterAbility.characterName,

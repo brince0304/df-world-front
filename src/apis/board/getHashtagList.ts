@@ -1,5 +1,5 @@
-import axiosInstance from "../../common/axiosInstance";
+import createInstance from "../index";
 
 export const getHashtagList = async (query:string) => {
-    return await axiosInstance().get(`/hashtags/?query=${query}`);
+    return await createInstance.get(`/hashtags/?query=${query}`);
 }

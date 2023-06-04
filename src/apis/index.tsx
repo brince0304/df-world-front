@@ -1,7 +1,5 @@
-import store, {UserDetail} from "../redux/store";
-import axios from "./axiosInstance";
-import {AxiosInstance} from "axios";
-import {useDispatch} from "react-redux";
+import axios, { AxiosInstance } from 'axios';
+import store from "../redux/store";
 import {setIsAuthenticated, setUserDetails} from "../redux";
 
 
@@ -42,3 +40,15 @@ export function setInterceptors(instance: AxiosInstance) {
 
     return instance;
 }
+
+const baseURL = '';
+const axiosInstance = (url:string,options?:any) => {
+    const instance = axios.create({
+        baseURL: url,
+        ...options,
+    });
+
+    return setInterceptors(instance)
+}
+
+export default axiosInstance(baseURL);

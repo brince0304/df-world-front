@@ -1,14 +1,13 @@
 import {Dispatch} from "redux";
-import createInstance from "../../common/axiosInstance";
 import UserDetail, {RootState} from "../../redux/store";
 import {setHasNotification, setIsAuthenticated, setNotificationCount, setUserDetails} from "../../redux";
 import {Action, ThunkAction} from "@reduxjs/toolkit";
-import axios from "../../common/axiosInstance";
+import createInstance from "../index";
 import {USER_DETAIL_URL} from "../../data/ApiUrl";
 
 export const getUser=():ThunkAction<void, RootState, unknown, Action> => {
     return async (dispatch: Dispatch, getState: () => RootState) => {
-    axios().get(USER_DETAIL_URL)
+    createInstance.get(USER_DETAIL_URL)
         .then((res: any) => {
             if (res.data.user) {
                 dispatch(setUserDetails(res.data.user));

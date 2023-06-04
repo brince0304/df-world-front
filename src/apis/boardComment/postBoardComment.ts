@@ -1,7 +1,7 @@
-import axiosCustom from "../../common/axiosInstance";
 import {BOARD_COMMENT_POST_URL} from "../../data/ApiUrl";
 import {AxiosResponse} from "axios";
 import {CommentForm} from "../../pages/Board/Detail";
+import createInstance from "../index";
 
 
 export function postBoardComment(postData: CommentForm, boardId:string): Promise<AxiosResponse> {
@@ -9,5 +9,5 @@ export function postBoardComment(postData: CommentForm, boardId:string): Promise
         boardId: boardId,
         commentContent: postData.commentContent
     }
-    return axiosCustom().post(BOARD_COMMENT_POST_URL, requestForm);
+    return createInstance.post(BOARD_COMMENT_POST_URL, requestForm);
 }

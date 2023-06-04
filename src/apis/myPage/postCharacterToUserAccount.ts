@@ -1,5 +1,5 @@
-import axiosInstance from "../../common/axiosInstance";
+import createInstance from "../index";
 
 export const postCharacterToUserAccount = async (url:string) => {
-    return await axiosInstance().post(url);
+    return await createInstance.post(url);
 }

@@ -1,5 +1,5 @@
-import axiosInstance from "../../common/axiosInstance";
+import createInstance from "../index";
 
 export default async function getFile(url:string) {
-    return await axiosInstance().get(url);
+    return await createInstance.get(url);
 }

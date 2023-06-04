@@ -1,6 +1,6 @@
 import {MyPageResponse} from "../../interfaces/MyPageResponse";
-import axiosInstance from "../../common/axiosInstance";
+import createInstance from "../index";
 
 export default async function getMyPageResponse() {
-    return await axiosInstance().get<MyPageResponse>('/users/');
+    return await createInstance.get<MyPageResponse>('/users/');
 }

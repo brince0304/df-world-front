@@ -1,8 +1,8 @@
 import {combineReducers, createSlice} from "@reduxjs/toolkit";
 import {SearchOption} from "../interfaces/SeachBox";
-import {UserDetail} from "./store";
 import {persistReducer} from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import {UserDetail} from "../apis/data";
 
 
 
@@ -120,4 +120,3 @@ export const {setIsLoading, setProgress, setIsError} = appSlice.actions;
 export const {setCharacterHistory,pushCharacterHistory,removeCharacterHistory} = historySlice.actions;
 
 export default persistReducer(persistConfig, reducers);
-

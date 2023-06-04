@@ -1,11 +1,10 @@
-import createInstance from "../../common/axiosInstance";
 import {CharactersData} from "../../interfaces/CharactersData";
 import {AutoCompleteCharacterData} from "../../interfaces/AutoCompleteCharacterData";
 import {SearchOption} from "../../interfaces/SeachBox";
-import axios from "../../common/axiosInstance";
+import createInstance from "../index";
 
 export const getCharactersAutoComplete = async (url:string,setData:([])=>void) => {
-    axios().get(url).then((res:any)=>{
+    createInstance.get(url).then((res:any)=>{
         const data =(data : AutoCompleteCharacterData[]) => {
             const result: SearchOption[] = [];
             data.forEach((item: AutoCompleteCharacterData) => {
