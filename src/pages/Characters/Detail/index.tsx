@@ -6,7 +6,7 @@ import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHandFist, faLevelUpAlt, faRotateRight} from "@fortawesome/free-solid-svg-icons";
 import {Avatar, Button, Container, Divider, IconButton, ListItemButton, Paper, Tab, Tabs, Tooltip} from "@mui/material";
-import {CHARACTER_DETAIL_URL} from "../../../data/ApiUrl";
+import {CHARACTER_DETAIL_URL} from "../../../apis/data/urls";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CharacterDetailSkeleton from "../../../components/Skeleton/CharacterDetailSkeleton";

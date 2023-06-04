@@ -1,4 +1,4 @@
-import {BOARD_COMMENT_POST_URL} from "../../data/ApiUrl";
+import {BOARD_COMMENT_POST_URL} from "../data/urls";
 import {AxiosResponse} from "axios";
 import {CommentForm} from "../../pages/Board/Detail";
 import createInstance from "../index";

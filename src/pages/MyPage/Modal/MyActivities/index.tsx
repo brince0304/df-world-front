@@ -1,31 +1,31 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
-import {useCallback, useEffect, useRef} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faBell,
-    faClock,
-    faComment, faEllipsisV,
-    faEye,
-    faHeart,
-    faList,
-    faXmark,
-    IconDefinition
-} from "@fortawesome/free-solid-svg-icons";
+import {faBell, faClock, faComment, faEye, faHeart, faList, IconDefinition} from "@fortawesome/free-solid-svg-icons";
 import {
     Avatar,
-    Button, Card, Chip,
-    Dialog, DialogActions,
+    Button,
+    Card,
+    Chip,
+    Dialog,
+    DialogActions,
     DialogContent,
-    DialogTitle, Grow,
+    DialogTitle,
     IconButton,
     List,
-    ListItemButton, Menu, MenuItem, Pagination, Popper,
-    styled, ToggleButton, ToggleButtonGroup, Tooltip, TooltipProps
+    ListItemButton,
+    Menu,
+    MenuItem,
+    Pagination,
+    styled,
+    ToggleButton,
+    ToggleButtonGroup,
+    Tooltip,
+    TooltipProps
 } from "@mui/material";
-import {useState} from "react";
 import {getMyActivities} from "../../../../apis/myPage/getMyActivities";
 import {BoardActivitiesJson} from "../../../../interfaces/BoardActivitiesJson";
 import {CommentActivitiesJson} from "../../../../interfaces/CommentActivitiesJson";
@@ -34,7 +34,7 @@ import Typography from "@mui/material/Typography";
 import {useNavigate} from "react-router-dom";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { getBoardType } from "../../../Board";
+import {getBoardType} from "../../../Board";
 
 
 interface ActivitiesModalProps {
@@ -313,7 +313,7 @@ const PaginationToggleGroupBox = styled(Box)`
     const [notificationActivities, setNotificationActivities] = useState<NotificationActivities>({} as NotificationActivities);
 
     const categories = [{
-        type: "board",
+        type: "postSignUp",
         setType: setCategory,
         label: "게시글",
         icon: faList
@@ -331,7 +331,7 @@ const PaginationToggleGroupBox = styled(Box)`
     ] as ITypeMenu[];
 
     const getTypeName = (type: string) => {
-        if (type === "board") {
+        if (type === "postSignUp") {
             return "게시글";
         }
         if (type === "comment") {

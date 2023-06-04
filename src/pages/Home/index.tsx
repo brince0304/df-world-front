@@ -4,7 +4,7 @@ import CharacterRanking from "./Tables/CharacterRanking";
 import MainPageRankingData from "../../data/MainPageRankingData";
 import BoardData from "../../data/BoardData";
 import {Container} from "@mui/material";
-import {CHARACTER_MAINPAGE_RANKING_URL, LATEST_BOARD_URL} from "../../data/ApiUrl";
+import {CHARACTER_MAINPAGE_RANKING_URL, LATEST_BOARD_URL} from "../../apis/data/urls";
 import LatestBoard from "./Tables/LatestBoard";
 
 

@@ -1,5 +1,5 @@
 import createInstance from "../index";
-import {USER_ACTIVITIES_GET_URL} from "../../data/ApiUrl";
+import {USER_ACTIVITIES_GET_URL} from "../data/urls";
 
 
 export const  getMyActivities = async (type: 'board' | 'comment' | 'notification', sortBy: 'like'|'commentCount'|'view'|'', page: number) => {

@@ -1,4 +1,4 @@
-import {BOARD_COMMENT_GET_URL} from "../../data/ApiUrl";
+import {BOARD_COMMENT_GET_URL} from "../data/urls";
 import createInstance from "../index";
 
 

@@ -1,5 +1,5 @@
 import {CommentForm} from "../../pages/Board/Detail";
-import {BOARD_COMMENT_UPDATE_URL} from "../../data/ApiUrl";
+import {BOARD_COMMENT_UPDATE_URL} from "../data/urls";
 import createInstance from "../index";
 
 export const putBoardComment = async (commentId: string,boardId:string, data:CommentForm) => {

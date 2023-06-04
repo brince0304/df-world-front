@@ -1,5 +1,5 @@
 import {CommentForm} from "../../pages/Board/Detail";
-import {BOARD_COMMENT_CHILDREN_POST_URL} from "../../data/ApiUrl";
+import {BOARD_COMMENT_CHILDREN_POST_URL} from "../data/urls";
 import createInstance from "../index";
 
 export const postChildrenComment = async (commentId: string, boardId: string, data: CommentForm) => {

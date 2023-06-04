@@ -13,7 +13,6 @@ const mainPageRankingData = {
             id : "buffPower"
         },
         ],
-
 }
 
 export default mainPageRankingData;

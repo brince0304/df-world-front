@@ -4,7 +4,7 @@ import {RootState, useAppDispatch} from "../../../redux/store";
 import * as React from "react";
 import {removeCharacterHistory} from "../../../redux";
 import {postCharacterToUserAccount} from "../../../apis/myPage/postCharacterToUserAccount";
-import {USER_CHARACTERS_POST_URL} from "../../../data/ApiUrl";
+import {USER_CHARACTERS_POST_URL} from "../../../apis/data/urls";
 import EditIcon from "@mui/icons-material/Edit";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";

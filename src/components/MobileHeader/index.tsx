@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, {useCallback, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {RootState, useAppDispatch, useAppSelector} from "../../redux/store";
-import {logout} from "../../apis/auth/logout";
+import {getSignOut} from "../../apis/auth/getSignOut";
 import {HeaderProfile} from "../Header/HeaderProfile";
 import {Badge, Button, IconButton, Tooltip, Zoom} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -161,8 +161,8 @@ const MobileHeader = (props: NavProps) => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const handleLogout = useCallback(() => {
-        dispatch(logout());
-    }, [logout, dispatch, navigate]);
+        dispatch(getSignOut());
+    }, [getSignOut, dispatch, navigate]);
     const handleModalOpen = useCallback(() => {
         dispatch(setLoginModalOpened(true))
         props.handleClose();

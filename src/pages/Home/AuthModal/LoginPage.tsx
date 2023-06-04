@@ -9,7 +9,7 @@ import {TextField} from "@mui/material";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {login} from "../../../apis/auth/login";
+import {postSignIn} from "../../../apis/auth/postSignIn";
 import {useDispatch} from "react-redux";
 import {useCallback} from "react";
 import {useNavigate} from "react-router-dom";
@@ -179,7 +179,7 @@ const LoginPage = (props:{handleChangeSection:()=>void}) => {
     });
 
     const onValid = useCallback((data: LoginProps) => {
-        dispatch(login(data,setError,navigate));
+        dispatch(postSignIn(data,setError,navigate));
     }, [dispatch, setError]);
     return (
                 <FormControl onSubmit={handleSubmit(onValid)} >

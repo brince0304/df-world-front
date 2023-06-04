@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight, faExclamationTriangle, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {ErrorScreen} from "../../../../components/ErrorScreen";
-import {getLatestBoard} from "../../../../apis/board/getLatestBoard";
+import {getLatestBoard} from "../../../../apis/postSignUp/getLatestBoard";
 import {Avatar, IconButton, ListItemButton} from "@mui/material";
 import {ChatBubbleOutlineOutlined, FavoriteBorderOutlined} from "@mui/icons-material";
 import Typography from "@mui/material/Typography";

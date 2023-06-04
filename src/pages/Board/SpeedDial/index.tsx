@@ -12,7 +12,7 @@ import {SearchType} from "../../../interfaces/SeachBox";
 import {useNavigate} from "react-router-dom";
 import CustomSearchBox from "../../../components/CustomSearchBox";
 import {DragHandleRounded, HighlightOffOutlined} from "@mui/icons-material";
-import {BOARD_LIST_URL, BOARD_WRITE_URL} from "../../../data/ApiUrl";
+import {BOARD_LIST_URL, BOARD_WRITE_URL} from "../../../apis/data/urls";
 
 const actions = [
     { icon: <ModeIcon/>, name: '글쓰기' },
@@ -31,7 +31,7 @@ const CustomBox = styled(Box)`
 `;
 
 const boardSearchType = {
-    type:"board",
+    type:"postSignUp",
     url:"/boards/"
 } as SearchType
 

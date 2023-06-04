@@ -20,17 +20,17 @@ import {BoardDetailData} from "../../../interfaces/BoardDetailData";
 import {setIsLoading} from "../../../redux";
 import {RootState, useAppDispatch} from "../../../redux/store";
 import {useSelector} from "react-redux";
-import {getBoardDetail} from "../../../apis/board/getBoardDetail";
-import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL} from "../../../data/ApiUrl";
+import {getBoardDetail} from "../../../apis/postSignUp/getBoardDetail";
+import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL} from "../../../apis/data/urls";
 import BestContent, {ContentFlowProps} from "../../../components/BestContent";
-import {getBestArticles} from "../../../apis/board/getBestArticles";
+import {getBestArticles} from "../../../apis/postSignUp/getBestArticles";
 import {useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import {Viewer} from "@toast-ui/react-editor";
 import {Favorite, FavoriteBorder} from "@mui/icons-material";
-import {postBoardLike} from "../../../apis/board/postBoardLike";
+import {postBoardLike} from "../../../apis/postSignUp/postBoardLike";
 import SendIcon from "@mui/icons-material/Send";
 import {
     CommentListData,
@@ -46,16 +46,16 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMessage} from "@fortawesome/free-solid-svg-icons";
 import {deleteBoardComment} from "../../../apis/boardComment/deleteBoardComment";
-import {deleteBoard} from "../../../apis/board/deleteBoard";
+import {deleteBoard} from "../../../apis/postSignUp/deleteBoard";
 import {BadRequest} from "../../../components/application/error/BadRequest";
 import BoardDetailSkeleton from "../../../components/Skeleton/BoardDetailSkeleton";
 import {postCommentLike} from "../../../apis/boardComment/postCommentLike";
-import {BOARD_INSERT_FORM_ROUTE, BOARD_UPDATE_FORM_ROUTE} from "../../../data/routeLink";
+import {BOARD_INSERT_FORM_ROUTE, BOARD_UPDATE_FORM_ROUTE} from "../../../apis/data/route";
 import {putBoardComment} from "../../../apis/boardComment/putBoardComment";
 import {postChildrenComment} from "../../../apis/boardComment/postChildrenComment";
 import {getChildrenComment} from "../../../apis/boardComment/getChildrenComment";
 import {BestArticleNoDataWrapper, BestArticleTitleComponent, CharacterChip, getBoardType, TagChip} from "..";
-import { UserDetail } from "../../../apis/data";
+import { UserDetailOptions } from "../../../apis/data";
 
 
 const TagContainer = styled(Box)`
@@ -231,7 +231,7 @@ const schema = yup.object().shape({
 });
 
 
-const CommentList = (props: { comment: CommentListDataComments, user: UserDetail, handleGetBoardComment: (boardId: string) => void, boardId: string, likeResponse: CommentListDataLikeResponses[] }) => {
+const CommentList = (props: { comment: CommentListDataComments, user: UserDetailOptions, handleGetBoardComment: (boardId: string) => void, boardId: string, likeResponse: CommentListDataLikeResponses[] }) => {
     const [isReplyOpen, setIsReplyOpen] = useState(false);
     const commentLikeLog = props.likeResponse.map((comment) => {
         if (comment.isLike) {
@@ -449,7 +449,7 @@ const CommentList = (props: { comment: CommentListDataComments, user: UserDetail
     );
 };
 
-const ReplyInsertForm = (props:{boardId:string,handleGetBoardComment:(boardId:string)=>void, handleGetChildrenComment:()=>void,commentId:string,user:UserDetail}) => {
+const ReplyInsertForm = (props:{boardId:string,handleGetBoardComment:(boardId:string)=>void, handleGetChildrenComment:()=>void,commentId:string,user:UserDetailOptions}) => {
     const {register, handleSubmit, formState: {errors}, setValue} = useForm<CommentForm>({
         mode: "onChange",
         resolver: yupResolver(schema)
@@ -498,7 +498,7 @@ const ReplyInsertForm = (props:{boardId:string,handleGetBoardComment:(boardId:st
 
 const ReplyList = (props
                        : {
-    comment: CommentListDataComments, user: UserDetail, handleGetBoardComment: (boardId: string) => void, boardId: string,
+    comment: CommentListDataComments, user: UserDetailOptions, handleGetBoardComment: (boardId: string) => void, boardId: string,
     handleDeleteComment: (boardId: string) => void, isLiked: boolean, handleGetChildrenComment: () => void
 }) => {
     const [isEdit, setIsEdit] = useState(false);

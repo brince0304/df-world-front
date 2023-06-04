@@ -33,15 +33,15 @@ import {getCharactersAutoComplete} from "../../../apis/character/getCharactersAu
 import SearchCharacterModal from "../../../components/SearchCharacterModal";
 import {ErrorScreen} from "../../../components/ErrorScreen";
 import {Editor, EditorCore} from "@toast-ui/editor";
-import {BOARD_DETAIL_URL, BOARD_GET_CHARACTERS_URL} from "../../../data/ApiUrl";
-import {getCharacterList} from "../../../apis/board/getCharacterList";
+import {BOARD_DETAIL_URL, BOARD_GET_CHARACTERS_URL} from "../../../apis/data/urls";
+import {getCharacterList} from "../../../apis/postSignUp/getCharacterList";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-import {HookImageResponse, postImage} from "../../../apis/board/postImage";
-import {postBoard} from "../../../apis/board/postBoard";
-import {getBoardDetail} from "../../../apis/board/getBoardDetail";
-import {putBoard} from "../../../apis/board/putBoard";
-import {getHashtagList} from "../../../apis/board/getHashtagList";
-import {BOARD_LIST_ROUTE} from "../../../data/routeLink";
+import {HookImageResponse, postImage} from "../../../apis/postSignUp/postImage";
+import {postBoard} from "../../../apis/postSignUp/postBoard";
+import {getBoardDetail} from "../../../apis/postSignUp/getBoardDetail";
+import {putBoard} from "../../../apis/postSignUp/putBoard";
+import {getHashtagList} from "../../../apis/postSignUp/getHashtagList";
+import {BOARD_LIST_ROUTE} from "../../../apis/data/route";
 import {removeCharacterHistory, setIsLoading, setLoginModalOpened} from "../../../redux";
 
 

@@ -3,7 +3,7 @@ import useNavBar from "../../hooks/useNavBar";
 import React, {useCallback, useState} from "react";
 import {RootState, useAppDispatch, useAppSelector} from "../../redux/store";
 import {removeCharacterHistory, setLoginModalOpened, toggleProfileOpened} from "../../redux";
-import {logout} from "../../apis/auth/logout";
+import {getSignOut} from "../../apis/auth/getSignOut";
 import {useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faBell, faUser} from "@fortawesome/free-solid-svg-icons";
@@ -367,8 +367,8 @@ const Header = (props: HeaderProps) => {
 
     const handleLogout = useCallback(
         () => {
-            dispatch(logout());
-        }, [dispatch, navigate, logout]);
+            dispatch(getSignOut());
+        }, [dispatch, navigate, getSignOut]);
     const [profileIsOpened, setProfileIsOpened] = useState(false);
     const searchHistory = useSelector((state: RootState) => state.history.characterHistory);
     const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -442,7 +442,7 @@ const Header = (props: HeaderProps) => {
                 <RegisterContainer isloginpage={isloginpage.valueOf()} id={"register-part"}>
                     <RegisterPage handleChangeSection={handleChangeSection}/>
                 </RegisterContainer>
-                <LoginContainer isloginpage={isloginpage.valueOf()} id={"login-part"}>
+                <LoginContainer isloginpage={isloginpage.valueOf()} id={"postSignIn-part"}>
                     <SocialLogin/>
                     <Divider orientation={"vertical"} flexItem={true} sx={{
                         "@media (max-width: 768px)": {

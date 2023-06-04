@@ -7,7 +7,7 @@ export interface SearchOption {
     footer: string;
     optionValue1: string | "";
     optionValue2: string | "";
-    type: "board" | "character";
+    type: "postSignUp" | "character";
 }
 
 

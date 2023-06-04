@@ -1,13 +1,12 @@
-
-import {NavigateFunction, useNavigate} from "react-router-dom";
-import store, {RootState} from "../../redux/store";
+import {NavigateFunction} from "react-router-dom";
+import {RootState} from "../../redux/store";
 import {Dispatch} from "redux";
 import {setIsAuthenticated, setLoginModalOpened, setUserDetails} from "../../redux";
 import {Action, ThunkAction} from "@reduxjs/toolkit";
-import {USER_LOGIN_URL} from "../../data/ApiUrl";
+import {USER_LOGIN_URL} from "../data/urls";
 import createInstance from "../index";
 
-export const login=(data:{
+export const postSignIn=(data:{
     username:string,
 password:string }, setError:Function, navigate:NavigateFunction):ThunkAction<void, RootState, unknown, Action>=>{
     return async (dispatch:Dispatch)=>{
@@ -18,7 +17,6 @@ password:string }, setError:Function, navigate:NavigateFunction):ThunkAction<voi
             dispatch(setIsAuthenticated(true));
             alert(data.userId+"님 환영합니다.");
             dispatch(setLoginModalOpened(false));
-            window.location.reload();
         })
         .catch((err)=>{
             console.log(err)

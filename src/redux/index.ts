@@ -2,7 +2,7 @@ import {combineReducers, createSlice} from "@reduxjs/toolkit";
 import {SearchOption} from "../interfaces/SeachBox";
 import {persistReducer} from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import {UserDetail} from "../apis/data";
+import {UserDetailOptions} from "../apis/data";
 
 
 
@@ -48,7 +48,7 @@ export const authSlice = createSlice({
     name: "auth",
     initialState: {
         isAuthenticated: false,
-        userDetail: {} as UserDetail,
+        userDetail: {} as UserDetailOptions,
         profileOpened: false,
     },
     reducers: {

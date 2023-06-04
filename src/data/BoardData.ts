@@ -21,7 +21,6 @@ const boardData = {
             id: "REPORT"
         }],
     noticeTypes: []
-
 }
 
 // Path: src/data/BoardData.ts

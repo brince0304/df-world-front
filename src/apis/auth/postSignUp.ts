@@ -1,17 +1,10 @@
-import {USER_LOGIN_URL, USER_REGISTER_URL} from "../../data/ApiUrl";
+import {USER_REGISTER_URL} from "../data/urls";
 import createInstance from "../index";
+import {RegisterFormProps} from "../data";
 
-export interface RegisterFormProps {
-    email: string;
-    userId: string;
-    nickname: string;
-    password: string;
-    passwordCheck: string;
-    isAgree: boolean;
-}
 
-export async function registerUser(data: RegisterFormProps,setError:any) {
-    const response = createInstance.post(USER_REGISTER_URL, {
+export async function postSignUp(data: RegisterFormProps, setError:any) {
+    createInstance.post(USER_REGISTER_URL, {
         userId: data.userId,
         nickname: data.nickname,
         email: data.email,

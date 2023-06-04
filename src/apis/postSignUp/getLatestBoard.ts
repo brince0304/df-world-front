@@ -1,5 +1,5 @@
 import createInstance from "../index";
-import {LATEST_BOARD_URL} from "../../data/ApiUrl";
+import {LATEST_BOARD_URL} from "../data/urls";
 
 export const getLatestBoard = async (setIsError:(boolean:boolean)=>void,setIsLoading:(boolean:boolean)=>void,url:string,isSelected:string,setData:([])=>void) => {
     setIsError(false);

@@ -1,4 +1,4 @@
-import {BOARD_COMMENT_DELETE_URL} from "../../data/ApiUrl";
+import {BOARD_COMMENT_DELETE_URL} from "../data/urls";
 import createInstance from "../index";
 
 export const deleteBoardComment = async (commentId: string) => {

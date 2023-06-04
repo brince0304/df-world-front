@@ -1,4 +1,4 @@
-import {BOARD_COMMENT_CHILDREN_GET_URL, BOARD_COMMENT_CHILDREN_POST_URL} from "../../data/ApiUrl";
+import {BOARD_COMMENT_CHILDREN_GET_URL, BOARD_COMMENT_CHILDREN_POST_URL} from "../data/urls";
 import createInstance from "../index";
 
 export const getChildrenComment = async (boardId:string,commentId: string) => {

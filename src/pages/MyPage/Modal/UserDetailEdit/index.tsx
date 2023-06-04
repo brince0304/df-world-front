@@ -9,7 +9,7 @@ import putChangeNickname from "../../../../apis/myPage/putChangeNickname";
 import {useNavigate} from "react-router-dom";
 import * as React from "react";
 import putChangePassword from "../../../../apis/myPage/putChangePassword";
-import {logout} from "../../../../apis/auth/logout";
+import {getSignOut} from "../../../../apis/auth/getSignOut";
 import {Box, Button, Collapse, Dialog, DialogContent, DialogTitle, FormControl, TextField} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -128,7 +128,7 @@ const UserDetailEditModal = (props: { open: boolean, onClose: () => void, refres
         }
         putChangePassword(data.passwordValidate,data.password).then((res)=>{
             alert("비밀번호가 변경되었습니다. 다시 로그인 해주세요");
-            dispatch(logout());
+            dispatch(getSignOut());
             navigate("/");
         }).catch((err)=>{
             alert(err.response.data);

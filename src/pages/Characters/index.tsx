@@ -6,7 +6,7 @@ import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../redux/store";
 import {Container, Pagination} from "@mui/material";
-import {CHARACTER_SEARCH_URL} from "../../data/ApiUrl";
+import {CHARACTER_SEARCH_URL} from "../../apis/data/urls";
 import CharacterList from "../../components/CharactersList";
 
 

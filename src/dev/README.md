@@ -56,14 +56,14 @@ export const useInitial: () => InitialHookStatus = () => {
 
     useEffect(() => {
         setLoading(true);
-        async function login() {
+        async function postSignIn() {
             const response = await loginRequest(DEV_LOGIN, DEV_PASSWORD);
             if (response?.status !== 200) {
                 setError(true);
             }
             setLoading(false);
         }
-        login();
+        postSignIn();
     }, []);
     return { loading, error };
 };

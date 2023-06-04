@@ -7,7 +7,8 @@ import {Checkbox, FormControlLabel, TextField} from "@mui/material";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {RegisterFormProps, registerUser} from "../../../apis/auth/registerUser";
+import  {postSignUp} from "../../../apis/auth/postSignUp";
+import {RegisterFormProps} from "../../../apis/data";
 
 const FormControl = styled.form`
   display: grid;
@@ -209,7 +210,7 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
         resolver: yupResolver(schema),
     });
     const onValid = (data: RegisterFormProps) => {
-              registerUser(data,setError);
+              postSignUp(data,setError);
     };
 
 
