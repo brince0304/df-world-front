@@ -46,6 +46,7 @@ function LoginModal () {
         dispatch(setLoginModalOpened(false));
     }, [dispatch]);
     return (
+        //TODO : 로그인 페이지, 회원가입 페이지 분리해서 애니메이션 없이 바꾸기
         <Dialog
             open={isOpened}
             onClose={handleClose}

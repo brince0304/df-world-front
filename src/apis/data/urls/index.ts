@@ -34,7 +34,7 @@ export const CHARACTER_DETAIL_URL = "/characters/detail";
 
 export const CHARACTER_SEARCH_URL = "/characters/";
 
-export const USER_LOGIN_URL = "/users/postSignIn";
+export const USER_LOGIN_URL = "/users/login";
 
 export const USER_DETAIL_URL = "/users/details";
 

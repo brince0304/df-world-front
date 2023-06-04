@@ -39,21 +39,11 @@ const TextFieldCustom = styled(TextField)`
   }
 `;
 
-
-const EmailFieldWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-
 const RegisterButton = styled(Button)`
   && {
     width: 100%;
     height: 100%;
     background-color: #1976d2;
-
   }
 `;
 
@@ -69,7 +59,6 @@ const MissingPassword = styled.span`
   cursor: pointer;
   padding: 20px 0;
   color: silver;
-
   &:hover {
     color: #1976d2;
     transition: 0.3s;
@@ -134,7 +123,6 @@ const SocialRegisterButtons = (props: { data: { src: string, alt: string, type: 
     )
 }
 
-
 const passwordMatch = (password: string, passwordCheck: string) => {
     if (password !== '' && passwordCheck !== '') {
         return password === passwordCheck;
@@ -142,29 +130,11 @@ const passwordMatch = (password: string, passwordCheck: string) => {
     return true;
 }
 
-
-
-
-
-
-
 const LoginWrapper = styled.div`
     display: flex;
     flex-direction: row;
      padding: 10px 0px;
     `;
-
-const DivisionLine = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 1px;
-    background-color: rgba(0, 0, 0, 0.35);
-    margin: 0px 8px;
-    `;
-
 
 
 const RegisterPage = (props: { handleChangeSection: () => void }) => {
@@ -209,13 +179,36 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
         mode: "onChange",
         resolver: yupResolver(schema),
     });
+
     const onValid = (data: RegisterFormProps) => {
-              postSignUp(data,setError);
+              postSignUp(data).then((response) => {
+                  if(response){
+                      alert(`${data}님 회원가입이 완료되었습니다.`);
+                      window.location.href = "/";
+                  }
+              }).catch((error) => {
+                  if(error.response.status === 409) {
+                      console.log(error.response.data);
+                      if(error.response.data.indexOf("아이디") !== -1){
+                          setError("userId", {
+                              type: "manual",
+                              message: error.response.data
+                          });
+                      }else if (error.response.data.indexOf("이메일") !== -1) {
+                          setError("email", {
+                              type: "manual",
+                              message: error.response.data
+                          });
+                      }else if(error.response.data.indexOf("닉네임") !== -1){
+                          setError("nickname", {
+                              type: "manual",
+                              message: error.response.data
+                          });
+                      }else{
+                          alert(error.response.data);
+                      }}
+              });
     };
-
-
-
-
 
     return (
         <div>
@@ -234,7 +227,6 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
                              {...register("password")}/>
             <TextFieldCustom label={"비밀번호 확인"} error={!!errors.passwordCheck} type="password" helperText={errors.passwordCheck?.message}
                              {...register("passwordCheck")}/>
-
         <BodyFooter>
         </BodyFooter>
 
