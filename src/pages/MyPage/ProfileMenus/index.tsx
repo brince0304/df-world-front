@@ -37,7 +37,6 @@ const ProfileMenuButton = styled(ListItemButton)`
 
 
 const ProfileMenus = (props: { refresh: () => void }) => {
-
     const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
     const [openLinkCharacterModal, setOpenLinkCharacterModal] = useState(false);
     const [openActivityHistoryModal, setOpenActivityHistoryModal] = useState(false);
@@ -53,9 +52,10 @@ const ProfileMenus = (props: { refresh: () => void }) => {
         }
     };
 
-    const handleCloseCharacterLinkModal = useCallback(() => {
+    const handleCloseCharacterLinkModal = () => {
         setOpenLinkCharacterModal(false);
-    }, []);
+    }
+
     const handlePostCharacter = (characterId: string, serverId: string, characterName: string) => {
         if (characterId && serverId && window.confirm(`${characterName} 캐릭터를 등록하시겠습니까?`)) {
             postCharacterToUserAccount(USER_CHARACTERS_POST_URL.replace("{characterId}", characterId).replace("{serverId}", serverId)).then((response) => {
@@ -67,14 +67,16 @@ const ProfileMenus = (props: { refresh: () => void }) => {
             });
         }
     };
-    const handleProfileChangeModalOpen = useCallback(
+
+    const handleProfileChangeModalOpen =
         () => {
             setOpenProfileIconChangeModal(true);
-        }, [setOpenEditProfileModal]);
-    const handleProfileChangeModalClose = useCallback(
+        }
+
+    const handleProfileChangeModalClose =
         () => {
             setOpenProfileIconChangeModal(false);
-        }, [setOpenEditProfileModal]);
+        }
 
     const handleSetCharacterDetails = (characterId: string, serverId: string, characterName: string) => {
         handlePostCharacter(characterId, serverId, characterName);
@@ -93,20 +95,20 @@ const ProfileMenus = (props: { refresh: () => void }) => {
             handleSetCharacterDetails(characterId, serverId, characterName);
         }
     };
-    const handleOpenActivityHistoryModal = useCallback(() => {
+    const handleOpenActivityHistoryModal = () => {
         setOpenActivityHistoryModal(true);
-    }, []);
-    const handleCloseActivityHistoryModal = useCallback(() => {
+    }
+    const handleCloseActivityHistoryModal = () => {
         setOpenActivityHistoryModal(false);
-    }, []);
+    }
 
-    const handleOpenEditProfileModal = useCallback(() => {
+    const handleOpenEditProfileModal =() => {
         setOpenEditProfileModal(true);
-    }, []);
+    }
 
-    const handleCloseEditProfileModal = useCallback(() => {
+    const handleCloseEditProfileModal = () => {
         setOpenEditProfileModal(false);
-    }, []);
+    }
 
     const profileMenuList = [
         {
@@ -129,7 +131,7 @@ const ProfileMenus = (props: { refresh: () => void }) => {
         <ProfileMenuList>
             {isAuthenticated && <ProfileIconChangeModal isOpened={openProfileIconChangeModal}
                                                         handleClose={handleProfileChangeModalClose}
-                                                        refresh={props.refresh}/>}
+                                                        />}
             {profileMenuList.map((menu, index) => {
                 return (
                     <ProfileMenuButton key={index} onClick={menu.onClick}>

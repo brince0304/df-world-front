@@ -11,6 +11,8 @@ import getMyPageResponse from "../../apis/myPage/getMyPageResponse";
 import {getUser} from "../../apis/auth/getUser";
 import ProfileMenus from "./ProfileMenus";
 import UserCharacters from "./UserCharacters";
+import {setHasNotification, setIsAuthenticated, setNotificationCount, setUserDetails} from "../../redux";
+import {getUserDetails} from "../../apis/auth/getUserDetails";
 
 const UserProfileCardStyled = styled(Card)`
   display: flex;
@@ -118,11 +120,7 @@ const MyPage = () => {
     const [myPageResponse, setMyPageResponse] = useState<MyPageResponse>({} as MyPageResponse);
     const handleSetMyPageResponse = useCallback((response: MyPageResponse) => {
         setMyPageResponse(response);
-        dispatch(getUser());
     }, []);
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-    const navigate = useNavigate();
-
     const handleGetMyPageResponse = useCallback(() => {
         if (userData) {
             getMyPageResponse().then((response) => {
@@ -133,13 +131,8 @@ const MyPage = () => {
         }
     }, [userData, handleSetMyPageResponse]);
     useEffect(() => {
-        if (!isAuthenticated) {
-            window.alert("로그인이 필요합니다.");
-            navigate("/");
-        }
         handleGetMyPageResponse();
     }, []);
-    const dispatch = useAppDispatch();
     return (
         <Container maxWidth={"md"}>
             {!userData && <BadRequest/>}
