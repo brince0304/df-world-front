@@ -41,15 +41,20 @@ function LoginModal () {
         [isloginpage]);
     const dispatch = useDispatch();
     const isOpened = useSelector((state:RootState) => state.modal.loginModalOpened);
-    const handleClose = useCallback((e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleClose = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
         dispatch(setLoginModalOpened(false));
-    }, [dispatch]);
+    }
+
     return (
-        //TODO : 로그인 페이지, 회원가입 페이지 분리해서 애니메이션 없이 바꾸기
+        //TODO : 로그인 페이지, 회원가입 페이지 분리해서 애니메이션 없이 바꾸
         <Dialog
             open={isOpened}
             onClose={handleClose}
+            sx={{
+               '.css-1t1j96h-MuiPaper-root-MuiDialog-paper':{
+                   maxWidth:"800px"
+            }}}
         >
                 <DialogContent>
                     <RegisterContainer isloginpage={isloginpage.valueOf()} id={"register-part"}>

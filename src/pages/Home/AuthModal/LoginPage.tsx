@@ -151,7 +151,6 @@ interface LoginProps {
 }
 
 const LoginPage = (props: { handleChangeSection: () => void }) => {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     const schema = yup.object().shape({
@@ -172,7 +171,7 @@ const LoginPage = (props: { handleChangeSection: () => void }) => {
     const onValid = (data: LoginProps) => {
         postSignIn({username: data.username, password: data.password}).then((res) => {
             const currentUser = res.CURRENT_USER;
-            dispatch(setUserDetails(data));
+            dispatch(setUserDetails(currentUser));
             dispatch(setIsAuthenticated(true));
             alert(currentUser.userId + "님 환영합니다.");
             dispatch(setLoginModalOpened(false));
