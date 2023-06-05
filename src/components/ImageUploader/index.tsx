@@ -1,13 +1,14 @@
 import Box from "@mui/material/Box";
 import {useSelector} from "react-redux";
-import {RootState} from "../../redux/store";
+import {RootState, useAppDispatch} from "../../redux/store";
 import {Avatar, Button} from "@mui/material";
 import {MuiFileInput} from "mui-file-input";
 import {useEffect, useState} from "react";
-import getFile from "../../apis/file/getFile";
 import putAvatar from "../../apis/myPage/putAvatar";
+import {getUserDetails} from "../../apis/auth/getUserDetails";
 
-function ImageUploader(props:{refresh:()=>void,handleClose:()=>void}) {
+function ImageUploader(props:{handleClose:()=>void}) {
+    const dispatch = useAppDispatch();
     const user = useSelector((state: RootState) => state.auth.userDetail);
     const [profile, setProfile] = useState<File | null>(null);
     const [profileUrl, setProfileUrl] = useState<string>("");
@@ -23,7 +24,7 @@ function ImageUploader(props:{refresh:()=>void,handleClose:()=>void}) {
             formData.append("file", profile);
             putAvatar( formData).then((res) => {
                 window.alert("프로필 사진이 변경되었습니다.");
-                props.refresh();
+                dispatch(getUserDetails())
                 props.handleClose();
             }).catch((err) => {
                 window.alert("프로필 사진 변경에 실패하였습니다.");

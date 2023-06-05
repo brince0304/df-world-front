@@ -9,6 +9,8 @@ import {Avatar, Divider, IconButton} from "@mui/material";
 import {profileIconData} from "../../../data/ProfileIconData";
 import ImageUploader from "../../../components/ImageUploader";
 import axiosInstance from "../../../apis/index";
+import {useAppDispatch} from "../../../redux/store";
+import {getUserDetails} from "../../../apis/auth/getUserDetails";
 
 
 const style = {
@@ -84,7 +86,7 @@ const ModalBody = styled.div`
 interface ProfileIconChangeModalProps {
     isOpened:boolean,
     handleClose: ()=>void,
-    refresh : () => void;
+
 }
 
 const ProfileIconChangeContainer = styled.div`
@@ -112,6 +114,7 @@ const IconSelectorWrapper = styled.div`
 
 export default function ProfileIconChangeModal (props:ProfileIconChangeModalProps) {
     const data = profileIconData;
+    const dispatch = useAppDispatch();
     const handleChangeIcon = (e:React.MouseEvent<HTMLButtonElement>) => {
         if(window.confirm("아이콘을 변경하시겠습니까?")){
             const url = e.currentTarget.dataset.id;
@@ -123,8 +126,8 @@ export default function ProfileIconChangeModal (props:ProfileIconChangeModalProp
                     .then((res) => {
                         if(res.status === 200){
                             alert("변경되었습니다.");
+                            dispatch(getUserDetails());
                             props.handleClose();
-                            props.refresh();
                         }else{
                             alert("아이콘 변경에 실패하였습니다.");
                         }
@@ -148,7 +151,7 @@ export default function ProfileIconChangeModal (props:ProfileIconChangeModalProp
                     <ModalHeader>
                         프로필 아이콘을 변경합니다!
                     </ModalHeader>
-                    <ImageUploader refresh={props.refresh} handleClose={props.handleClose}/>
+                    <ImageUploader handleClose={props.handleClose}/>
                     <Divider variant="middle" />
                     <ModalBody>
                         <IconSelectorWrapper>

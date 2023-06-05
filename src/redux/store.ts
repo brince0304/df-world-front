@@ -1,10 +1,6 @@
-import {combineReducers, configureStore, createSlice} from "@reduxjs/toolkit";
+import {configureStore} from "@reduxjs/toolkit";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import {SearchOption} from "../interfaces/SeachBox";
-import storage from "redux-persist/lib/storage";
-import {persistReducer, persistStore} from "redux-persist";
-import redux, {appSlice, historySlice, modalSlice, authSlice} from "./index";
-
+import redux from "./index";
 
 
 const store = configureStore({
