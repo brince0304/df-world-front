@@ -26,7 +26,7 @@ import {
 import BestContent, {ContentFlowProps} from "../../components/BestContent";
 
 import StarIcon from "@mui/icons-material/Star";
-import {getBestArticles} from "../../apis/postSignUp/getBestArticles";
+import {getBestArticles} from "../../apis/board/getBestArticles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {
@@ -43,10 +43,10 @@ import {
 import Loading from "react-loading";
 import {ErrorScreen} from "../../components/ErrorScreen";
 import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL, BOARD_LIST_URL, BOARD_WRITE_URL} from "../../apis/data/urls";
-import {getBoardList} from "../../apis/postSignUp/getBoardList";
+import {getBoardList} from "../../apis/board/getBoardList";
 import {useAppDispatch} from "../../redux/store";
 import BoardListSkeleton from "../../components/Skeleton/BoardListSkeleton ";
-import {getBoardCoundByHashtag} from "../../apis/postSignUp/getBoardCoundByHashtag";
+import {getBoardCoundByHashtag} from "../../apis/board/getBoardCoundByHashtag";
 import CustomSearchBox from "../../components/CustomSearchBox";
 import {getServerName} from "../Characters";
 
@@ -550,6 +550,7 @@ const Board = () => {
 
     const handleGetBoardList = (url: string) => {
         setIsLoading(true);
+        setTimeout(() => {
         getBoardList(url).then((res) => {
             setData(res.data.articles);
             setIsLoading(false);
@@ -557,6 +558,7 @@ const Board = () => {
             setIsError(true);
             setIsLoading(false);
         });
+        }, 1000);
     };
     const handleNavigateToDetail = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
@@ -592,7 +594,6 @@ const Board = () => {
                                      <BestArticleTitleComponent/>
                                  } noDataWrapper={<BestArticleNoDataWrapper/>}/>
                 </Box>
-                {data && !isLoading &&
                     <Box sx={
                         {
                             display: "flex",
@@ -620,7 +621,6 @@ const Board = () => {
                             </Button>
                         </Box>
                     </Box>
-                }
                 {isLoading && <BoardListSkeleton/>}
                 {!isLoading && data?.content?.map((item) => (
                         <ListItem key={item.id}
