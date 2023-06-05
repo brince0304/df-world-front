@@ -3,7 +3,7 @@ import {useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import {Content} from "../../../../interfaces/CharactersData";
-import {getCharacterList} from "../../../../apis/postSignUp/getCharacterList";
+import {getCharacterList} from "../../../../apis/board/getCharacterList";
 import {USER_CHARACTERS_SEARCH_URL} from "../../../../apis/data/urls";
 import SearchCharacterModal from "../../../../components/SearchCharacterModal";
 import CustomSearchBox from "../../../../components/CustomSearchBox";
