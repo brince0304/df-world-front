@@ -1,5 +1,9 @@
 import createInstance from "../index";
 
 export const postCharacterToUserAccount = async (url:string) => {
-    return await createInstance.post(url);
+    try {
+        return await createInstance.post(url);
+    }catch (e) {
+        throw e;
+    }
 }
