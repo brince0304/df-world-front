@@ -15,6 +15,7 @@ import MyActivitiesModal from "../Modal/MyActivities";
 import UserDetailEditModal from "../Modal/UserDetailEdit";
 import PublicIcon from "@mui/icons-material/Public";
 import CharacterLinkModal from "../Modal/CharacterLink";
+import {getUserDetails} from "../../../apis/auth/getUserDetails";
 
 
 const ProfileMenuList = styled(List)`
@@ -60,8 +61,8 @@ const ProfileMenus = (props: { refresh: () => void }) => {
         if (characterId && serverId && window.confirm(`${characterName} 캐릭터를 등록하시겠습니까?`)) {
             postCharacterToUserAccount(USER_CHARACTERS_POST_URL.replace("{characterId}", characterId).replace("{serverId}", serverId)).then((response) => {
                 window.alert("캐릭터가 등록되었습니다.");
-                handleCloseCharacterLinkModal();
                 props.refresh();
+                handleCloseCharacterLinkModal();
             }).catch((error) => {
                 window.alert(error.response.data);
             });

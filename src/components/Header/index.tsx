@@ -29,6 +29,8 @@ import {SocialLogin} from "../../pages/Home/AuthModal/SocialLogin";
 import LoginPage from "../../pages/Home/AuthModal/LoginPage";
 import MobileHeader from "../MobileHeader";
 import styled from "styled-components";
+import Portal from "../../utils/Portal";
+import ModalPortal from "../../utils/Portal";
 
 
 const Container = styled.header`
@@ -416,9 +418,10 @@ const Header = (props: HeaderProps) => {
                         </HtmlTooltip>}
                 </ProfileContainer>
             </HeaderBottom>
-            {!isAuthenticated && <LoginModal/>}
-
+            {!isAuthenticated &&<LoginModal/> }
+            <React.Fragment>
             <MobileHeader isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar}/>
+            </React.Fragment>
             <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar}/>
         </Container>
     );

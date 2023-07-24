@@ -143,7 +143,7 @@ const MyPage = () => {
                                 fontFamily={"Core Sans"} fontSize={"1.5rem"} fontWeight={"bold"} sx={{
                         textAlign: "left",
                         marginBottom: "10px"
-                    }}>{userData.characterCount === 0 ? "링크된 캐릭터가 존재하지 않습니다." : `내 캐릭터 ${userData.characterCount}개`}</Typography>
+                    }}>내 캐릭터 </Typography>
                     {myPageResponse?.userDetail?.characters.length > 0 &&
                         <UserCharacters data={myPageResponse.userDetail.characters}
                                            refresh={handleGetMyPageResponse}/>}
