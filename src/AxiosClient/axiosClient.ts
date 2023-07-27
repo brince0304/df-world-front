@@ -1,10 +1,10 @@
 import { AxiosInstance } from 'axios';
 
 export interface IAxiosClient {
-  get: (url: string,options?:any) => Promise<any>;
-  post: (url: string, data?: any,options?:any) => Promise<any>;
-  put: (url: string, data?: any,options?:any) => Promise<any>;
-  delete: (url: string,options?:any) => Promise<any>;
+  get: (url: string, options?: any) => Promise<any>;
+  post: (url: string, data?: any, options?: any) => Promise<any>;
+  put: (url: string, data?: any, options?: any) => Promise<any>;
+  delete: (url: string, options?: any) => Promise<any>;
 }
 
 export class AxiosClient implements IAxiosClient {
@@ -14,19 +14,19 @@ export class AxiosClient implements IAxiosClient {
     this.instance = axiosInstance;
   }
 
-  async get(url: string,options?:any) {
+  async get(url: string, options?: any) {
     try {
-      const { data } = await this.instance.get(url,options);
+      const { data } = await this.instance.get(url, options);
       return data;
     } catch (e) {
       throw new Error(e as string);
     }
   }
 
-  async post(url: string, request?: any,options?:any) {
+  async post(url: string, request?: any, options?: any) {
     try {
       const { data } = await this.instance.post(url, request, {
-        ...options
+        ...options,
       });
       return data;
     } catch (e) {
@@ -34,10 +34,10 @@ export class AxiosClient implements IAxiosClient {
     }
   }
 
-  async put(url: string, request?: any,options?:any) {
+  async put(url: string, request?: any, options?: any) {
     try {
-      const { data } = await this.instance.put(url, request,{
-        ...options
+      const { data } = await this.instance.put(url, request, {
+        ...options,
       });
       return data;
     } catch (e) {
@@ -45,10 +45,10 @@ export class AxiosClient implements IAxiosClient {
     }
   }
 
-  async delete(url: string,options?:any) {
+  async delete(url: string, options?: any) {
     try {
-      return await this.instance.delete(url,{
-        ...options
+      return await this.instance.delete(url, {
+        ...options,
       });
     } catch (e) {
       throw new Error(e as string);

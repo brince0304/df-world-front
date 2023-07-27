@@ -39,7 +39,7 @@ export interface SelectSearchProps {
 
   autoCompleteUrl?: string;
 
-  autoCompleteHandler?: (url: string, setData: (...args:any[]) => void) => void;
+  autoCompleteHandler?: (url: string, setData: (...args: any[]) => void) => void;
 
   handleOptionRemove?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
