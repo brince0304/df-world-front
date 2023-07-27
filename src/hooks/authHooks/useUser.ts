@@ -10,7 +10,7 @@ interface IUseUser {
   user: IAuthLoginResponse | null;
 }
 
-export const useUser = ():IUseUser => {
+export const useUser = (): IUseUser => {
   const { getUser } = useAuthService();
   const { handleTokenExpiredError } = useAuthError();
   const { data: user } = useQuery<IAuthLoginResponse | null>(
@@ -24,8 +24,9 @@ export const useUser = ():IUseUser => {
       onError: () => {
         userLocalStorage.clearUser();
         handleTokenExpiredError();
-      }
-    });
+      },
+    },
+  );
 
   useEffect(() => {
     if (!user) userLocalStorage.clearUser();
@@ -34,5 +35,5 @@ export const useUser = ():IUseUser => {
 
   return {
     user: user ?? null,
-  }
-}
+  };
+};

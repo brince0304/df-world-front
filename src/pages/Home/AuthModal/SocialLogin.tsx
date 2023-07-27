@@ -23,29 +23,31 @@ const ButtonSection = styled.div`
   align-items: center;
   padding: 10px 0;
   width: 50%;
-
-`
+`;
 
 interface LoginButtonsProps {
-    data: { src: string, alt: string, type: string }[]
+  data: { src: string; alt: string; type: string }[];
 }
 
 const LoginButtons = (props: LoginButtonsProps) => {
-    return (
-        <>{props.data.map((item, index) => (
-            <ImgOpacityButton src={require("../../../assets/img/" + item.src)} alt={item.alt} scale={1.5} key={index}/>
-        ))}</>
-    )
-}
-
+  return (
+    <>
+      {props.data.map((item, index) => (
+        <ImgOpacityButton src={require('../../../assets/img/' + item.src)} alt={item.alt} scale={1.5} key={index} />
+      ))}
+    </>
+  );
+};
 
 export function SocialLogin() {
-    return (
-        <Container>
-            <Divider orientation="vertical" flexItem={true}>소셜 아이디로 로그인</Divider>
-            <ButtonSection>
-                <LoginButtons data={SocialLoginData.squareButtons}/>
-            </ButtonSection>
-        </Container>
-    );
+  return (
+    <Container>
+      <Divider orientation="vertical" flexItem={true}>
+        소셜 아이디로 로그인
+      </Divider>
+      <ButtonSection>
+        <LoginButtons data={SocialLoginData.squareButtons} />
+      </ButtonSection>
+    </Container>
+  );
 }

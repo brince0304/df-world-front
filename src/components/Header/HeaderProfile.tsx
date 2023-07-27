@@ -16,17 +16,20 @@ const ProfileNicknameWrapper = styled.span`
   width: 100%;
 `;
 
-export const HeaderProfile = (props:{onClick:()=>void}) => {
-    const { user } = useUser();
-    return (
-        <Button onClick={props.onClick}>
-            <Badge color="primary" badgeContent={user?.notificationCount}>
-            <Avatar src={user?.profileImgPath} alt="profile" sx={{ width: 30, height: 30 ,backgroundColor:"white",border:"1px solid #f5f5f5"}}/>
-            </Badge>
-            <ProfileNicknameWrapper>
-                <span style={{marginLeft: '10px'}}>{user?.nickname}</span>
-            </ProfileNicknameWrapper>
-        </Button>
-
-    );
-}
+export const HeaderProfile = (props: { onClick: () => void }) => {
+  const { user } = useUser();
+  return (
+    <Button onClick={props.onClick}>
+      <Badge color="primary" badgeContent={user?.notificationCount}>
+        <Avatar
+          src={user?.profileImgPath}
+          alt="profile"
+          sx={{ width: 30, height: 30, backgroundColor: 'white', border: '1px solid #f5f5f5' }}
+        />
+      </Badge>
+      <ProfileNicknameWrapper>
+        <span style={{ marginLeft: '10px' }}>{user?.nickname}</span>
+      </ProfileNicknameWrapper>
+    </Button>
+  );
+};

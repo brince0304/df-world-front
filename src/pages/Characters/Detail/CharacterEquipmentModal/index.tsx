@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import { Dialog, DialogContent } from '@mui/material';
 
-
 export const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -22,44 +21,40 @@ export const ModalBody = styled.div`
   align-items: center;
   padding: 10px;
   background-color: transparent;
-
 `;
 
 interface LoginModalProps {
-    children: React.ReactNode,
-    isOpened: boolean,
-    setIsOpened: () => void,
+  children: React.ReactNode;
+  isOpened: boolean;
+  setIsOpened: () => void;
 }
 
-
- function CharacterEquipmentModal(props: LoginModalProps) {
-
-    return (
-        <Dialog
-            sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-            }}
-            open={props.isOpened}
-            onClose={props.setIsOpened}
-        >
-            <DialogContent
-                sx={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                    width: "330px",
-                    padding : "10px",
-                    height: "440px",
-                    backgroundColor: "#252627",
-
-                }}
-            >
-                {props.children}
-            </DialogContent>
-        </Dialog>
-    );
+function CharacterEquipmentModal(props: LoginModalProps) {
+  return (
+    <Dialog
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      open={props.isOpened}
+      onClose={props.setIsOpened}
+    >
+      <DialogContent
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+          width: '330px',
+          padding: '10px',
+          height: '440px',
+          backgroundColor: '#252627',
+        }}
+      >
+        {props.children}
+      </DialogContent>
+    </Dialog>
+  );
 }
 
 export default CharacterEquipmentModal;

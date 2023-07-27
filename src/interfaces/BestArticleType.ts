@@ -18,8 +18,8 @@ export type BestArticles = {
   profileCharacterIconClassName: string;
   character?: any;
   hashtags: any[];
-}
+};
 
 export type BestArticleType = {
   bestArticles: BestArticles[];
-}
+};

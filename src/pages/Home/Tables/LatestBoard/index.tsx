@@ -34,7 +34,6 @@ const BoardTitle = styled.div`
   text-align: left;
 `;
 
-
 const BoardFooter = styled.div`
   display: flex;
   flex-direction: row;
@@ -43,8 +42,7 @@ const BoardFooter = styled.div`
   width: 100%;
   gap: 20px;
   font-size: 14px;
-
-`
+`;
 
 const LikeCommentWrapper = styled.div`
   display: flex;
@@ -56,20 +54,20 @@ const LikeCommentWrapper = styled.div`
 
 const LikeCommentContainer = styled.div`
   display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-`
+`;
 
 const NicknameCreatedAtContainer = styled.div`
   display: grid;
   justify-content: space-between;
-    align-items: center;
+  align-items: center;
 
   width: 100%;
   grid-template-columns: 140px 80px;
-`
+`;
 
 const ProfileImgWrapper = styled.div`
   display: flex;
@@ -82,14 +80,14 @@ const ProfileImgWrapper = styled.div`
     width: 100%;
     height: 100%;
   }
-`
+`;
 const IconContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 5px;
-  `;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+`;
 
 const NicknameWrapper = styled.div`
   display: flex;
@@ -100,86 +98,108 @@ const NicknameWrapper = styled.div`
   gap: 5px;
 `;
 
-
 interface BoardProps {
-    title: string,
-    boardTypes?: { name: string, id: string }[],
-    url: string,
+  title: string;
+  boardTypes?: { name: string; id: string }[];
+  url: string;
 }
 
 const BoardList = (props: { data: BoardContent[] }) => {
-    let navigate = useNavigate();
-    const onClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-        const id = e.currentTarget.dataset.id;
-        navigate(`/boards/${id}`);
-    }
-    return (
-        <>{props.data.map((item, index: number) => (
-                <ListItemButton key={index} onClick={onClickHandler} data-id={item.id} sx={{display: "flex", flexDirection: "column", width: "100%",gap:"6px"}}>
-                    <BoardTitle>
-                        {item.boardTitle}
-                    </BoardTitle>
-                    <BoardFooter>
-                        <NicknameCreatedAtContainer>
-                            <NicknameWrapper>
-                                <ProfileImgWrapper>
-                                    <Avatar src={item.userProfileImgUrl} alt="profile"
-                                         style={{width: "25px", height: "25px"}}/>
-                                </ProfileImgWrapper>
-                                <Typography sx={{
-                                    fontSize: "14px",
-                                    fontFamily: "Core Sans"
-                                }}>{item.userNickname}</Typography>
-                            </NicknameWrapper>
-                        </NicknameCreatedAtContainer>
-                    </BoardFooter>
-                    <LikeCommentContainer>
-                        <IconContainer>
-                            <LikeCommentWrapper>
-                        <Typography><FavoriteBorderOutlined  style={{
-                            padding: "0 2px 0 5px",
-                        }
-                        }/> {item.boardLikeCount}</Typography>
-                        </LikeCommentWrapper>
-                            <LikeCommentWrapper>
-                        <Typography><ChatBubbleOutlineOutlined  style={{
-                            padding: "0 2px 0 5px",
-                        }
-                        }/> {item.commentCount}</Typography>
-                            </LikeCommentWrapper>
-                        </IconContainer>
-                        <Typography sx={{justifyContent:"flex-end"}}>{item.createdAt}</Typography>
-                    </LikeCommentContainer>
-                </ListItemButton>
-            )
-        )}</>
-    )
-
-
-}
-
+  let navigate = useNavigate();
+  const onClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    const id = e.currentTarget.dataset.id;
+    navigate(`/boards/${id}`);
+  };
+  return (
+    <>
+      {props.data.map((item, index: number) => (
+        <ListItemButton
+          key={index}
+          onClick={onClickHandler}
+          data-id={item.id}
+          sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '6px' }}
+        >
+          <BoardTitle>{item.boardTitle}</BoardTitle>
+          <BoardFooter>
+            <NicknameCreatedAtContainer>
+              <NicknameWrapper>
+                <ProfileImgWrapper>
+                  <Avatar src={item.userProfileImgUrl} alt="profile" style={{ width: '25px', height: '25px' }} />
+                </ProfileImgWrapper>
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontFamily: 'Core Sans',
+                  }}
+                >
+                  {item.userNickname}
+                </Typography>
+              </NicknameWrapper>
+            </NicknameCreatedAtContainer>
+          </BoardFooter>
+          <LikeCommentContainer>
+            <IconContainer>
+              <LikeCommentWrapper>
+                <Typography>
+                  <FavoriteBorderOutlined
+                    style={{
+                      padding: '0 2px 0 5px',
+                    }}
+                  />{' '}
+                  {item.boardLikeCount}
+                </Typography>
+              </LikeCommentWrapper>
+              <LikeCommentWrapper>
+                <Typography>
+                  <ChatBubbleOutlineOutlined
+                    style={{
+                      padding: '0 2px 0 5px',
+                    }}
+                  />{' '}
+                  {item.commentCount}
+                </Typography>
+              </LikeCommentWrapper>
+            </IconContainer>
+            <Typography sx={{ justifyContent: 'flex-end' }}>{item.createdAt}</Typography>
+          </LikeCommentContainer>
+        </ListItemButton>
+      ))}
+    </>
+  );
+};
 
 const LatestBoard = (props: BoardProps) => {
-    const [isSelected, setIsSelected] = props.boardTypes ? react.useState("FREE") : react.useState("NOTICE");
-    const [data, setData] = react.useState<[]>([]);
-    const [isLoading, setIsLoading] = react.useState(false);
-    const [isError, setIsError] = react.useState(false);
-    useEffect(() => {
-        getLatestBoard(setIsError, setIsLoading, props.url,isSelected, setData);
-    }, [isSelected]);
-    let navigate = useNavigate();
+  const [isSelected, setIsSelected] = props.boardTypes ? react.useState('FREE') : react.useState('NOTICE');
+  const [data, setData] = react.useState<[]>([]);
+  const [isLoading, setIsLoading] = react.useState(false);
+  const [isError, setIsError] = react.useState(false);
+  useEffect(() => {
+    getLatestBoard(setIsError, setIsLoading, props.url, isSelected, setData);
+  }, [isSelected]);
+  let navigate = useNavigate();
 
-    return (
-        <CustomTable menus={props.boardTypes} title={props.title} isSelected={isSelected} setIsSelected={setIsSelected}
-                     useMenu={true} useIcon={true}  isLoading={isLoading} icon={<IconButton onClick={()=>navigate('/boards/?boardType='+isSelected)}>
-            <FontAwesomeIcon icon={faChevronRight} size="sm"/></IconButton>}>
-            <BoardBody>
-                {data?.length > 0 && !isError && <BoardList data={data}/>}
-                {data?.length === 0 && !isError && <ErrorScreen icon={faXmark}  message={"게시글이 없습니다."}/>}
-                {isError && <ErrorScreen icon={faExclamationTriangle}  message={"게시글을 불러오는데 실패했습니다."}/>}
-            </BoardBody>
-        </CustomTable>
-    )
-}
+  return (
+    <CustomTable
+      menus={props.boardTypes}
+      title={props.title}
+      isSelected={isSelected}
+      setIsSelected={setIsSelected}
+      useMenu={true}
+      useIcon={true}
+      isLoading={isLoading}
+      icon={
+        <IconButton onClick={() => navigate('/boards/?boardType=' + isSelected)}>
+          <FontAwesomeIcon icon={faChevronRight} size="sm" />
+        </IconButton>
+      }
+    >
+      <BoardBody>
+        {data?.length > 0 && !isError && <BoardList data={data} />}
+        {data?.length === 0 && !isError && <ErrorScreen icon={faXmark} message={'게시글이 없습니다.'} />}
+        {isError && <ErrorScreen icon={faExclamationTriangle} message={'게시글을 불러오는데 실패했습니다.'} />}
+      </BoardBody>
+    </CustomTable>
+  );
+};
 
 export default LatestBoard;

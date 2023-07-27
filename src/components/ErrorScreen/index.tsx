@@ -18,10 +18,13 @@ const NoDataWrapper = styled.div`
   grid-column-end: 3;
 `;
 
-export const ErrorScreen = (props:{icon:IconProp,message:string;}) => {
-    return (
-            <NoDataWrapper><FontAwesomeIcon icon={props.icon} size={"xl"}/>{props.message}</NoDataWrapper>
-    );
-}
+export const ErrorScreen = (props: { icon: IconProp; message: string }) => {
+  return (
+    <NoDataWrapper>
+      <FontAwesomeIcon icon={props.icon} size={'xl'} />
+      {props.message}
+    </NoDataWrapper>
+  );
+};
 
 export default ErrorScreen;

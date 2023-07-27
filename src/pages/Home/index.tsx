@@ -22,17 +22,16 @@ const LatestBoardContainer = styled.div`
   }
 `;
 
-
 const Main = () => {
-    return (
-        <Container maxWidth={"md"}>
-            <LatestBoardContainer>
-                <LatestBoard title={"공지사항"} url={LATEST_BOARD_URL}/>
-                <LatestBoard title={"통합 게시판"} boardTypes={BoardData.boardTypes} url={LATEST_BOARD_URL}/>
-            </LatestBoardContainer>
-            <CharacterRanking data={MainPageRankingData} title={"캐릭터 랭킹"} url={CHARACTER_MAINPAGE_RANKING_URL}/>
-        </Container>
-    );
+  return (
+    <Container maxWidth={'md'}>
+      <LatestBoardContainer>
+        <LatestBoard title={'공지사항'} url={LATEST_BOARD_URL} />
+        <LatestBoard title={'통합 게시판'} boardTypes={BoardData.boardTypes} url={LATEST_BOARD_URL} />
+      </LatestBoardContainer>
+      <CharacterRanking data={MainPageRankingData} title={'캐릭터 랭킹'} url={CHARACTER_MAINPAGE_RANKING_URL} />
+    </Container>
+  );
 };
 
 export default Main;

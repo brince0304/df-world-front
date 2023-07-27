@@ -26,7 +26,7 @@ export function setInterceptors(instance: AxiosInstance) {
     },
     (error) => {
       if (error.response.status === 401) {
-        localStorage.removeItem("user")
+        localStorage.removeItem('user');
       }
       // 응답 에러 처리 로직
       return Promise.reject(error);
@@ -37,14 +37,14 @@ export function setInterceptors(instance: AxiosInstance) {
 }
 
 const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:3000/';
-const axiosInstance = (url:string,options?:any) => {
-    const instance = axios.create({
-        baseURL: url,
-      withCredentials: true,
-        ...options,
-    });
+const axiosInstance = (url: string, options?: any) => {
+  const instance = axios.create({
+    baseURL: url,
+    withCredentials: true,
+    ...options,
+  });
 
-    return setInterceptors(instance)
-}
+  return setInterceptors(instance);
+};
 
 export default axiosInstance(baseURL);

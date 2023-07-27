@@ -26,7 +26,7 @@ const TableHeader = styled.div`
   font-size: 22px;
   color: #000;
   border-bottom: 1px solid #e5e5e5;
-`
+`;
 
 const TableButton = styled.div`
   font-size: 14px;
@@ -45,7 +45,7 @@ const TableButton = styled.div`
       transition: 0.3s;
     }
   }
-`
+`;
 
 const IconWrapper = styled.div`
   color: silver;
@@ -57,9 +57,8 @@ const IconWrapper = styled.div`
   }
 `;
 
-
 const SelectedButton = styled(ListItemButton)`
-  &&{  
+  && {
     list-style: none;
     display: flex;
     justify-content: center;
@@ -69,12 +68,13 @@ const SelectedButton = styled(ListItemButton)`
     color: black;
     cursor: pointer;
     background-color: #f2f2f2;
-    border-right: 1px solid #e5e5e5;}
-
+    border-right: 1px solid #e5e5e5;
+  }
 `;
 
 const NotSelectedButton = styled(ListItemButton)`
-  &&{  list-style: none;
+  && {
+    list-style: none;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,8 +84,8 @@ const NotSelectedButton = styled(ListItemButton)`
     font-weight: 0;
     cursor: pointer;
     background-color: white;
-    border-right: 1px solid #e5e5e5;}
-
+    border-right: 1px solid #e5e5e5;
+  }
 `;
 
 const TableTitleWrapper = styled.div`
@@ -94,58 +94,60 @@ const TableTitleWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-
-`
+`;
 
 interface TableMenuProps {
-    isSelected?: string,
-    menus: { name: string, id: string }[],
-    setIsSelected?: (value: string) => void
+  isSelected?: string;
+  menus: { name: string; id: string }[];
+  setIsSelected?: (value: string) => void;
 }
 
 const TableMenu = (props: TableMenuProps) => {
-    return (
-        <TableButton>
-            {props.menus.map((item: { name: string, id: string; }, index: number) => (
-                //선택된 버튼
-                    <Button key={index} color={props.isSelected === item.id ? "warning" : "inherit"}
-                            sx={{padding:"2px 5px"}}
-                                    onClick={() => props.setIsSelected?.(item.id)}>{item.name} </Button>
-            ))}
-        </TableButton>
-    );
-}
-
+  return (
+    <TableButton>
+      {props.menus.map((item: { name: string; id: string }, index: number) => (
+        //선택된 버튼
+        <Button
+          key={index}
+          color={props.isSelected === item.id ? 'warning' : 'inherit'}
+          sx={{ padding: '2px 5px' }}
+          onClick={() => props.setIsSelected?.(item.id)}
+        >
+          {item.name}{' '}
+        </Button>
+      ))}
+    </TableButton>
+  );
+};
 
 interface TableCustomProps {
-    title: ReactNode;
-    isSelected?: string;
-    setIsSelected?: (value: string) => void;
-    menus?: { name: string, id: string }[];
-    useMenu: boolean;
-    isLoading: boolean;
-    useIcon: boolean;
-    icon?: React.ReactNode;
-    children: React.ReactNode;
+  title: ReactNode;
+  isSelected?: string;
+  setIsSelected?: (value: string) => void;
+  menus?: { name: string; id: string }[];
+  useMenu: boolean;
+  isLoading: boolean;
+  useIcon: boolean;
+  icon?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 function CustomTable(props: TableCustomProps) {
-    return (
-        <TableContainer>
-            <TableHeader>
-                <TableTitleWrapper>
-                    <Typography fontFamily={"Core Sans"}>{props.title}</Typography>
-                    {props.isLoading &&
-                        <ReactLoading type={"spinningBubbles"} color={"gray"} width={"25px"} height={"25px"}/>}
-                </TableTitleWrapper>
-                {props.useIcon && props.icon}
-            </TableHeader>
-            {props.useMenu && props.menus &&
-                <TableMenu isSelected={props.isSelected} menus={props.menus} setIsSelected={props.setIsSelected}/>}
-            {props.children}
-        </TableContainer>
-
-    );
+  return (
+    <TableContainer>
+      <TableHeader>
+        <TableTitleWrapper>
+          <Typography fontFamily={'Core Sans'}>{props.title}</Typography>
+          {props.isLoading && <ReactLoading type={'spinningBubbles'} color={'gray'} width={'25px'} height={'25px'} />}
+        </TableTitleWrapper>
+        {props.useIcon && props.icon}
+      </TableHeader>
+      {props.useMenu && props.menus && (
+        <TableMenu isSelected={props.isSelected} menus={props.menus} setIsSelected={props.setIsSelected} />
+      )}
+      {props.children}
+    </TableContainer>
+  );
 }
 
 export default CustomTable;

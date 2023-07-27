@@ -21,17 +21,16 @@ const ImgWrapper = styled.div`
   position: relative;
   display: flex;
   margin-left: 20px;
-
-`
+`;
 
 function characterUrl(props: CharacterImgProps) {
-    return `https://img-api.neople.co.kr/df/servers/${props.serverId}/characters/${props.characterId}?zoom=3`;
+  return `https://img-api.neople.co.kr/df/servers/${props.serverId}/characters/${props.characterId}?zoom=3`;
 }
 
 export function RankingCharacterImg(props: CharacterImgProps) {
-    return (
-        <ImgWrapper>
-            <CharacterImg id="characterImg" src={characterUrl(props)} alt="캐릭터 이미지"/>
-        </ImgWrapper>
-    );
+  return (
+    <ImgWrapper>
+      <CharacterImg id="characterImg" src={characterUrl(props)} alt="캐릭터 이미지" />
+    </ImgWrapper>
+  );
 }

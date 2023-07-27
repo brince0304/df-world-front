@@ -15,4 +15,3 @@ export function ModalTitle(props: { title: string }) {
     </Typography>
   );
 }
-

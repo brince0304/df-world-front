@@ -9,18 +9,18 @@ const useAuthSuccess = () => {
       autoHideDuration,
     });
   };
-  const handleLoginSuccess = (data:IAuthLoginResponse) => {
+  const handleLoginSuccess = (data: IAuthLoginResponse) => {
     enqueueSnackbar(`환영합니다 ${data.nickname}님! 🤩`, {
       variant: 'success',
       autoHideDuration,
-    })
-  }
+    });
+  };
   const handleLogoutSuccess = () => {
     enqueueSnackbar('로그아웃 되었습니다. 다음에 봬요~! 😒', {
       variant: 'success',
       autoHideDuration,
-    })
-  }
+    });
+  };
 
   return {
     handleRegisterSuccess,

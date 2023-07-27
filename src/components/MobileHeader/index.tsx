@@ -29,19 +29,17 @@ const Container = styled.div`
   }
 `;
 
-
 const NavItem = styled.a`
   color: #fff;
   font-size: 1.5rem;
   text-decoration: none;
   transition: 0.3s ease-in-out;
-  padding : 10px 0;
+  padding: 10px 0;
   &:hover {
     color: cornflowerblue;
   }
 
   cursor: pointer;
-
 `;
 
 const NavMenu = styled.div`
@@ -54,16 +52,16 @@ const NavMenu = styled.div`
 `;
 
 const Division = styled.div`
-    width: 100%;
-    height: 1px;
-    background-color: #fff;
-    margin: 10px 0;
-  opacity : 0.5;
+  width: 100%;
+  height: 1px;
+  background-color: #fff;
+  margin: 10px 0;
+  opacity: 0.5;
 `;
 
 const ProfileWrapper = styled.div`
   display: flex;
-  position:relative;
+  position: relative;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -72,9 +70,9 @@ const ProfileWrapper = styled.div`
 //네비바 바깥 누르면 닫히는 함수
 
 interface NavProps {
-    isOpened: boolean,
-    menuList: { name: string, link:string }[],
-    handleClose: () => void,
+  isOpened: boolean;
+  menuList: { name: string; link: string }[];
+  handleClose: () => void;
 }
 
 const Logo = styled(Button)`
@@ -83,10 +81,10 @@ const Logo = styled(Button)`
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding-top : 10%;
+    padding-top: 10%;
     font-size: 20px;
     font-weight: 700;
-    color: #FFFFFF;
+    color: #ffffff;
     cursor: pointer;
     padding-right: 0;
 
@@ -95,8 +93,7 @@ const Logo = styled(Button)`
       background-color: transparent;
     }
   }
-  `
-
+`;
 
 const ProfileMenu = styled.div`
   position: absolute;
@@ -109,15 +106,15 @@ const ProfileMenu = styled.div`
   height: 100%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   z-index: 1;
-    background-color: white;
+  background-color: white;
   border-radius: 10px;
-    @media (max-width: 1200px) {
+  @media (max-width: 1200px) {
     position: absolute;
     right: 20%;
     width: 140px;
-    }
-  
-  &:after{
+  }
+
+  &:after {
     content: '';
     position: absolute;
     left: 0;
@@ -130,113 +127,114 @@ const ProfileMenu = styled.div`
     margin-top: -20px;
     margin-left: -8px;
   }
-`
+`;
 
 const ProfileMenuList = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-     height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
   gap: 10px;
-`
+`;
 
 const MenuIconWrapper = styled.div`
-    display: flex;
+  display: flex;
   position: relative;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  color : #121212;
-  
-`
-
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #121212;
+`;
 
 const MobileHeader = (props: NavProps) => {
-    const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-    const handleModalOpen = useCallback(() => {
-        dispatch(setLoginModalOpened(true))
-        props.handleClose();
-    } , [setLoginModalOpened, dispatch, props.handleClose]);
-  const {user} = useUser();
+  const handleModalOpen = useCallback(() => {
+    dispatch(setLoginModalOpened(true));
+    props.handleClose();
+  }, [setLoginModalOpened, dispatch, props.handleClose]);
+  const { user } = useUser();
   const notificationCount = user?.notificationCount;
   const [profileIsOpened, setProfileIsOpened] = useState(false);
-    const handleProfileOpen = useCallback(() => {
-        setProfileIsOpened(!profileIsOpened);
-    }, [profileIsOpened]);
-    const handleNavigateToMyPage = useCallback(() => {
-        navigate("/mypage/");
-        setProfileIsOpened(false);
-        props.handleClose();
-    }, [navigate]);
-    return (
-        <Container isOpened={props.isOpened}>
-            <NavMenu>
-                <Logo onClick={(e)=>{
-                    navigate("/");
-                    props.handleClose();
-                    setProfileIsOpened(false);
-                }}>
-                    커뮤니티
-                </Logo>
-                {user &&
-                    <ProfileWrapper>
-                    <HeaderProfile onClick={handleProfileOpen}/>
-                        {user &&
-                            <Zoom  in={profileIsOpened}>
-                            <ProfileMenu>
-                                <ProfileMenuList>
-                                    <Tooltip title={"마이페이지"} placement={"bottom"}>
-                                        <IconButton onClick={handleNavigateToMyPage}>
-                                            <MenuIconWrapper>
-                                                <FontAwesomeIcon icon={faUser} size="sm"/>
-                                            </MenuIconWrapper>
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title={"알림"} placement={"bottom"}>
-                                        <IconButton>
-                                            {notificationCount===0 &&
-                                                <MenuIconWrapper>
-                                                    <FontAwesomeIcon icon={faBell} size="sm"/>
-                                                </MenuIconWrapper>
-                                            }
-                                            {notificationCount!==0 &&
-                                                <Badge badgeContent={notificationCount} color="primary" >
-                                                    <MenuIconWrapper>
-                                                        <FontAwesomeIcon icon={faBell} size="sm"/>
-                                                    </MenuIconWrapper>
-                                                </Badge>
-                                            }
-                                        </IconButton>
-                                    </Tooltip>
-                                </ProfileMenuList>
-                            </ProfileMenu>
-                            </Zoom>
-                        }
-                    </ProfileWrapper>
-                }
-                {user && <Division/>}
-                {user && <NavItem onClick={()=>{}}>로그아웃</NavItem>}
-                {!user && <NavItem onClick={handleModalOpen}>로그인</NavItem>}
-                {props.menuList.map((item, index) => {
-                        return (
-                            <NavItem key={index} onClick={(e) => {
-                                navigate(item.link);
-                                props.handleClose();
-                                setProfileIsOpened(false);
-                            }}>
-                                {item.name}
-                            </NavItem>
-                        )
-                    }
-                )}
-            </NavMenu>
-        </Container>
-    )
-
-}
+  const handleProfileOpen = useCallback(() => {
+    setProfileIsOpened(!profileIsOpened);
+  }, [profileIsOpened]);
+  const handleNavigateToMyPage = useCallback(() => {
+    navigate('/mypage/');
+    setProfileIsOpened(false);
+    props.handleClose();
+  }, [navigate]);
+  return (
+    <Container isOpened={props.isOpened}>
+      <NavMenu>
+        <Logo
+          onClick={(e) => {
+            navigate('/');
+            props.handleClose();
+            setProfileIsOpened(false);
+          }}
+        >
+          커뮤니티
+        </Logo>
+        {user && (
+          <ProfileWrapper>
+            <HeaderProfile onClick={handleProfileOpen} />
+            {user && (
+              <Zoom in={profileIsOpened}>
+                <ProfileMenu>
+                  <ProfileMenuList>
+                    <Tooltip title={'마이페이지'} placement={'bottom'}>
+                      <IconButton onClick={handleNavigateToMyPage}>
+                        <MenuIconWrapper>
+                          <FontAwesomeIcon icon={faUser} size="sm" />
+                        </MenuIconWrapper>
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title={'알림'} placement={'bottom'}>
+                      <IconButton>
+                        {notificationCount === 0 && (
+                          <MenuIconWrapper>
+                            <FontAwesomeIcon icon={faBell} size="sm" />
+                          </MenuIconWrapper>
+                        )}
+                        {notificationCount !== 0 && (
+                          <Badge badgeContent={notificationCount} color="primary">
+                            <MenuIconWrapper>
+                              <FontAwesomeIcon icon={faBell} size="sm" />
+                            </MenuIconWrapper>
+                          </Badge>
+                        )}
+                      </IconButton>
+                    </Tooltip>
+                  </ProfileMenuList>
+                </ProfileMenu>
+              </Zoom>
+            )}
+          </ProfileWrapper>
+        )}
+        {user && <Division />}
+        {user && <NavItem onClick={() => {}}>로그아웃</NavItem>}
+        {!user && <NavItem onClick={handleModalOpen}>로그인</NavItem>}
+        {props.menuList.map((item, index) => {
+          return (
+            <NavItem
+              key={index}
+              onClick={(e) => {
+                navigate(item.link);
+                props.handleClose();
+                setProfileIsOpened(false);
+              }}
+            >
+              {item.name}
+            </NavItem>
+          );
+        })}
+      </NavMenu>
+    </Container>
+  );
+};
 
 export default MobileHeader;

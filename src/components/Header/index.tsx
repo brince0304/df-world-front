@@ -17,137 +17,161 @@ import styled from 'styled-components';
 import { useUser } from '../../hooks/authHooks/useUser';
 import { useLogout } from '../../hooks/authHooks/useLogout';
 
-
 const HeaderProfileMenuBox = () => {
-    const notificationCount = useSelector((state: RootState) => state.notification.notificationCount);
-    const navigate = useNavigate();
-    const handleNavigateToMypage = () => {
-        navigate("/mypage/");
-    };
+  const notificationCount = useSelector((state: RootState) => state.notification.notificationCount);
+  const navigate = useNavigate();
+  const handleNavigateToMypage = () => {
+    navigate('/mypage/');
+  };
 
-    return (
-        <ProfileMenu>
-            <Tooltip title={"마이페이지"} placement={"bottom"} onClick={handleNavigateToMypage}>
-                <MenuIconWrapper>
-                    <IconButton>
-                        <FontAwesomeIcon icon={faUser} size="sm"/>
-                    </IconButton>
-                </MenuIconWrapper>
-            </Tooltip>
-            <Tooltip title={"알림"} placement={"bottom"}>
-
-                <MenuIconWrapper>
-                    <IconButton>
-                        {notificationCount === 0 ?
-                            <FontAwesomeIcon icon={faBell} size="sm"/>
-                            :
-                            <Badge badgeContent={notificationCount} color="primary">
-                                <FontAwesomeIcon icon={faBell} size="sm"/>
-                            </Badge>
-                        }
-                    </IconButton>
-                </MenuIconWrapper>
-            </Tooltip>
-
-        </ProfileMenu>
-    );
+  return (
+    <ProfileMenu>
+      <Tooltip title={'마이페이지'} placement={'bottom'} onClick={handleNavigateToMypage}>
+        <MenuIconWrapper>
+          <IconButton>
+            <FontAwesomeIcon icon={faUser} size="sm" />
+          </IconButton>
+        </MenuIconWrapper>
+      </Tooltip>
+      <Tooltip title={'알림'} placement={'bottom'}>
+        <MenuIconWrapper>
+          <IconButton>
+            {notificationCount === 0 ? (
+              <FontAwesomeIcon icon={faBell} size="sm" />
+            ) : (
+              <Badge badgeContent={notificationCount} color="primary">
+                <FontAwesomeIcon icon={faBell} size="sm" />
+              </Badge>
+            )}
+          </IconButton>
+        </MenuIconWrapper>
+      </Tooltip>
+    </ProfileMenu>
+  );
 };
 const Header = (props: HeaderProps) => {
-    const navigate = useNavigate();
-    const handleCharacterSearchNavigate = (characterName: string, serverId: string) => {
-        navigate(`/characters/${serverId}?name=${characterName}`);
-    };
-    const [isNavbarOpened, openNavbar, closeNavbar] = useNavBar();
+  const navigate = useNavigate();
+  const handleCharacterSearchNavigate = (characterName: string, serverId: string) => {
+    navigate(`/characters/${serverId}?name=${characterName}`);
+  };
+  const [isNavbarOpened, openNavbar, closeNavbar] = useNavBar();
 
-    const handleOptionMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        navigate("/details/?characterId=" + e.currentTarget.attributes.getNamedItem("data-id")?.value + "&serverId=" + e.currentTarget.attributes.getNamedItem("data-option")?.value);
-    };
-    const dispatch = useAppDispatch();
-
-
-    const handleModalOpen = useCallback(
-        () => {
-            dispatch(setLoginModalOpened(true));
-        }, [dispatch]);
-
-    const [profileIsOpened, setProfileIsOpened] = useState(false);
-    const searchHistory = useSelector((state: RootState) => state.history.characterHistory);
-    const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        const targetId = e.currentTarget.attributes.getNamedItem("data-id")?.value;
-        if (targetId) {
-            dispatch(removeCharacterHistory(targetId));
-        }
-    };
-    const {user} = useUser();
-    const handleLogout = useLogout();
-    const handleClickProfile = useCallback(
-        () => {
-            setProfileIsOpened(!profileIsOpened);
-        }, [profileIsOpened, setProfileIsOpened]);
-    return (
-        <Container>
-            <HeaderTop>
-                <MobileNavButton onClick={openNavbar}>
-                    <FontAwesomeIcon icon={faBars} size="lg"/>
-                </MobileNavButton>
-                <Logo onClick={(e) => {
-                    navigate("/");
-                }}>{props.title}</Logo>
-                <SelectSearchWrapper>
-                    <CustomSearchBox placeholder={"캐릭터 검색"}
-                                  direction={"down"} handleNavigate={handleCharacterSearchNavigate}
-                                  filterOptions={HeaderData.serverList}
-                                  searchHistoryMouseDown={handleOptionMouseDown}
-                                  removeSearchHistory={handleRemoveSearchOptions} useSearchOption={true}
-                                  searchHistory={searchHistory}
-                                  autoCompleteHandler={getCharactersAutoComplete}
-                                  autoCompleteUrl={"/characters/autoComplete?name={searchValue}&serverId={selectValue}"}
-                    />
-
-                </SelectSearchWrapper>
-            </HeaderTop>
-            <HeaderBottom>
-                <HeaderMenuWrapper>
-                    {HeaderData.menuList.map((item, index) => {
-                        return <HeaderMenu key={index} onClick={(e) => {
-                            navigate(item.link);
-                        }}>{item.name}</HeaderMenu>;
-                    })}
-                    {user ? <HeaderMenu onClick={handleLogout}>로그아웃</HeaderMenu> :
-                        <HeaderMenu onClick={handleModalOpen}>로그인</HeaderMenu>}
-                </HeaderMenuWrapper>
-                <ProfileContainer>
-                    {user &&
-                        <HtmlTooltip title={
-                            <React.Fragment>
-                                <Box>
-                                    <ProfileNicknameWrapper>
-                                        <Avatar alt={user.nickname} src={user.profileImgPath} sx={{
-                                            width: 30,
-                                            height: 30,
-                                            backgroundColor: "white",
-                                            border: "1px solid #2e2e2e"
-                                        }}/>
-                                        {user.nickname}
-                                    </ProfileNicknameWrapper>
-                                    <HeaderProfileMenuBox/>
-                                </Box>
-                            </React.Fragment>} placement={"bottom"} TransitionComponent={Zoom}>
-                            <ProfileWrapper>
-                                <HeaderProfile onClick={handleClickProfile}/>
-                            </ProfileWrapper>
-                        </HtmlTooltip>}
-                </ProfileContainer>
-            </HeaderBottom>
-            {!user &&<LoginModal/> }
-            <React.Fragment>
-            <MobileHeader isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar}/>
-            </React.Fragment>
-            <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar}/>
-        </Container>
+  const handleOptionMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    navigate(
+      '/details/?characterId=' +
+        e.currentTarget.attributes.getNamedItem('data-id')?.value +
+        '&serverId=' +
+        e.currentTarget.attributes.getNamedItem('data-option')?.value,
     );
-};
+  };
+  const dispatch = useAppDispatch();
 
+  const handleModalOpen = useCallback(() => {
+    dispatch(setLoginModalOpened(true));
+  }, [dispatch]);
+
+  const [profileIsOpened, setProfileIsOpened] = useState(false);
+  const searchHistory = useSelector((state: RootState) => state.history.characterHistory);
+  const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const targetId = e.currentTarget.attributes.getNamedItem('data-id')?.value;
+    if (targetId) {
+      dispatch(removeCharacterHistory(targetId));
+    }
+  };
+  const { user } = useUser();
+  const handleLogout = useLogout();
+  const handleClickProfile = useCallback(() => {
+    setProfileIsOpened(!profileIsOpened);
+  }, [profileIsOpened, setProfileIsOpened]);
+  return (
+    <Container>
+      <HeaderTop>
+        <MobileNavButton onClick={openNavbar}>
+          <FontAwesomeIcon icon={faBars} size="lg" />
+        </MobileNavButton>
+        <Logo
+          onClick={(e) => {
+            navigate('/');
+          }}
+        >
+          {props.title}
+        </Logo>
+        <SelectSearchWrapper>
+          <CustomSearchBox
+            placeholder={'캐릭터 검색'}
+            direction={'down'}
+            handleNavigate={handleCharacterSearchNavigate}
+            filterOptions={HeaderData.serverList}
+            searchHistoryMouseDown={handleOptionMouseDown}
+            removeSearchHistory={handleRemoveSearchOptions}
+            useSearchOption={true}
+            searchHistory={searchHistory}
+            autoCompleteHandler={getCharactersAutoComplete}
+            autoCompleteUrl={'/characters/autoComplete?name={searchValue}&serverId={selectValue}'}
+          />
+        </SelectSearchWrapper>
+      </HeaderTop>
+      <HeaderBottom>
+        <HeaderMenuWrapper>
+          {HeaderData.menuList.map((item, index) => {
+            return (
+              <HeaderMenu
+                key={index}
+                onClick={(e) => {
+                  navigate(item.link);
+                }}
+              >
+                {item.name}
+              </HeaderMenu>
+            );
+          })}
+          {user ? (
+            <HeaderMenu onClick={handleLogout}>로그아웃</HeaderMenu>
+          ) : (
+            <HeaderMenu onClick={handleModalOpen}>로그인</HeaderMenu>
+          )}
+        </HeaderMenuWrapper>
+        <ProfileContainer>
+          {user && (
+            <HtmlTooltip
+              title={
+                <React.Fragment>
+                  <Box>
+                    <ProfileNicknameWrapper>
+                      <Avatar
+                        alt={user.nickname}
+                        src={user.profileImgPath}
+                        sx={{
+                          width: 30,
+                          height: 30,
+                          backgroundColor: 'white',
+                          border: '1px solid #2e2e2e',
+                        }}
+                      />
+                      {user.nickname}
+                    </ProfileNicknameWrapper>
+                    <HeaderProfileMenuBox />
+                  </Box>
+                </React.Fragment>
+              }
+              placement={'bottom'}
+              TransitionComponent={Zoom}
+            >
+              <ProfileWrapper>
+                <HeaderProfile onClick={handleClickProfile} />
+              </ProfileWrapper>
+            </HtmlTooltip>
+          )}
+        </ProfileContainer>
+      </HeaderBottom>
+      {!user && <LoginModal />}
+      <React.Fragment>
+        <MobileHeader isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar} />
+      </React.Fragment>
+      <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar} />
+    </Container>
+  );
+};
 
 const Container = styled.header`
   //헤더 그림자
@@ -173,7 +197,7 @@ const Logo = styled(Button)`
     padding-left: 10px;
     font-size: 20px;
     font-weight: 700;
-    color: #FFFFFF;
+    color: #ffffff;
     cursor: pointer;
     padding-right: 0;
     font-family: 'Core Sans';
@@ -193,7 +217,6 @@ const Logo = styled(Button)`
     justify-content: space-between;
   }
 `;
-
 
 const SelectSearchWrapper = styled.div`
   display: flex;
@@ -216,7 +239,6 @@ const SelectSearchWrapper = styled.div`
     grid-row-end: 3;
   }
 `;
-
 
 const HeaderMenu = styled(Button)`
   && {
@@ -270,7 +292,6 @@ const MobileNavButton = styled(Button)`
   }
 `;
 
-
 const NavBackground = styled.div`
   display: none;
   @media (max-width: 768px) {
@@ -281,10 +302,11 @@ const NavBackground = styled.div`
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    opacity: ${(props: { isOpened: boolean }) => props.isOpened ? 1 : 0};
-    visibility: ${(props: { isOpened: boolean }) => props.isOpened ? "visible" : "hidden"};
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-
+    opacity: ${(props: { isOpened: boolean }) => (props.isOpened ? 1 : 0)};
+    visibility: ${(props: { isOpened: boolean }) => (props.isOpened ? 'visible' : 'hidden')};
+    transition:
+      opacity 0.3s ease-in-out,
+      visibility 0.3s ease-in-out;
   }
 `;
 
@@ -302,13 +324,11 @@ const HeaderBottom = styled.div`
   }
 `;
 
-
 interface HeaderProps {
-    title: string;
+  title: string;
 
-    userId?: string;
+  userId?: string;
 }
-
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -334,9 +354,6 @@ const ProfileContainer = styled.div`
   @media (max-width: 1300px) {
     padding-right: 0;
   }
-
-
-
 `;
 
 const HeaderMenuWrapper = styled.ul`
@@ -345,42 +362,38 @@ const HeaderMenuWrapper = styled.ul`
   align-items: center;
   width: 100%;
   height: 100%;
-
 `;
 
 const ProfileMenu = styled(Box)`
   display: flex;
   width: 100%;
   height: 100%;
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
   padding: 0 15px;
   gap: 10px;
-  
-  
+
   @media (max-width: 768px) {
     display: none;
   }
 `;
 
-
 const MenuIconWrapper = styled.div`
   color: #181818;
 `;
 
-
-const HtmlTooltip = styled(({className, ...props}: TooltipProps) => (
-  <Tooltip {...props} classes={{popper: className}}/>
-))(({theme}) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-        backgroundColor: "#F8F8F8",
-        color: "rgba(0, 0, 0, 0.87)",
-        width: "300px",
-        height: "100%",
-        border: "1px solid #dadde9",
-        boxShadow: "0 0 30px 0 rgba(0, 0, 0, 0.1)",
-        fontSize: "0.9rem",
-    },
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: '#F8F8F8',
+    color: 'rgba(0, 0, 0, 0.87)',
+    width: '300px',
+    height: '100%',
+    border: '1px solid #dadde9',
+    boxShadow: '0 0 30px 0 rgba(0, 0, 0, 0.1)',
+    fontSize: '0.9rem',
+  },
 }));
 
 const ProfileNicknameWrapper = styled.div`
@@ -391,7 +404,7 @@ const ProfileNicknameWrapper = styled.div`
   margin-left: 10px;
   font-size: 0.9rem;
   font-weight: 600;
-  gap : 10px;
+  gap: 10px;
   padding: 10px 0px;
 `;
 

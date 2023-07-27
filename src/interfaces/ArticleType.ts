@@ -18,7 +18,7 @@ export type BestArticles = {
   profileCharacterIconClassName: string;
   character?: any;
   hashtags: any[];
-}
+};
 
 export type Content = {
   createdAt: string;
@@ -40,13 +40,13 @@ export type Content = {
   profileCharacterIconClassName: string;
   character?: any;
   hashtags: any[];
-}
+};
 
 export type Sort = {
   empty: boolean;
   unsorted: boolean;
   sorted: boolean;
-}
+};
 
 export type Pageable = {
   sort: Sort;
@@ -55,7 +55,7 @@ export type Pageable = {
   pageSize: number;
   paged: boolean;
   unpaged: boolean;
-}
+};
 
 export type Articles = {
   content: Content[];
@@ -69,9 +69,9 @@ export type Articles = {
   sort: Sort;
   numberOfElements: number;
   empty: boolean;
-}
+};
 
 export type ArticleType = {
   bestArticles: BestArticles[];
   articles: Articles;
-}
+};

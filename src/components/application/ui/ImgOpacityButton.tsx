@@ -8,18 +8,18 @@ const Image = styled.img`
   scale: ${(props: { scale: number | undefined }) => (props.scale ? props.scale : 1)};
 `;
 
-
 interface ImgOpacityButtonProps {
-    src: string;
-    alt: string;
-    scale?: number;
-    width?: number;
-    height?: number;
+  src: string;
+  alt: string;
+  scale?: number;
+  width?: number;
+  height?: number;
 }
 
 export function ImgOpacityButton(props: ImgOpacityButtonProps) {
-    return (
-        <Button>
-            <Image src={props.src} alt={props.alt} scale={props.scale} width={props.width} height={props.height}/>
-        </Button>);
+  return (
+    <Button>
+      <Image src={props.src} alt={props.alt} scale={props.scale} width={props.width} height={props.height} />
+    </Button>
+  );
 }

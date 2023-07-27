@@ -20,7 +20,7 @@ const RegisterContainer = styled.div`
 `;
 
 const LoginContainer = styled.div`
-  display: ${(props: { isloginpage: boolean }) => props.isloginpage ? "flex" : "none"};
+  display: ${(props: { isloginpage: boolean }) => (props.isloginpage ? 'flex' : 'none')};
   height: 100%;
   align-items: center;
   @media (max-width: 768px) {
@@ -28,47 +28,49 @@ const LoginContainer = styled.div`
   }
 `;
 
+function LoginModal() {
+  const [isloginpage, setIsloginpage] = useState<boolean>(true);
+  const handleChangeSection = useCallback(() => {
+    setIsloginpage(!isloginpage);
+  }, [isloginpage]);
+  const dispatch = useDispatch();
+  const isOpened = useSelector((state: RootState) => state.modal.loginModalOpened);
+  const handleClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    dispatch(setLoginModalOpened(false));
+  };
 
-function LoginModal () {
-    const [isloginpage, setIsloginpage] = useState<boolean>(true);
-    const handleChangeSection = useCallback(
-        () => {
-            setIsloginpage(!isloginpage);
+  return (
+    //TODO : 로그인 페이지, 회원가입 페이지 분리해서 애니메이션 없이 바꾸
+    <Dialog
+      open={isOpened}
+      onClose={handleClose}
+      sx={{
+        '.css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
+          maxWidth: '800px',
         },
-        [isloginpage]);
-    const dispatch = useDispatch();
-    const isOpened = useSelector((state:RootState) => state.modal.loginModalOpened);
-    const handleClose = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        e.preventDefault();
-        dispatch(setLoginModalOpened(false));
-    }
-
-    return (
-        //TODO : 로그인 페이지, 회원가입 페이지 분리해서 애니메이션 없이 바꾸
-        <Dialog
-            open={isOpened}
-            onClose={handleClose}
+      }}
+    >
+      <DialogContent>
+        <RegisterContainer isloginpage={isloginpage.valueOf()} id={'register-part'}>
+          <RegisterPage handleChangeSection={handleChangeSection} />
+        </RegisterContainer>
+        <LoginContainer isloginpage={isloginpage.valueOf()} id={'postSignIn-part'}>
+          <SocialLogin />
+          <Divider
+            orientation={'vertical'}
+            flexItem={true}
             sx={{
-               '.css-1t1j96h-MuiPaper-root-MuiDialog-paper':{
-                   maxWidth:"800px"
-            }}}
-        >
-                <DialogContent>
-                    <RegisterContainer isloginpage={isloginpage.valueOf()} id={"register-part"}>
-                        <RegisterPage handleChangeSection={handleChangeSection}/>
-                    </RegisterContainer>
-                    <LoginContainer isloginpage={isloginpage.valueOf()} id={"postSignIn-part"}>
-                        <SocialLogin/>
-                        <Divider orientation={"vertical"} flexItem={true} sx={{
-                            "@media (max-width: 768px)": {
-                                display: "none",
-                            }
-                        }}/>
-                        <LoginPage handleChangeSection={handleChangeSection}/>
-                    </LoginContainer>
-                </DialogContent>
-        </Dialog>
-    );
+              '@media (max-width: 768px)': {
+                display: 'none',
+              },
+            }}
+          />
+          <LoginPage handleChangeSection={handleChangeSection} />
+        </LoginContainer>
+      </DialogContent>
+    </Dialog>
+  );
 }
 
 export default LoginModal;

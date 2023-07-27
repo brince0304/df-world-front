@@ -4,21 +4,20 @@ import useAuthSuccess from './useAuthSuccess';
 import { useAuthService } from '../../context/authContext';
 import useAuthError from './useAuthError';
 
-
 export const useLogout = () => {
   const queryClient = useQueryClient();
   const { logout } = useAuthService();
   const { handleLogoutSuccess } = useAuthSuccess();
   const { handleLogoutError } = useAuthError();
   const handleLogout = async () => {
-    try{
+    try {
       await logout();
       queryClient.setQueryData([QUERY_KEY.user], null);
       handleLogoutSuccess();
     } catch (error) {
       handleLogoutError();
     }
-  }
+  };
 
   return handleLogout;
 };

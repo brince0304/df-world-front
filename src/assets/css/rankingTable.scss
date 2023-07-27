@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .board-character {
   width: 25px;
   height: 25px;
@@ -23,7 +22,6 @@
   min-height: 100%;
   min-width: 100%;
 }
-
 
 .board-character .default {
   position: absolute;
@@ -91,7 +89,6 @@
   min-width: 100%;
 }
 
-
 .board-character .m-warrior {
   position: absolute;
   left: -1000%;
@@ -157,4 +154,3 @@
   min-height: 100%;
   min-width: 100%;
 }
-

@@ -15,71 +15,91 @@ interface SocialLoginProps {
 }
 
 const SocialLoginButtons = (props: SocialLoginProps) => {
-    return (
-        <>{props.data.map((item, index) => (
-            <ImgOpacityButton src={require("../../../assets/img/" + item.src)} alt={item.alt} scale={1} key={index}
-                              width={50} height={50}/>
-        ))}</>
-    );
+  return (
+    <>
+      {props.data.map((item, index) => (
+        <ImgOpacityButton
+          src={require('../../../assets/img/' + item.src)}
+          alt={item.alt}
+          scale={1}
+          key={index}
+          width={50}
+          height={50}
+        />
+      ))}
+    </>
+  );
 };
 
 interface LoginProps {
-    username: string;
-    password: string;
+  username: string;
+  password: string;
 }
 
 const LoginPage = (props: { handleChangeSection: () => void }) => {
+  const schema = yup.object().shape({
+    username: yup.string().required('아이디를 입력해주세요.'),
+    password: yup.string().required('비밀번호를 입력해주세요.'),
+  });
 
-    const schema = yup.object().shape({
-        username: yup.string().required("아이디를 입력해주세요."),
-        password: yup.string().required("비밀번호를 입력해주세요."),
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginProps>({
+    mode: 'onChange',
+    resolver: yupResolver(schema),
+  });
 
-    const {
-        register,
-        handleSubmit,
-        formState: {errors},
-    } = useForm<LoginProps>({
-        mode: "onChange",
-        resolver: yupResolver(schema),
-    });
+  const login = useLogin();
 
-    const login = useLogin();
+  const onValid = (data: LoginProps) => {
+    login({ username: data.username, password: data.password });
+  };
 
-    const onValid = (data: LoginProps) => {
-       login({username: data.username, password: data.password});
-    };
-
-    return (
-        <FormControl onSubmit={handleSubmit(onValid)}>
-            <ModalTitle title={"로그인"}/>
-            <div>
-                <TextFieldCustom error={!!errors.username} type="text" label={"아이디"}
-                                 helperText={errors.username?.message} {...register("username")} />
-                <TextFieldCustom error={!!errors.password} type="password" label={"비밀번호"}
-                                 helperText={errors.password?.message} {...register("password")} />
-            </div>
-            <BodyFooter>
-                <MissingPassword>
-                    비밀번호를 잊으셨나요?
-                </MissingPassword>
-            </BodyFooter>
-            <LoginFooter>
-                <SocialLoginTitle>소셜 로그인</SocialLoginTitle>
-                <SocialLoginBox>
-                    <SocialLoginButtons data={SocialLoginData.circleButtons}/>
-                </SocialLoginBox>
-                <LoginButton variant="contained" type="submit">로그인</LoginButton>
-                <SignUpFooter>
-                            <span style={{
-                                paddingRight: "5px"
-                            }}>아직 회원이 아니신가요?</span>
-                    <SignUpText onClick={props.handleChangeSection}>회원가입</SignUpText>
-                </SignUpFooter>
-            </LoginFooter>
-        </FormControl>
-
-    );
+  return (
+    <FormControl onSubmit={handleSubmit(onValid)}>
+      <ModalTitle title={'로그인'} />
+      <div>
+        <TextFieldCustom
+          error={!!errors.username}
+          type="text"
+          label={'아이디'}
+          helperText={errors.username?.message}
+          {...register('username')}
+        />
+        <TextFieldCustom
+          error={!!errors.password}
+          type="password"
+          label={'비밀번호'}
+          helperText={errors.password?.message}
+          {...register('password')}
+        />
+      </div>
+      <BodyFooter>
+        <MissingPassword>비밀번호를 잊으셨나요?</MissingPassword>
+      </BodyFooter>
+      <LoginFooter>
+        <SocialLoginTitle>소셜 로그인</SocialLoginTitle>
+        <SocialLoginBox>
+          <SocialLoginButtons data={SocialLoginData.circleButtons} />
+        </SocialLoginBox>
+        <LoginButton variant="contained" type="submit">
+          로그인
+        </LoginButton>
+        <SignUpFooter>
+          <span
+            style={{
+              paddingRight: '5px',
+            }}
+          >
+            아직 회원이 아니신가요?
+          </span>
+          <SignUpText onClick={props.handleChangeSection}>회원가입</SignUpText>
+        </SignUpFooter>
+      </LoginFooter>
+    </FormControl>
+  );
 };
 
 const TextFieldCustom = styled(TextField)`
@@ -113,7 +133,6 @@ const LoginButton = styled(Button)`
     margin-top: 20px;
     padding: 20px 0;
     background-color: #1976d2;
-
   }
 `;
 
@@ -143,7 +162,6 @@ const LoginFooter = styled.div`
   align-items: center;
   padding: 0px 0;
 `;
-
 
 const SignUpFooter = styled.div`
   display: flex;
@@ -179,7 +197,7 @@ const SocialLoginTitle = styled.span`
     //양옆에 줄
     &::before,
     &::after {
-      content: "";
+      content: '';
       flex-grow: 1;
       height: 1px;
       background-color: rgba(0, 0, 0, 0.35);

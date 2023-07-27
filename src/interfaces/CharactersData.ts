@@ -1,5 +1,4 @@
 export interface Content {
-
   characterImgPath: string;
   createdAt?: any;
   createdBy?: any;
@@ -29,7 +28,6 @@ export interface Sor {
 }
 
 export interface Pageable {
-
   offset: number;
   pageNumber: number;
   pageSize: number;
@@ -49,4 +47,3 @@ export interface CharactersData {
   numberOfElements: number;
   empty: boolean;
 }
-

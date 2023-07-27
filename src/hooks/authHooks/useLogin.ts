@@ -9,22 +9,21 @@ type IUseLogin = UseMutateFunction<IAuthLoginResponse, unknown, IAuthLoginReques
 
 export const useLogin = (): IUseLogin => {
   const { login } = useAuthService();
-  const {handleLoginError} = useAuthError();
-  const {handleLoginSuccess} = useAuthSuccess();
+  const { handleLoginError } = useAuthError();
+  const { handleLoginSuccess } = useAuthSuccess();
   const queryClient = useQueryClient();
-  const { mutate: loginMutation } = useMutation<IAuthLoginResponse, unknown,IAuthLoginRequest, unknown>(
-    ({
-       username,
-       password
-     }) => login({username,password}), {
+  const { mutate: loginMutation } = useMutation<IAuthLoginResponse, unknown, IAuthLoginRequest, unknown>(
+    ({ username, password }) => login({ username, password }),
+    {
       onSuccess: (data) => {
         queryClient.setQueryData([QUERY_KEY.user], data);
         handleLoginSuccess(data);
       },
       onError: () => {
         handleLoginError();
-      }
-    });
+      },
+    },
+  );
 
-    return loginMutation;
-}
+  return loginMutation;
+};

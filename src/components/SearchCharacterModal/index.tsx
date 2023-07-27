@@ -26,18 +26,17 @@ const style = {
   width: '400px',
 };
 
- const CloseButtonWrapper = styled(Box)`
+const CloseButtonWrapper = styled(Box)`
   //우측 끝에 배치
-   display: flex;
+  display: flex;
   font-size: 25px;
-  color:silver;
+  color: silver;
   cursor: pointer;
   &:hover {
     color: #282c34;
     transition: 0.3s;
   }
-`
-
+`;
 
 const SearchBoxWrapper = styled(Box)`
   justify-content: space-between;
@@ -48,56 +47,63 @@ const SearchBoxWrapper = styled(Box)`
   left: 0;
   z-index: 1000;
   align-items: center;
-  padding : 20px 10px;
+  padding: 20px 10px;
   background-color: white;
 `;
 
 const ModalBody = styled(Box)`
-    display: flex;
+  display: flex;
   position: relative;
   height: 100%;
   width: 100%;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 20px;
-    `
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 20px;
+`;
 
-
-const SearchCharacterModal = (props:{isOpened:boolean , handleClose:()=>void, children:ReactNode ,
-serachBox:ReactNode,isLoading:boolean}) => {
-    return (
-        <Modal
-            open={props.isOpened}
-            onClose={props.handleClose}
-        >
-            <Fade in={props.isOpened} unmountOnExit={true}>
-                <Box sx={style} >
-                    {props.isLoading && <LinearProgress sx={{
-                        position: 'absolute',
-                        top: '0',
-                        zIndex: 1020,
-                        width:'100%'}}/>}
-                    <ModalBody>
-
-                        <Box sx={{
-                            display: 'flex',
-                            width: '100%',
-                            height: '52px',
-                            position: 'fixed',
-                            left: '0',
-                            top: '0',
-                            zIndex: 1000,
-                            backgroundColor: 'white',
-                           padding : '10px 10px',
-                        }}>
-                            {props.serachBox}
-                        </Box>
-                        {props.children}
-                    </ModalBody>
-                </Box>
-            </Fade>
-        </Modal>
-    );
+const SearchCharacterModal = (props: {
+  isOpened: boolean;
+  handleClose: () => void;
+  children: ReactNode;
+  serachBox: ReactNode;
+  isLoading: boolean;
+}) => {
+  return (
+    <Modal open={props.isOpened} onClose={props.handleClose}>
+      <Fade in={props.isOpened} unmountOnExit={true}>
+        <Box sx={style}>
+          {props.isLoading && (
+            <LinearProgress
+              sx={{
+                position: 'absolute',
+                top: '0',
+                zIndex: 1020,
+                width: '100%',
+              }}
+            />
+          )}
+          <ModalBody>
+            <Box
+              sx={{
+                display: 'flex',
+                width: '100%',
+                height: '52px',
+                position: 'fixed',
+                left: '0',
+                top: '0',
+                zIndex: 1000,
+                backgroundColor: 'white',
+                padding: '10px 10px',
+              }}
+            >
+              {props.serachBox}
+            </Box>
+            {props.children}
+          </ModalBody>
+        </Box>
+      </Fade>
+    </Modal>
+  );
 };
 
 export default SearchCharacterModal;

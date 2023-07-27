@@ -47,7 +47,7 @@ export interface BoardListData {
   empty: boolean;
 }
 
-export interface BoardContent{
+export interface BoardContent {
   createdAt: string;
   createdBy: string;
   modifiedAt: string;

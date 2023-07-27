@@ -42,57 +42,70 @@ const UserProfile = () => {
 };
 
 const UserProfileCard = (props: { refresh: () => void }) => {
-    return (
-        <UserProfileCardStyled>
-            <Typography component={"h1"} fontFamily={"Core Sans"} fontSize={"1.5rem"} fontWeight={"bold"}
-                        sx={{textAlign: "left"}}>마이페이지</Typography>
-            <Divider flexItem sx={{width: "100%", marginTop: "10px", marginBottom: "10px"}}/>
-            <UserProfile/>
-            <Divider flexItem sx={{width: "100%", marginTop: "10px"}}/>
-            <ProfileMenus refresh={props.refresh}/>
-        </UserProfileCardStyled>
-    );
+  return (
+    <UserProfileCardStyled>
+      <Typography
+        component={'h1'}
+        fontFamily={'Core Sans'}
+        fontSize={'1.5rem'}
+        fontWeight={'bold'}
+        sx={{ textAlign: 'left' }}
+      >
+        마이페이지
+      </Typography>
+      <Divider flexItem sx={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+      <UserProfile />
+      <Divider flexItem sx={{ width: '100%', marginTop: '10px' }} />
+      <ProfileMenus refresh={props.refresh} />
+    </UserProfileCardStyled>
+  );
 };
 
 const MyPage = () => {
-    const {user} = useUser();
-    const [myPageResponse, setMyPageResponse] = useState<MyPageResponse>({} as MyPageResponse);
-    const handleSetMyPageResponse = useCallback((response: MyPageResponse) => {
-        setMyPageResponse(response);
-    }, []);
-    const handleGetMyPageResponse = useCallback(() => {
-        if (user) {
-            getMyPageResponse().then((response) => {
-                handleSetMyPageResponse(response.data);
-            });
-        }
-    }, [user, handleSetMyPageResponse]);
-    useEffect(() => {
-        handleGetMyPageResponse();
-    }, []);
-    return (
-        <Container maxWidth={"md"}>
-            {!user && <BadRequest/>}
-            {user && <Box>
-                <UserProfileCard refresh={handleGetMyPageResponse}/>
-                <Box sx={{marginTop: "20px"}}>
-                    <Typography component={"h1"} color={"#565360"}
-                                fontFamily={"Core Sans"} fontSize={"1.5rem"} fontWeight={"bold"} sx={{
-                        textAlign: "left",
-                        marginBottom: "10px"
-                    }}>내 캐릭터 </Typography>
-                    {myPageResponse?.userDetail?.characters.length > 0 &&
-                        <UserCharacters data={myPageResponse.userDetail.characters}
-                                           refresh={handleGetMyPageResponse}/>}
-                </Box>
-
-            </Box>
-            }
-        </Container>
-
-    );
+  const { user } = useUser();
+  const [myPageResponse, setMyPageResponse] = useState<MyPageResponse>({} as MyPageResponse);
+  const handleSetMyPageResponse = useCallback((response: MyPageResponse) => {
+    setMyPageResponse(response);
+  }, []);
+  const handleGetMyPageResponse = useCallback(() => {
+    if (user) {
+      getMyPageResponse().then((response) => {
+        handleSetMyPageResponse(response.data);
+      });
+    }
+  }, [user, handleSetMyPageResponse]);
+  useEffect(() => {
+    handleGetMyPageResponse();
+  }, []);
+  return (
+    <Container maxWidth={'md'}>
+      {!user && <BadRequest />}
+      {user && (
+        <Box>
+          <UserProfileCard refresh={handleGetMyPageResponse} />
+          <Box sx={{ marginTop: '20px' }}>
+            <Typography
+              component={'h1'}
+              color={'#565360'}
+              fontFamily={'Core Sans'}
+              fontSize={'1.5rem'}
+              fontWeight={'bold'}
+              sx={{
+                textAlign: 'left',
+                marginBottom: '10px',
+              }}
+            >
+              내 캐릭터{' '}
+            </Typography>
+            {myPageResponse?.userDetail?.characters.length > 0 && (
+              <UserCharacters data={myPageResponse.userDetail.characters} refresh={handleGetMyPageResponse} />
+            )}
+          </Box>
+        </Box>
+      )}
+    </Container>
+  );
 };
-
 
 const UserProfileCardStyled = styled(Card)`
   display: flex;

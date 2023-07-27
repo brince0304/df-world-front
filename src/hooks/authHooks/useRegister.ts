@@ -7,25 +7,22 @@ import useAuthError from './useAuthError';
 type IUseRegister = UseMutateFunction<void, unknown, IAuthRegisterRequest, unknown>;
 
 export const useRegister = (): IUseRegister => {
-  const {handleRegisterSuccess} = useAuthSuccess();
-  const {handleRegisterError} = useAuthError();
+  const { handleRegisterSuccess } = useAuthSuccess();
+  const { handleRegisterError } = useAuthError();
   const { register } = useAuthService();
   const { mutate: registerMutation } = useMutation<void, unknown, IAuthRegisterRequest, unknown>(
-    ({
-        username,
-        password,
-        passwordCheck,
-        email,
-      nickname
-     }) => register({username,password,passwordCheck,email,nickname}), {
+    ({ username, password, passwordCheck, email, nickname }) =>
+      register({ username, password, passwordCheck, email, nickname }),
+    {
       onSuccess: () => {
         handleRegisterSuccess();
       },
       onError: (error) => {
         handleRegisterError(error);
-      }
-    });
+      },
+    },
+  );
   return registerMutation;
-}
+};
 
 export default useRegister;

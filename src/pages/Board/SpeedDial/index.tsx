@@ -18,89 +18,98 @@ const actions = [
 ];
 
 const CustomBox = styled(Box)`
-    display: none;
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    z-index: 1000;
+  display: none;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1000;
   @media (max-width: 1024px) {
     display: block;
   }
 `;
 
-
 export const boardSelectOptions = {
-    types :[
-        {value:"title", label:"제목"},
-        {value:"content", label:"내용"},
-    ]
-    }
+  types: [
+    { value: 'title', label: '제목' },
+    { value: 'content', label: '내용' },
+  ],
+};
 
-    const SearchboxWrapper = styled(Box)`
-    position: fixed;
-      display: flex;
-      gap: 10px;
-      flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    bottom: 40px;
-    right: 100px;
-    z-index: 1000;
-      width: 350px;
-      height:40px;
-    `;
+const SearchboxWrapper = styled(Box)`
+  position: fixed;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  bottom: 40px;
+  right: 100px;
+  z-index: 1000;
+  width: 350px;
+  height: 40px;
+`;
 
-function  BoardSpeedDial (props:{boardType:string,totalPages:number,currentPage:number,
-     handlePaginationChange: (event: React.ChangeEvent<unknown>, value: number) => void}) {
-    const [searchBoxIsOpened, setSearchBoxIsOpened] = useState(false);
-    let navigate = useNavigate();
-    const handleOpenSearchBox = () => {
-        setSearchBoxIsOpened(!searchBoxIsOpened);
+function BoardSpeedDial(props: {
+  boardType: string;
+  totalPages: number;
+  currentPage: number;
+  handlePaginationChange: (event: React.ChangeEvent<unknown>, value: number) => void;
+}) {
+  const [searchBoxIsOpened, setSearchBoxIsOpened] = useState(false);
+  let navigate = useNavigate();
+  const handleOpenSearchBox = () => {
+    setSearchBoxIsOpened(!searchBoxIsOpened);
+  };
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const id = e.currentTarget.dataset.id;
+    if (id === '글쓰기') {
+      navigate(BOARD_WRITE_URL + `?type=${props.boardType}&request=add`);
+    } else if (id === '검색') {
+      handleOpenSearchBox();
     }
-    const handleClick =(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        const id = e.currentTarget.dataset.id;
-        if(id === "글쓰기"){
-                navigate(BOARD_WRITE_URL+`?type=${props.boardType}&request=add`);
-        }else if(id === "검색"){
-            handleOpenSearchBox();
-        }
-    }
-    const handleNavigate =(searchType:string, searchKeyword: string)=> {
-        navigate(BOARD_LIST_URL+`?searchType=${searchKeyword}&keyword=${searchType}&boardType=${props.boardType}`)
-    }
+  };
+  const handleNavigate = (searchType: string, searchKeyword: string) => {
+    navigate(BOARD_LIST_URL + `?searchType=${searchKeyword}&keyword=${searchType}&boardType=${props.boardType}`);
+  };
 
-    return (
-        <CustomBox >
-                <Slide in={searchBoxIsOpened} direction={"left"}>
-                <SearchboxWrapper>
-                    <Pagination count={props.totalPages} color="primary" size="small" onChange={props.handlePaginationChange} />
-                    <IconButton sx={{
-    position: "absolute",
-    top: "-50%",
-    right: "-10%",
-    zIndex: 1000,}} onClick={handleOpenSearchBox}><HighlightOffOutlined/></IconButton>
-                <CustomSearchBox filterOptions={boardSelectOptions.types} useSearchOption={false} placeholder={"검색"}
-                                             handleNavigate={handleNavigate}
-                              direction={"up"} />
-                </SearchboxWrapper>
-                </Slide>
-            <SpeedDial direction={"up"}
-                ariaLabel="SpeedDial basic example"
-                sx={{ }}
-                icon={<DragHandleRounded />}
-            >
-                {actions.map((action) => (
-                     <SpeedDialAction
-                        key={action.name}
-                        icon={action.icon}
-                        tooltipTitle={action.name}
-                        data-id={action.name}
-                        onClick={handleClick}
-                    />
-                ))}
-            </SpeedDial>
-        </CustomBox>
-    );
+  return (
+    <CustomBox>
+      <Slide in={searchBoxIsOpened} direction={'left'}>
+        <SearchboxWrapper>
+          <Pagination count={props.totalPages} color="primary" size="small" onChange={props.handlePaginationChange} />
+          <IconButton
+            sx={{
+              position: 'absolute',
+              top: '-50%',
+              right: '-10%',
+              zIndex: 1000,
+            }}
+            onClick={handleOpenSearchBox}
+          >
+            <HighlightOffOutlined />
+          </IconButton>
+          <CustomSearchBox
+            filterOptions={boardSelectOptions.types}
+            useSearchOption={false}
+            placeholder={'검색'}
+            handleNavigate={handleNavigate}
+            direction={'up'}
+          />
+        </SearchboxWrapper>
+      </Slide>
+      <SpeedDial direction={'up'} ariaLabel="SpeedDial basic example" sx={{}} icon={<DragHandleRounded />}>
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            data-id={action.name}
+            onClick={handleClick}
+          />
+        ))}
+      </SpeedDial>
+    </CustomBox>
+  );
 }
 
 export default BoardSpeedDial;

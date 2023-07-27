@@ -36,19 +36,17 @@ const BoardItemSkeleton = () => {
   );
 };
 
-
 const BoardListSkeleton = () => {
-    return (
-        <Box>
-           <BoardItemSkeleton/>
-            <BoardItemSkeleton/>
-            <BoardItemSkeleton/>
-            <BoardItemSkeleton/>
-            <BoardItemSkeleton/>
-            <BoardItemSkeleton/>
-
-        </Box>);
-}
-
+  return (
+    <Box>
+      <BoardItemSkeleton />
+      <BoardItemSkeleton />
+      <BoardItemSkeleton />
+      <BoardItemSkeleton />
+      <BoardItemSkeleton />
+      <BoardItemSkeleton />
+    </Box>
+  );
+};
 
 export default BoardListSkeleton;

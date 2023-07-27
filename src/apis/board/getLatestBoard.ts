@@ -6,7 +6,7 @@ export const getLatestBoard = async (
   setIsLoading: (boolean: boolean) => void,
   url: string,
   isSelected: string,
-  setData: (...args:any[]) => void,
+  setData: (...args: any[]) => void,
 ) => {
   setIsError(false);
   setIsLoading(true);

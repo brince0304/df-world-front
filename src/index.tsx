@@ -22,19 +22,19 @@ const authService = new AuthService(client);
 const queryClient = new QueryClient();
 
 root.render(
-    <AuthServiceProvider authService={authService}>
-        <QueryClientProvider client={queryClient}>
-            <Provider store={store}>
-                <PersistGate persistor={persistor}>
-                    <BrowserRouter>
-                      <SnackbarProvider maxSnack={3}>
-                        <App/>
-                      </SnackbarProvider>
-                    </BrowserRouter>
-                </PersistGate>
-            </Provider>
-        </QueryClientProvider>
-    </AuthServiceProvider>
+  <AuthServiceProvider authService={authService}>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <BrowserRouter>
+            <SnackbarProvider maxSnack={3}>
+              <App />
+            </SnackbarProvider>
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
+  </AuthServiceProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

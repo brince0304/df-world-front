@@ -8,4 +8,3 @@ export interface AutoCompleteCharacterData {
   adventureName?: any;
   level: string;
 }
-

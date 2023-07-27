@@ -14,7 +14,7 @@ const useAuthError = () => {
       variant: 'error',
       autoHideDuration,
     });
-  }
+  };
   const handleRegisterError = (error: any) => {
     enqueueSnackbar(error.message, {
       variant: 'error',
