@@ -76,7 +76,7 @@ const MyPage = () => {
   }, [user, handleSetMyPageResponse]);
   useEffect(() => {
     handleGetMyPageResponse();
-  }, []);
+  }, [handleGetMyPageResponse]);
   return (
     <Container maxWidth={'md'}>
       {!user && <BadRequest />}
