@@ -6,7 +6,7 @@ import createInstance from '../axiosClient';
 
 export const getCharacterDetail = (
   url: string,
-  setData: (...args:any[]) => void,
+  setData: (...args: any[]) => void,
   setIsError: (isError: boolean) => void,
 ): ThunkAction<void, RootState, unknown, Action> => {
   return async (dispatch, getState) => {

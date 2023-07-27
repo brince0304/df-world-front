@@ -2,7 +2,7 @@ import { AutoCompleteCharacterData } from '../../interfaces/AutoCompleteCharacte
 import { SearchOption } from '../../interfaces/SeachBox';
 import createInstance from '../axiosClient';
 
-export const getCharactersAutoComplete = async (url: string, setData: (...args:any[]) => void) => {
+export const getCharactersAutoComplete = async (url: string, setData: (...args: any[]) => void) => {
   createInstance
     .get(url)
     .then((res: any) => {

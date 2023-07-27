@@ -47,7 +47,6 @@ const TableButton = styled.div`
   }
 `;
 
-
 const TableTitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
