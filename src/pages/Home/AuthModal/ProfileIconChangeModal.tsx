@@ -9,7 +9,6 @@ import { Avatar, Divider, IconButton } from '@mui/material';
 import { profileIconData } from '../../../data/ProfileIconData';
 import ImageUploader from '../../../components/ImageUploader';
 import axiosInstance from '../../../apis/axiosClient';
-import { useAppDispatch } from '../../../redux/store';
 
 export default function ProfileIconChangeModal(props: ProfileIconChangeModalProps) {
   const data = profileIconData;

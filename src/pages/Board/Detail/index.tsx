@@ -54,9 +54,7 @@ import { putBoardComment } from '../../../apis/boardComment/putBoardComment';
 import { postChildrenComment } from '../../../apis/boardComment/postChildrenComment';
 import { getChildrenComment } from '../../../apis/boardComment/getChildrenComment';
 import { BestArticleNoDataWrapper, BestArticleTitleComponent, CharacterChip, getBoardType, TagChip } from '..';
-import { UserDetailOptions } from '../../../apis/data';
 import { useUser } from '../../../hooks/authHooks/useUser';
-import { IAuthLoginResponse } from '../../../service/authService';
 
 const TagContainer = styled(Box)`
   display: flex;
@@ -770,7 +768,7 @@ const BoardDetail = () => {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [commentData, setCommentData] = useState<CommentListData>({} as CommentListData);
   const [isCommentLoading, setIsCommentLoading] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line
   const [isCommentError, setIsCommentError] = useState<boolean>(false);
   const [bestComments, setBestComments] = useState<ContentFlowProps[]>([]);
   const [isBoardDetailError, setIsBoardDetailError] = useState<boolean>(false);

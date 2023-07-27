@@ -47,46 +47,6 @@ const TableButton = styled.div`
   }
 `;
 
-const IconWrapper = styled.div`
-  color: silver;
-  cursor: pointer;
-
-  &:hover {
-    color: #282c34;
-    transition: 0.3s ease-in-out;
-  }
-`;
-
-const SelectedButton = styled(ListItemButton)`
-  && {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 10px;
-    font-size: 14px;
-    color: black;
-    cursor: pointer;
-    background-color: #f2f2f2;
-    border-right: 1px solid #e5e5e5;
-  }
-`;
-
-const NotSelectedButton = styled(ListItemButton)`
-  && {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 10px;
-    font-size: 14px;
-    color: silver;
-    font-weight: 0;
-    cursor: pointer;
-    background-color: white;
-    border-right: 1px solid #e5e5e5;
-  }
-`;
 
 const TableTitleWrapper = styled.div`
   display: flex;

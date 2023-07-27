@@ -3,17 +3,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import styled from 'styled-components';
 
-const refreshButtonStyle = {
-  position: 'absolute' as 'absolute',
-  top: '5px',
-  right: '5px',
-  color: 'black',
-  '&:hover': {
-    transform: 'rotate(360deg)',
-    transition: 'transform 0.5s',
-  },
-};
-
 const CharacterImgWrapper = styled.div`
   border-radius: 10px;
   display: flex;

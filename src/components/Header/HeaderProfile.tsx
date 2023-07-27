@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { RootState, useAppSelector } from '../../redux/store';
 import React from 'react';
 import { Avatar, Badge, Button } from '@mui/material';
 import { useUser } from '../../hooks/authHooks/useUser';

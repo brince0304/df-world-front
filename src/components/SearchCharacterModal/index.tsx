@@ -25,32 +25,6 @@ const style = {
   height: '600px',
   width: '400px',
 };
-
-const CloseButtonWrapper = styled(Box)`
-  //우측 끝에 배치
-  display: flex;
-  font-size: 25px;
-  color: silver;
-  cursor: pointer;
-  &:hover {
-    color: #282c34;
-    transition: 0.3s;
-  }
-`;
-
-const SearchBoxWrapper = styled(Box)`
-  justify-content: space-between;
-  width: 100%;
-  height: 20%;
-  display: flex;
-  position: fixed;
-  left: 0;
-  z-index: 1000;
-  align-items: center;
-  padding: 20px 10px;
-  background-color: white;
-`;
-
 const ModalBody = styled(Box)`
   display: flex;
   position: relative;

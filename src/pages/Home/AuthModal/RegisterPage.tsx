@@ -10,7 +10,7 @@ import * as yup from 'yup';
 import useRegister from '../../../hooks/authHooks/useRegister';
 import { IAuthRegisterRequest } from '../../../service/authService';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line
 const SocialRegisterButtons = (props: { data: { src: string; alt: string; type: string }[] }) => {
   return (
     <>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import CustomSearchBox from '../../../components/CustomSearchBox';
 import { DragHandleRounded, HighlightOffOutlined } from '@mui/icons-material';
 import { BOARD_LIST_URL, BOARD_WRITE_URL } from '../../../apis/data/urls';
-import { useUser } from '../../../hooks/authHooks/useUser';
 
 const actions = [
   { icon: <ModeIcon />, name: '글쓰기' },

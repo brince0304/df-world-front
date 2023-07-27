@@ -53,7 +53,6 @@ const Index = (props: {
   noDataWrapper: ReactNode;
 }) => {
   const [index, setIndex] = useState(1);
-  const [direction, setDirection] = useState<boolean>(true);
   const handleLeftClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIndex(index - 1);
   };

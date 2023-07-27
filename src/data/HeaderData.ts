@@ -1,4 +1,5 @@
 export const HeaderData = {
+  // eslint-disable-next-line no-empty-pattern
   serverList: ([] = [
     {
       label: '전체',
@@ -41,6 +42,7 @@ export const HeaderData = {
       value: 'anton',
     },
   ]),
+  // eslint-disable-next-line no-empty-pattern
   menuList: ([] = [
     {
       name: '랭킹',

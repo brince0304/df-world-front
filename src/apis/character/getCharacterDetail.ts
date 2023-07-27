@@ -2,13 +2,11 @@ import { RootState } from '../../redux/store';
 import { pushCharacterHistory, removeCharacterHistory, setIsLoading, setProgress } from '../../redux';
 import { SearchOption } from '../../interfaces/SeachBox';
 import { Action, ThunkAction } from '@reduxjs/toolkit';
-import { Simulate } from 'react-dom/test-utils';
-import { CharacterDetailJson } from '../../interfaces/CharacterDetailJson';
 import createInstance from '../axiosClient';
 
 export const getCharacterDetail = (
   url: string,
-  setData: ({}: CharacterDetailJson) => void,
+  setData: (...args:any[]) => void,
   setIsError: (isError: boolean) => void,
 ): ThunkAction<void, RootState, unknown, Action> => {
   return async (dispatch, getState) => {
