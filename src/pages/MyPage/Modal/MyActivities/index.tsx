@@ -1,45 +1,39 @@
-import Box from "@mui/material/Box";
-import * as React from "react";
-import {useCallback, useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../../redux/store";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBell, faClock, faComment, faEye, faHeart, faList, IconDefinition} from "@fortawesome/free-solid-svg-icons";
+import Box from '@mui/material/Box';
+import * as React from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell, faClock, faComment, faEye, faHeart, faList, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import {
-    Avatar,
-    Button,
-    Card,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    List,
-    ListItemButton,
-    Menu,
-    MenuItem,
-    Pagination,
-    styled,
-    ToggleButton,
-    ToggleButtonGroup,
-    Tooltip,
-    TooltipProps
-} from "@mui/material";
-import {getMyActivities} from "../../../../apis/myPage/getMyActivities";
-import {BoardActivitiesJson} from "../../../../interfaces/BoardActivitiesJson";
-import {CommentActivitiesJson} from "../../../../interfaces/CommentActivitiesJson";
-import {NotificationActivities} from "../../../../interfaces/NotificationActivities";
-import Typography from "@mui/material/Typography";
-import {useNavigate} from "react-router-dom";
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {getBoardType} from "../../../Board";
-
+  Avatar,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  List,
+  ListItemButton,
+  Menu,
+  MenuItem,
+  Pagination,
+  styled,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  TooltipProps,
+} from '@mui/material';
+import { getMyActivities } from '../../../../apis/myPage/getMyActivities';
+import { BoardActivitiesJson } from '../../../../interfaces/BoardActivitiesJson';
+import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { getBoardType } from '../../../Board';
 
 interface ActivitiesModalProps {
-    activitiesModalOpened: boolean,
-    handleClose: () => void
+  activitiesModalOpened: boolean;
+  handleClose: () => void;
 }
 
 
@@ -58,19 +52,6 @@ interface ITypeMenu {
     icon: IconProp
 
 }
-
-const StyledCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 100%;
-  padding: 10px;
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
-
 
 const SquareChip = styled(Chip)`
   display: flex;
@@ -202,8 +183,6 @@ const ToggleButtonGroupComponent = (
     );
 };
 
-
-
 const MenuButton = (props: { handleChange:(value:string)=>void, menuList : ITypeMenu[], isSelected : string}) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -303,14 +282,10 @@ const PaginationToggleGroupBox = styled(Box)`
  function MyActivitiesModal(props: ActivitiesModalProps) {
 
 
-    const [isSortBy, setIsSortBy] = useState<"commentCount" | "like" | "view" | "">("");
-    const userDetail = useSelector((state: RootState) => state.auth.userDetail);
     const [category, setCategory] = useState<"board" | "comment" | "notification">("board");
     const [sortBy, setSortBy] = useState<"commentCount" | "like" | "view" | "">("");
     const [page, setPage] = useState<number>(0);
     const [boardActivities, setBoardActivities] = useState<BoardActivitiesJson>({} as BoardActivitiesJson);
-    const [commentActivities, setCommentActivities] = useState<CommentActivitiesJson>({} as CommentActivitiesJson);
-    const [notificationActivities, setNotificationActivities] = useState<NotificationActivities>({} as NotificationActivities);
 
     const categories = [{
         type: "postSignUp",
@@ -330,35 +305,11 @@ const PaginationToggleGroupBox = styled(Box)`
     },
     ] as ITypeMenu[];
 
-    const getTypeName = (type: string) => {
-        if (type === "postSignUp") {
-            return "게시글";
-        }
-        if (type === "comment") {
-            return "댓글";
-        }
-        if (type === "notification") {
-            return "알림";
-        }
-        return "";
-    };
 
     const handleChangeCategory = (type:string)=>{
         setCategory(type as "board" | "comment" | "notification");
         setPage(0);
     }
-
-    const handleSetBoardActivities = useCallback((data: BoardActivitiesJson) => {
-        setBoardActivities(data);
-    }, [boardActivities]);
-
-    const handleSetCommentActivities = useCallback((data: CommentActivitiesJson) => {
-        setCommentActivities(data);
-    }, [commentActivities]);
-
-    const handleSetNotificationActivities = useCallback((data: NotificationActivities) => {
-        setNotificationActivities(data);
-    }, [notificationActivities]);
 
     const handleChangeSortBy = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>, value: "" | "view" | "like" | "commentCount") => {
         setSortBy(value);
@@ -369,12 +320,6 @@ const PaginationToggleGroupBox = styled(Box)`
             switch (category) {
                 case "board":
                     setBoardActivities(res.data);
-                    break;
-                case "comment":
-                    setCommentActivities(res.data);
-                    break;
-                case "notification":
-                    setNotificationActivities(res.data);
                     break;
                 default:
                     break;

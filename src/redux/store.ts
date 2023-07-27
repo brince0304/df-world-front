@@ -1,13 +1,12 @@
-import {configureStore} from "@reduxjs/toolkit";
-import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import redux from "./index";
-
+import { configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import redux from './index';
 
 const store = configureStore({
-    reducer:  redux
-    , devTools: true
-    , middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false}),
-})
+  reducer: redux,
+  devTools: true,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+});
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;

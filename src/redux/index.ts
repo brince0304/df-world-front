@@ -1,27 +1,24 @@
-import {combineReducers, createSlice} from "@reduxjs/toolkit";
-import {SearchOption} from "../interfaces/SeachBox";
-import {persistReducer} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import {UserDetailOptions} from "../apis/data";
-
-
+import { combineReducers, createSlice } from '@reduxjs/toolkit';
+import { SearchOption } from '../interfaces/SeachBox';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 export const historySlice = createSlice({
-    name: "history",
-    initialState: {
-        characterHistory : [] as SearchOption[]
+  name: 'history',
+  initialState: {
+    characterHistory: [] as SearchOption[],
+  },
+  reducers: {
+    setCharacterHistory: (state, action) => {
+      state.characterHistory = action.payload;
     },
-    reducers: {
-        setCharacterHistory: (state, action) => {
-            state.characterHistory = action.payload;
-        },
-        pushCharacterHistory: (state, action) => {
-            state.characterHistory.push(action.payload);
-        },
-        removeCharacterHistory: (state, action) => {
-            state.characterHistory = state.characterHistory.filter((item:SearchOption)=>item.id !== action.payload);
-        }
-    }
+    pushCharacterHistory: (state, action) => {
+      state.characterHistory.push(action.payload);
+    },
+    removeCharacterHistory: (state, action) => {
+      state.characterHistory = state.characterHistory.filter((item: SearchOption) => item.id !== action.payload);
+    },
+  },
 });
 
 export const appSlice = createSlice({
@@ -43,29 +40,6 @@ export const appSlice = createSlice({
         },
     }
 });
-
-export const authSlice = createSlice({
-    name: "auth",
-    initialState: {
-        isAuthenticated: false,
-        userDetail: {} as UserDetailOptions,
-        profileOpened: false,
-    },
-    reducers: {
-        setIsAuthenticated: (state, action) => {
-            state.isAuthenticated = action.payload;
-        },
-        setUserDetails: (state, action) => {
-            state.userDetail = action.payload;
-        },
-        toggleProfileOpened: (state) => {
-            state.profileOpened = !state.profileOpened;
-        }
-
-
-    }
-});
-
 
 export const notificationSlice = createSlice({
     name: "notification",
@@ -98,7 +72,6 @@ export const modalSlice = createSlice({
 
 const reducers = combineReducers({
     app: appSlice.reducer,
-    auth: authSlice.reducer,
     modal: modalSlice.reducer,
     history: historySlice.reducer,
     notification: notificationSlice.reducer
@@ -110,9 +83,6 @@ const persistConfig = {
     storage,
     whitelist: ["history","notification","auth"]
 };
-
-
-export const {setIsAuthenticated, setUserDetails,toggleProfileOpened} = authSlice.actions;
 
 export const {setHasNotification,setNotificationCount} = notificationSlice.actions;
 export const {setLoginModalOpened} = modalSlice.actions;

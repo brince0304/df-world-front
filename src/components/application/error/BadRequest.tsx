@@ -1,19 +1,19 @@
-import Box from "@mui/material/Box";
-import {Button, Container, styled} from "@mui/material";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
-import Typography from "@mui/material/Typography";
-import {useNavigate} from "react-router-dom";
+import Box from '@mui/material/Box';
+import { Button, Container, styled } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 const ButtonBox = styled(Box)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    gap : 20px;
-    margin-top: 20px;
-`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+  margin-top: 20px;
+`;
 
 const StyledButton = styled(Button)`
     &&{

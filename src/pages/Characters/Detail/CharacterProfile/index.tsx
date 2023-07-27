@@ -1,15 +1,15 @@
-import {CharacterDetailJson} from "../../../../interfaces/CharacterDetailJson";
-import {Button, IconButton, Paper, Tooltip} from "@mui/material";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHandFist, faRotateRight} from "@fortawesome/free-solid-svg-icons";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import styled from "styled-components";
+import { CharacterDetailJson } from '../../../../interfaces/CharacterDetailJson';
+import { Button, IconButton, Paper, Tooltip } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHandFist, faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import styled from 'styled-components';
 
 const typographyProps = {
-    component: "span",
-    fontFamily: "Core Sans",
-    fontWeight: "700"
+  component: 'span',
+  fontFamily: 'Core Sans',
+  fontWeight: '700',
 };
 
 

@@ -1,17 +1,17 @@
-import {Avatar, Chip, IconButton, ListItemButton, styled, Tooltip, Zoom} from "@mui/material";
-import React, {ReactNode, useState} from "react";
-import Typography from "@mui/material/Typography";
-import {KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight} from "@mui/icons-material";
-import Box from "@mui/material/Box";
+import { Avatar, Chip, IconButton, ListItemButton, styled, Tooltip, Zoom } from '@mui/material';
+import React, { ReactNode, useState } from 'react';
+import Typography from '@mui/material/Typography';
+import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
+import Box from '@mui/material/Box';
 
 export interface ContentFlowProps {
-    avatarSrc: string;
-    avatarName: string;
-    avatarContent ?: ReactNode;
-    title: string;
-    link: string;
-    content: ReactNode;
-    id: number;
+  avatarSrc: string;
+  avatarName: string;
+  avatarContent?: ReactNode;
+  title: string;
+  link: string;
+  content: ReactNode;
+  id: number;
 }
 
 const ChipDetail = {

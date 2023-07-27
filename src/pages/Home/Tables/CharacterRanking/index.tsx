@@ -1,16 +1,15 @@
-import "../../../../assets/css/rankingTable.scss";
-import React, {useEffect, useState} from "react";
-import {RankingCharacterImg} from "../../../../components/application/character/RankingCharacterImg";
-import styled from "styled-components";
-import mainPageRankingData from "../../../../data/MainPageRankingData";
-import CustomTable from "../../../../components/CustomTable";
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import {faChevronRight, faExclamationTriangle, faXmark} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {ErrorScreen} from "../../../../components/ErrorScreen";
-import IconButton from "@mui/material/IconButton";
-
+import '../../../../assets/css/rankingTable.scss';
+import React, { useEffect, useState } from 'react';
+import { RankingCharacterImg } from '../../../../components/application/character/RankingCharacterImg';
+import styled from 'styled-components';
+import mainPageRankingData from '../../../../data/MainPageRankingData';
+import CustomTable from '../../../../components/CustomTable';
+import { useNavigate } from 'react-router-dom';
+import { faChevronRight, faExclamationTriangle, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ErrorScreen } from '../../../../components/ErrorScreen';
+import IconButton from '@mui/material/IconButton';
+import axiosClient from '../../../../apis/axiosClient';
 
 const TableData = styled.div`
   display: flex;
@@ -20,11 +19,7 @@ const TableData = styled.div`
   padding: 0px 0;
   font-size: 16px;
   color: #000;
-`
-
-
-
-
+`;
 
 const TableBody = styled.div`
   display: grid;
@@ -173,16 +168,6 @@ interface RankingTableData {
     characterImgUrl: string;
 }
 
-const AdventureCharacterWrapper = styled.div`
-  width: 20%;
-  height: 20%;
-`
-const AdventureCharacterContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
-
 const RankingTableRow = (props: { data: RankingTableData[], type: string }) => {
     let navigate = useNavigate();
     const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -227,7 +212,7 @@ const RankingTableRow = (props: { data: RankingTableData[], type: string }) => {
             setIsError(false);
             setIsLoading(true);
             try {
-                const result = await axios(props.url + isSelected);
+                const result = await axiosClient.get(props.url + isSelected);
                 setData(result.data.content);
                 setIsLoading(false);
             } catch (error) {

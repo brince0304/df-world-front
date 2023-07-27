@@ -1,21 +1,20 @@
-import styled from "styled-components";
-import React, {useCallback, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {RootState, useAppDispatch, useAppSelector} from "../../redux/store";
-import {getSignOut} from "../../apis/auth/getSignOut";
-import {HeaderProfile} from "../Header/HeaderProfile";
-import {Badge, Button, IconButton, Tooltip, Zoom} from "@mui/material";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBell, faUser} from "@fortawesome/free-solid-svg-icons";
-import {setLoginModalOpened} from "../../redux";
-
+import styled from 'styled-components';
+import React, { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../redux/store';
+import { HeaderProfile } from '../Header/HeaderProfile';
+import { Badge, Button, IconButton, Tooltip, Zoom } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell, faUser } from '@fortawesome/free-solid-svg-icons';
+import { setLoginModalOpened } from '../../redux';
+import { useUser } from '../../hooks/authHooks/useUser';
 
 const Container = styled.div`
   display: none;
   @media (max-width: 768px) {
     display: flex;
     padding: 0rem 1rem;
-    visibility: ${({isOpened}: { isOpened: boolean }) => (isOpened ? 'visible' : 'hidden')};
+    visibility: ${({ isOpened }: { isOpened: boolean }) => (isOpened ? 'visible' : 'hidden')};
     background-color: #212124;
     height: 100vh;
     width: 45%;
@@ -23,8 +22,8 @@ const Container = styled.div`
     top: 0;
     left: 0;
     transition: 0.3s ease-in-out;
-    opacity: ${({isOpened}: { isOpened: boolean }) => (isOpened ? '100%' : '0')};
-    left: ${({isOpened}: { isOpened: boolean }) => (isOpened ? '0' : '-100%')};
+    opacity: ${({ isOpened }: { isOpened: boolean }) => (isOpened ? '100%' : '0')};
+    left: ${({ isOpened }: { isOpened: boolean }) => (isOpened ? '0' : '-100%')};
     backdrop-filter: blur(2px);
     z-index: 1;
   }
@@ -53,8 +52,6 @@ const NavMenu = styled.div`
   width: 100%;
   height: 100%;
 `;
-
-
 
 const Division = styled.div`
     width: 100%;
@@ -157,18 +154,15 @@ const MenuIconWrapper = styled.div`
 
 
 const MobileHeader = (props: NavProps) => {
-    const isLogin = useAppSelector((state: RootState) => state.auth.isAuthenticated);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const handleLogout = useCallback(() => {
-        dispatch(getSignOut());
-    }, [getSignOut, dispatch, navigate]);
+
     const handleModalOpen = useCallback(() => {
         dispatch(setLoginModalOpened(true))
         props.handleClose();
     } , [setLoginModalOpened, dispatch, props.handleClose]);
-  const hasNotification = useAppSelector((state: RootState) => state.notification.hasNotification);
-  const notificationCount = useAppSelector((state: RootState) => state.notification.notificationCount);
+  const {user} = useUser();
+  const notificationCount = user?.notificationCount;
   const [profileIsOpened, setProfileIsOpened] = useState(false);
     const handleProfileOpen = useCallback(() => {
         setProfileIsOpened(!profileIsOpened);
@@ -188,10 +182,10 @@ const MobileHeader = (props: NavProps) => {
                 }}>
                     커뮤니티
                 </Logo>
-                {isLogin &&
+                {user &&
                     <ProfileWrapper>
                     <HeaderProfile onClick={handleProfileOpen}/>
-                        {isLogin &&
+                        {user &&
                             <Zoom  in={profileIsOpened}>
                             <ProfileMenu>
                                 <ProfileMenuList>
@@ -224,9 +218,9 @@ const MobileHeader = (props: NavProps) => {
                         }
                     </ProfileWrapper>
                 }
-                {isLogin && <Division/>}
-                {isLogin && <NavItem onClick={handleLogout}>로그아웃</NavItem>}
-                {!isLogin && <NavItem onClick={handleModalOpen}>로그인</NavItem>}
+                {user && <Division/>}
+                {user && <NavItem onClick={()=>{}}>로그아웃</NavItem>}
+                {!user && <NavItem onClick={handleModalOpen}>로그인</NavItem>}
                 {props.menuList.map((item, index) => {
                         return (
                             <NavItem key={index} onClick={(e) => {

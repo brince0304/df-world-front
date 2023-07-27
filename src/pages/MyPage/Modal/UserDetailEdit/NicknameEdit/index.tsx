@@ -1,21 +1,15 @@
-import {Box, Button, Collapse, FormControl} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ValidateTextField from "../../../../../components/ValidateTextField";
-import * as React from "react";
-import {useEffect, useState} from "react";
-import getValidateNickname from "../../../../../apis/myPage/getValidateNickname";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import * as yup from "yup";
-import putChangeNickname from "../../../../../apis/myPage/putChangeNickname";
-import CollapseButton from "../../../../../components/CollapseButton";
-import {useAppDispatch} from "../../../../../redux/store";
-import {getUserDetails} from "../../../../../apis/auth/getUserDetails";
-
-
+import { Button, FormControl } from '@mui/material';
+import ValidateTextField from '../../../../../components/ValidateTextField';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import getValidateNickname from '../../../../../apis/myPage/getValidateNickname';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import * as yup from 'yup';
+import putChangeNickname from '../../../../../apis/myPage/putChangeNickname';
+import CollapseButton from '../../../../../components/CollapseButton';
 interface FormProps {
-    nickname: string;
+  nickname: string;
 }
 
 const NicknameEdit = (props: { onClose: () => void}) => {
@@ -25,7 +19,6 @@ const NicknameEdit = (props: { onClose: () => void}) => {
 
     const [isNicknameValidated, setIsNicknameValidated] = useState<boolean>(false);
     const [isNicknameChecked, setIsNicknameChecked] = useState<boolean>(false);
-    const dispatch = useAppDispatch();
     const {
         register,
         watch,
@@ -59,15 +52,14 @@ const NicknameEdit = (props: { onClose: () => void}) => {
     useEffect(() => {
         setIsNicknameValidated(false);
         setIsNicknameChecked(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [watch("nickname")]);
     const onValid = (data: FormProps) => {
         if (window.confirm("닉네임을 변경하시겠습니까?")) {
             putChangeNickname(data.nickname).then((res) => {
                 alert("닉네임이 변경되었습니다.");
-                dispatch(getUserDetails());
                 props.onClose();
             }).catch((err) => {
-                console.log(err);
             });
         }    };
 

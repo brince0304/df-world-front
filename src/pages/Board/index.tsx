@@ -1,75 +1,72 @@
-import CustomTable from "../../components/CustomTable";
-import {useLocation, useNavigate} from "react-router";
-import React, {ReactNode, useCallback, useEffect, useState} from "react";
-import {BoardListData} from "../../interfaces/BoardListData";
-import styled from "styled-components";
-import {faExclamationTriangle, faXmark} from "@fortawesome/free-solid-svg-icons";
-import SpeedDial, {boardSelectOptions} from "./SpeedDial";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import InfoIcon from "@mui/icons-material/Info";
-
+import CustomTable from '../../components/CustomTable';
+import { useLocation, useNavigate } from 'react-router';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import { BoardListData } from '../../interfaces/BoardListData';
+import styled from 'styled-components';
+import { faExclamationTriangle, faXmark } from '@fortawesome/free-solid-svg-icons';
+import SpeedDial, { boardSelectOptions } from './SpeedDial';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import InfoIcon from '@mui/icons-material/Info';
 
 import {
-    Avatar,
-    Button,
-    Chip,
-    Container,
-    IconButton,
-    Link,
-    ListItem,
-    Menu,
-    MenuItem,
-    Pagination,
-    Tooltip,
-    tooltipClasses
-} from "@mui/material";
-import BestContent, {ContentFlowProps} from "../../components/BestContent";
+  Avatar,
+  Button,
+  Chip,
+  Container,
+  IconButton,
+  Link,
+  ListItem,
+  Menu,
+  MenuItem,
+  Pagination,
+  Tooltip,
+  tooltipClasses,
+} from '@mui/material';
+import BestContent, { ContentFlowProps } from '../../components/BestContent';
 
-import StarIcon from "@mui/icons-material/Star";
-import {getBestArticles} from "../../apis/board/getBestArticles";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import StarIcon from '@mui/icons-material/Star';
+import { getBestArticles } from '../../apis/board/getBestArticles';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import {
-    AllInbox,
-    Announcement,
-    ChatBubbleOutlineOutlined,
-    FavoriteBorderOutlined,
-    FreeBreakfast,
-    LocalMall,
-    QuestionAnswer,
-    RemoveRedEyeOutlined,
-    Work
-} from "@mui/icons-material";
-import Loading from "react-loading";
-import {ErrorScreen} from "../../components/ErrorScreen";
-import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL, BOARD_LIST_URL, BOARD_WRITE_URL} from "../../apis/data/urls";
-import {getBoardList} from "../../apis/board/getBoardList";
-import {useAppDispatch} from "../../redux/store";
-import BoardListSkeleton from "../../components/Skeleton/BoardListSkeleton ";
-import {getBoardCoundByHashtag} from "../../apis/board/getBoardCoundByHashtag";
-import CustomSearchBox from "../../components/CustomSearchBox";
-import {getServerName} from "../Characters";
-
+  AllInbox,
+  Announcement,
+  ChatBubbleOutlineOutlined,
+  FavoriteBorderOutlined,
+  FreeBreakfast,
+  LocalMall,
+  QuestionAnswer,
+  RemoveRedEyeOutlined,
+  Work,
+} from '@mui/icons-material';
+import Loading from 'react-loading';
+import { ErrorScreen } from '../../components/ErrorScreen';
+import { BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL, BOARD_LIST_URL, BOARD_WRITE_URL } from '../../apis/data/urls';
+import { getBoardList } from '../../apis/board/getBoardList';
+import BoardListSkeleton from '../../components/Skeleton/BoardListSkeleton ';
+import { getBoardCoundByHashtag } from '../../apis/board/getBoardCoundByHashtag';
+import CustomSearchBox from '../../components/CustomSearchBox';
+import { getServerName } from '../Characters';
 
 export function getBoardType(p: string | undefined) {
-    switch (p) {
-        case "FREE":
-            return "자유게시판";
-        case "NOTICE":
-            return "공지사항";
-        case "MARKET":
-            return "거래";
-        case "QUESTION":
-            return "질문/답변";
-        case "REPORT":
-            return "사건/사고";
-        case "RECRUITMENT":
-            return "구인/홍보";
-        case "ALL":
-            return "전체";
-        default:
-            return "전체";
-    }
+  switch (p) {
+    case 'FREE':
+      return '자유게시판';
+    case 'NOTICE':
+      return '공지사항';
+    case 'MARKET':
+      return '거래';
+    case 'QUESTION':
+      return '질문/답변';
+    case 'REPORT':
+      return '사건/사고';
+    case 'RECRUITMENT':
+      return '구인/홍보';
+    case 'ALL':
+      return '전체';
+    default:
+      return '전체';
+  }
 }
 
 
@@ -192,15 +189,6 @@ const BoardCountWrapper = styled(Typography)`
   }
 `;
 
-const HtmlTooltip = styled(({className, ...props}) => (
-    <Tooltip {...props} classes={{popper: className}}/>
-))(({theme}) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-        maxWidth: 220,
-        border: "1px solid #dadde9",
-    }
-}));
-
 const HashtagLoading = () => {
     return (
         <Box sx={{
@@ -291,7 +279,7 @@ const HashtagContent = (props: { count: number }) => {
 };
 
 
-export const LongMenu = (props: { menuList: MenuItem[], boardType: string }) => {
+export const LongMenu = (props: { menuList: MenuItems[], boardType: string }) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     let navigation = useNavigate();
@@ -343,7 +331,7 @@ export const LongMenu = (props: { menuList: MenuItem[], boardType: string }) => 
     );
 };
 
-interface MenuItem {
+interface MenuItems {
     type: string;
     icon: ReactNode;
     label: string;
@@ -475,7 +463,6 @@ const Board = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     let navigate = useNavigate();
-    const dispatch = useAppDispatch();
     const [data, setData] = useState<BoardListData>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
@@ -490,47 +477,6 @@ const Board = () => {
     const handleChangePage = (e: React.ChangeEvent<unknown>, newPage: number) => {
         navigate(BOARD_LIST_URL + `?boardType=${boardType}&page=${newPage - 1}&searchType=${searchType}&keyword=${keyword}`);
     };
-
-
-    const [hashtagContent, setHashtagContent] = useState<ReactNode>();
-    const [isHashtagLoading, setIsHashtagLoading] = useState<boolean>(false);
-    const [hashtagCountArray, setHashtagCountArray] = useState<{ name: string, count: number }[]>([]);
-    const handleGetBoardCountByHashtagName = useCallback(async (e: React.MouseEvent) => {
-        if (isHashtagLoading) {
-            setIsHashtagLoading(false);
-        }
-        const name = e.currentTarget.getAttribute("data-tag");
-        const hashtag = hashtagCountArray.find((item) => item.name === name);
-        if (hashtag) {
-            setIsHashtagLoading(false);
-            setHashtagContent(<HashtagContent count={hashtag.count}/>);
-            return;
-        }
-        if (name) {
-            setIsHashtagLoading(true);
-            getBoardCoundByHashtag(name).then((res) => {
-                if (res.data) {
-                    setIsHashtagLoading(false);
-                    setHashtagCountArray([...hashtagCountArray, {name, count: res.data}]);
-                    setHashtagContent(<HashtagContent count={res.data}/>);
-                }
-            }).catch((err) => {
-                setIsHashtagLoading(false);
-                setHashtagContent(<Box sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                    height: "100%",
-                    gap: "5px",
-                }}>
-                    <Typography fontFamily={"Core Sans"} fontSize={"15px"}>정보를 불러올 수 없습니다.</Typography>
-                </Box>);
-            });
-        }
-    }, [hashtagCountArray, isHashtagLoading]);
-
     const handleNavigateToSearchResult = (searchType: string, searchKeyword: string) => {
         navigate(BOARD_LIST_URL + `?searchType=${searchKeyword}&keyword=${searchType}&boardType=${boardType}`);
     };
@@ -540,11 +486,6 @@ const Board = () => {
     const handleTypeTagClick = (e: React.MouseEvent<HTMLElement>) => {
         const type = e.currentTarget.getAttribute("data-type")!;
         navigate(BOARD_LIST_URL + `?boardType=${type}`);
-        e.stopPropagation();
-    };
-    const handleTagClick = (e: React.MouseEvent<HTMLElement>) => {
-        const keyword = e.currentTarget.getAttribute("data-tag")!;
-        navigate(BOARD_LIST_URL + `?boardType=${boardType}&searchType=hashtag&keyword=${keyword}`);
         e.stopPropagation();
     };
 

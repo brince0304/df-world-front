@@ -1,22 +1,20 @@
-import {useCallback, useState} from "react";
-import {useSelector} from "react-redux";
-import {RootState, useAppDispatch} from "../../../redux/store";
-import * as React from "react";
-import {removeCharacterHistory} from "../../../redux";
-import {postCharacterToUserAccount} from "../../../apis/myPage/postCharacterToUserAccount";
-import {USER_CHARACTERS_POST_URL} from "../../../apis/data/urls";
-import EditIcon from "@mui/icons-material/Edit";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ProfileIconChangeModal from "../../Home/AuthModal/ProfileIconChangeModal";
-import Typography from "@mui/material/Typography";
-import {Avatar, Badge, List, ListItemButton, styled} from "@mui/material";
-import MyActivitiesModal from "../Modal/MyActivities";
-import UserDetailEditModal from "../Modal/UserDetailEdit";
-import PublicIcon from "@mui/icons-material/Public";
-import CharacterLinkModal from "../Modal/CharacterLink";
-import {getUserDetails} from "../../../apis/auth/getUserDetails";
-
+import * as React from 'react';
+import { useCallback, useState } from 'react';
+import { useAppDispatch } from '../../../redux/store';
+import { removeCharacterHistory } from '../../../redux';
+import { postCharacterToUserAccount } from '../../../apis/myPage/postCharacterToUserAccount';
+import { USER_CHARACTERS_POST_URL } from '../../../apis/data/urls';
+import EditIcon from '@mui/icons-material/Edit';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ProfileIconChangeModal from '../../Home/AuthModal/ProfileIconChangeModal';
+import Typography from '@mui/material/Typography';
+import { Avatar, Badge, List, ListItemButton, styled } from '@mui/material';
+import MyActivitiesModal from '../Modal/MyActivities';
+import UserDetailEditModal from '../Modal/UserDetailEdit';
+import PublicIcon from '@mui/icons-material/Public';
+import CharacterLinkModal from '../Modal/CharacterLink';
+import { useUser } from '../../../hooks/authHooks/useUser';
 
 const ProfileMenuList = styled(List)`
   display: block;
@@ -42,9 +40,7 @@ const ProfileMenus = (props: { refresh: () => void }) => {
     const [openLinkCharacterModal, setOpenLinkCharacterModal] = useState(false);
     const [openActivityHistoryModal, setOpenActivityHistoryModal] = useState(false);
     const [openProfileIconChangeModal, setOpenProfileIconChangeModal] = useState(false);
-    const user = useSelector((state: RootState) => state.auth.userDetail);
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-    const notification = useSelector((state: RootState) => state.notification);
+    const { user } = useUser();
     const dispatch = useAppDispatch();
     const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const targetId = e.currentTarget.attributes.getNamedItem("data-id")?.value;
@@ -130,7 +126,7 @@ const ProfileMenus = (props: { refresh: () => void }) => {
     ];
     return (
         <ProfileMenuList>
-            {isAuthenticated && <ProfileIconChangeModal isOpened={openProfileIconChangeModal}
+            {user && <ProfileIconChangeModal isOpened={openProfileIconChangeModal}
                                                         handleClose={handleProfileChangeModalClose}
                                                         />}
             {profileMenuList.map((menu, index) => {
@@ -141,7 +137,7 @@ const ProfileMenus = (props: { refresh: () => void }) => {
                         {menu.label === '활동내역' && <Badge sx={{
                             marginLeft: "10px"
                         }} color={"primary"}
-                                                         badgeContent={notification.notificationCount} />}
+                                                         badgeContent={user?.notificationCount} />}
                     </ProfileMenuButton>
                 );
             })}
@@ -150,10 +146,10 @@ const ProfileMenus = (props: { refresh: () => void }) => {
             <UserDetailEditModal open={openEditProfileModal} onClose={handleCloseEditProfileModal}
                                  refresh={props.refresh}/>
             <ProfileMenuButton onClick={handleProfileChangeModalOpen}>
-                <Avatar sx={{width: "20px", height: "20px"}} src={user.profileImgPath}/>
+                <Avatar sx={{width: "20px", height: "20px"}} src={user?.profileImgPath}/>
                 <Typography component={"span"} fontSize={"0.8rem"}>프로필 변경</Typography>
             </ProfileMenuButton>
-            {!user.adventureName && <ProfileMenuButton>
+            {!user?.adventureName && <ProfileMenuButton>
                 <PublicIcon/>
                 <Typography component={"span"} fontSize={"0.8rem"}>모험단 등록</Typography>
             </ProfileMenuButton>

@@ -1,12 +1,11 @@
-import React from "react";
-
+import React from 'react';
 
 interface Options {
-    initialValue?: boolean;
-    type?: 'boolean';
-    label: string;
-    icon?: React.ReactNode;
-    checkedIcon?: React.ReactNode;
+  initialValue?: boolean;
+  type?: 'boolean';
+  label: string;
+  icon?: React.ReactNode;
+  checkedIcon?: React.ReactNode;
 }
 
 type returnType = [boolean, (e: React.ChangeEvent<HTMLInputElement>) => void,string];

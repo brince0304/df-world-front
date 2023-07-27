@@ -1,7 +1,7 @@
-import {Content} from "./CharactersData";
+import { Content } from './CharactersData';
 
 export interface MyPageResponse {
-	userDetail: MyPageResponseUserDetail;
+  userDetail: MyPageResponseUserDetail;
 }
 export interface MyPageResponseUserDetail {
 	userId: string;

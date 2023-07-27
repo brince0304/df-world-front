@@ -1,16 +1,16 @@
-import react from "react";
-import React, {useEffect} from "react";
-import styled from "styled-components";
-import CustomTable from "../../../../components/CustomTable";
-import BoardData from "../../../../data/BoardData";
-import {useNavigate} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronRight, faExclamationTriangle, faXmark} from "@fortawesome/free-solid-svg-icons";
-import {ErrorScreen} from "../../../../components/ErrorScreen";
-import {getLatestBoard} from "../../../../apis/board/getLatestBoard";
-import {Avatar, IconButton, ListItemButton} from "@mui/material";
-import {ChatBubbleOutlineOutlined, FavoriteBorderOutlined} from "@mui/icons-material";
-import Typography from "@mui/material/Typography";
+import react from 'react';
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import CustomTable from '../../../../components/CustomTable';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight, faExclamationTriangle, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { ErrorScreen } from '../../../../components/ErrorScreen';
+import { getLatestBoard } from '../../../../apis/board/getLatestBoard';
+import { Avatar, IconButton, ListItemButton } from '@mui/material';
+import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined } from '@mui/icons-material';
+import Typography from '@mui/material/Typography';
+import { BoardContent } from '../../../../interfaces/BoardListData';
 
 const BoardBody = styled.div`
   display: flex;
@@ -20,24 +20,7 @@ const BoardBody = styled.div`
   padding: 10px 0;
   font-size: 14px;
   color: #000;
-`
-
-const BoardCell = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 5px 20px;
-  border-bottom: 1px solid #e5e5e5;
-  width: 100%;
-  color: gray;
-  cursor: pointer;
-
-  &:hover {
-    color: black;
-    transition: 0.5s ease;
-    background-color: #f5f5f5;
-  }
-`
-
+`;
 const BoardTitle = styled.div`
   display: block;
   //맨왼쪽부터
@@ -124,18 +107,7 @@ interface BoardProps {
     url: string,
 }
 
-interface BoardData {
-    id: string,
-    boardTitle: string,
-    createdAt: string,
-    userNickname: string,
-    userProfileImgUrl: string,
-    commentCount: number,
-    boardLikeCount: number,
-    boardViewCount: number,
-}
-
-const BoardList = (props: { data: BoardData[] }) => {
+const BoardList = (props: { data: BoardContent[] }) => {
     let navigate = useNavigate();
     const onClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
         const id = e.currentTarget.dataset.id;
@@ -189,7 +161,7 @@ const BoardList = (props: { data: BoardData[] }) => {
 
 const LatestBoard = (props: BoardProps) => {
     const [isSelected, setIsSelected] = props.boardTypes ? react.useState("FREE") : react.useState("NOTICE");
-    const [data, setData] = react.useState<BoardData[]>([]);
+    const [data, setData] = react.useState<[]>([]);
     const [isLoading, setIsLoading] = react.useState(false);
     const [isError, setIsError] = react.useState(false);
     useEffect(() => {

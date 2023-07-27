@@ -1,22 +1,20 @@
-import * as React from "react";
-import {useEffect, useState} from "react";
-import Box from "@mui/material/Box";
-import SpeedDial from "@mui/material/SpeedDial";
-import SpeedDialAction from "@mui/material/SpeedDialAction";
-import {IconButton, Pagination, Slide, styled} from "@mui/material";
-import ModeIcon from "@mui/icons-material/Mode";
-import SearchIcon from "@mui/icons-material/Search";
-import {useSelector} from "react-redux";
-import {RootState, useAppDispatch} from "../../../redux/store";
-import {SearchType} from "../../../interfaces/SeachBox";
-import {useNavigate} from "react-router-dom";
-import CustomSearchBox from "../../../components/CustomSearchBox";
-import {DragHandleRounded, HighlightOffOutlined} from "@mui/icons-material";
-import {BOARD_LIST_URL, BOARD_WRITE_URL} from "../../../apis/data/urls";
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import { IconButton, Pagination, Slide, styled } from '@mui/material';
+import ModeIcon from '@mui/icons-material/Mode';
+import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
+import CustomSearchBox from '../../../components/CustomSearchBox';
+import { DragHandleRounded, HighlightOffOutlined } from '@mui/icons-material';
+import { BOARD_LIST_URL, BOARD_WRITE_URL } from '../../../apis/data/urls';
+import { useUser } from '../../../hooks/authHooks/useUser';
 
 const actions = [
-    { icon: <ModeIcon/>, name: '글쓰기' },
-    { icon: <SearchIcon />, name: '검색' },
+  { icon: <ModeIcon />, name: '글쓰기' },
+  { icon: <SearchIcon />, name: '검색' },
 ];
 
 const CustomBox = styled(Box)`
@@ -30,10 +28,6 @@ const CustomBox = styled(Box)`
   }
 `;
 
-const boardSearchType = {
-    type:"postSignUp",
-    url:"/boards/"
-} as SearchType
 
 export const boardSelectOptions = {
     types :[
@@ -56,19 +50,10 @@ export const boardSelectOptions = {
       height:40px;
     `;
 
-
-
 function  BoardSpeedDial (props:{boardType:string,totalPages:number,currentPage:number,
      handlePaginationChange: (event: React.ChangeEvent<unknown>, value: number) => void}) {
-    const isLogin = useSelector((state: RootState) => state.auth.isAuthenticated);
-    const  dispatch = useAppDispatch();
     const [searchBoxIsOpened, setSearchBoxIsOpened] = useState(false);
-    const [paginationIsOpened, setPaginationIsOpened] = useState(false);
     let navigate = useNavigate();
-
-    useEffect(() => {
-
-    }, []);
     const handleOpenSearchBox = () => {
         setSearchBoxIsOpened(!searchBoxIsOpened);
     }

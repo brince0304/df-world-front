@@ -1,30 +1,29 @@
-import {useLocation, useParams} from "react-router";
-import React, {useEffect, useState} from "react";
-import {getCharacters} from "../../apis/character/getCharacters";
-import {CharactersData} from "../../interfaces/CharactersData";
-import styled from "styled-components";
-import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../redux/store";
-import {Container, Pagination} from "@mui/material";
-import {CHARACTER_SEARCH_URL} from "../../apis/data/urls";
-import CharacterList from "../../components/CharactersList";
-
+import { useLocation, useParams } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { getCharacters } from '../../apis/character/getCharacters';
+import { CharactersData } from '../../interfaces/CharactersData';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../redux/store';
+import { Container, Pagination } from '@mui/material';
+import { CHARACTER_SEARCH_URL } from '../../apis/data/urls';
+import CharacterList from '../../components/CharactersList';
 
 const ResultTitleWrapper = styled.div`
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
   flex-direction: row;
   background-color: white;
   border-radius: 10px;
-    align-items: center;
-    width: 100%;
-    height: 20%;
-    font-size: 21px;
-    font-weight: 600;
-    color: #000;
-    text-align: center;
-    padding: 5px;
-   margin-bottom: 20px;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+  font-size: 21px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 20px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
   grid-column: 1 / 5;
   @media (max-width: 768px) {
@@ -36,13 +35,7 @@ const ResultTitleWrapper = styled.div`
   @media (max-width: 320px) {
     grid-column: 1 / 3;
   }
-
 `;
-
-
-
-
-
 export const getServerName=(serverId: string) => {
      switch (serverId) {
             case "all":
@@ -105,8 +98,6 @@ const ResultTitleFooterWrapper = styled.div`
 
  const Characters = () => {
     let {serverId} = useParams();
-    const [isError, setIsError] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState<CharactersData>({} as CharactersData );
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -125,7 +116,7 @@ const ResultTitleFooterWrapper = styled.div`
         }
     }
     useEffect(() => {
-         dispatch(getCharacters(setIsError,  CHARACTER_SEARCH_URL+`?characterName=${characterName?characterName:""}&serverId=${serverId?serverId:""}&page=${page?page:"0"}`, setData));
+         dispatch(getCharacters( CHARACTER_SEARCH_URL+`?characterName=${characterName?characterName:""}&serverId=${serverId?serverId:""}&page=${page?page:"0"}`, setData));
     }, [characterName, serverId,page ]);
     return (
         <Container maxWidth={"lg"}>

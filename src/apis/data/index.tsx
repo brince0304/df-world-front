@@ -10,12 +10,4 @@ export interface UserDetailOptions {
     characterCount : number;
 }
 
-export interface RegisterFormProps {
-    email: string;
-    userId: string;
-    nickname: string;
-    password: string;
-    passwordCheck: string;
-    isAgree: boolean;
-}
 

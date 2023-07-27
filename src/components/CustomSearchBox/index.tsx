@@ -1,32 +1,19 @@
-import Box from "@mui/material/Box";
-import {
-    Button,
-    Card, Grow,
-    IconButton,
-    InputBase,
-    ListItemButton,
-    ListItemText,
-    Paper,
-    Slide,
-    styled,
-    Zoom
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import React, {useCallback, useEffect, useRef, useState} from "react";
-import Fade from "@mui/material/Fade";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faXmark} from "@fortawesome/free-solid-svg-icons";
-import {SearchOption} from "../../interfaces/SeachBox";
-import SearchBar from "@mkyy/mui-search-bar";
-import Typography from "@mui/material/Typography";
-
+import Box from '@mui/material/Box';
+import { Button, Card, Grow, IconButton, InputBase, ListItemButton, Paper, styled } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Fade from '@mui/material/Fade';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { SearchOption } from '../../interfaces/SeachBox';
+import Typography from '@mui/material/Typography';
 
 const SearchOptionContainer = styled(Card)`
   position: absolute;
-  ${(props: { direction: string }) => props.direction === "up" ? "bottom: 100%" : "top: 100%"};
+  ${(props: { direction: string }) => (props.direction === 'up' ? 'bottom: 100%' : 'top: 100%')};
   display: flex;
   width: 100%;
-  flex-direction: ${(props: { direction: string }) => props.direction === "up" ? "column-reverse" : "column"};
+  flex-direction: ${(props: { direction: string }) => (props.direction === 'up' ? 'column-reverse' : 'column')};
   align-items: center;
   justify-content: center;
   border-radius: 3px;

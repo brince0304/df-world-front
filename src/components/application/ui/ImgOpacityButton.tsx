@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Button} from "@mui/material";
+import { Button } from '@mui/material';
 
 const Image = styled.img`
   padding: 10px 0px;
   margin: 0px 10px;
-  scale: ${(props: { scale: number | undefined }) => props.scale ? props.scale : 1};
+  scale: ${(props: { scale: number | undefined }) => (props.scale ? props.scale : 1)};
 `;
 
 

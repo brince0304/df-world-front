@@ -1,119 +1,16 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import styled from "styled-components";
-import {ModalTitle} from "../../../components/application/ui/ModalTitle";
-import {ImgOpacityButton} from "../../../components/application/ui/ImgOpacityButton";
-import {Checkbox, FormControlLabel, TextField} from "@mui/material";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import  {postSignUp} from "../../../apis/auth/postSignUp";
-import {RegisterFormProps} from "../../../apis/data";
+import styled from 'styled-components';
+import { ModalTitle } from '../../../components/application/ui/ModalTitle';
+import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
+import { TextField } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import useRegister from '../../../hooks/authHooks/useRegister';
+import { IAuthRegisterRequest } from '../../../service/authService';
 
-const FormControl = styled.form`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 10%;
-  width: 100%;
-  background-color: transparent;
-  @media (max-width: 768px) {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-`
-
-const TextFieldCustom = styled(TextField)`
-  && {
-    display: flex;
-    margin-top: 10px;
-    background-color: transparent;
-    //중간배치
-    @media (max-width: 768px) {
-      width: 100%;
-    }
-  }
-`;
-
-const RegisterButton = styled(Button)`
-  && {
-    width: 100%;
-    height: 100%;
-    background-color: #1976d2;
-  }
-`;
-
-const BodyFooter = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  color: #000;
-`
-const MissingPassword = styled.span`
-  cursor: pointer;
-  padding: 20px 0;
-  color: silver;
-  &:hover {
-    color: #1976d2;
-    transition: 0.3s;
-  }
-`
-
-const LoginFooter = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 0;
-`;
-
-
-const SignUpFooter = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 0;
-  font-size: 14px;
-  font-weight: 700;
-  color: silver;
-`
-
-const SignUpText = styled.span`
-  cursor: pointer;
-  color: silver;
-  text-decoration-line: underline;
-
-  &:hover {
-    color: #1976d2;
-    transition: 0.3s;
-  }
-`
-
-
-
-
-const SocialRegisterBox = styled.div`
-    display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 0px;
-`
-
-const AgreeBoxWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: ${(props: { isAgree: boolean }) => props.isAgree ? "#282c34" : "silver"};
-`;
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SocialRegisterButtons = (props: { data: { src: string, alt: string, type: string }[] }) => {
     return (
         <>{props.data.map((item, index) => (
@@ -173,72 +70,36 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
     const {
         register,
         handleSubmit,
-        setError,
         formState: {errors },
-    } = useForm<RegisterFormProps>({
+    } = useForm<IAuthRegisterRequest>({
         mode: "onChange",
         resolver: yupResolver(schema),
     });
 
-    const onValid = (data: RegisterFormProps) => {
-              postSignUp(data).then((response) => {
-                  if(response){
-                      alert(`${data}님 회원가입이 완료되었습니다.`);
-                      window.location.href = "/";
-                  }
-              }).catch((error) => {
-                  if(error.response.status === 409) {
-                      console.log(error.response.data);
-                      if(error.response.data.indexOf("아이디") !== -1){
-                          setError("userId", {
-                              type: "manual",
-                              message: error.response.data
-                          });
-                      }else if (error.response.data.indexOf("이메일") !== -1) {
-                          setError("email", {
-                              type: "manual",
-                              message: error.response.data
-                          });
-                      }else if(error.response.data.indexOf("닉네임") !== -1){
-                          setError("nickname", {
-                              type: "manual",
-                              message: error.response.data
-                          });
-                      }else{
-                          alert(error.response.data);
-                      }}
-              });
+    const signup = useRegister();
+    const onValid = (data: IAuthRegisterRequest) => {
+      signup({...data});
     };
 
     return (
         <div>
         <ModalTitle title={"회원가입"}/>
     <FormControl onSubmit={handleSubmit(onValid)}>
-        <TextFieldCustom label={"아이디"} error={!!errors.userId} type="text" helperText={errors.userId?.message}
-                         {...register("userId")}>
+        <TextFieldCustom label={"아이디"} error={!!errors.username} type="text"
+                         {...register("username")}>
         </TextFieldCustom>
-        <TextFieldCustom label={"닉네임"} error={!!errors.nickname} type="text" helperText={errors.nickname?.message}
+        <TextFieldCustom label={"닉네임"} error={!!errors.nickname} type="text"
                          {...register("nickname")}>
         </TextFieldCustom>
-                <TextFieldCustom label={"이메일"} error={!!errors.email} type="email" helperText={errors.email?.message}
+                <TextFieldCustom label={"이메일"} error={!!errors.email} type="email"
                                  {...register("email")}>
                 </TextFieldCustom>
-            <TextFieldCustom label={"비밀번호"} error={!!errors.password} type="password" placeholder={"xxxxxxx"} helperText={errors.password?.message}
+            <TextFieldCustom label={"비밀번호"} error={!!errors.password} type="password" placeholder={"xxxxxxx"}
                              {...register("password")}/>
-            <TextFieldCustom label={"비밀번호 확인"} error={!!errors.passwordCheck} type="password" helperText={errors.passwordCheck?.message}
+            <TextFieldCustom label={"비밀번호 확인"} error={!!errors.passwordCheck} type="password"
                              {...register("passwordCheck")}/>
         <BodyFooter>
         </BodyFooter>
-
-                <FormControlLabel
-                    label="이용약관 및 개인정보 수집 및 이용에 동의합니다."
-                    style={{
-                        color: "#282c34",
-                        fontWeight: "bold",
-                    }}
-                    control={<Checkbox {...register("isAgree")}/>}
-                />
-
             <RegisterButton variant="contained" type="submit">회원가입</RegisterButton>
     </FormControl>
             <SignUpFooter>
@@ -253,6 +114,75 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
 );
 
 }
+
+
+const FormControl = styled.form`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10%;
+  width: 100%;
+  background-color: transparent;
+  @media (max-width: 768px) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const TextFieldCustom = styled(TextField)`
+  && {
+    display: flex;
+    margin-top: 10px;
+    background-color: transparent;
+    //중간배치
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+`;
+
+const RegisterButton = styled(Button)`
+  && {
+    width: 100%;
+    height: 100%;
+    background-color: #1976d2;
+  }
+`;
+
+const BodyFooter = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+`
+const SignUpFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: silver;
+`
+
+const SignUpText = styled.span`
+  cursor: pointer;
+  color: silver;
+  text-decoration-line: underline;
+
+  &:hover {
+    color: #1976d2;
+    transition: 0.3s;
+  }
+`
+
 
 export default RegisterPage;
 

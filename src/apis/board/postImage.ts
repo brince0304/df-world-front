@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 export interface HookImageResponse {
-    url: string;
-    fileId: number;
+  url: string;
+  fileId: number;
 }
 
 
@@ -22,9 +22,8 @@ export const postImage = async (file: File | Blob) => {
             }
             return data as HookImageResponse;
         }
-    }
-    catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.info(error);
     }
     return '';
 }

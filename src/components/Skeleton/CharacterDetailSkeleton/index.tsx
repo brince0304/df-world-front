@@ -1,20 +1,17 @@
-import {Button, IconButton, Paper, Skeleton, Tab, Tabs, Tooltip} from "@mui/material";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHandFist, faRotateRight, faSkullCrossbones} from "@fortawesome/free-solid-svg-icons";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import {ErrorScreen} from "../../ErrorScreen";
-import styled from "styled-components";
+import { Paper, Skeleton } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import styled from 'styled-components';
 
 const refreshButtonStyle = {
-    position: "absolute" as "absolute",
-    top: "5px",
-    right: "5px",
-    color: "black",
-    "&:hover": {
-        transform: "rotate(360deg)",
-        transition: "transform 0.5s",
-    }
+  position: 'absolute' as 'absolute',
+  top: '5px',
+  right: '5px',
+  color: 'black',
+  '&:hover': {
+    transform: 'rotate(360deg)',
+    transition: 'transform 0.5s',
+  },
 };
 
 const CharacterImgWrapper = styled.div`

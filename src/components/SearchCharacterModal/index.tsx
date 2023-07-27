@@ -1,32 +1,29 @@
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faXmark} from "@fortawesome/free-solid-svg-icons";
-import * as React from "react";
-import {ReactNode, useState} from "react";
-import Box from "@mui/material/Box";
-import {LinearProgress, styled} from "@mui/material";
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import * as React from 'react';
+import { ReactNode } from 'react';
+import Box from '@mui/material/Box';
+import { LinearProgress, styled } from '@mui/material';
 
 const style = {
-    display: 'flex' as 'flex',
-    alignItems: 'flex-start' as 'flex-start',
-    position: 'relative' as 'relative',
-    overflow: 'scroll' as 'scroll',
-    flexDirection: 'column' as 'column',
-    //스크롤바 숨기기
-    '&::-webkit-scrollbar': {
-        display: 'none',
-    },
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    //props width
-    bgcolor: 'background.paper',
-    borderRadius: 2,
-    boxShadow: 24,
-    height:'600px',
-    width:'400px',
-
+  display: 'flex' as 'flex',
+  alignItems: 'flex-start' as 'flex-start',
+  position: 'relative' as 'relative',
+  overflow: 'scroll' as 'scroll',
+  flexDirection: 'column' as 'column',
+  //스크롤바 숨기기
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  //props width
+  bgcolor: 'background.paper',
+  borderRadius: 2,
+  boxShadow: 24,
+  height: '600px',
+  width: '400px',
 };
 
  const CloseButtonWrapper = styled(Box)`
@@ -40,7 +37,6 @@ const style = {
     transition: 0.3s;
   }
 `
-
 
 
 const SearchBoxWrapper = styled(Box)`
@@ -65,7 +61,6 @@ const ModalBody = styled(Box)`
     align-items: center;
     padding: 20px 20px;
     `
-
 
 
 const SearchCharacterModal = (props:{isOpened:boolean , handleClose:()=>void, children:ReactNode ,

@@ -1,19 +1,86 @@
-import * as React from "react";
-import {useCallback} from "react";
-import Button from "@mui/material/Button";
-import styled from "styled-components";
-import {ModalTitle} from "../../../components/application/ui/ModalTitle";
-import {ImgOpacityButton} from "../../../components/application/ui/ImgOpacityButton";
-import SocialLoginData from "../../../data/SocialLoginButons";
-import {TextField} from "@mui/material";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import {postSignIn} from "../../../apis/auth/postSignIn";
-import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../../redux/store";
-import {setIsAuthenticated, setLoginModalOpened, setUserDetails} from "../../../redux";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import styled from 'styled-components';
+import { ModalTitle } from '../../../components/application/ui/ModalTitle';
+import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
+import SocialLoginData from '../../../data/SocialLoginButons';
+import { TextField } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useLogin } from '../../../hooks/authHooks/useLogin';
 
+interface SocialLoginProps {
+  data: { src: string; alt: string; type: string }[];
+}
+
+const SocialLoginButtons = (props: SocialLoginProps) => {
+    return (
+        <>{props.data.map((item, index) => (
+            <ImgOpacityButton src={require("../../../assets/img/" + item.src)} alt={item.alt} scale={1} key={index}
+                              width={50} height={50}/>
+        ))}</>
+    );
+};
+
+interface LoginProps {
+    username: string;
+    password: string;
+}
+
+const LoginPage = (props: { handleChangeSection: () => void }) => {
+
+    const schema = yup.object().shape({
+        username: yup.string().required("아이디를 입력해주세요."),
+        password: yup.string().required("비밀번호를 입력해주세요."),
+    });
+
+    const {
+        register,
+        handleSubmit,
+        formState: {errors},
+    } = useForm<LoginProps>({
+        mode: "onChange",
+        resolver: yupResolver(schema),
+    });
+
+    const login = useLogin();
+
+    const onValid = (data: LoginProps) => {
+       login({username: data.username, password: data.password});
+    };
+
+    return (
+        <FormControl onSubmit={handleSubmit(onValid)}>
+            <ModalTitle title={"로그인"}/>
+            <div>
+                <TextFieldCustom error={!!errors.username} type="text" label={"아이디"}
+                                 helperText={errors.username?.message} {...register("username")} />
+                <TextFieldCustom error={!!errors.password} type="password" label={"비밀번호"}
+                                 helperText={errors.password?.message} {...register("password")} />
+            </div>
+            <BodyFooter>
+                <MissingPassword>
+                    비밀번호를 잊으셨나요?
+                </MissingPassword>
+            </BodyFooter>
+            <LoginFooter>
+                <SocialLoginTitle>소셜 로그인</SocialLoginTitle>
+                <SocialLoginBox>
+                    <SocialLoginButtons data={SocialLoginData.circleButtons}/>
+                </SocialLoginBox>
+                <LoginButton variant="contained" type="submit">로그인</LoginButton>
+                <SignUpFooter>
+                            <span style={{
+                                paddingRight: "5px"
+                            }}>아직 회원이 아니신가요?</span>
+                    <SignUpText onClick={props.handleChangeSection}>회원가입</SignUpText>
+                </SignUpFooter>
+            </LoginFooter>
+        </FormControl>
+
+    );
+};
 
 const TextFieldCustom = styled(TextField)`
   && {
@@ -131,93 +198,5 @@ const SocialLoginBox = styled.div`
     display: flex;
   }
 `;
-
-interface SocialLoginProps {
-    data: { src: string, alt: string, type: string }[];
-}
-
-const SocialLoginButtons = (props: SocialLoginProps) => {
-    return (
-        <>{props.data.map((item, index) => (
-            <ImgOpacityButton src={require("../../../assets/img/" + item.src)} alt={item.alt} scale={1} key={index}
-                              width={50} height={50}/>
-        ))}</>
-    );
-};
-
-interface LoginProps {
-    username: string;
-    password: string;
-}
-
-const LoginPage = (props: { handleChangeSection: () => void }) => {
-    const dispatch = useAppDispatch();
-
-    const schema = yup.object().shape({
-        username: yup.string().required("아이디를 입력해주세요."),
-        password: yup.string().required("비밀번호를 입력해주세요."),
-    });
-
-    const {
-        register,
-        handleSubmit,
-        setError,
-        formState: {errors},
-    } = useForm<LoginProps>({
-        mode: "onChange",
-        resolver: yupResolver(schema),
-    });
-
-    const onValid = (data: LoginProps) => {
-        postSignIn({username: data.username, password: data.password}).then((res) => {
-            const currentUser = res.CURRENT_USER;
-            dispatch(setUserDetails(currentUser));
-            dispatch(setIsAuthenticated(true));
-            alert(currentUser.userId + "님 환영합니다.");
-            dispatch(setLoginModalOpened(false));
-        })
-            .catch((err) => {
-                setError("username", {
-                    type: "manual",
-                    message: "아이디 또는 비밀번호가 일치하지 않습니다."
-                });
-                setError("password", {
-                    type: "manual",
-                    message: ""
-                });
-            });
-    };
-
-    return (
-        <FormControl onSubmit={handleSubmit(onValid)}>
-            <ModalTitle title={"로그인"}/>
-            <div>
-                <TextFieldCustom error={!!errors.username} type="text" label={"아이디"}
-                                 helperText={errors.username?.message} {...register("username")} />
-                <TextFieldCustom error={!!errors.password} type="password" label={"비밀번호"}
-                                 helperText={errors.password?.message} {...register("password")} />
-            </div>
-            <BodyFooter>
-                <MissingPassword>
-                    비밀번호를 잊으셨나요?
-                </MissingPassword>
-            </BodyFooter>
-            <LoginFooter>
-                <SocialLoginTitle>소셜 로그인</SocialLoginTitle>
-                <SocialLoginBox>
-                    <SocialLoginButtons data={SocialLoginData.circleButtons}/>
-                </SocialLoginBox>
-                <LoginButton variant="contained" type="submit">로그인</LoginButton>
-                <SignUpFooter>
-                            <span style={{
-                                paddingRight: "5px"
-                            }}>아직 회원이 아니신가요?</span>
-                    <SignUpText onClick={props.handleChangeSection}>회원가입</SignUpText>
-                </SignUpFooter>
-            </LoginFooter>
-        </FormControl>
-
-    );
-};
 
 export default LoginPage;

@@ -1,23 +1,19 @@
-import CollapseButton from "../../../../../components/CollapseButton";
-import {Button, FormControl, TextField} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import putChangePassword from "../../../../../apis/myPage/putChangePassword";
-import {getSignOut} from "../../../../../apis/auth/getSignOut";
-import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import {useAppDispatch} from "../../../../../redux/store";
-
+import CollapseButton from '../../../../../components/CollapseButton';
+import { Button, FormControl, TextField } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import putChangePassword from '../../../../../apis/myPage/putChangePassword';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 
 interface FormProps {
-    password: string;
-    passwordValidate: string;
-    passwordConfirm: string;
+  password: string;
+  passwordValidate: string;
+  passwordConfirm: string;
 }
 
 const PasswordEdit = (props: {onClose : () => void }) => {
-    const dispatch = useAppDispatch();
     const passwordMatch = (password: string, passwordCheck: string) => {
         if (password !== "" && passwordCheck !== "") {
             return password === passwordCheck;
@@ -53,7 +49,6 @@ const PasswordEdit = (props: {onClose : () => void }) => {
     const handleUpdatePassword = (passwordValidate: string, password: string) => {
         putChangePassword(passwordValidate, password).then((res) => {
             alert("비밀번호가 변경되었습니다. 다시 로그인 해주세요");
-            dispatch(getSignOut());
             props.onClose();
         }).catch((err) => {
             alert(err.response.data);

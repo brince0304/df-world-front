@@ -1,6 +1,6 @@
-import {useCallback, useState} from "react";
+import { useCallback, useState } from 'react';
 
-type returnTypes = [string, string,(e: any) => void, (query: string) => void];
+type returnTypes = [string, string, (e: any) => void, (query: string) => void];
 
 
 interface Options {

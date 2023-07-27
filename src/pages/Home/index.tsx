@@ -1,12 +1,11 @@
-import styled from "styled-components";
-import React from "react";
-import CharacterRanking from "./Tables/CharacterRanking";
-import MainPageRankingData from "../../data/MainPageRankingData";
-import BoardData from "../../data/BoardData";
-import {Container} from "@mui/material";
-import {CHARACTER_MAINPAGE_RANKING_URL, LATEST_BOARD_URL} from "../../apis/data/urls";
-import LatestBoard from "./Tables/LatestBoard";
-
+import styled from 'styled-components';
+import React from 'react';
+import CharacterRanking from './Tables/CharacterRanking';
+import MainPageRankingData from '../../data/MainPageRankingData';
+import BoardData from '../../data/BoardData';
+import { Container } from '@mui/material';
+import { CHARACTER_MAINPAGE_RANKING_URL, LATEST_BOARD_URL } from '../../apis/data/urls';
+import LatestBoard from './Tables/LatestBoard';
 
 const LatestBoardContainer = styled.div`
   display: grid;
@@ -21,7 +20,6 @@ const LatestBoardContainer = styled.div`
     grid-template-rows: repeat(1, minmax(100px, auto));
     grid-template-columns: repeat(1, minmax(100px, auto));
   }
-
 `;
 
 

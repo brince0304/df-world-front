@@ -1,5 +1,5 @@
-import createInstance from "../index";
+import createInstance from '../axiosClient';
 
-export const getBoardCoundByHashtag = async (tag:string) => {
-    return await createInstance.get(`/hashtags/${tag}`);
-}
+export const getBoardCoundByHashtag = async (tag: string) => {
+  return await createInstance.get(`/hashtags/${tag}`);
+};

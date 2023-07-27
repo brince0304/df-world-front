@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
 export interface SearchOption {
-    id: string;
-    title: string;
-    content:string;
-    footer: string;
-    optionValue1: string | "";
-    optionValue2: string | "";
-    type: "postSignUp" | "character";
+  id: string;
+  title: string;
+  content: string;
+  footer: string;
+  optionValue1: string | '';
+  optionValue2: string | '';
+  type: 'postSignUp' | 'character';
 }
 
 

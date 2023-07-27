@@ -1,5 +1,3 @@
-import {a} from "@react-spring/web";
-
 const SocialLoginData={
     squareButtons :[
         {
@@ -33,7 +31,6 @@ const SocialLoginData={
             alt: "naver",
         },]
 }
-
 
 
 export default SocialLoginData;

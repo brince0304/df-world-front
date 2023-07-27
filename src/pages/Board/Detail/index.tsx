@@ -1,62 +1,62 @@
 import {
-    Avatar,
-    Button,
-    Checkbox,
-    Chip,
-    CircularProgress,
-    Container,
-    Divider,
-    FormControlLabel,
-    Grow,
-    IconButton,
-    InputBase,
-    Paper,
-    styled
-} from "@mui/material";
-import {useParams} from "react-router";
-import Box from "@mui/material/Box";
-import React, {useCallback, useEffect, useState} from "react";
-import {BoardDetailData} from "../../../interfaces/BoardDetailData";
-import {setIsLoading} from "../../../redux";
-import {RootState, useAppDispatch} from "../../../redux/store";
-import {useSelector} from "react-redux";
-import {getBoardDetail} from "../../../apis/board/getBoardDetail";
-import {BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL} from "../../../apis/data/urls";
-import BestContent, {ContentFlowProps} from "../../../components/BestContent";
-import {getBestArticles} from "../../../apis/board/getBestArticles";
-import {useNavigate} from "react-router-dom";
-import Typography from "@mui/material/Typography";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import {Viewer} from "@toast-ui/react-editor";
-import {Favorite, FavoriteBorder} from "@mui/icons-material";
-import {postBoardLike} from "../../../apis/board/postBoardLike";
-import SendIcon from "@mui/icons-material/Send";
+  Avatar,
+  Button,
+  Checkbox,
+  Chip,
+  CircularProgress,
+  Container,
+  Divider,
+  FormControlLabel,
+  Grow,
+  IconButton,
+  InputBase,
+  Paper,
+  styled,
+} from '@mui/material';
+import { useParams } from 'react-router';
+import Box from '@mui/material/Box';
+import React, { useCallback, useEffect, useState } from 'react';
+import { BoardDetailData } from '../../../interfaces/BoardDetailData';
+import { setIsLoading } from '../../../redux';
+import { RootState, useAppDispatch } from '../../../redux/store';
+import { useSelector } from 'react-redux';
+import { getBoardDetail } from '../../../apis/board/getBoardDetail';
+import { BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL } from '../../../apis/data/urls';
+import BestContent, { ContentFlowProps } from '../../../components/BestContent';
+import { getBestArticles } from '../../../apis/board/getBestArticles';
+import { useNavigate } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { postBoardLike } from '../../../apis/board/postBoardLike';
+import SendIcon from '@mui/icons-material/Send';
 import {
-    CommentListData,
-    CommentListDataComments,
-    CommentListDataLikeResponses
-} from "../../../interfaces/CommentListData";
-import {getBoardComment} from "../../../apis/boardComment/getBoardComment";
-import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {postBoardComment} from "../../../apis/boardComment/postBoardComment";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMessage} from "@fortawesome/free-solid-svg-icons";
-import {deleteBoardComment} from "../../../apis/boardComment/deleteBoardComment";
-import {deleteBoard} from "../../../apis/board/deleteBoard";
-import {BadRequest} from "../../../components/application/error/BadRequest";
-import BoardDetailSkeleton from "../../../components/Skeleton/BoardDetailSkeleton";
-import {postCommentLike} from "../../../apis/boardComment/postCommentLike";
-import {BOARD_INSERT_FORM_ROUTE, BOARD_UPDATE_FORM_ROUTE} from "../../../apis/data/route";
-import {putBoardComment} from "../../../apis/boardComment/putBoardComment";
-import {postChildrenComment} from "../../../apis/boardComment/postChildrenComment";
-import {getChildrenComment} from "../../../apis/boardComment/getChildrenComment";
-import {BestArticleNoDataWrapper, BestArticleTitleComponent, CharacterChip, getBoardType, TagChip} from "..";
-import { UserDetailOptions } from "../../../apis/data";
-
+  CommentListData,
+  CommentListDataComments,
+  CommentListDataLikeResponses,
+} from '../../../interfaces/CommentListData';
+import { getBoardComment } from '../../../apis/boardComment/getBoardComment';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { postBoardComment } from '../../../apis/boardComment/postBoardComment';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
+import { deleteBoardComment } from '../../../apis/boardComment/deleteBoardComment';
+import { deleteBoard } from '../../../apis/board/deleteBoard';
+import { BadRequest } from '../../../components/application/error/BadRequest';
+import BoardDetailSkeleton from '../../../components/Skeleton/BoardDetailSkeleton';
+import { postCommentLike } from '../../../apis/boardComment/postCommentLike';
+import { BOARD_INSERT_FORM_ROUTE, BOARD_UPDATE_FORM_ROUTE } from '../../../apis/data/route';
+import { putBoardComment } from '../../../apis/boardComment/putBoardComment';
+import { postChildrenComment } from '../../../apis/boardComment/postChildrenComment';
+import { getChildrenComment } from '../../../apis/boardComment/getChildrenComment';
+import { BestArticleNoDataWrapper, BestArticleTitleComponent, CharacterChip, getBoardType, TagChip } from '..';
+import { UserDetailOptions } from '../../../apis/data';
+import { useUser } from '../../../hooks/authHooks/useUser';
+import { IAuthLoginResponse } from '../../../service/authService';
 
 const TagContainer = styled(Box)`
   display: flex;
@@ -231,8 +231,9 @@ const schema = yup.object().shape({
 });
 
 
-const CommentList = (props: { comment: CommentListDataComments, user: UserDetailOptions, handleGetBoardComment: (boardId: string) => void, boardId: string, likeResponse: CommentListDataLikeResponses[] }) => {
+const CommentList = (props: { comment: CommentListDataComments, handleGetBoardComment: (boardId: string) => void, boardId: string, likeResponse: CommentListDataLikeResponses[] }) => {
     const [isReplyOpen, setIsReplyOpen] = useState(false);
+    const {user} = useUser();
     const commentLikeLog = props.likeResponse.map((comment) => {
         if (comment.isLike) {
             return comment.id;
@@ -279,7 +280,7 @@ const CommentList = (props: { comment: CommentListDataComments, user: UserDetail
     }, [isEditOpen]);
 
     const handleUpdateComment = (commentId: string, data: CommentForm) => {
-        if (props.boardId && props.user && props.user.userId === props.comment.userId) {
+        if (props.boardId && user && user.userId === props.comment.userId) {
             if (window.confirm("수정하시겠습니까?")) {
                 putBoardComment(commentId, props.boardId, data).then((res) => {
                     if (res.status === 200) {
@@ -303,15 +304,11 @@ const CommentList = (props: { comment: CommentListDataComments, user: UserDetail
     const {
         register,
         handleSubmit,
-        setValue,
         formState: {errors},
     } = useForm<CommentForm>({
         mode: "onChange",
         resolver: yupResolver(schema),
     });
-
-
-
 
     const handleDeleteComment = (commentId: string) => {
         if (props.boardId && window.confirm("댓글을 삭제하시겠습니까?")) {
@@ -340,7 +337,7 @@ const CommentList = (props: { comment: CommentListDataComments, user: UserDetail
                 setChildrenComments(res.data);
             }
         }).catch((err) => {
-            console.log(err);
+            console.info(err);
         });
     }, [isReplyOpen]);
 
@@ -360,7 +357,7 @@ const CommentList = (props: { comment: CommentListDataComments, user: UserDetail
                     marginLeft: "10px",
                     color: "gray"
                 }}> {props.comment.createdAt}</Typography>
-                {props.user && props.user.userId === props.comment.userId &&
+                {user && user.userId === props.comment.userId &&
                     <Box sx={{display: "flex", marginLeft: "auto", alignItems: "center"}}>
                         <Button sx={commentButtonStyle} onClick={handleToggleEdit}>{isEditOpen ? "취소" : "수정"}</Button>
                         <Button sx={commentButtonStyle} onClick={(e) => {
@@ -429,12 +426,12 @@ const CommentList = (props: { comment: CommentListDataComments, user: UserDetail
                     <Box>
                         <ReplyInsertForm boardId={props.boardId} handleGetBoardComment={props.handleGetBoardComment}
                                             handleGetChildrenComment={handleGetChildrenComment} commentId={props.comment.id.toString()}
-                                            user={props.user}
+
                         />
                         <Box>
                             {childrenComments?.map((reply: CommentListDataComments) => {
                                 return (
-                                    <ReplyList comment={reply} user={props.user}
+                                    <ReplyList comment={reply}
                                                handleGetBoardComment={props.handleGetBoardComment}
                                                boardId={props.boardId} handleDeleteComment={handleDeleteComment}
                                                isLiked={commentLikeLog.includes(reply.id)} key={reply.id}
@@ -449,14 +446,14 @@ const CommentList = (props: { comment: CommentListDataComments, user: UserDetail
     );
 };
 
-const ReplyInsertForm = (props:{boardId:string,handleGetBoardComment:(boardId:string)=>void, handleGetChildrenComment:()=>void,commentId:string,user:UserDetailOptions}) => {
+const ReplyInsertForm = (props:{boardId:string,handleGetBoardComment:(boardId:string)=>void, handleGetChildrenComment:()=>void,commentId:string}) => {
     const {register, handleSubmit, formState: {errors}, setValue} = useForm<CommentForm>({
         mode: "onChange",
         resolver: yupResolver(schema)
     });
-
+    const {user} = useUser();
     const handlePostChildrenComment = (commentId: string, boardId: string, data: CommentForm) => {
-        if (!props.user.userId) {
+        if (!user) {
             alert("로그인이 필요합니다.");
             return;
         }
@@ -466,7 +463,7 @@ const ReplyInsertForm = (props:{boardId:string,handleGetBoardComment:(boardId:st
                 props.handleGetChildrenComment();
             }
         }).catch((err) => {
-            console.log(err);
+            console.info(err);
         });
     };
     const handleValidPostChildrenComment = (data: CommentForm) => {
@@ -478,10 +475,10 @@ const ReplyInsertForm = (props:{boardId:string,handleGetBoardComment:(boardId:st
         <form onSubmit={handleSubmit(handleValidPostChildrenComment)} style={{width: "100%"}}>
             <CommentContainer>
                 <InputBase sx={{width: "100%"}}
-                           placeholder={props.user.userId ? "답글을 입력하세요." : "로그인이 필요합니다."}
+                           placeholder={user?.userId ? "답글을 입력하세요." : "로그인이 필요합니다."}
                            id={"comment-input"} {...register("commentContent")}
-                           disabled={!props.user.userId}/>
-                <IconButton type="submit" disabled={!props.user.userId}>
+                           disabled={!!user}/>
+                <IconButton type="submit" disabled={!!user}>
                     <SendIcon/>
                 </IconButton>
             </CommentContainer>
@@ -498,7 +495,7 @@ const ReplyInsertForm = (props:{boardId:string,handleGetBoardComment:(boardId:st
 
 const ReplyList = (props
                        : {
-    comment: CommentListDataComments, user: UserDetailOptions, handleGetBoardComment: (boardId: string) => void, boardId: string,
+    comment: CommentListDataComments,  handleGetBoardComment: (boardId: string) => void, boardId: string,
     handleDeleteComment: (boardId: string) => void, isLiked: boolean, handleGetChildrenComment: () => void
 }) => {
     const [isEdit, setIsEdit] = useState(false);
@@ -538,16 +535,16 @@ const ReplyList = (props
     const {
         register,
         handleSubmit,
-        setValue,
         formState: {errors},
     } = useForm<CommentForm>({
         mode: "onChange",
         resolver: yupResolver(schema),
     });
+    const {user} = useUser();
 
 
     const handleUpdateComment = (commentId: string, data: CommentForm) => {
-        if (props.boardId && props.user && props.user.userId === props.comment.userId) {
+        if (props.boardId && user && user.userId === props.comment.userId) {
             if (window.confirm("수정하시겠습니까?")) {
                 putBoardComment(commentId, props.boardId, data).then((res) => {
                     if (res.status === 200) {
@@ -585,7 +582,7 @@ const ReplyList = (props
                     marginLeft: "10px",
                     color: "gray"
                 }}> {props.comment.createdAt}</Typography>
-                {props.user && props.user.userId === props.comment.userId &&
+                {user && user.userId === props.comment.userId &&
                     <Box sx={{display: "flex", marginLeft: "auto", alignItems: "center"}}>
                         <Button sx={commentButtonStyle} onClick={handleToggleEdit}>{isEdit ? "취소" : "수정"}</Button>
                         <Button sx={commentButtonStyle} onClick={(e) => {
@@ -655,7 +652,7 @@ const BoardDetail = () => {
     const dispatch = useAppDispatch();
     const {boardId} = useParams<{ boardId: string }>();
     let navigate = useNavigate();
-    const user = useSelector((state: RootState) => state.auth.userDetail);
+    const {user} = useUser();
     const [boardData, setBoardData] = useState<BoardDetailData>({} as BoardDetailData);
     const boardType = boardData?.article?.boardType ? boardData?.article?.boardType : "ALL";
     const [bestArticle, setBestArticle] = useState<ContentFlowProps[]>([]);
@@ -663,6 +660,7 @@ const BoardDetail = () => {
     const [likeCount, setLikeCount] = useState<number>(0);
     const [commentData, setCommentData] = useState<CommentListData>({} as CommentListData);
     const [isCommentLoading, setIsCommentLoading] = useState<boolean>(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isCommentError, setIsCommentError] = useState<boolean>(false);
     const [bestComments, setBestComments] = useState<ContentFlowProps[]>([]);
     const [isBoardDetailError, setIsBoardDetailError] = useState<boolean>(false);
@@ -796,7 +794,7 @@ const BoardDetail = () => {
 
 
     const onInvalid = (errors: any) => {
-        console.log(errors);
+        console.info(errors);
     };
 
     return (
@@ -848,7 +846,7 @@ const BoardDetail = () => {
                                 label={<LikeCountWrapper>
                                     {likeCount}
                                 </LikeCountWrapper>}/>
-                            {user.userId && boardData?.article?.userId === user.userId &&
+                            {user && boardData?.article?.userId === user.userId &&
                                 <Box sx={{display: "flex"}}>
                                     <Button sx={deleteEditButtonStyle} onClick={handleNavigateToBoardUpdate}>수정</Button>
                                     <Button sx={deleteEditButtonStyle} onClick={(e) => {
@@ -858,9 +856,8 @@ const BoardDetail = () => {
                             }
                         </LikeButtonContainer>
                         <Box sx={{textAlign: "left"}}>
-                            {boardData?.article?.boardContent && <Viewer
-                                initialValue={boardData?.article?.boardContent}
-                            />
+                            {boardData?.article?.boardContent &&
+                                <div dangerouslySetInnerHTML={{__html: boardData?.article?.boardContent}}/>
                             }
                         </Box>
                         <Divider sx={{marginTop: "10px", marginBottom: "10px"}}/>
@@ -893,23 +890,23 @@ const BoardDetail = () => {
                                 flexDirection: "row",
                                 marginBottom: "10px"
                             }}>
-                                <Avatar src={user.profileImgPath} sx={{width: "23px", height: "23px"}}/>
+                                <Avatar src={user?.profileImgPath} sx={{width: "23px", height: "23px"}}/>
                                 <Typography sx={{
                                     fontSize: "13px",
                                     fontWeight: "bold",
                                     fontFamily: "Core Sans",
                                     marginLeft: "10px",
-                                    color: user.userId ? "black" : "gray"
-                                }}>{user.nickname ? user.nickname : "게스트"}</Typography>
+                                    color: user?.userId ? "black" : "gray"
+                                }}>{user?.nickname ? user.nickname : "게스트"}</Typography>
                             </Box>
                             <form onSubmit={handleSubmit(handleCommentSubmit, onInvalid)} style={{width: "100%"}}>
                                 <CommentContainer>
                                     <InputBase sx={{width: "100%"}}
-                                               placeholder={user.userId ? "댓글을 입력하세요." : "로그인이 필요합니다."} {...register("commentContent")}
+                                               placeholder={user?.userId ? "댓글을 입력하세요." : "로그인이 필요합니다."} {...register("commentContent")}
                                                id={"comment-input"}
-                                               disabled={!user.userId}
+                                               disabled={!user}
                                                multiline/>
-                                    <IconButton type="submit" disabled={!user.userId}>
+                                    <IconButton type="submit" disabled={!user}>
                                         <SendIcon/>
                                     </IconButton>
                                 </CommentContainer>
@@ -924,7 +921,7 @@ const BoardDetail = () => {
                         <Box>
                             {commentData?.comments?.map((comment, index) => (
                                 comment.isParent &&
-                                <CommentList  key={comment.id} comment={comment} user={user}
+                                <CommentList  key={comment.id} comment={comment}
                                              handleGetBoardComment={handleGetBoardComment}
                                              boardId={boardId ? boardId : "0"}
                                              likeResponse={commentData.likeResponses}/>

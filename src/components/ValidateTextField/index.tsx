@@ -1,32 +1,32 @@
-import {Box, Button, IconButton, TextField, Tooltip} from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import * as React from "react";
-import {FieldError, UseFormRegister, UseFormWatch} from "react-hook-form";
-import {AxiosResponse} from "axios";
-import {useEffect} from "react";
-import {UseFormSetFocus} from "react-hook-form/dist/types/form";
-import Typography from "@mui/material/Typography";
-import styled from "@emotion/styled";
+import { Box, Button, TextField, Tooltip } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { FieldError, UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { AxiosResponse } from 'axios';
+import { UseFormSetFocus } from 'react-hook-form/dist/types/form';
+import Typography from '@mui/material/Typography';
+import styled from '@emotion/styled';
 
 interface ValidateFormProps {
-    register: UseFormRegister<any>,
-    watch: UseFormWatch<any>,
-    validatedMessage: string,
-    inValidatedMessage: string,
-    defaultTooltipMessage: string,
-    formName: string,
-    errors: FieldError | undefined,
-    validateFunction: (value: string) => Promise<AxiosResponse<any, any>>,
-    width?: number,
-    height?: number,
-    placeholder: string,
-    isValidated: boolean,
-    setIsValidated: (value: boolean) => void,
-    isChecked: boolean,
-    setIsChecked: (value: boolean) => void,
-    helperText: string,
-    fontFamily: string,
-    setFocus: UseFormSetFocus<any>,
+  register: UseFormRegister<any>;
+  watch: UseFormWatch<any>;
+  validatedMessage: string;
+  inValidatedMessage: string;
+  defaultTooltipMessage: string;
+  formName: string;
+  errors: FieldError | undefined;
+  validateFunction: (value: string) => Promise<AxiosResponse<any, any>>;
+  width?: number;
+  height?: number;
+  placeholder: string;
+  isValidated: boolean;
+  setIsValidated: (value: boolean) => void;
+  isChecked: boolean;
+  setIsChecked: (value: boolean) => void;
+  helperText: string;
+  fontFamily: string;
+  setFocus: UseFormSetFocus<any>;
 }
 
 

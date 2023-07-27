@@ -1,11 +1,8 @@
-import styled from "styled-components";
-import React, {ReactNode, useState} from "react";
-import mainPageRankingData from "../../data/MainPageRankingData";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
-import ReactLoading from "react-loading";
-import {Button, Card, IconButton, ListItemButton} from "@mui/material";
-import Typography from "@mui/material/Typography";
+import styled from 'styled-components';
+import React, { ReactNode } from 'react';
+import ReactLoading from 'react-loading';
+import { Button, Card, ListItemButton } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 const TableContainer = styled(Card)`
   border: 1px solid #e5e5e5;
@@ -18,8 +15,7 @@ const TableContainer = styled(Card)`
     margin-top: 10px;
     margin-bottom: 10px;
   }
-
-`
+`;
 
 const TableHeader = styled.div`
   display: flex;

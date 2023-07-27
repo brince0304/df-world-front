@@ -1,37 +1,30 @@
-import {BestArticleType} from "../../interfaces/BestArticleType";
-import {BestArticles} from "../../interfaces/ArticleType";
-import {ContentFlowProps} from "../../components/BestContent";
+import { BestArticles } from '../../interfaces/ArticleType';
+import { ContentFlowProps } from '../../components/BestContent';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import MessageIcon from '@mui/icons-material/Message';
-import {ReactNode} from "react";
-import Typography from "@mui/material/Typography";
-import {Chip, styled} from "@mui/material";
-import Box from "@mui/material/Box";
-import {ChatBubbleOutlineOutlined} from "@mui/icons-material";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMessage} from "@fortawesome/free-solid-svg-icons";
-import {getBoardType} from "../../pages/Board";
-import createInstance from "../index";
+import { Chip, styled } from '@mui/material';
+import Box from '@mui/material/Box';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
+import { getBoardType } from '../../pages/Board';
+import createInstance from '../axiosClient';
 
-
-
-const ChipContent = (props:{likeCount:number;commentCount:string,boardType:string}) => {
-    return (
-        <Container>
-            <FontWrapper>
-                <FavoriteIcon sx={{fontSize: 12}}/>
-                {props.likeCount}
-            </FontWrapper>
-            <FontWrapper>
-                <FontAwesomeIcon icon={faMessage} />
-                {props.commentCount}
-            </FontWrapper>
-            <FontWrapper>
-                <Chip size={"small"} variant={"filled"} label={props.boardType} sx={{fontSize: 12}} color={"primary"}/>
-            </FontWrapper>
-        </Container>
-    )
-}
+const ChipContent = (props: { likeCount: number; commentCount: string; boardType: string }) => {
+  return (
+    <Container>
+      <FontWrapper>
+        <FavoriteIcon sx={{ fontSize: 12 }} />
+        {props.likeCount}
+      </FontWrapper>
+      <FontWrapper>
+        <FontAwesomeIcon icon={faMessage} />
+        {props.commentCount}
+      </FontWrapper>
+      <FontWrapper>
+        <Chip size={'small'} variant={'filled'} label={props.boardType} sx={{ fontSize: 12 }} color={'primary'} />
+      </FontWrapper>
+    </Container>
+  );
+};
 
 const FontWrapper = styled(Box)`
     display: flex;
@@ -44,7 +37,6 @@ const FontWrapper = styled(Box)`
 `
 
 
-
 const Container = styled(Box)`
     display: flex;
     flex-direction: row;
@@ -54,8 +46,6 @@ const Container = styled(Box)`
     height: 100%;
   gap : 10px;
 `;
-
-
 
 
 export const getBestArticles = async (url:string,dataUrl : string,setData:(data:ContentFlowProps[])=>void) => {
@@ -74,6 +64,4 @@ export const getBestArticles = async (url:string,dataUrl : string,setData:(data:
             contentFlowData.push(contentFlowItem);
         })
         setData(contentFlowData);
-    }).catch((err:any)=>{
-        console.log(err);
     })}

@@ -1,15 +1,13 @@
-import * as React from "react";
-import {useCallback, useEffect, useRef, useState} from "react";
-import Typography from "@mui/material/Typography";
-import {Checkbox, FormControlLabel} from "@mui/material";
+import * as React from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 interface Options {
-    initialValue?: string;
-    type?: 'string';
-    //검증용 정규표현식
-    regex?: RegExp;
-    errorMessage?: string;
-    placeholder?: string;
+  initialValue?: string;
+  type?: 'string';
+  //검증용 정규표현식
+  regex?: RegExp;
+  errorMessage?: string;
+  placeholder?: string;
 }
 
 

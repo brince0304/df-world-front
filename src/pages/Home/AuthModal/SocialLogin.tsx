@@ -1,10 +1,8 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
-import styled from "styled-components";
-import {ModalTitle} from "../../../components/application/ui/ModalTitle";
-import {ImgOpacityButton} from "../../../components/application/ui/ImgOpacityButton";
-import SocialLoginData from "../../../data/SocialLoginButons";
-import {Divider} from "@mui/material";
+import React from 'react';
+import styled from 'styled-components';
+import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
+import SocialLoginData from '../../../data/SocialLoginButons';
+import { Divider } from '@mui/material';
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +14,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     display: none;
   }
-`
+`;
 
 const ButtonSection = styled.div`
   display: flex;

@@ -1,26 +1,23 @@
-import * as React from "react";
-import {useCallback, useState} from "react";
-import Box from "@mui/material/Box";
-import styled from "styled-components";
-import {RootState} from "../../../redux/store";
-import {useDispatch, useSelector} from "react-redux";
-import {setLoginModalOpened} from "../../../redux";
-import {Dialog, DialogContent, Divider} from "@mui/material";
-import RegisterPage from "./RegisterPage";
-import {SocialLogin} from "./SocialLogin";
-import LoginPage from "./LoginPage";
-
+import * as React from 'react';
+import { useCallback, useState } from 'react';
+import styled from 'styled-components';
+import { RootState } from '../../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoginModalOpened } from '../../../redux';
+import { Dialog, DialogContent, Divider } from '@mui/material';
+import RegisterPage from './RegisterPage';
+import { SocialLogin } from './SocialLogin';
+import LoginPage from './LoginPage';
 
 const RegisterContainer = styled.div`
-          display: ${(props: { isloginpage: boolean }) => props.isloginpage ? "none" : "flex"};
-          width: 100%;
-          height: 100%;
-          //넘치면 스크롤바
-          @media (max-width: 768px) {
-            width: 100%;
-          }
-    `
-;
+  display: ${(props: { isloginpage: boolean }) => (props.isloginpage ? 'none' : 'flex')};
+  width: 100%;
+  height: 100%;
+  //넘치면 스크롤바
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
 
 const LoginContainer = styled.div`
   display: ${(props: { isloginpage: boolean }) => props.isloginpage ? "flex" : "none"};

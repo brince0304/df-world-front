@@ -1,20 +1,19 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
-import styled from "styled-components";
-import {ModalTitle} from "../../../components/application/ui/ModalTitle";
-import {ImgOpacityButton} from "../../../components/application/ui/ImgOpacityButton";
-import SocialLoginData from "../../../data/SocialLoginButons";
+import React from 'react';
+import styled from 'styled-components';
+import { ModalTitle } from '../../../components/application/ui/ModalTitle';
+import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
+import SocialLoginData from '../../../data/SocialLoginButons';
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  width:46%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 46%;
   @media (max-width: 768px) {
     display: none;
   }
-`
+`;
 
 const ButtonSection = styled.div`
     display: flex;
@@ -36,7 +35,6 @@ const RegisterButtons=(props:LoginButtonsProps)=>{
         ))}</>
     )
 }
-
 
 
 export function SocialRegister() {

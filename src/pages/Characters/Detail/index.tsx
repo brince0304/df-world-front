@@ -1,39 +1,36 @@
-import {useLocation} from "react-router";
-import {useCallback, useEffect, useState} from "react";
-import {getCharacterDetail} from "../../../apis/character/getCharacterDetail";
-import {RootState, useAppDispatch} from "../../../redux/store";
-import styled from "styled-components";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHandFist, faLevelUpAlt, faRotateRight} from "@fortawesome/free-solid-svg-icons";
-import {Avatar, Button, Container, Divider, IconButton, ListItemButton, Paper, Tab, Tabs, Tooltip} from "@mui/material";
-import {CHARACTER_DETAIL_URL} from "../../../apis/data/urls";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import CharacterDetailSkeleton from "../../../components/Skeleton/CharacterDetailSkeleton";
-import {useSelector} from "react-redux";
-import StarsIcon from "@mui/icons-material/Stars";
-import CharacterEquipmentModal from "./CharacterEquipmentModal";
-import {BadRequest} from "../../../components/application/error/BadRequest";
+import { useLocation } from 'react-router';
+import { ReactNode, SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import { getCharacterDetail } from '../../../apis/character/getCharacterDetail';
+import { RootState, useAppDispatch } from '../../../redux/store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons';
+import { Avatar, Container, Divider, ListItemButton, Paper, Tab, Tabs } from '@mui/material';
+import { CHARACTER_DETAIL_URL } from '../../../apis/data/urls';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import CharacterDetailSkeleton from '../../../components/Skeleton/CharacterDetailSkeleton';
+import { useSelector } from 'react-redux';
+import StarsIcon from '@mui/icons-material/Stars';
+import CharacterEquipmentModal from './CharacterEquipmentModal';
+import { BadRequest } from '../../../components/application/error/BadRequest';
 import {
-    CharacterDetailCharacterAbilityStatus,
-    CharacterDetailCharacterEquipmentDetails,
-    CharacterDetailCharacterEquipmentEquipment,
-    CharacterDetailCharacterEquipmentEquipmentBakalInfo,
-    CharacterDetailCharacterEquipmentEquipmentGrowInfoOptions,
-    CharacterDetailJson
-} from "../../../interfaces/CharacterDetailJson";
-import CharacterProfile from "./CharacterProfile";
-
-
+  CharacterDetailCharacterAbilityStatus,
+  CharacterDetailCharacterEquipmentDetails,
+  CharacterDetailCharacterEquipmentEquipment,
+  CharacterDetailCharacterEquipmentEquipmentBakalInfo,
+  CharacterDetailCharacterEquipmentEquipmentGrowInfoOptions,
+  CharacterDetailJson,
+} from '../../../interfaces/CharacterDetailJson';
+import CharacterProfile from './CharacterProfile';
 
 const typographyProps = {
-    component: "span",
-    fontFamily: "Core Sans",
-    fontWeight: "700"
+  component: 'span',
+  fontFamily: 'Core Sans',
+  fontWeight: '700',
 };
 
 interface TabPanelProps {
-    children?: React.ReactNode;
+    children?: ReactNode;
     index: number;
     value: number;
 }
@@ -281,8 +278,6 @@ const CharacterEquipmentDetail = (props: {
     equipment: CharacterDetailCharacterEquipmentEquipment,
     detail: CharacterDetailCharacterEquipmentDetails | undefined
 }) => {
-    const [rarityColor, setRarityColor] = useState<string>("gray");
-    const [enforceColor, setEnforceColor] = useState<string>(getRarityColor("언커먼"));
     const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
     const handleModalOpen = useCallback(() => {
         setIsModalOpened(true);
@@ -417,9 +412,6 @@ const CharacterEquipmentDetail = (props: {
     );
 };
 
-
-
-
 const CharacterDetail = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -430,7 +422,7 @@ const CharacterDetail = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const isLoading = useSelector((state: RootState) => state.app.isLoading);
     const [isError, setIsError] = useState<boolean>(false);
-    const handleChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = useCallback((event: SyntheticEvent, newValue: number) => {
         setSelectedTab(newValue);
     }, []);
     useEffect(() => {

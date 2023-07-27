@@ -1,11 +1,10 @@
 import React from 'react';
-import '../../../assets/css/rankingTable.scss'
-import styled from "styled-components";
-
+import '../../../assets/css/rankingTable.scss';
+import styled from 'styled-components';
 
 interface CharacterImgProps {
-    serverId: string,
-    characterId: string;
+  serverId: string;
+  characterId: string;
 }
 
 const CharacterImg = styled.img`

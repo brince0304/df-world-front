@@ -1,27 +1,26 @@
-import {Content} from "../../interfaces/CharactersData";
-import React from "react";
-import {Card, Grid, IconButton, Tooltip} from "@mui/material";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import styled from "@emotion/styled";
-
+import { Content } from '../../interfaces/CharactersData';
+import React from 'react';
+import { Card, Grid, IconButton, Tooltip } from '@mui/material';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import styled from '@emotion/styled';
 
 const CharacterCard = styled(Card)`
-    display: flex;
+  display: flex;
   overflow: hidden;
-  position:relative;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    padding: 10px;
-  &:hover{
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  &:hover {
     cursor: pointer;
     background-color: #f7f8fd;
     transition: 0.5s;
   }
-  @media (max-width:1024px){
+  @media (max-width: 1024px) {
     padding: 0px;
   }
   @media (max-width: 768px) {
