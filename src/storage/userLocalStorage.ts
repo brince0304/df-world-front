@@ -1,8 +1,8 @@
-import { IAuthLoginResponse } from '../service/authService';
+import { ILoginResponse } from '../service/userService';
 
 export interface IUserLocalStorage {
-  getUser: () => IAuthLoginResponse | null;
-  saveUser: (user: IAuthLoginResponse) => void;
+  getUser: () => ILoginResponse | null;
+  saveUser: (user: ILoginResponse) => void;
   clearUser: () => void;
 }
 
@@ -14,7 +14,7 @@ export const userLocalStorage: IUserLocalStorage = {
     if (!user) return null;
     return JSON.parse(user);
   },
-  saveUser: (user: IAuthLoginResponse) => {
+  saveUser: (user: ILoginResponse) => {
     localStorage.setItem(userKey, JSON.stringify(user));
   },
 

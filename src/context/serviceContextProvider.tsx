@@ -1,25 +1,25 @@
-import AuthServiceProvider from './authContext';
+import UserServiceProvider from './userServiceContext';
 import MyPageServiceProvider from './myPageServiceContext';
 import { ReactNode } from 'react';
-import { IAuthService } from '../service/authService';
+import { IUserService } from '../service/userService';
 import { IMyPageService } from '../service/myPageService';
 import { SnackbarProvider } from 'notistack';
 
 const ServiceContextProvider = ({
   children,
-  authService,
+  userService,
   myPageService,
 }: {
   children: ReactNode;
-  authService: IAuthService;
+  userService: IUserService;
   myPageService: IMyPageService;
 }) => {
   return (
-    <AuthServiceProvider authService={authService}>
+    <UserServiceProvider userService={userService}>
       <MyPageServiceProvider myPageService={myPageService}>
         <SnackbarProvider maxSnack={3}>{children}</SnackbarProvider>
       </MyPageServiceProvider>
-    </AuthServiceProvider>
+    </UserServiceProvider>
   );
 };
 

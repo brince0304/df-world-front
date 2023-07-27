@@ -1,5 +1,5 @@
 import { enqueueSnackbar } from 'notistack';
-import { IAuthLoginResponse } from '../../service/authService';
+import { ILoginResponse } from '../../service/userService';
 
 const useAuthSuccess = () => {
   const autoHideDuration = 1000;
@@ -9,7 +9,7 @@ const useAuthSuccess = () => {
       autoHideDuration,
     });
   };
-  const handleLoginSuccess = (data: IAuthLoginResponse) => {
+  const handleLoginSuccess = (data: ILoginResponse) => {
     enqueueSnackbar(`환영합니다 ${data.nickname}님! 🤩`, {
       variant: 'success',
       autoHideDuration,

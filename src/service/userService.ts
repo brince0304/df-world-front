@@ -1,13 +1,13 @@
 import { IAxiosClient } from '../AxiosClient/axiosClient';
 
-export interface IAuthService {
-  login: (data: IAuthLoginRequest) => Promise<IAuthLoginResponse>;
-  register: (data: IAuthRegisterRequest) => Promise<void>;
-  getUser: () => Promise<IAuthLoginResponse>;
+export interface IUserService {
+  login: (data: ILoginRequest) => Promise<ILoginResponse>;
+  register: (data: IRegisterRequest) => Promise<void>;
+  getUser: () => Promise<ILoginResponse>;
   logout: () => Promise<void>;
 }
 
-export class AuthService implements IAuthService {
+export class UserService implements IUserService {
   private axiosClient: IAxiosClient;
   private readonly loginUrl = '/users/login';
   private readonly registerUrl = '/users';
@@ -18,11 +18,11 @@ export class AuthService implements IAuthService {
     this.axiosClient = axiosClient;
   }
 
-  login(data: IAuthLoginRequest) {
+  login(data: ILoginRequest) {
     return this.axiosClient.post(this.loginUrl, data);
   }
 
-  register(data: IAuthRegisterRequest) {
+  register(data: IRegisterRequest) {
     return this.axiosClient.post(this.registerUrl, data);
   }
 
@@ -35,7 +35,7 @@ export class AuthService implements IAuthService {
   }
 }
 
-export interface IAuthRegisterRequest {
+export interface IRegisterRequest {
   username: string;
   password: string;
   passwordCheck: string;
@@ -43,7 +43,7 @@ export interface IAuthRegisterRequest {
   nickname: string;
 }
 
-export interface IAuthLoginResponse {
+export interface ILoginResponse {
   userId: string;
   nickname: string;
   profileImgPath: string;
@@ -51,7 +51,7 @@ export interface IAuthLoginResponse {
   notificationCount: number;
 }
 
-export interface IAuthLoginRequest {
+export interface ILoginRequest {
   username: string;
   password: string;
 }

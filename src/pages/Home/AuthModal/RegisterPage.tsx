@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import useRegister from '../../../hooks/authHooks/useRegister';
-import { IAuthRegisterRequest } from '../../../service/authService';
+import { IRegisterRequest } from '../../../service/userService';
 
 // eslint-disable-next-line
 const SocialRegisterButtons = (props: { data: { src: string; alt: string; type: string }[] }) => {
@@ -71,13 +71,13 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAuthRegisterRequest>({
+  } = useForm<IRegisterRequest>({
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
 
   const signup = useRegister();
-  const onValid = (data: IAuthRegisterRequest) => {
+  const onValid = (data: IRegisterRequest) => {
     signup({ ...data });
   };
 

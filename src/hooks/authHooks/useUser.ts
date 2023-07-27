@@ -1,21 +1,21 @@
-import { IAuthLoginResponse } from '../../service/authService';
+import { ILoginResponse } from '../../service/userService';
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '../../constants/queryKeys';
-import { useAuthService } from '../../context/authContext';
+import { useAuthService } from '../../context/userServiceContext';
 import { useEffect } from 'react';
 import useAuthError from './useAuthError';
 import { userLocalStorage } from '../../storage/userLocalStorage';
 
 interface IUseUser {
-  user: IAuthLoginResponse | null;
+  user: ILoginResponse | null;
 }
 
 export const useUser = (): IUseUser => {
   const { getUser } = useAuthService();
   const { handleTokenExpiredError } = useAuthError();
-  const { data: user } = useQuery<IAuthLoginResponse | null>(
+  const { data: user } = useQuery<ILoginResponse | null>(
     [QUERY_KEY.user],
-    async (): Promise<IAuthLoginResponse | null> => getUser(),
+    async (): Promise<ILoginResponse | null> => getUser(),
     {
       refetchOnMount: false,
       refetchOnWindowFocus: false,

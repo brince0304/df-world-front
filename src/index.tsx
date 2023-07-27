@@ -10,7 +10,7 @@ import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { AxiosClient } from './AxiosClient/axiosClient';
 import axiosClient from './apis/axiosClient';
-import { AuthService } from './service/authService';
+import { UserService } from './service/userService';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MyPageService from './service/myPageService';
 import ServiceContextProvider from './context/serviceContextProvider';
@@ -18,12 +18,12 @@ import ServiceContextProvider from './context/serviceContextProvider';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const persistor = persistStore(store);
 const client = new AxiosClient(axiosClient);
-const authService = new AuthService(client);
+const authService = new UserService(client);
 const myPageService = new MyPageService(client);
 const queryClient = new QueryClient();
 
 root.render(
-  <ServiceContextProvider authService={authService} myPageService={myPageService}>
+  <ServiceContextProvider userService={authService} myPageService={myPageService}>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
