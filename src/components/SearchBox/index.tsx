@@ -1,23 +1,20 @@
 import Box from '@mui/material/Box';
 import { Button, Grow, IconButton, InputBase, ListItemButton, Paper, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import React, { ReactElement, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import useChildBox from '../../hooks/useChildBox';
 import useSearchForm from 'hooks/useSearchForm';
 
-const SearchBox = ({
+const SearchForm = ({
   placeholder,
   direction,
   filterOptions,
   handleSubmit,
   useSearchForms,
-  children,
+  setIsFocus,
 }: ISearchFormProps) => {
   const { value, selectedValue, setValue, setSelectedValue } = useSearchForms;
   const [open, setOpen] = useState(false);
-  const boxRef = useRef<HTMLDivElement | null>(null);
-  const { isFocus, setIsFocus } = useChildBox(boxRef);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const submitCallback = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,53 +26,45 @@ const SearchBox = ({
   const handleSetFocusTrue = () => {
     setIsFocus(true);
   };
-  const handleSetFocusFalse = () => {
-    setIsFocus(false);
-  };
   const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
-  const cloneElement = React.cloneElement(children, { handleSetFocusFalse });
   return (
-    <Box sx={containerStyle} ref={boxRef}>
-      <Paper component="form" sx={searchFilterWrapperStyle} onSubmit={submitCallback}>
-        <Box sx={customBoxStyle}>
-          <Button style={searchFilterStyle} onClick={handleOpen}>
-            {selectedValue.label}
-          </Button>
-          <Grow in={open}>
-            <FilterContainer direction={direction}>
-              {filterOptions.map((option, index) => (
-                <ListItemButton
-                  key={index}
-                  sx={{ width: '100%' }}
-                  onClick={() => {
-                    setSelectedValue(option);
-                    setOpen(false);
-                  }}
-                >
-                  <FilterOptionWrapper>{option.label}</FilterOptionWrapper>
-                </ListItemButton>
-              ))}
-            </FilterContainer>
-          </Grow>
-        </Box>
-        <InputBase
-          sx={{ ml: 1, flex: 1, height: '100%' }}
-          placeholder={placeholder}
-          autoComplete={'off'}
-          onFocus={handleSetFocusTrue}
-          onBlur={handleSetFocusFalse}
-          value={value}
-          onChange={handleOnchange}
-          inputRef={inputRef}
-        />
-        <IconButton type="submit" aria-label="search">
-          <SearchIcon />
-        </IconButton>
-      </Paper>
-      {isFocus && cloneElement}
-    </Box>
+    <Paper component="form" sx={searchFilterWrapperStyle} onSubmit={submitCallback}>
+      <Box sx={customBoxStyle}>
+        <Button style={searchFilterStyle} onClick={handleOpen}>
+          {selectedValue.label}
+        </Button>
+        <Grow in={open}>
+          <FilterContainer direction={direction}>
+            {filterOptions.map((option, index) => (
+              <ListItemButton
+                key={index}
+                sx={{ width: '100%' }}
+                onClick={() => {
+                  setSelectedValue(option);
+                  setOpen(false);
+                }}
+              >
+                <FilterOptionWrapper>{option.label}</FilterOptionWrapper>
+              </ListItemButton>
+            ))}
+          </FilterContainer>
+        </Grow>
+      </Box>
+      <InputBase
+        sx={{ ml: 1, flex: 1, height: '100%' }}
+        placeholder={placeholder}
+        autoComplete={'off'}
+        onFocus={handleSetFocusTrue}
+        value={value}
+        onChange={handleOnchange}
+        inputRef={inputRef}
+      />
+      <IconButton type="submit" aria-label="search">
+        <SearchIcon />
+      </IconButton>
+    </Paper>
   );
 };
 
@@ -85,7 +74,7 @@ interface ISearchFormProps {
   filterOptions: { label: string; value: string }[];
   handleSubmit: (...args: any[]) => void;
   direction: string;
-  children: ReactElement;
+  setIsFocus: (...args: any[]) => void;
 }
 
 const customBoxStyle = {
@@ -125,16 +114,6 @@ const searchFilterWrapperStyle = {
   border: '2px solid rgb(0, 157, 255)',
 };
 
-const containerStyle = {
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  width: '100%',
-  height: '100%',
-};
-
 const FilterContainer = styled(Paper)`
   display: flex;
   flex-direction: column;
@@ -161,4 +140,4 @@ const FilterOptionWrapper = styled(Typography)`
   }
 `;
 
-export default SearchBox;
+export default SearchForm;

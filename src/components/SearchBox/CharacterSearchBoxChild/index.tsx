@@ -7,7 +7,7 @@ import { IRecentSearchedQuery } from '../../../storage/searchQueryLocalStorage';
 import CharacterFastSearchItemButton from './CharacterFastSearchItemButton';
 
 const CharacterSearchBoxChild = (
-  { direction, searchResult, searchHandler }: ICharacterSearchBoxChildProps,
+  { direction, searchResult, clickHandler }: ICharacterSearchBoxChildProps,
   ref: ForwardedRef<any>,
 ) => {
   const [selectedMenu, setSelectedMenu] = useState<'최근 검색 기록' | '빠른 검색'>('최근 검색 기록');
@@ -23,7 +23,11 @@ const CharacterSearchBoxChild = (
   };
   const searchCallback = (query: IRecentSearchedQuery) => {
     handleAddRecentSearchedQuery(query);
-    searchHandler(query.characterId, query.characterServerId);
+    if (clickHandler.length === 3) {
+      clickHandler(query.characterId, query.characterServerId, query.characterName);
+      return;
+    }
+    clickHandler(query.characterId, query.characterServerId);
   };
 
   return (
@@ -69,7 +73,7 @@ const CharacterSearchBoxChild = (
 interface ICharacterSearchBoxChildProps {
   direction: string;
   searchResult: IRecentSearchedQuery[];
-  searchHandler: (...args: any[]) => void;
+  clickHandler: (...args: any[]) => void;
 }
 
 export default forwardRef(CharacterSearchBoxChild);
