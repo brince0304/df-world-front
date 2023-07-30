@@ -7,6 +7,7 @@ const SelectMenu = ({
   register,
   onChange,
   label,
+  value,
   formControlProps,
   selectProps,
   variant,
@@ -16,10 +17,17 @@ const SelectMenu = ({
   return (
     <FormControl sx={formControlProps} variant={variant}>
       <InputLabel>{label}</InputLabel>
-      <Select label={label} {...register} id="boardTypeSelect" sx={selectProps}>
+      <Select label={label} {...register} value={value || 'FREE'} id="boardTypeSelect" sx={selectProps}>
         {menus.map((menu, index) => {
           return (
-            <MenuItem data-value={menu.id} sx={menuItemProps} value={menu.id} key={index} onClick={onChange}>
+            <MenuItem
+              sx={menuItemProps}
+              value={menu.id}
+              key={index}
+              onClick={(e) => {
+                onChange(menu.id);
+              }}
+            >
               {menu.name}
             </MenuItem>
           );
@@ -38,6 +46,7 @@ interface ISelectMenuProps {
   variant?: 'standard' | 'outlined' | 'filled';
   menuItemProps?: SxProps<Theme>;
   menus: { id: string; name: string }[];
+  value: string;
 }
 
 export default SelectMenu;

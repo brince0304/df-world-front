@@ -1,14 +1,14 @@
-import { Avatar, Chip, Link, ListItem } from '@mui/material';
+import { Chip, Link, ListItem } from '@mui/material';
 import { getBoardType } from '../../utils/boardUtil';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, RemoveRedEyeOutlined } from '@mui/icons-material';
 import React from 'react';
 import { CharacterChip } from '../../pages/Board';
 import { BoardContent } from '../../interfaces/IBoardList';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { TagChip } from './TagChip';
+import UserAvatarNickname from 'UserAvatar';
+import BoardCommentView from './BoardCommentView';
 
 const BoardListItem = (data: BoardContent) => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const BoardListItem = (data: BoardContent) => {
     navigate(`/boars/${data.id}`);
   };
   return (
-    <ListItem sx={{ width: '100%', border: '0.2px solid #e0e0e0' }} onClick={handleListItemClick}>
+    <ListItem sx={{ width: '100%', border: '0.2px solid #e0e0e0' }}>
       <BoardContainer>
         <BoardTagContainer>
           <Chip
@@ -46,37 +46,15 @@ const BoardListItem = (data: BoardContent) => {
             />
           )}
         </BoardTagContainer>
-        <BoardTitleWrapper>{data.boardTitle}</BoardTitleWrapper>
-        <BoardAuthorWrapper>
-          <Avatar src={data.userProfileImgUrl} sx={{ width: 24, height: 24, bgcolor: '#c4c4c4' }} />
-          <Typography
-            sx={{
-              fontSize: '14px',
-              fontWeight: 'bold',
-              fontFamily: 'Core Sans',
-            }}
-          >
-            {data.userNickname}
-          </Typography>
-        </BoardAuthorWrapper>
+        <BoardTitleWrapper onClick={handleListItemClick}>{data.boardTitle}</BoardTitleWrapper>
+        <UserAvatarNickname src={data.userProfileImgUrl} nickname={data.userNickname} />
         <BoardCommentContainer>
-          <Box style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-            <BoardIconWrapper>
-              <FavoriteBorderOutlined sx={{ fontSize: '14px' }} />
-              <BoardIconValues>{data.boardLikeCount}</BoardIconValues>
-            </BoardIconWrapper>
-            <BoardIconWrapper>
-              <ChatBubbleOutlineOutlined sx={{ fontSize: '14px' }} />
-              <BoardIconValues>{data.commentCount}</BoardIconValues>
-            </BoardIconWrapper>
-            <BoardIconWrapper>
-              <RemoveRedEyeOutlined sx={{ fontSize: '14px' }} />
-              <BoardIconValues>{data.boardViewCount}</BoardIconValues>
-            </BoardIconWrapper>
-          </Box>
-          <BoardCreatedAtWrapper>
-            <Typography sx={{ fontSize: '12px', fontFamily: 'Core Sans' }}>{data.createdAt}</Typography>
-          </BoardCreatedAtWrapper>
+          <BoardCommentView
+            boardLikeCount={data.boardLikeCount}
+            commentCount={data.commentCount}
+            boardViewCount={data.boardViewCount}
+            createdAt={data.createdAt}
+          />
         </BoardCommentContainer>
       </BoardContainer>
     </ListItem>
@@ -103,6 +81,7 @@ const BoardTitleWrapper = styled(Link)`
   width: 100%;
   margin-right: 10px;
   padding-top: 5px;
+  padding-bottom: 5px;
   cursor: pointer;
   && {
     color: #121212;
@@ -119,16 +98,6 @@ const BoardTagContainer = styled(Box)`
   gap: 5px;
 `;
 
-const BoardAuthorWrapper = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  gap: 5px;
-  padding-top: 12px;
-`;
-
 const BoardCommentContainer = styled(Box)`
   display: flex;
   flex-direction: row;
@@ -136,30 +105,4 @@ const BoardCommentContainer = styled(Box)`
   justify-content: space-between;
   gap: 10px;
   padding-top: 5px;
-`;
-
-const BoardIconWrapper = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  gap: 5px;
-  font-size: 12px;
-  color: #000;
-`;
-
-const BoardIconValues = styled(Typography)`
-  && {
-    font-size: 14px;
-    font-weight: bold;
-  }
-`;
-
-const BoardCreatedAtWrapper = styled(Box)`
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  color: #000;
-  justify-content: flex-end;
 `;

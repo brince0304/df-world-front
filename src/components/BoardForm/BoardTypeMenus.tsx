@@ -2,7 +2,7 @@ import { boardCategory } from '../../constants';
 import * as React from 'react';
 import SelectMenu from './SelectMenu';
 
-const BoardTypeMenus = ({ register, handleSelectChange }: IBoardTypeMenusProps) => {
+const BoardTypeMenus = ({ register, handleSelectChange, value }: IBoardTypeMenusProps) => {
   const selectSx = {
     fontFamily: 'Core Sans',
     fontSize: '14px',
@@ -17,6 +17,7 @@ const BoardTypeMenus = ({ register, handleSelectChange }: IBoardTypeMenusProps) 
   };
   return (
     <SelectMenu
+      value={value}
       onChange={handleSelectChange}
       register={register}
       menus={boardCategory}
@@ -30,6 +31,7 @@ const BoardTypeMenus = ({ register, handleSelectChange }: IBoardTypeMenusProps) 
 
 interface IBoardTypeMenusProps {
   register: any;
+  value: string;
   handleSelectChange: (...args: any[]) => void;
 }
 

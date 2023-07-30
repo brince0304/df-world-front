@@ -12,8 +12,8 @@ import BoardTypeMenus from './BoardTypeMenus';
 
 const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: IBoardFormProps) => {
   const { register, handleSubmit, errors, setValues, watchValues, onSubmit } = useBoardForms;
-  const handleSelectChange = (event: React.MouseEvent) => {
-    setValues.setBoardType(event.currentTarget.getAttribute('data-value') as string);
+  const handleSelectChange = (value: string) => {
+    setValues.setBoardType(value);
   };
   const handlePost = (data: IBoardRequest) => {
     if (window.confirm('글을 작성하시겠습니까?')) {
@@ -33,7 +33,11 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
         <Typography variant={'h4'} sx={{ fontWeight: 'bold' }} fontFamily={'Core Sans'}>
           {buttonLabel}
         </Typography>
-        <BoardTypeMenus register={register('boardType')} handleSelectChange={handleSelectChange} />
+        <BoardTypeMenus
+          value={watchValues.watchBoardType}
+          register={register('boardType')}
+          handleSelectChange={handleSelectChange}
+        />
       </BoardWriteFormTitleWrapper>
       <Box
         sx={{
