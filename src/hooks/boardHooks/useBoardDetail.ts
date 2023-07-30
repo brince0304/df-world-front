@@ -9,6 +9,7 @@ const useBoardDetail = (boardId: string) => {
     enabled: boardId !== '',
     onSuccess: (data) => {
       queryClient.setQueryData([QUERY_KEY.isBoardLiked, boardId], data.likeLog);
+      queryClient.setQueryData([QUERY_KEY.boardLikeCount, boardId], data.article.boardLikeCount);
     },
   });
   const isLiked = queryClient.getQueryData([QUERY_KEY.isBoardLiked, boardId]) as boolean;

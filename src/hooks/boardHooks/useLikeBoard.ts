@@ -8,8 +8,9 @@ const useLikeBoard = (boardId: string) => {
   const isLiked = queryClient.getQueryData([QUERY_KEY.isBoardLiked, boardId]) as boolean;
   const likeCount = queryClient.getQueryData([QUERY_KEY.boardLikeCount, boardId]) as number;
   const { mutate: likeBoardMutation } = useMutation([QUERY_KEY.boardLikeCount, boardId], () => likeBoard({ boardId }), {
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.setQueryData([QUERY_KEY.isBoardLiked, boardId], !isLiked);
+      queryClient.setQueryData([QUERY_KEY.boardLikeCount, boardId], data);
     },
   });
 

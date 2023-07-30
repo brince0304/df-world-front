@@ -13,6 +13,7 @@ const useCharacters = (characterName: string, serverId: string) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       cacheTime: 0,
+      enabled: !!characterName && characterName !== '',
       getNextPageParam: (lastPage) => {
         if (lastPage.number + 1 >= lastPage.totalPages) return undefined;
         return lastPage.number + 1;

@@ -18,7 +18,7 @@ const useCreateBoard = () => {
       navigate(`/boards/${data}`);
     },
     onError: (error: any) => {
-      handleCreateBoardError(error.response.data.message);
+      handleCreateBoardError(error);
     },
   });
 
