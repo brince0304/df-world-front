@@ -21,7 +21,7 @@ import useBoardList from '../../hooks/boardHooks/useBoardList';
 import InfiniteScroll from 'react-infinite-scroller';
 import BoardList from 'components/BoardList';
 
-const CharacterContent = (props: {
+export const CharacterContent = (props: {
   characterName: string;
   serverId: string;
   characterImgUrl: string;
@@ -267,7 +267,7 @@ const Board = () => {
               filterOptions={boardSearchTypes}
               handleSubmit={handleNavigateToSearchResult}
               useSearchForms={searchFormProps}
-              children={<></>}
+              setIsFocus={() => {}}
             />
           </Box>
           <Box>

@@ -39,8 +39,13 @@ const WriteBoard = () => {
     setCharacterLinkModalOpen(false);
   };
   useEffect(() => {
+    if (boardType === 'ALL') {
+      setValues.setBoardType('FREE');
+      return;
+    }
     setValues.setBoardType(boardType);
-  }, [boardType, setValues]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container maxWidth={'md'} sx={{ paddingTop: '20px', flexDirection: 'column', gap: '20px' }}>
