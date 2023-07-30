@@ -8,9 +8,9 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, IconButton, ListItemButton, Tooltip } from '@mui/material';
 import { BoardContent } from '../../../../interfaces/IBoardList';
 import useLatestBoard from '../../../../hooks/boardHooks/useLatestBoard';
-import UserAvatarNickname from '../../../../UserAvatar';
 import BoardCommentView from '../../../../components/BoardList/BoardCommentView';
 import { CharacterContent } from '../../../Board';
+import BoardUserAvatar from 'components/BoardUserAvatar';
 
 const BoardBody = styled.div`
   display: flex;
@@ -131,7 +131,7 @@ const BoardList = (props: { data: BoardContent[] }) => {
           <BoardFooter>
             <NicknameCreatedAtContainer>
               <NicknameWrapper>
-                <UserAvatarNickname src={item.userProfileImgUrl} nickname={item.userNickname} />
+                <BoardUserAvatar src={item.userProfileImgUrl} nickname={item.userNickname} />
               </NicknameWrapper>
             </NicknameCreatedAtContainer>
           </BoardFooter>

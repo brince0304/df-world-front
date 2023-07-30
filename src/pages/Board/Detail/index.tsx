@@ -45,6 +45,7 @@ import useLikeBoard from '../../../hooks/boardHooks/useLikeBoard';
 import useDeleteBoard from '../../../hooks/boardHooks/useDeleteBoard';
 import { getBoardType } from '../../../utils/boardUtil';
 import { TagChip } from '../../../components/BoardList/TagChip';
+import BoardUserAvatar from '../../../components/BoardUserAvatar';
 
 const TagContainer = styled(Box)`
   display: flex;
@@ -325,19 +326,19 @@ const CommentList = (props: {
   }, [isReplyOpen]);
 
   return (
-    <Box id={'comment-' + props.comment.id} sx={{ paddingTop: '20px', position: 'relative' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
-        <Avatar src={props.comment.userProfileImgUrl} sx={{ width: '25px', height: '25px' }} />
-        <Typography
-          sx={{
-            fontSize: '15px',
-            fontWeight: 'bold',
-            fontFamily: 'Core Sans',
-            marginLeft: '10px',
-          }}
-        >
-          {props.comment.userNickname}
-        </Typography>
+    <Box id={'comment-' + props.comment.id} sx={{ paddingTop: '20px', position: 'relative' ,
+      width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start'
+    }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row'
+        , justifyContent: 'space-between', width: '100%'
+      }}>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}>
+        <BoardUserAvatar src={props.comment.userProfileImgUrl} nickname={props.comment.userNickname} />
         <Typography
           sx={{
             fontSize: '12px',
@@ -345,11 +346,11 @@ const CommentList = (props: {
             color: 'gray',
           }}
         >
-          {' '}
           {props.comment.createdAt}
         </Typography>
+        </Box>
         {user && user.userId === props.comment.userId && (
-          <Box sx={{ display: 'flex', marginLeft: 'auto', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button sx={commentButtonStyle} onClick={handleToggleEdit}>
               {isEditOpen ? '취소' : '수정'}
             </Button>
@@ -827,16 +828,7 @@ const BoardDetail = () => {
             </TagContainer>
             <BoardTitleWrapper>{data?.article?.boardTitle}</BoardTitleWrapper>
             <BoardAuthorContainer>
-              <Avatar src={data?.article?.userProfileIconPath} sx={{ width: '20px', height: '20px' }} />
-              <Typography
-                sx={{
-                  fontSize: '13px',
-                  fontWeight: 'bold',
-                  fontFamily: 'Core Sans',
-                }}
-              >
-                {article.userNickname}
-              </Typography>
+              <BoardUserAvatar src={data?.article.userProfileIconPath} nickname={data?.article.userNickname} />
             </BoardAuthorContainer>
             <BoardAuthorContainer>
               <CreatedAtWrapper>{article.createdAt}</CreatedAtWrapper>
@@ -912,18 +904,7 @@ const BoardDetail = () => {
                   marginBottom: '10px',
                 }}
               >
-                <Avatar src={user?.profileImgPath} sx={{ width: '23px', height: '23px' }} />
-                <Typography
-                  sx={{
-                    fontSize: '13px',
-                    fontWeight: 'bold',
-                    fontFamily: 'Core Sans',
-                    marginLeft: '10px',
-                    color: user?.userId ? 'black' : 'gray',
-                  }}
-                >
-                  {user?.nickname ? user.nickname : '게스트'}
-                </Typography>
+               <BoardUserAvatar src={user?.profileImgPath || ''} nickname={user?.nickname || '게스트'} />
               </Box>
               <form onSubmit={handleSubmit(handleCommentSubmit, onInvalid)} style={{ width: '100%' }}>
                 <CommentContainer>

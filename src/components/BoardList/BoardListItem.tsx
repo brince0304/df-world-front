@@ -7,7 +7,7 @@ import { BoardContent } from '../../interfaces/IBoardList';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { TagChip } from './TagChip';
-import UserAvatarNickname from 'UserAvatar';
+import BoardUserAvatar from '../BoardUserAvatar';
 import BoardCommentView from './BoardCommentView';
 
 const BoardListItem = (data: BoardContent) => {
@@ -47,7 +47,7 @@ const BoardListItem = (data: BoardContent) => {
           )}
         </BoardTagContainer>
         <BoardTitleWrapper onClick={handleListItemClick}>{data.boardTitle}</BoardTitleWrapper>
-        <UserAvatarNickname src={data.userProfileImgUrl} nickname={data.userNickname} />
+        <BoardUserAvatar src={data.userProfileImgUrl} nickname={data.userNickname} />
         <BoardCommentContainer>
           <BoardCommentView
             boardLikeCount={data.boardLikeCount}

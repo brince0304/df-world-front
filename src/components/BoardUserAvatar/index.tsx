@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import styled from '@emotion/styled';
 import Box from '@mui/material/Box';
 
-const UserAvatarNickname = (props: { src: string; nickname: string }) => {
+const BoardUserAvatar = (props: { src: string; nickname: string }) => {
   return (
     <Container>
       <Avatar src={props.src} sx={{ width: 24, height: 24, bgcolor: 'transparent', border: '2px solid #e0e0e0' }} />
@@ -29,4 +29,4 @@ const Container = styled(Box)`
   gap: 5px;
 `;
 
-export default UserAvatarNickname;
+export default BoardUserAvatar;
