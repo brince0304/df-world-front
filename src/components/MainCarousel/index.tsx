@@ -3,7 +3,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
-import { Navigation, Pagination } from 'swiper/types/modules';
+import { Pagination } from 'swiper';
+import { Paper } from '@mui/material';
 const MainCarousel = () => {
   const renderSlide = imageData.map((image) => {
     return (
@@ -14,28 +15,25 @@ const MainCarousel = () => {
   });
 
   return (
-    <Swiper
-      spaceBetween={50}
-      modules={[Navigation, Pagination]}
-      rewind={true}
-      navigation={true}
-      autoplay={{
-        delay: 2500,
-        disableOnInteraction: false,
-      }}
-      pagination={{ clickable: true }}
-      slidesPerView={1}
-      className={`
-      w-[20rem] h-[10rem] md:w-[30rem] md:h-[15rem] lg:w-[61rem] my-6 max-w-[500px] md:max-w-[976px] max-h-[15rem] 
-       `}
-      breakpoints={{
-        976: {
-          slidesPerView: 2,
-        },
-      }}
-    >
-      {renderSlide}
-    </Swiper>
+    <Paper>
+      <Swiper
+        modules={[Pagination]}
+        rewind={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{ clickable: true }}
+        slidesPerView={1}
+        breakpoints={{
+          976: {
+            slidesPerView: 2,
+          },
+        }}
+      >
+        {renderSlide}
+      </Swiper>
+    </Paper>
   );
 };
 

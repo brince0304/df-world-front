@@ -326,28 +326,44 @@ const CommentList = (props: {
   }, [isReplyOpen]);
 
   return (
-    <Box id={'comment-' + props.comment.id} sx={{ paddingTop: '20px', position: 'relative' ,
-      width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start'
-    }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row'
-        , justifyContent: 'space-between', width: '100%'
-      }}>
-        <Box sx={{
+    <Box
+      id={'comment-' + props.comment.id}
+      sx={{
+        paddingTop: '20px',
+        position: 'relative',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      }}
+    >
+      <Box
+        sx={{
           display: 'flex',
-          flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}>
-        <BoardUserAvatar src={props.comment.userProfileImgUrl} nickname={props.comment.userNickname} />
-        <Typography
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}
+      >
+        <Box
           sx={{
-            fontSize: '12px',
-            marginLeft: '10px',
-            color: 'gray',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
           }}
         >
-          {props.comment.createdAt}
-        </Typography>
+          <BoardUserAvatar src={props.comment.userProfileImgUrl} nickname={props.comment.userNickname} />
+          <Typography
+            sx={{
+              fontSize: '12px',
+              marginLeft: '10px',
+              color: 'gray',
+            }}
+          >
+            {props.comment.createdAt}
+          </Typography>
         </Box>
         {user && user.userId === props.comment.userId && (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -904,7 +920,7 @@ const BoardDetail = () => {
                   marginBottom: '10px',
                 }}
               >
-               <BoardUserAvatar src={user?.profileImgPath || ''} nickname={user?.nickname || '게스트'} />
+                <BoardUserAvatar src={user?.profileImgPath || ''} nickname={user?.nickname || '게스트'} />
               </Box>
               <form onSubmit={handleSubmit(handleCommentSubmit, onInvalid)} style={{ width: '100%' }}>
                 <CommentContainer>
