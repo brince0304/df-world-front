@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-function useIntersect(callback: (...args:any[]) => void) {
+function useIntersect(callback: (...args: any[]) => void) {
   const observerRef = useRef<HTMLDivElement>(null);
 
   const handleObserver = (entries: IntersectionObserverEntry[]) => {

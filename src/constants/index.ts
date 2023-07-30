@@ -13,7 +13,7 @@ export const QUERY_KEY = {
   latestBoardList: 'latestBoardList',
 };
 
-export const headerMenu= [
+export const headerMenu = [
   {
     name: '랭킹',
     link: '/ranking',
@@ -21,8 +21,8 @@ export const headerMenu= [
   {
     name: '게시판',
     link: '/boards',
-  }
-]
+  },
+];
 
 export const profileIcons = [
   {

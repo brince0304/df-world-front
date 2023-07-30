@@ -21,7 +21,7 @@ const CharacterCard = ({ character, ...props }: ICharacterCardProps) => {
     if (characterId && serverId && props.onClickDeleteButton) {
       props.onClickDeleteButton({ serverId, characterId });
     }
-  }
+  };
 
   return (
     <Container ref={ref} data-id={character.characterId} data-server={character.serverId} onClick={onClickHandler}>
@@ -76,7 +76,7 @@ interface ICharacterCardProps {
   character: Content;
   deletable?: boolean;
   adventure?: string;
-  onClickDeleteButton?: (...args:any[]) => void;
+  onClickDeleteButton?: (...args: any[]) => void;
 }
 
 const Container = styled(Card)`

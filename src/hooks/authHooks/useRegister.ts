@@ -10,17 +10,14 @@ export const useRegister = (): IUseRegister => {
   const { handleRegisterSuccess } = useAuthSuccess();
   const { handleRegisterError } = useAuthError();
   const { register } = useAuthService();
-  const { mutate: registerMutation } = useMutation(
-      register,
-    {
-      onSuccess: () => {
-        handleRegisterSuccess();
-      },
-      onError: (error) => {
-        handleRegisterError(error);
-      },
+  const { mutate: registerMutation } = useMutation(register, {
+    onSuccess: () => {
+      handleRegisterSuccess();
     },
-  );
+    onError: (error) => {
+      handleRegisterError(error);
+    },
+  });
   return registerMutation;
 };
 

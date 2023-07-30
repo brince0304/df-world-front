@@ -63,8 +63,7 @@ const SearchOptionTitleWrapper = styled(Box)`
   color: ${(props: { selected: string }) => (props.selected === 'true' ? 'white' : 'black')};
   font-weight: bold;
   padding: 8px 10px;
-  background-color: ${(props: { selected: string }) =>
-  props.selected === 'true' ? 'cornflowerblue' : 'lightgray'};
+  background-color: ${(props: { selected: string }) => (props.selected === 'true' ? 'cornflowerblue' : 'lightgray')};
 
   &:hover {
     cursor: pointer;
@@ -73,7 +72,6 @@ const SearchOptionTitleWrapper = styled(Box)`
     transition: 0.2s;
   }
 `;
-
 
 const SearchOptionContainer = styled(Card)`
   position: absolute;
@@ -135,4 +133,4 @@ export {
   SearchOptionTitle,
   OptionRow,
   SearchOptionBody,
-}
+};

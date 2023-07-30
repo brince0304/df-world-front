@@ -6,28 +6,12 @@ import SpeedDial from './SpeedDial';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InfoIcon from '@mui/icons-material/Info';
 
-import {
-  Avatar,
-  Button,
-  Chip,
-  Container,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-} from '@mui/material';
+import { Avatar, Button, Chip, Container, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import BestContent from '../../components/BestBoardList';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {
-  AllInbox,
-  Announcement,
-  FreeBreakfast,
-  LocalMall,
-  QuestionAnswer,
-  Work,
-} from '@mui/icons-material';
-import {  BOARD_LIST_URL, BOARD_WRITE_URL } from '../../apis/data/urls';
+import { AllInbox, Announcement, FreeBreakfast, LocalMall, QuestionAnswer, Work } from '@mui/icons-material';
+import { BOARD_LIST_URL, BOARD_WRITE_URL } from '../../apis/data/urls';
 import BoardListSkeleton from '../../components/Skeleton/BoardListSkeleton ';
 import SearchForm from '../../components/SearchBox';
 import { getServerName } from 'utils/charactersUtil';
@@ -83,7 +67,6 @@ const CharacterContent = (props: {
     </Box>
   );
 };
-
 
 export const LongMenu = (props: { menuList: MenuItems[]; boardType: string }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -165,7 +148,6 @@ const MenuListItem = [
   { type: 'NOTICE', icon: <Announcement />, label: '공지사항' },
 ];
 
-
 export const CharacterChip = (props: {
   characterName: string;
   characterImgUrl: string;
@@ -216,7 +198,11 @@ const Board = () => {
   const searchType = searchParams.get('searchType')?.toString() || '';
   const keyword = searchParams.get('keyword')?.toString() || '';
   const boardType = searchParams.get('boardType')?.toString() || 'ALL';
-  const {data:boardList,refetch,hasNextPage} = useBoardList({
+  const {
+    data: boardList,
+    refetch,
+    hasNextPage,
+  } = useBoardList({
     searchType,
     keyword,
     boardType,
@@ -225,19 +211,19 @@ const Board = () => {
     navigate(BOARD_LIST_URL + `?searchType=${searchKeyword}&keyword=${searchType}&boardType=${boardType}`);
   };
 
-  const {value,setValue,selectedValue,setSelectedValue} = useSearchForm({
+  const { value, setValue, selectedValue, setSelectedValue } = useSearchForm({
     initialValues: keyword,
     initialSelectedValue: {
       value: searchType,
       label: getSearchType(searchType) || '',
-    }
+    },
   });
   const searchFormProps = {
     value,
     setValue,
     selectedValue,
     setSelectedValue,
-  }
+  };
   return (
     <Container maxWidth="md">
       <CustomTable
@@ -282,7 +268,7 @@ const Board = () => {
               handleSubmit={handleNavigateToSearchResult}
               useSearchForms={searchFormProps}
               children={<></>}
-              />
+            />
           </Box>
           <Box>
             <Button
@@ -301,22 +287,14 @@ const Board = () => {
             </Button>
           </Box>
         </Box>
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={() => refetch()}
-          hasMore={hasNextPage}
-          loader={<BoardListSkeleton/>}
-        >
-          {boardList && <BoardList {...boardList}/>}
+        <InfiniteScroll pageStart={0} loadMore={() => refetch()} hasMore={hasNextPage} loader={<BoardListSkeleton />}>
+          {boardList && <BoardList {...boardList} />}
         </InfiniteScroll>
-        <SpeedDial
-          boardType={boardType}
-        />
+        <SpeedDial boardType={boardType} />
       </CustomTable>
     </Container>
   );
 };
-
 
 export const BestArticleTitle = styled.div`
   display: flex;
@@ -325,7 +303,6 @@ export const BestArticleTitle = styled.div`
   font-weight: 600;
   color: #000;
 `;
-
 
 const ITEM_HEIGHT = 48;
 
@@ -345,6 +322,5 @@ const TableTitle = styled(Typography)`
     font-family: 'Core Sans';
   }
 `;
-
 
 export default Board;

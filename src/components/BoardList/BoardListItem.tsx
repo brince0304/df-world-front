@@ -10,16 +10,16 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { TagChip } from './TagChip';
 
-const BoardListItem = (data:BoardContent) => {
+const BoardListItem = (data: BoardContent) => {
   const navigate = useNavigate();
   const handleTypeTagClick = () => {
-    navigate(`/boards?boardType=${data.boardType}`)
-  }
+    navigate(`/boards?boardType=${data.boardType}`);
+  };
   const handleListItemClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    navigate(`/boars/${data.id}`)
-  }
+    navigate(`/boars/${data.id}`);
+  };
   return (
     <ListItem sx={{ width: '100%', border: '0.2px solid #e0e0e0' }} onClick={handleListItemClick}>
       <BoardContainer>
@@ -46,9 +46,7 @@ const BoardListItem = (data:BoardContent) => {
             />
           )}
         </BoardTagContainer>
-        <BoardTitleWrapper>
-          {data.boardTitle}
-        </BoardTitleWrapper>
+        <BoardTitleWrapper>{data.boardTitle}</BoardTitleWrapper>
         <BoardAuthorWrapper>
           <Avatar src={data.userProfileImgUrl} sx={{ width: 24, height: 24, bgcolor: '#c4c4c4' }} />
           <Typography
@@ -82,8 +80,8 @@ const BoardListItem = (data:BoardContent) => {
         </BoardCommentContainer>
       </BoardContainer>
     </ListItem>
-  )
-}
+  );
+};
 
 export default BoardListItem;
 

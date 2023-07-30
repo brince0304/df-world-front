@@ -51,19 +51,19 @@ const HeaderProfileMenuBox = () => {
 const Header = (props: HeaderProps) => {
   const navigate = useNavigate();
   const [isNavbarOpened, openNavbar, closeNavbar] = useNavBar();
-  const { setCharacterName,characterName,serverId,setServerId,fastResult } = useFastCharacterSearch();
+  const { setCharacterName, characterName, serverId, setServerId, fastResult } = useFastCharacterSearch();
   const searchFormProps = {
     value: characterName,
     setValue: setCharacterName,
     selectedValue: serverId,
     setSelectedValue: setServerId,
-  }
+  };
   const handleCharacterSearchNavigate = () => {
     navigate(`/characters/${serverId ? serverId.value : 'all'}?name=${characterName ? characterName : ''}`);
   };
-  const handleChracterDetailNavigate = (characterId:string,serverId:string) => {
+  const handleChracterDetailNavigate = (characterId: string, serverId: string) => {
     navigate(`/details/?serverId=${serverId}&characterId=${characterId}`);
-  }
+  };
   const [profileIsOpened, setProfileIsOpened] = useState(false);
   const { user } = useUser();
   const handleLogout = useLogout();
@@ -71,10 +71,10 @@ const Header = (props: HeaderProps) => {
     setProfileIsOpened(!profileIsOpened);
   }, [profileIsOpened, setProfileIsOpened]);
   const [isLoginModalOpened, setLoginModalOpened] = useState(false);
-  const handleModalToggle= ()=>{
+  const handleModalToggle = () => {
     setLoginModalOpened(true);
     closeNavbar();
-  }
+  };
   return (
     <Container>
       <HeaderTop>
@@ -96,7 +96,11 @@ const Header = (props: HeaderProps) => {
             handleSubmit={handleCharacterSearchNavigate}
             filterOptions={serverList}
             children={
-            <CharacterSearchBoxChild direction={'down'} searchHandler={handleChracterDetailNavigate} searchResult={fastResult ||[]}  />
+              <CharacterSearchBoxChild
+                direction={'down'}
+                searchHandler={handleChracterDetailNavigate}
+                searchResult={fastResult || []}
+              />
             }
           />
         </SelectSearchWrapper>
@@ -154,9 +158,15 @@ const Header = (props: HeaderProps) => {
           )}
         </ProfileContainer>
       </HeaderBottom>
-      {!user && <LoginModal isOpened={isLoginModalOpened} setIsOpened={setLoginModalOpened}/>}
+      {!user && <LoginModal isOpened={isLoginModalOpened} setIsOpened={setLoginModalOpened} />}
       <React.Fragment>
-        <MobileHeader isLoginOpen={isLoginModalOpened} handleModalOpen={handleModalToggle} isOpened={isNavbarOpened}  menuList={headerMenu} handleClose={closeNavbar} />
+        <MobileHeader
+          isLoginOpen={isLoginModalOpened}
+          handleModalOpen={handleModalToggle}
+          isOpened={isNavbarOpened}
+          menuList={headerMenu}
+          handleClose={closeNavbar}
+        />
       </React.Fragment>
       <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar} />
     </Container>

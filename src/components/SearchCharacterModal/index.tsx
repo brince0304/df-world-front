@@ -5,7 +5,6 @@ import { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import { LinearProgress, styled } from '@mui/material';
 
-
 const SearchCharacterModal = (props: {
   isOpened: boolean;
   handleClose: () => void;
@@ -50,7 +49,6 @@ const SearchCharacterModal = (props: {
     </Modal>
   );
 };
-
 
 const style = {
   display: 'flex' as 'flex',

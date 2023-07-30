@@ -2,16 +2,16 @@ import { enqueueSnackbar } from 'notistack';
 
 const useError = () => {
   const autoHideDuration = 1500;
-   const handleError = (message:string) => {
+  const handleError = (message: string) => {
     enqueueSnackbar(message, {
       variant: 'error',
       autoHideDuration,
     });
-   }
+  };
 
-   return {
-      handleError
-   }
-}
+  return {
+    handleError,
+  };
+};
 
 export default useError;

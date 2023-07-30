@@ -23,7 +23,7 @@ export const boardSearchTypes = [
     label: '캐릭터',
     value: 'character',
   },
-]
+];
 
 export function getBoardType(p: string | undefined) {
   switch (p) {
@@ -46,9 +46,8 @@ export function getBoardType(p: string | undefined) {
   }
 }
 
-
 export const getSearchType = (value: string) => {
-  switch(value) {
+  switch (value) {
     case 'title':
       return '제목';
     case 'content':
@@ -64,27 +63,27 @@ export const getSearchType = (value: string) => {
     default:
       return '제목';
   }
-}
+};
 
 export const boardCategories = [
-    {
-      name: '자유',
-      id: 'FREE',
-    },
-    {
-      name: '구인',
-      id: 'RECRUITMENT',
-    },
-    {
-      name: '거래',
-      id: 'MARKET',
-    },
-    {
-      name: '질문/답변',
-      id: 'QUESTION',
-    },
-    {
-      name: '사건/사고',
-      id: 'REPORT',
-    },
-  ]
+  {
+    name: '자유',
+    id: 'FREE',
+  },
+  {
+    name: '구인',
+    id: 'RECRUITMENT',
+  },
+  {
+    name: '거래',
+    id: 'MARKET',
+  },
+  {
+    name: '질문/답변',
+    id: 'QUESTION',
+  },
+  {
+    name: '사건/사고',
+    id: 'REPORT',
+  },
+];

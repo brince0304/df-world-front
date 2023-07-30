@@ -10,10 +10,9 @@ function LoginModal({ isOpened, setIsOpened }: LoginModalProps) {
   const [isLoginPage, setIsLoginPage] = useState<boolean>(true);
   const handleChangeSection = () => {
     setIsLoginPage(!isLoginPage);
-  }
+  };
   const handleClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
-
   };
 
   return (

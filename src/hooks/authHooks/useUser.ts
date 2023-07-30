@@ -13,20 +13,16 @@ interface IUseUser {
 export const useUser = (): IUseUser => {
   const { getUser } = useAuthService();
   const { handleTokenExpiredError } = useAuthError();
-  const { data: user } = useQuery<ILoginResponse | null>(
-    [QUERY_KEY.user],
-    getUser,
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      initialData: userLocalStorage.getUser,
-      onError: () => {
-        userLocalStorage.clearUser();
-        handleTokenExpiredError();
-      },
+  const { data: user } = useQuery<ILoginResponse | null>([QUERY_KEY.user], getUser, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    initialData: userLocalStorage.getUser,
+    onError: () => {
+      userLocalStorage.clearUser();
+      handleTokenExpiredError();
     },
-  );
+  });
 
   useEffect(() => {
     if (!user) userLocalStorage.clearUser();

@@ -27,22 +27,27 @@ const queryClient = new QueryClient({
       suspense: true,
       staleTime: 1000 * 60 * 5,
     },
-    mutations:{
+    mutations: {
       retry: false,
-    }
-}
+    },
+  },
 });
 
 root.render(
   <RecoilRoot>
-  <ServiceContextProvider userService={authService} myPageService={myPageService} characterService={characterService} boardService={boardService}>
-    <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-    </QueryClientProvider>
-  </ServiceContextProvider>
-  </RecoilRoot>
+    <ServiceContextProvider
+      userService={authService}
+      myPageService={myPageService}
+      characterService={characterService}
+      boardService={boardService}
+    >
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ServiceContextProvider>
+  </RecoilRoot>,
 );
 
 // If you want to start measuring performance in your app, pass a function

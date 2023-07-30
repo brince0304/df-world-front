@@ -2,44 +2,43 @@ import { Content, ICharactersData } from '../interfaces/ICharactersData';
 import { IRecentSearchedQuery } from '../storage/searchQueryLocalStorage';
 import { ICharacterDetail } from '../interfaces/ICharacterDetail';
 
-export const getFastSearchListsFromCharactersData = (data:ICharactersData) => {
-  if(!data) return ([] as IRecentSearchedQuery[]);
+export const getFastSearchListsFromCharactersData = (data: ICharactersData) => {
+  if (!data) return [] as IRecentSearchedQuery[];
   const list = [] as IRecentSearchedQuery[];
-  const splicedData =  data.content.length > 5 ? data.content.slice(0,5) : data.content;
+  const splicedData = data.content.length > 5 ? data.content.slice(0, 5) : data.content;
   splicedData.forEach((character) => {
     const item = getRecentSearchedQueryFromCharacter(character);
     list.push(item);
-  }
-  );
+  });
   return list;
-}
+};
 export const getRecentSearchedQueryFromCharacter = (character: Content) => {
-  const {characterName, serverName, serverId, level, characterId,jobGrowName} = character;
+  const { characterName, serverName, serverId, level, characterId, jobGrowName } = character;
   const item = {
     characterName,
-    characterServerName:serverName,
-    characterJob:jobGrowName,
-    characterLevel:level,
+    characterServerName: serverName,
+    characterJob: jobGrowName,
+    characterLevel: level,
     characterId,
-    characterServerId:serverId,
+    characterServerId: serverId,
   } as IRecentSearchedQuery;
 
   return item;
-}
+};
 
 export const getRecentSearchedQueryFromCharacterDetail = (character: ICharacterDetail) => {
-  const {characterName, serverName, serverId, level, characterId,jobGrowName} = character.characterEntityDto;
+  const { characterName, serverName, serverId, level, characterId, jobGrowName } = character.characterEntityDto;
   const item = {
     characterName,
-    characterServerName:serverName,
-    characterJob:jobGrowName,
-    characterLevel:level,
+    characterServerName: serverName,
+    characterJob: jobGrowName,
+    characterLevel: level,
     characterId,
-    characterServerId:serverId,
+    characterServerId: serverId,
   } as IRecentSearchedQuery;
 
   return item;
-  }
+};
 
 export const getServerName = (serverId: string) => {
   switch (serverId) {
@@ -108,8 +107,8 @@ export const serverList = [
   },
 ];
 
-export const getServerId = (serverName:string) => {
-  switch(serverName) {
+export const getServerId = (serverName: string) => {
+  switch (serverName) {
     case '바칼':
       return 'bakal';
     case '카인':
@@ -127,7 +126,7 @@ export const getServerId = (serverName:string) => {
     case '카시야스':
       return 'casillas';
   }
-}
+};
 
 export const getRarityColor = (rarity: string) => {
   switch (rarity) {
@@ -168,7 +167,7 @@ export const dontNeedList = [
   '모든 상태변화 내성',
 ];
 
-export const rankingType=[
+export const rankingType = [
   {
     name: '모험가명성',
     id: 'adventureFame',
@@ -181,4 +180,4 @@ export const rankingType=[
     name: '버프력',
     id: 'buffPower',
   },
-]
+];

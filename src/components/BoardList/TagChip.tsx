@@ -6,7 +6,7 @@ import HashtagContent from './HashtagContent';
 import HashtagLoading from './HashtagLoading';
 import useHashtagCount from '../../hooks/boardHooks/useHashtagCount';
 
-export const TagChip = ({ boardType, tag} : ITagChipProps) => {
+export const TagChip = ({ boardType, tag }: ITagChipProps) => {
   const navigate = useNavigate();
   const ref = React.useRef<HTMLDivElement>(null);
   const handleTagClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -15,14 +15,14 @@ export const TagChip = ({ boardType, tag} : ITagChipProps) => {
     e.stopPropagation();
   };
   const [isMouseOvered, setIsMouseOvered] = React.useState(false);
-  const { boardCount,isHashtagLoading } = useHashtagCount(tag,isMouseOvered);
+  const { boardCount, isHashtagLoading } = useHashtagCount(tag, isMouseOvered);
   const handleMouseOver = () => {
     setIsMouseOvered(true);
-  }
-  
+  };
+
   return (
     <Tooltip
-      title={isHashtagLoading ? <HashtagLoading /> : <HashtagContent count={String(boardCount) || '0'}/>}
+      title={isHashtagLoading ? <HashtagLoading /> : <HashtagContent count={String(boardCount) || '0'} />}
       placement="top"
       data-tag={tag}
       disableInteractive
@@ -46,4 +46,3 @@ interface ITagChipProps {
   boardType: string;
   tag: string;
 }
-

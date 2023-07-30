@@ -13,4 +13,4 @@ export const Container = styled.div`
   backdrop-filter: blur(5px);
   z-index: 100;
   gap: 1rem;
-  `;
+`;

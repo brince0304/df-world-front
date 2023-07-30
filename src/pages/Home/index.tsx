@@ -6,7 +6,6 @@ import { CHARACTER_MAINPAGE_RANKING_URL, LATEST_BOARD_URL } from '../../apis/dat
 import LatestBoard from './Tables/LatestBoard';
 import { boardCategories } from '../../utils/boardUtil';
 
-
 const Main = () => {
   return (
     <Container maxWidth={'md'}>
@@ -33,6 +32,5 @@ const LatestBoardContainer = styled.div`
     grid-template-columns: repeat(1, minmax(100px, auto));
   }
 `;
-
 
 export default Main;

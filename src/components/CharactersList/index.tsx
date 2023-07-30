@@ -17,21 +17,18 @@ const CharacterList = (props: {
       pageStart={0}
       loadMore={props.loadFunc ? props.loadFunc : () => {}}
       hasMore={props.hasMore ? props.hasMore : false}
-      loader={      <div>
-        더 불러오기
-      </div>}
+      loader={<div>더 불러오기</div>}
     >
-      <Grid container spacing={4}
-      >
-          {props.data.pages.map((page, index: number) => {
-            return page.content.map((character, index) => {
-              return (
-                <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
+      <Grid container spacing={4}>
+        {props.data.pages.map((page, index: number) => {
+          return page.content.map((character, index) => {
+            return (
+              <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
                 <CharacterCard character={character} />
-                </Grid>
-              );
-            });
-          })}
+              </Grid>
+            );
+          });
+        })}
       </Grid>
     </InfiniteScroll>
   );

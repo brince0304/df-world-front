@@ -155,12 +155,12 @@ const MobileHeader = (props: NavProps) => {
   const [profileIsOpened, setProfileIsOpened] = useState(false);
   const handleProfileOpen = () => {
     setProfileIsOpened(!profileIsOpened);
-  }
+  };
   const handleNavigateToMyPage = () => {
     navigate('/mypage/');
     setProfileIsOpened(false);
     props.handleClose();
-  }
+  };
   return (
     <Container isOpened={props.isOpened}>
       <NavMenu>

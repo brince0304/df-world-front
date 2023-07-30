@@ -46,7 +46,7 @@ export function SocialLogin() {
         소셜 아이디로 로그인
       </Divider>
       <ButtonSection>
-        <LoginButtons data={socialLoginTypes.squareButtons}/>
+        <LoginButtons data={socialLoginTypes.squareButtons} />
       </ButtonSection>
     </Container>
   );

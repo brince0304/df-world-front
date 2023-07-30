@@ -34,7 +34,7 @@ const refreshButtonStyle = {
   },
 };
 
-const CharacterProfile = (props: { refetch: (...args:any[]) => void; data: ICharacterDetail }) => {
+const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICharacterDetail }) => {
   return (
     <Paper
       elevation={3}

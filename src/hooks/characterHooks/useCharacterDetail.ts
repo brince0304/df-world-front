@@ -3,15 +3,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ICharacterDetail } from '../../interfaces/ICharacterDetail';
 import { QUERY_KEY } from '../../constants';
 import useRecentSearchedQuery from '../recoilHooks/useRecentSearchedQuery';
-import {
-  getRecentSearchedQueryFromCharacterDetail,
-} from '../../utils/charactersUtil';
+import { getRecentSearchedQueryFromCharacterDetail } from '../../utils/charactersUtil';
 
 const useCharacterDetail = (characterId: string, serverId: string) => {
   const { getCharacterDetail } = useCharacterService();
   const queryClient = useQueryClient();
-  const {handleAddRecentSearchedQuery} = useRecentSearchedQuery();
-  const { data, refetch , isError } = useQuery<ICharacterDetail>(
+  const { handleAddRecentSearchedQuery } = useRecentSearchedQuery();
+  const { data, refetch, isError } = useQuery<ICharacterDetail>(
     [QUERY_KEY.characterDetail, characterId, serverId],
     async () => getCharacterDetail({ characterId, serverId }),
     {
@@ -24,7 +22,7 @@ const useCharacterDetail = (characterId: string, serverId: string) => {
     },
   );
 
-  return { data, refetch , isError };
+  return { data, refetch, isError };
 };
 
 export default useCharacterDetail;

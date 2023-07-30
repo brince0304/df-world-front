@@ -42,7 +42,6 @@ const LoginPage = (props: { handleChangeSection: () => void }) => {
     password: yup.string().required('비밀번호를 입력해주세요.'),
   });
 
-
   const {
     register,
     handleSubmit,

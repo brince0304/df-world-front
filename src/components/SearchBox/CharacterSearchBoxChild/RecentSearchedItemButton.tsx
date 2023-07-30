@@ -14,40 +14,37 @@ const RecentSearchedItemButton = ({
   removeHandler,
   mouseDownHandler,
 }: IRecentCharacterSearchBoxChildProps) => {
-
   const recentQuery = {
     characterLevel,
     characterJob,
     characterName,
     characterServerName,
     characterId,
-    characterServerId
+    characterServerId,
   } as IRecentSearchedQuery;
 
   const handleAddRecentSearchedQuery = () => {
     mouseDownHandler(recentQuery);
-  }
+  };
 
   const handleRemoveRecentSearchedQuery = () => {
     removeHandler(characterId);
-  }
+  };
 
   return (
     <Button sx={{ padding: 0 }}>
-      <S.HistoryOptionCell
-        onMouseDown={handleAddRecentSearchedQuery}
-      >
+      <S.HistoryOptionCell onMouseDown={handleAddRecentSearchedQuery}>
         <S.BoldNameWrapper>{characterName}</S.BoldNameWrapper>
         <S.ContentWrapper>{characterJob}</S.ContentWrapper>
-        <S.ContentWrapper>{'레벨 '+characterLevel}</S.ContentWrapper>
+        <S.ContentWrapper>{'레벨 ' + characterLevel}</S.ContentWrapper>
         <S.ContentWrapper>{characterServerName}</S.ContentWrapper>
       </S.HistoryOptionCell>
       <S.LatestRemoveButtonWrapper onMouseDown={handleRemoveRecentSearchedQuery}>
         <FontAwesomeIcon icon={faXmark} size={'lg'} />
       </S.LatestRemoveButtonWrapper>
     </Button>
-  )
-}
+  );
+};
 
 interface IRecentCharacterSearchBoxChildProps {
   characterId: string;

@@ -35,6 +35,6 @@ const BoardServiceProvider = ({ children, boardService }: { children: ReactNode;
       {children}
     </boardServiceContext.Provider>
   );
-}
+};
 
 export default BoardServiceProvider;

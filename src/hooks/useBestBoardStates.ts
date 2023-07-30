@@ -10,7 +10,7 @@ const useBestBoardStates = (listLength: number) => {
   };
 
   useEffect(() => {
-    if(!listLength) return;
+    if (!listLength) return;
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % listLength);
     }, 5000);
@@ -20,8 +20,8 @@ const useBestBoardStates = (listLength: number) => {
   return {
     index,
     handleLeftClick,
-    handleRightClick
-  }
-}
+    handleRightClick,
+  };
+};
 
 export default useBestBoardStates;

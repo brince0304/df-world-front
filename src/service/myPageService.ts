@@ -10,7 +10,7 @@ export interface IMyPageService {
   deleteCharacterFromUserAccount: (characterId: string, serverId: string) => Promise<void>;
   getUserMyPageResponse: () => Promise<IMyPageResponse>;
   validateUserNickname: (nickname: string) => Promise<any>;
-  addCharacterToUserAccount: (data:{characterId: string, serverId: string}) => Promise<void>;
+  addCharacterToUserAccount: (data: { characterId: string; serverId: string }) => Promise<void>;
   changeUserProfileIcon: (formData: FormData) => Promise<any>;
   changeUserNickname: (nickname: string) => Promise<any>;
   changeUserPassword: (password: string) => Promise<any>;
@@ -31,7 +31,7 @@ export default class MyPageService implements IMyPageService {
   constructor(axiosInstance: IAxiosClient) {
     this.axiosInstance = axiosInstance;
   }
-  addCharacterToUserAccount(data:{characterId: string, serverId: string}) {
+  addCharacterToUserAccount(data: { characterId: string; serverId: string }) {
     return this.axiosInstance.post(
       this.addCharacterToUserAccountUrl.replace('{characterId}', data.characterId).replace('{serverId}', data.serverId),
     );
@@ -53,7 +53,7 @@ export default class MyPageService implements IMyPageService {
     });
   }
 
-  deleteCharacterFromUserAccount(characterId: string, serverId: string){
+  deleteCharacterFromUserAccount(characterId: string, serverId: string) {
     return this.axiosInstance.delete(
       this.deleteCharacterFromUserAccountUrl.replace('{characterId}', characterId).replace('{serverId}', serverId),
     );

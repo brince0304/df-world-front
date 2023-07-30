@@ -26,8 +26,9 @@ export interface IBoardService {
 }
 
 export default class BoardService implements IBoardService {
-  private axiosClient : IAxiosClient;
-  private readonly getBoardListUrl = '/boards?boardType={boardType}&searchType={searchType}&keyword={keyword}&page={page}';
+  private axiosClient: IAxiosClient;
+  private readonly getBoardListUrl =
+    '/boards?boardType={boardType}&searchType={searchType}&keyword={keyword}&page={page}';
   private readonly getBestBoardListUrl = '/boards/best?boardType={boardType}';
   private readonly getLatestBoardListUrl = '/boards/latest?boardType={boardType}';
   private readonly likeBoardUrl = '/boards/like?boardId={boardId}';
@@ -46,7 +47,6 @@ export default class BoardService implements IBoardService {
 
   deleteBoard(data: { boardId: string }): Promise<void> {
     return this.axiosClient.delete(this.deleteBoardUrl.replace('{boardId}', data.boardId.toString()));
-
   }
 
   getBestBoardList(data: { boardType?: string }): Promise<IBestBoard[]> {
@@ -62,7 +62,8 @@ export default class BoardService implements IBoardService {
   }
 
   getBoardList(data: { boardType?: string; searchType?: string; keyword?: string; page: number }): Promise<IBoardList> {
-    const url = this.getBoardListUrl.replace('{boardType}', data.boardType || '')
+    const url = this.getBoardListUrl
+      .replace('{boardType}', data.boardType || '')
       .replace('{searchType}', data.searchType || '')
       .replace('{keyword}', data.keyword || '')
       .replace('{page}', String(data.page));
@@ -84,7 +85,6 @@ export default class BoardService implements IBoardService {
   updateBoard(data: IBoardRequest): Promise<number> {
     return this.axiosClient.put(this.updateBoardUrl, data);
   }
-
 }
 
 export interface IBoardRequest {

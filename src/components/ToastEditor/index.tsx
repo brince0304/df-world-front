@@ -5,7 +5,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { HookImageResponse, postImage } from '../../apis/board/postImage';
 import * as React from 'react';
 
-const ToastEditor = ({ onChange, hooksCallback , initialValue }: IToastEditorProps) => {
+const ToastEditor = ({ onChange, hooksCallback, initialValue }: IToastEditorProps) => {
   const ref = React.useRef<HTMLDivElement>(null);
   useEffect(() => {
     const tuieditor = new Editor({
@@ -36,15 +36,13 @@ const ToastEditor = ({ onChange, hooksCallback , initialValue }: IToastEditorPro
       tuieditor.destroy();
     };
   }, []);
-  return (
-    <div ref={ref} />
-  )
-}
+  return <div ref={ref} />;
+};
 
 interface IToastEditorProps {
-  onChange: (...args:any[]) => void;
+  onChange: (...args: any[]) => void;
   initialValue?: string;
-  hooksCallback: (...args:any[]) => void;
+  hooksCallback: (...args: any[]) => void;
 }
 
 export default ToastEditor;

@@ -1,5 +1,5 @@
 import { IconButton, ListItemButton } from '@mui/material';
-import React  from 'react';
+import React from 'react';
 import Typography from '@mui/material/Typography';
 import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
 import BestBoardListItem from './BestBoardListItem';
@@ -11,10 +11,10 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import useBestBoardStates from '../../hooks/useBestBoardStates';
 
-const BestBoardList = (props:{boardType:string}) => {
-  const {data} = useBestBoardList(props.boardType);
+const BestBoardList = (props: { boardType: string }) => {
+  const { data } = useBestBoardList(props.boardType);
   const listLength = data?.length;
-  const {index,handleLeftClick,handleRightClick} = useBestBoardStates(listLength || 0);
+  const { index, handleLeftClick, handleRightClick } = useBestBoardStates(listLength || 0);
   const navigate = useNavigate();
   const handleBestArticleNavigate = (id: number) => {
     navigate(BOARD_DETAIL_URL + `${id}`);
@@ -53,11 +53,16 @@ const BestBoardList = (props:{boardType:string}) => {
           sx={{ padding: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: 'auto' }}
         >
           {data?.map((item, chipIndex) => (
-            <BestBoardListItem item={item} chipIndex={chipIndex} index={index} handleNavigate={handleBestArticleNavigate} />
+            <BestBoardListItem
+              item={item}
+              chipIndex={chipIndex}
+              index={index}
+              handleNavigate={handleBestArticleNavigate}
+            />
           ))}
         </ListItemButton>
       )}
-      {data?.length === 0 &&
+      {data?.length === 0 && (
         <Box
           sx={{
             display: 'flex',
@@ -73,7 +78,7 @@ const BestBoardList = (props:{boardType:string}) => {
             인기 게시글이 없습니다.
           </Typography>
         </Box>
-      }
+      )}
     </div>
   );
 };

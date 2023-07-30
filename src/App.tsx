@@ -21,25 +21,25 @@ function App() {
   const { user } = useUser();
 
   return (
-    <Suspense fallback={<AppLoading/>}>
-    <div className="App">
-      <Header title={'커뮤니티'} />
-      <Routes>
-        <Route path="/" element={<Main />}></Route>
-        <Route path={BOARD_LIST_URL} element={<Board />}></Route>
-        <Route
-          path={BOARD_INSERT_FORM_ROUTE}
-          element={user ? <WriteBoard /> : <Navigate to={BOARD_LIST_URL} />}
-        ></Route>
-        <Route path="/characters/:serverId" element={<Characters />}></Route>
-        <Route path="/details/" element={<CharacterDetail />}></Route>
-        <Route path={BOARD_ROUTE} element={<BoardDetail />}></Route>
-        <Route path="/*" element={<BadRequest />}></Route>
-        <Route path="/mypage/" element={user ? <MyPage /> : <Navigate to={'/'} />}></Route>
-      </Routes>
-      <Footer />
-      <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
-    </div>
+    <Suspense fallback={<AppLoading />}>
+      <div className="App">
+        <Header title={'커뮤니티'} />
+        <Routes>
+          <Route path="/" element={<Main />}></Route>
+          <Route path={BOARD_LIST_URL} element={<Board />}></Route>
+          <Route
+            path={BOARD_INSERT_FORM_ROUTE}
+            element={user ? <WriteBoard /> : <Navigate to={BOARD_LIST_URL} />}
+          ></Route>
+          <Route path="/characters/:serverId" element={<Characters />}></Route>
+          <Route path="/details/" element={<CharacterDetail />}></Route>
+          <Route path={BOARD_ROUTE} element={<BoardDetail />}></Route>
+          <Route path="/*" element={<BadRequest />}></Route>
+          <Route path="/mypage/" element={user ? <MyPage /> : <Navigate to={'/'} />}></Route>
+        </Routes>
+        <Footer />
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+      </div>
     </Suspense>
   );
 }

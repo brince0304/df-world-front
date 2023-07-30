@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useCharacterBoardLink = (setValues:any, initialCharacterName?:string, initialCharacterImgPath?:string) => {
+const useCharacterBoardLink = (setValues: any, initialCharacterName?: string, initialCharacterImgPath?: string) => {
   const [characterName, setCharacterName] = useState<string>(initialCharacterName || '');
   const [characterImgPath, setCharacterImgPath] = useState<string>(initialCharacterImgPath || '');
   const [isCharacterLinkModalOpen, setIsCharacterLinkModalOpen] = useState<boolean>(false);
@@ -27,7 +27,7 @@ const useCharacterBoardLink = (setValues:any, initialCharacterName?:string, init
     setCharacterLinkModalOpen: setIsCharacterLinkModalOpen,
     handleSetCharacterDetails,
     handleDeleteCharacter,
-  }
-}
+  };
+};
 
 export default useCharacterBoardLink;

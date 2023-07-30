@@ -4,7 +4,6 @@ import { ModalTitle } from '../../../components/application/ui/ModalTitle';
 import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
 import { socialLoginTypes } from '../../../constants';
 
-
 interface LoginButtonsProps {
   data: { src: string; alt: string; type: string }[];
 }
@@ -29,7 +28,6 @@ export function SocialRegister() {
     </Container>
   );
 }
-
 
 const Container = styled.div`
   display: flex;

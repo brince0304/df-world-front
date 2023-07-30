@@ -42,7 +42,6 @@ const TableData = styled.div`
 //   //first child's empty space remove
 // `;
 
-
 const TableRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -55,8 +54,7 @@ const TableRow = styled.div`
   border-right: 1px solid #e5e5e5;
   border-bottom: 1px solid #e5e5e5;
   font-weight: 500;
-  
-  
+
   &:hover {
     background-color: #f5f5f5;
     cursor: pointer;
@@ -188,47 +186,46 @@ const RankingTableRow = (props: { data: RankingTableData[]; type: string }) => {
       {props.data.length > 0 &&
         props.data.map((item, index: number) => (
           <Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={index}>
-          <TableRow
-            key={index}
-            id={item.characterId}
-            onClick={onClick}
-            data-id={item.characterId}
-            data-server={item.serverId}
-          >
-            <p style={{
-              position: 'absolute',
-              left: '0',
-              top: '0',
-              width: '20px',
-              height: '20px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#121212',
-              color: 'white',
-              fontSize: '12px',
-
-
-            }
-            }>
-              {index + 1}
-            </p>
-            <div style={{width:'23%', height:'100%'}}>
-              <RankingCharacterImg serverId={item.serverId} characterId={item.characterId} />
-            </div>
-            <div>
-              <TableData>
-                <RankingDetailNameText>{item.characterName}</RankingDetailNameText>
-                <RankingDetailText>{item.adventureName}</RankingDetailText>
-                <RankingDetailText>{item.serverName}</RankingDetailText>
-              </TableData>
-            </div>
-            <div>
-              <TableData>
-                <RankingValue type={props.type} value={item.adventureFame} />
-              </TableData>
-            </div>
-          </TableRow>
+            <TableRow
+              key={index}
+              id={item.characterId}
+              onClick={onClick}
+              data-id={item.characterId}
+              data-server={item.serverId}
+            >
+              <p
+                style={{
+                  position: 'absolute',
+                  left: '0',
+                  top: '0',
+                  width: '20px',
+                  height: '20px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#121212',
+                  color: 'white',
+                  fontSize: '12px',
+                }}
+              >
+                {index + 1}
+              </p>
+              <div style={{ width: '23%', height: '100%' }}>
+                <RankingCharacterImg serverId={item.serverId} characterId={item.characterId} />
+              </div>
+              <div>
+                <TableData>
+                  <RankingDetailNameText>{item.characterName}</RankingDetailNameText>
+                  <RankingDetailText>{item.adventureName}</RankingDetailText>
+                  <RankingDetailText>{item.serverName}</RankingDetailText>
+                </TableData>
+              </div>
+              <div>
+                <TableData>
+                  <RankingValue type={props.type} value={item.adventureFame} />
+                </TableData>
+              </div>
+            </TableRow>
           </Grid>
         ))}
     </>

@@ -186,9 +186,7 @@ const LatestBoard = (props: BoardProps) => {
         </IconButton>
       }
     >
-      <BoardBody>
-        {data && <BoardList data={data.content} />}
-      </BoardBody>
+      <BoardBody>{data && <BoardList data={data.content} />}</BoardBody>
     </CustomTable>
   );
 };

@@ -22,7 +22,13 @@ const BestBoardListItem = ({ item, chipColor, chipIndex, index, handleNavigate }
           >
             <Tooltip
               placement={'bottom'}
-              title={<BestBoardContent likeCount={item.boardLikeCount} commentCount={item.commentCount} boardType={item.boardType} />}
+              title={
+                <BestBoardContent
+                  likeCount={item.boardLikeCount}
+                  commentCount={item.commentCount}
+                  boardType={item.boardType}
+                />
+              }
               key={chipIndex}
               arrow
               id={'chip-item-' + item.id.toString()}
@@ -34,17 +40,16 @@ const BestBoardListItem = ({ item, chipColor, chipIndex, index, handleNavigate }
       </Zoom>
     </TabPanel>
   );
-}
+};
 
 export default BestBoardListItem;
-
 
 export interface IBestListProps {
   item: BestArticles;
   chipColor?: 'primary' | 'secondary';
   chipIndex: number;
   index: number;
-  handleNavigate: (...args:any[]) => void;
+  handleNavigate: (...args: any[]) => void;
 }
 
 function TabPanel(props: { children?: React.ReactNode; value: number; index: number }) {

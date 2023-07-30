@@ -36,7 +36,7 @@ export const searchedQueryLocalStorage: ISearchedQueryLocalStorage = {
         searchedQueryLocalStorage.setSearchedQuery(list);
       }
     }
-  }
+  },
 };
 
 export interface IRecentSearchedQuery {

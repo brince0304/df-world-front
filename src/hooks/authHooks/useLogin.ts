@@ -12,18 +12,15 @@ export const useLogin = (): IUseLogin => {
   const { handleLoginError } = useAuthError();
   const { handleLoginSuccess } = useAuthSuccess();
   const queryClient = useQueryClient();
-  const { mutate: loginMutation } = useMutation([QUERY_KEY.user],
-     login,
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData([QUERY_KEY.user], data);
-        handleLoginSuccess(data);
-      },
-      onError: () => {
-        handleLoginError();
-      },
+  const { mutate: loginMutation } = useMutation([QUERY_KEY.user], login, {
+    onSuccess: (data) => {
+      queryClient.setQueryData([QUERY_KEY.user], data);
+      handleLoginSuccess(data);
     },
-  );
+    onError: () => {
+      handleLoginError();
+    },
+  });
 
   return loginMutation;
 };

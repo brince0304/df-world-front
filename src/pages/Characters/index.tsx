@@ -11,7 +11,7 @@ const Characters = () => {
   const searchParams = new URLSearchParams(location.search);
   const characterName = searchParams.get('name') || '';
   const { serverId } = useParams();
-  const {data,hasNextPage,fetchNextPage}= useCharacters(characterName,serverId ? serverId : '');
+  const { data, hasNextPage, fetchNextPage } = useCharacters(characterName, serverId ? serverId : '');
   return (
     <Container maxWidth={'lg'}>
       <ResultTitleWrapper>
@@ -21,7 +21,6 @@ const Characters = () => {
       </ResultTitleWrapper>
       {data && <CharacterList loadFunc={fetchNextPage} hasMore={hasNextPage ? hasNextPage : false} data={data} />}
     </Container>
-
   );
 };
 

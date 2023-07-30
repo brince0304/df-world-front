@@ -11,7 +11,7 @@ const useCharacterUserLink = () => {
   };
   const handleOpenCharacterLinkModal = () => {
     setOpenLinkCharacterModal(true);
-  }
+  };
 
   const handleCloseCharacterLinkModal = () => {
     setOpenLinkCharacterModal(false);
@@ -22,7 +22,7 @@ const useCharacterUserLink = () => {
     handleOpenCharacterLinkModal,
     handleCloseCharacterLinkModal,
     handlePostCharacter,
-  }
-}
+  };
+};
 
 export default useCharacterUserLink;

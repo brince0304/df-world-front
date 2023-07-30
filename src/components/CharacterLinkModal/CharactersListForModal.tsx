@@ -66,8 +66,6 @@ export const CharactersListForModal = (props: {
   );
 };
 
-
-
 const FontWrapper = styled(Typography)`
   display: flex;
   align-items: center;
@@ -87,4 +85,3 @@ const CharacterDetailContainer = styled(Grid)`
   height: 100%;
   gap: 5px;
 `;
-

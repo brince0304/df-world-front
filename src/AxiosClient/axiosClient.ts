@@ -15,27 +15,27 @@ export class AxiosClient implements IAxiosClient {
   }
 
   async get(url: string, options?: any) {
-      const { data } = await this.instance.get(url, options);
-      return data;
+    const { data } = await this.instance.get(url, options);
+    return data;
   }
 
   async post(url: string, request?: any, options?: any) {
-      const { data } = await this.instance.post(url, request, {
-        ...options,
-      });
-      return data;
+    const { data } = await this.instance.post(url, request, {
+      ...options,
+    });
+    return data;
   }
 
   async put(url: string, request?: any, options?: any) {
-      const { data } = await this.instance.put(url, request, {
-        ...options,
-      });
-      return data;
+    const { data } = await this.instance.put(url, request, {
+      ...options,
+    });
+    return data;
   }
 
   async delete(url: string, options?: any) {
-      return await this.instance.delete(url, {
-        ...options,
-      });
+    return await this.instance.delete(url, {
+      ...options,
+    });
   }
 }

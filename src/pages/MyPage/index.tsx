@@ -66,29 +66,29 @@ const MyPage = () => {
   const response = data?.userDetail;
   return (
     <Suspense fallback={<Loading />}>
-    <Container maxWidth={'md'}>
-      {user && (
-        <Box>
-          <UserProfileCard refresh={()=>{}}/>
-          <Box sx={{ marginTop: '20px' }}>
-            <Typography
-              component={'h1'}
-              color={'#565360'}
-              fontFamily={'Core Sans'}
-              fontSize={'1.5rem'}
-              fontWeight={'bold'}
-              sx={{
-                textAlign: 'left',
-                marginBottom: '10px',
-              }}
-            >
-              내 캐릭터{' '}
-            </Typography>
-            {response&&<UserCharacters data={response.characters} adventure={user.adventureName}  />}
+      <Container maxWidth={'md'}>
+        {user && (
+          <Box>
+            <UserProfileCard refresh={() => {}} />
+            <Box sx={{ marginTop: '20px' }}>
+              <Typography
+                component={'h1'}
+                color={'#565360'}
+                fontFamily={'Core Sans'}
+                fontSize={'1.5rem'}
+                fontWeight={'bold'}
+                sx={{
+                  textAlign: 'left',
+                  marginBottom: '10px',
+                }}
+              >
+                내 캐릭터{' '}
+              </Typography>
+              {response && <UserCharacters data={response.characters} adventure={user.adventureName} />}
+            </Box>
           </Box>
-        </Box>
-      )}
-    </Container>
+        )}
+      </Container>
     </Suspense>
   );
 };

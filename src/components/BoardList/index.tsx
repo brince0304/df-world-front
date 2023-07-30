@@ -4,20 +4,16 @@ import React from 'react';
 import { IBoardList } from '../../interfaces/IBoardList';
 import { InfiniteData } from '@tanstack/react-query';
 
-const BoardList = (list: InfiniteData<IBoardList>)=>{
+const BoardList = (list: InfiniteData<IBoardList>) => {
   return (
     <List>
       {list.pages.map((items) => {
-          return items.content.map((item) => {
-            return (
-              <BoardListItem {...item} key={item.id} />
-            )
-          }
-        )
-      }
-    )}
+        return items.content.map((item) => {
+          return <BoardListItem {...item} key={item.id} />;
+        });
+      })}
     </List>
-  )
-}
+  );
+};
 
 export default BoardList;

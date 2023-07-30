@@ -8,17 +8,14 @@ import ModeIcon from '@mui/icons-material/Mode';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 import { DragHandleRounded, HighlightOffOutlined } from '@mui/icons-material';
-import {  BOARD_WRITE_URL } from '../../../apis/data/urls';
+import { BOARD_WRITE_URL } from '../../../apis/data/urls';
 
 const actions = [
   { icon: <ModeIcon />, name: '글쓰기' },
   { icon: <SearchIcon />, name: '검색' },
 ];
 
-
-function BoardSpeedDial(props: {
-  boardType: string;
-}) {
+function BoardSpeedDial(props: { boardType: string }) {
   const [searchBoxIsOpened, setSearchBoxIsOpened] = useState(false);
   const navigate = useNavigate();
   const handleOpenSearchBox = () => {
@@ -63,7 +60,6 @@ function BoardSpeedDial(props: {
     </CustomBox>
   );
 }
-
 
 const CustomBox = styled(Box)`
   display: none;

@@ -6,8 +6,8 @@ const AppLoading = () => {
     <Container>
       <LinearProgress />
     </Container>
-  )
-}
+  );
+};
 
 export default AppLoading;
 
@@ -20,4 +20,4 @@ const Container = styled.div`
   left: 0;
   z-index: 9999;
   width: 100%;
-  `;
+`;

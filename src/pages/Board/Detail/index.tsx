@@ -152,7 +152,6 @@ const commentButtonStyle = {
   },
 };
 
-
 // const ChipFontWrapper = styled(Box)`
 //   display: flex;
 //   align-items: center;
@@ -736,11 +735,11 @@ const BoardDetail = () => {
   const [isCommentLoading, setIsCommentLoading] = useState<boolean>(false);
   // eslint-disable-next-line
   const [isCommentError, setIsCommentError] = useState<boolean>(false);
-  const {data , isLiked} = useBoardDetail(boardId || '');
-  const { likeBoardMutation:likeBoard, likeCount } = useLikeBoard(boardId || '');
+  const { data, isLiked } = useBoardDetail(boardId || '');
+  const { likeBoardMutation: likeBoard, likeCount } = useLikeBoard(boardId || '');
   const handleBoardLike = () => {
     if (boardId) {
-        likeBoard();
+      likeBoard();
     }
   };
 
@@ -761,8 +760,8 @@ const BoardDetail = () => {
 
   const handleDeleteBoard = () => {
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
-       deleteBoard();
-      }
+      deleteBoard();
+    }
   };
 
   const {
@@ -800,8 +799,7 @@ const BoardDetail = () => {
   };
   return (
     <Container maxWidth={'md'} sx={{ paddingTop: '20px' }}>
-
-      {article  && (
+      {article && (
         <Paper sx={{ padding: '10px 20px 20px 20px' }}>
           <Box sx={{ paddingBottom: '10px' }}>
             <BestContent boardType={'ALL'} />
@@ -858,15 +856,12 @@ const BoardDetail = () => {
                 }
                 label={<LikeCountWrapper>{likeCount}</LikeCountWrapper>}
               />
-              {user &&  article.userId === user.userId && (
+              {user && article.userId === user.userId && (
                 <Box sx={{ display: 'flex' }}>
-                  <Button sx={deleteEditButtonStyle} onClick={()=>{}}>
+                  <Button sx={deleteEditButtonStyle} onClick={() => {}}>
                     수정
                   </Button>
-                  <Button
-                    sx={deleteEditButtonStyle}
-                    onClick={handleDeleteBoard}
-                  >
+                  <Button sx={deleteEditButtonStyle} onClick={handleDeleteBoard}>
                     삭제
                   </Button>
                 </Box>
@@ -886,7 +881,7 @@ const BoardDetail = () => {
                   돌아가기
                 </Typography>
               </Button>
-              <Button onClick={()=>{}}>
+              <Button onClick={() => {}}>
                 <Typography
                   sx={{ fontSize: '14px', fontWeight: 'bold', fontFamily: 'Core Sans' }}
                   color={'black'}

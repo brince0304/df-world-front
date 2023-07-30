@@ -6,42 +6,36 @@ import Typography from '@mui/material/Typography';
 import useChildBox from '../../hooks/useChildBox';
 import useSearchForm from 'hooks/useSearchForm';
 
-
 const SearchBox = ({
   placeholder,
   direction,
   filterOptions,
   handleSubmit,
   useSearchForms,
-  children
+  children,
 }: ISearchFormProps) => {
-  const {
-    value,
-    selectedValue,
-    setValue,
-    setSelectedValue,
-  } = useSearchForms;
+  const { value, selectedValue, setValue, setSelectedValue } = useSearchForms;
   const [open, setOpen] = useState(false);
-  const boxRef= useRef<HTMLDivElement | null>(null);
-  const {isFocus,setIsFocus} = useChildBox(boxRef);
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const { isFocus, setIsFocus } = useChildBox(boxRef);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const submitCallback = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSubmit(value, selectedValue.value);
-  }
+  };
   const handleOpen = () => {
     setOpen(!open);
-  }
+  };
   const handleSetFocusTrue = () => {
     setIsFocus(true);
-  }
+  };
   const handleSetFocusFalse = () => {
     setIsFocus(false);
-  }
+  };
   const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-  }
-  const cloneElement = React.cloneElement(children,{handleSetFocusFalse});
+  };
+  const cloneElement = React.cloneElement(children, { handleSetFocusFalse });
   return (
     <Box sx={containerStyle} ref={boxRef}>
       <Paper component="form" sx={searchFilterWrapperStyle} onSubmit={submitCallback}>
@@ -80,7 +74,7 @@ const SearchBox = ({
           <SearchIcon />
         </IconButton>
       </Paper>
-          {isFocus && cloneElement}
+      {isFocus && cloneElement}
     </Box>
   );
 };
@@ -93,7 +87,6 @@ interface ISearchFormProps {
   direction: string;
   children: ReactElement;
 }
-
 
 const customBoxStyle = {
   display: 'flex',
@@ -142,7 +135,6 @@ const containerStyle = {
   height: '100%',
 };
 
-
 const FilterContainer = styled(Paper)`
   display: flex;
   flex-direction: column;
@@ -168,6 +160,5 @@ const FilterOptionWrapper = styled(Typography)`
     color: rgb(0, 0, 0);
   }
 `;
-
 
 export default SearchBox;

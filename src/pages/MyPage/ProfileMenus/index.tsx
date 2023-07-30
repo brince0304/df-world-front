@@ -19,7 +19,8 @@ const ProfileMenus = (props: { refresh: () => void }) => {
   const [openProfileIconChangeModal, setOpenProfileIconChangeModal] = useState(false);
   const { user } = useUser();
 
-  const {openLinkCharacterModal,handleCloseCharacterLinkModal,handlePostCharacter,handleOpenCharacterLinkModal} = useCharacterUserLink();
+  const { openLinkCharacterModal, handleCloseCharacterLinkModal, handlePostCharacter, handleOpenCharacterLinkModal } =
+    useCharacterUserLink();
 
   const handleProfileChangeModalOpen = () => {
     setOpenProfileIconChangeModal(true);
@@ -28,7 +29,6 @@ const ProfileMenus = (props: { refresh: () => void }) => {
   const handleProfileChangeModalClose = () => {
     setOpenProfileIconChangeModal(false);
   };
-
 
   const handleOpenActivityHistoryModal = () => {
     setOpenActivityHistoryModal(true);

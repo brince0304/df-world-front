@@ -13,7 +13,8 @@ import {
   CharacterDetailCharacterEquipmentDetails,
   CharacterDetailCharacterEquipmentEquipment,
   CharacterDetailCharacterEquipmentEquipmentBakalInfo,
-  CharacterDetailCharacterEquipmentEquipmentGrowInfoOptions, ICharacterDetail,
+  CharacterDetailCharacterEquipmentEquipmentGrowInfoOptions,
+  ICharacterDetail,
 } from '../../../interfaces/ICharacterDetail';
 import CharacterProfile from './CharacterProfile';
 import { dontNeedList, getRarityColor } from '../../../utils/charactersUtil';
@@ -69,7 +70,7 @@ const TabPanel = (props: TabPanelProps) => {
       )}
     </div>
   );
-}
+};
 
 const EquipmentGrowInfoDetail = (props: { data: CharacterDetailCharacterEquipmentEquipmentGrowInfoOptions[] }) => {
   return (
@@ -548,14 +549,12 @@ const CharacterDetail = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
-  }
-  const {data,refetch ,isError} = useCharacterDetail(characterId, serverId);
+  };
+  const { data, refetch, isError } = useCharacterDetail(characterId, serverId);
   return (
-    <CharacterDetailContainer
-      maxWidth={'md'}
-    >
-      <Suspense fallback={<CharacterDetailSkeleton/>}>
-      {data && <CharacterProfile refetch={refetch} data={data} />}
+    <CharacterDetailContainer maxWidth={'md'}>
+      <Suspense fallback={<CharacterDetailSkeleton />}>
+        {data && <CharacterProfile refetch={refetch} data={data} />}
       </Suspense>
       {isError && <BadRequest />}
       {data && (
@@ -617,23 +616,22 @@ const CharacterDetail = () => {
   );
 };
 
-const CharacterEquipmentList = (data:  ICharacterDetail) => {
+const CharacterEquipmentList = (data: ICharacterDetail) => {
   return (
     <List>
       {data.characterEquipment.equipment.map((equipment, index) => {
-      return (
-        <CharacterEquipmentDetail
-          equipment={equipment}
-          detail={data?.characterEquipmentDetails?.find((o) => {
-            return o.itemId === equipment.itemId;
-          })}
-          key={index}
-        />
-      );
-    }
-  )}
-</List>
+        return (
+          <CharacterEquipmentDetail
+            equipment={equipment}
+            detail={data?.characterEquipmentDetails?.find((o) => {
+              return o.itemId === equipment.itemId;
+            })}
+            key={index}
+          />
+        );
+      })}
+    </List>
   );
-}
+};
 
 export default CharacterDetail;

@@ -4,29 +4,39 @@ import Box from '@mui/material/Box';
 import CharacterLinkButtonNotLinked from '../Chips/CharacterLinkButton';
 import CharacterLinkButtonLinked from '../Chips/CharacterLinkButtonLinked';
 
-const CharacterLinkBox = ({ characterId, characterName, characterImgUrl, handleOpenModal, handleDeleteCharacter }: ICharacterLinkBoxProps) => {
+const CharacterLinkBox = ({
+  characterId,
+  characterName,
+  characterImgUrl,
+  handleOpenModal,
+  handleDeleteCharacter,
+}: ICharacterLinkBoxProps) => {
   return (
     <SetCharacterContainer>
-      {characterId ==='' && (
+      {characterId === '' && (
         <Zoom in={characterId === ''}>
           <CharacterLinkButtonNotLinked characterLinkModalOpen={handleOpenModal} />
         </Zoom>
       )}
       {characterId !== '' && (
         <Zoom in={characterId !== ''}>
-          <CharacterLinkButtonLinked characterName={characterName} characterImgUrl={characterImgUrl} handleDeleteCharacter={handleDeleteCharacter} />
+          <CharacterLinkButtonLinked
+            characterName={characterName}
+            characterImgUrl={characterImgUrl}
+            handleDeleteCharacter={handleDeleteCharacter}
+          />
         </Zoom>
       )}
     </SetCharacterContainer>
   );
-}
+};
 
 interface ICharacterLinkBoxProps {
   characterId: string;
   characterName: string;
   characterImgUrl: string;
-  handleOpenModal: (...args:any[]) => void;
-  handleDeleteCharacter: (...args:any[]) => void;
+  handleOpenModal: (...args: any[]) => void;
+  handleDeleteCharacter: (...args: any[]) => void;
 }
 export default CharacterLinkBox;
 

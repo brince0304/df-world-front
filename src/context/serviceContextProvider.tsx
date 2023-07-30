@@ -24,13 +24,13 @@ const ServiceContextProvider = ({
 }) => {
   return (
     <BoardServiceProvider boardService={boardService}>
-    <UserServiceProvider userService={userService}>
-      <CharacterServiceProvider characterService={characterService}>
-      <MyPageServiceProvider myPageService={myPageService}>
-        <SnackbarProvider maxSnack={3}>{children}</SnackbarProvider>
-      </MyPageServiceProvider>
-      </CharacterServiceProvider>
-    </UserServiceProvider>
+      <UserServiceProvider userService={userService}>
+        <CharacterServiceProvider characterService={characterService}>
+          <MyPageServiceProvider myPageService={myPageService}>
+            <SnackbarProvider maxSnack={3}>{children}</SnackbarProvider>
+          </MyPageServiceProvider>
+        </CharacterServiceProvider>
+      </UserServiceProvider>
     </BoardServiceProvider>
   );
 };

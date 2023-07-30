@@ -7,11 +7,11 @@ const useSuccess = () => {
       variant: 'success',
       autoHideDuration,
     });
-  }
+  };
 
   return {
-    handleSuccess
-  }
-}
+    handleSuccess,
+  };
+};
 
 export default useSuccess;

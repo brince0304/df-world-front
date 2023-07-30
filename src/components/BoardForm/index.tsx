@@ -10,22 +10,22 @@ import ToastEditor from '../ToastEditor';
 import useToastEditor from '../../hooks/boardHooks/useToastEditor';
 import BoardTypeMenus from './BoardTypeMenus';
 
-const BoardForm = ({  initialData, submitHandler, useBoardForms, buttonLabel }: IBoardFormProps) => {
-  const { register, handleSubmit, errors, setValues, watchValues , onSubmit } = useBoardForms;
+const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: IBoardFormProps) => {
+  const { register, handleSubmit, errors, setValues, watchValues, onSubmit } = useBoardForms;
   const handleSelectChange = (event: React.MouseEvent) => {
     setValues.setBoardType(event.currentTarget.getAttribute('data-value') as string);
   };
   const handlePost = (data: IBoardRequest) => {
     if (window.confirm('글을 작성하시겠습니까?')) {
-      onSubmit(data)
+      onSubmit(data);
     }
   };
-  const {hooksCallback, onChange} = useToastEditor(setValues,watchValues);
+  const { hooksCallback, onChange } = useToastEditor(setValues, watchValues);
   const handleNavigateBack = () => {
     if (window.confirm('작성을 취소하시겠습니까?')) {
       navigate(-1);
     }
-  }
+  };
   const navigate = useNavigate();
   return (
     <form onSubmit={handleSubmit(handlePost)}>
@@ -33,7 +33,7 @@ const BoardForm = ({  initialData, submitHandler, useBoardForms, buttonLabel }: 
         <Typography variant={'h4'} sx={{ fontWeight: 'bold' }} fontFamily={'Core Sans'}>
           {buttonLabel}
         </Typography>
-      <BoardTypeMenus register={register('boardType')} handleSelectChange={handleSelectChange} />
+        <BoardTypeMenus register={register('boardType')} handleSelectChange={handleSelectChange} />
       </BoardWriteFormTitleWrapper>
       <Box
         sx={{
@@ -67,7 +67,7 @@ const BoardForm = ({  initialData, submitHandler, useBoardForms, buttonLabel }: 
         </Typography>
       </Box>
       <Box width={'100%'} height={'90%'} paddingTop={'20px'}>
-        <ToastEditor onChange={onChange} hooksCallback={hooksCallback} initialValue={watchValues.watchBoardContent}/>
+        <ToastEditor onChange={onChange} hooksCallback={hooksCallback} initialValue={watchValues.watchBoardContent} />
         {errors.boardContent?.message && (
           <Typography variant={'body2'} sx={{ color: 'red', textAlign: 'left' }}>
             {errors.boardContent?.message}
@@ -104,13 +104,13 @@ const BoardForm = ({  initialData, submitHandler, useBoardForms, buttonLabel }: 
         </Button>
       </FormFooter>
     </form>
-  )
-}
+  );
+};
 
 interface IBoardFormProps {
   initialData?: IBoardDetail;
   submitHandler: (data: IBoardRequest) => void;
-  useBoardForms : ReturnType<typeof useBoardForm>;
+  useBoardForms: ReturnType<typeof useBoardForm>;
   buttonLabel: string;
 }
 
@@ -142,6 +142,5 @@ const FormFooter = styled(Box)`
   height: 100%;
   padding-top: 20px;
 `;
-
 
 export default BoardForm;
