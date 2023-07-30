@@ -1,4 +1,4 @@
-import { MyPageResponse } from '../interfaces/MyPageResponse';
+import { IMyPageResponse } from '../interfaces/IMyPageResponse';
 import { IAxiosClient } from '../AxiosClient/axiosClient';
 
 export interface IMyPageService {
@@ -7,10 +7,10 @@ export interface IMyPageService {
     sortBy: 'like' | 'commentCount' | 'view' | '',
     page: number,
   ) => Promise<any>;
-  deleteCharacterFromUserAccount: (characterId: string, serverId: string) => Promise<any>;
-  getUserMyPageResponse: () => Promise<MyPageResponse>;
+  deleteCharacterFromUserAccount: (characterId: string, serverId: string) => Promise<void>;
+  getUserMyPageResponse: () => Promise<IMyPageResponse>;
   validateUserNickname: (nickname: string) => Promise<any>;
-  addCharacterToUserAccount: (characterId: string, serverId: string) => Promise<void>;
+  addCharacterToUserAccount: (data:{characterId: string, serverId: string}) => Promise<void>;
   changeUserProfileIcon: (formData: FormData) => Promise<any>;
   changeUserNickname: (nickname: string) => Promise<any>;
   changeUserPassword: (password: string) => Promise<any>;
@@ -31,21 +31,21 @@ export default class MyPageService implements IMyPageService {
   constructor(axiosInstance: IAxiosClient) {
     this.axiosInstance = axiosInstance;
   }
-  addCharacterToUserAccount(characterId: string, serverId: string): Promise<void> {
+  addCharacterToUserAccount(data:{characterId: string, serverId: string}) {
     return this.axiosInstance.post(
-      this.addCharacterToUserAccountUrl.replace('{characterId}', characterId).replace('{serverId}', serverId),
+      this.addCharacterToUserAccountUrl.replace('{characterId}', data.characterId).replace('{serverId}', data.serverId),
     );
   }
 
-  changeUserNickname(nickname: string): Promise<any> {
+  changeUserNickname(nickname: string) {
     return this.axiosInstance.put(this.changeUserNicknameUrl.replace('{nickname}', nickname));
   }
 
-  changeUserPassword(password: string): Promise<any> {
+  changeUserPassword(password: string) {
     return this.axiosInstance.put(this.changeUserPasswordUrl.replace('{password}', password));
   }
 
-  changeUserProfileIcon(formData: FormData): Promise<any> {
+  changeUserProfileIcon(formData: FormData) {
     return this.axiosInstance.put(this.changeUserProfileIconUrl, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -53,7 +53,7 @@ export default class MyPageService implements IMyPageService {
     });
   }
 
-  deleteCharacterFromUserAccount(characterId: string, serverId: string): Promise<any> {
+  deleteCharacterFromUserAccount(characterId: string, serverId: string){
     return this.axiosInstance.delete(
       this.deleteCharacterFromUserAccountUrl.replace('{characterId}', characterId).replace('{serverId}', serverId),
     );
@@ -63,17 +63,17 @@ export default class MyPageService implements IMyPageService {
     type: 'board' | 'comment' | 'notification',
     sortBy: 'like' | 'commentCount' | 'view' | '',
     page: number,
-  ): Promise<any> {
+  ) {
     return this.axiosInstance.get(
       this.getUserActivitiesUrl.replace('{type}', type).replace('{sortBy}', sortBy).replace('{page}', page.toString()),
     );
   }
 
-  getUserMyPageResponse(): Promise<MyPageResponse> {
+  getUserMyPageResponse() {
     return this.axiosInstance.get(this.getUserMyPageResponseUrl);
   }
 
-  validateUserNickname(nickname: string): Promise<any> {
+  validateUserNickname(nickname: string) {
     return this.axiosInstance.get(this.validateUserNicknameUrl.replace('{nickname}', nickname));
   }
 }

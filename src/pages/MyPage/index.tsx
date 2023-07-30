@@ -1,13 +1,12 @@
 import { Avatar, Box, Card, Container, Divider, styled } from '@mui/material';
-import { BadRequest } from '../../components/application/error/BadRequest';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
-import { MyPageResponse } from '../../interfaces/MyPageResponse';
-import getMyPageResponse from '../../apis/myPage/getMyPageResponse';
 import ProfileMenus from './ProfileMenus';
 import UserCharacters from './UserCharacters';
 import { useUser } from '../../hooks/authHooks/useUser';
+import useMyPage from '../../hooks/myPageHooks/useMyPage';
+import { Suspense } from 'react';
+import Loading from 'components/Loading/Loading';
 
 const UserProfile = () => {
   const { user } = useUser();
@@ -63,26 +62,14 @@ const UserProfileCard = (props: { refresh: () => void }) => {
 
 const MyPage = () => {
   const { user } = useUser();
-  const [myPageResponse, setMyPageResponse] = useState<MyPageResponse>({} as MyPageResponse);
-  const handleSetMyPageResponse = useCallback((response: MyPageResponse) => {
-    setMyPageResponse(response);
-  }, []);
-  const handleGetMyPageResponse = useCallback(() => {
-    if (user) {
-      getMyPageResponse().then((response) => {
-        handleSetMyPageResponse(response.data);
-      });
-    }
-  }, [user, handleSetMyPageResponse]);
-  useEffect(() => {
-    handleGetMyPageResponse();
-  }, [handleGetMyPageResponse]);
+  const { data } = useMyPage();
+  const response = data?.userDetail;
   return (
+    <Suspense fallback={<Loading />}>
     <Container maxWidth={'md'}>
-      {!user && <BadRequest />}
       {user && (
         <Box>
-          <UserProfileCard refresh={handleGetMyPageResponse} />
+          <UserProfileCard refresh={()=>{}}/>
           <Box sx={{ marginTop: '20px' }}>
             <Typography
               component={'h1'}
@@ -97,13 +84,12 @@ const MyPage = () => {
             >
               내 캐릭터{' '}
             </Typography>
-            {myPageResponse?.userDetail?.characters.length > 0 && (
-              <UserCharacters data={myPageResponse.userDetail.characters} refresh={handleGetMyPageResponse} />
-            )}
+            {response&&<UserCharacters data={response.characters} adventure={user.adventureName}  />}
           </Box>
         </Box>
       )}
     </Container>
+    </Suspense>
   );
 };
 

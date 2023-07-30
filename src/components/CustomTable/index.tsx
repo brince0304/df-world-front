@@ -68,7 +68,7 @@ const TableMenu = (props: TableMenuProps) => {
         //선택된 버튼
         <Button
           key={index}
-          color={props.isSelected === item.id ? 'warning' : 'inherit'}
+          color={props.isSelected === item.id ? 'primary' : 'inherit'}
           sx={{ padding: '2px 5px' }}
           onClick={() => props.setIsSelected?.(item.id)}
         >
@@ -85,7 +85,7 @@ interface TableCustomProps {
   setIsSelected?: (value: string) => void;
   menus?: { name: string; id: string }[];
   useMenu: boolean;
-  isLoading: boolean;
+  isLoading?: boolean;
   useIcon: boolean;
   icon?: React.ReactNode;
   children: React.ReactNode;

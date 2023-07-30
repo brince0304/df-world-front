@@ -3,12 +3,12 @@ import Button from '@mui/material/Button';
 import styled from 'styled-components';
 import { ModalTitle } from '../../../components/application/ui/ModalTitle';
 import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
-import SocialLoginData from '../../../data/SocialLoginButons';
 import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useLogin } from '../../../hooks/authHooks/useLogin';
+import { socialLoginTypes } from '../../../constants';
 
 interface SocialLoginProps {
   data: { src: string; alt: string; type: string }[];
@@ -41,6 +41,7 @@ const LoginPage = (props: { handleChangeSection: () => void }) => {
     username: yup.string().required('아이디를 입력해주세요.'),
     password: yup.string().required('비밀번호를 입력해주세요.'),
   });
+
 
   const {
     register,
@@ -82,7 +83,7 @@ const LoginPage = (props: { handleChangeSection: () => void }) => {
       <LoginFooter>
         <SocialLoginTitle>소셜 로그인</SocialLoginTitle>
         <SocialLoginBox>
-          <SocialLoginButtons data={SocialLoginData.circleButtons} />
+          <SocialLoginButtons data={socialLoginTypes.circleButtons} />
         </SocialLoginBox>
         <LoginButton variant="contained" type="submit">
           로그인

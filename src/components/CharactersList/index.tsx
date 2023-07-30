@@ -1,249 +1,39 @@
-import { Content } from '../../interfaces/CharactersData';
+import { ICharactersData } from '../../interfaces/ICharactersData';
 import React from 'react';
-import { Card, Grid, IconButton, Tooltip } from '@mui/material';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import styled from '@emotion/styled';
-
-const CharacterCard = styled(Card)`
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  &:hover {
-    cursor: pointer;
-    background-color: #f7f8fd;
-    transition: 0.5s;
-  }
-  @media (max-width: 1024px) {
-    padding: 0px;
-  }
-  @media (max-width: 768px) {
-    padding: 0px;
-  }
-  @media (max-width: 480px) {
-    padding: 0px;
-  }
-`;
-
-const CharacterImgWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 150px;
-  img {
-    &:hover {
-      scale: 1.1;
-      transition: 0.5s;
-    }
-  }
-`;
-
-const CharacterNameWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 30%;
-  font-size: 21px;
-  font-weight: 600;
-  color: #000;
-  text-align: center;
-  @media (max-width: 768px) {
-    font-size: 18px;
-  }
-`;
-
-const CharacterDetailsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding-top: 50px;
-`;
-
-const CharacterCardHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-const CharacterServerNameBadgeWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #ca955c;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px;
-  margin: 5px;
-  @media (max-width: 768px) {
-    font-size: 5px;
-    width: 40%;
-  }
-  @media (max-width: 1024px) {
-    width: 60%;
-    font-size: 5px;
-  }
-`;
-
-const CharacterJobNameBadgeWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f7f8fd;
-  width: 50%;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px;
-  margin: 5px;
-  z-index: 1;
-  @media (max-width: 768px) {
-    width: 60%;
-    font-size: 5px;
-  }
-  @media (max-width: 1024px) {
-    width: 60%;
-    font-size: 5px;
-  }
-`;
-
-const CharacterAdventureFameWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-`;
-
-const CharacterAdventureNameWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  color: #4e8d7c;
-  font-size: 14px;
-`;
-
-const CharacterStatContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-  padding-bottom: 10px;
-`;
-
-const CharacterStatWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-`;
-
-const StatTitleBadgeWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: cornflowerblue;
-  width: 85%;
-  background-color: #f7f8fd;
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px;
-  margin: 5px;
-`;
-
-const StatValueWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: dimgrey;
-  font-size: 14px;
-  font-weight: 600;
-`;
+import { Grid } from '@mui/material';
+import InfiniteScroll from 'react-infinite-scroller';
+import { InfiniteData } from '@tanstack/react-query';
+import CharacterCard from 'components/CharacterCard';
 
 const CharacterList = (props: {
-  data: Content[];
-  onClick: (e: React.MouseEvent) => void;
-  deletable?: boolean;
-  adventure?: boolean;
-  onClickDeleteButton?: (e: React.MouseEvent) => void;
+  data: InfiniteData<ICharactersData>;
+  loadFunc?: (...args: any[]) => void;
+  hasMore?: boolean;
 }) => {
   return (
-    <Grid container spacing={3}>
-      {props.data.map((character, index: number) => {
-        return (
-          <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
-            <CharacterCard
-              key={index}
-              data-id={character.characterId}
-              data-server={character.serverId}
-              onClick={props.onClick}
-            >
-              {props.deletable && props.onClickDeleteButton && (
-                <Tooltip title={'캐릭터 삭제'} placement="top">
-                  <IconButton
-                    style={{ position: 'absolute', right: '-5px', top: '-5px', zIndex: 100, color: '#FF4949' }}
-                    data-id={character.characterId}
-                    data-server={character.serverId}
-                    onClick={props.onClickDeleteButton}
-                  >
-                    <RemoveCircleIcon />
-                  </IconButton>
-                </Tooltip>
-              )}
-              <CharacterCardHeader>
-                <CharacterJobNameBadgeWrapper>{character.jobGrowName}</CharacterJobNameBadgeWrapper>
-                <CharacterServerNameBadgeWrapper>{character.serverName}</CharacterServerNameBadgeWrapper>
-              </CharacterCardHeader>
-              <CharacterImgWrapper>
-                <img src={character.characterImgPath} alt={character.characterName} />
-              </CharacterImgWrapper>
-              <CharacterDetailsContainer>
-                <CharacterAdventureFameWrapper>
-                  <img
-                    id="rankIcon"
-                    src={require('../../assets/img/rankingtable/icon_status_fame.png')}
-                    alt="icon"
-                    style={{ width: '15px', height: '15px', marginRight: '5px' }}
-                  />
-                  <span style={{ color: '#CA955C' }}>{character.adventureFame}</span>
-                </CharacterAdventureFameWrapper>
-                <CharacterNameWrapper>{character.characterName}</CharacterNameWrapper>
-                <CharacterAdventureNameWrapper>
-                  {props.adventure && character.adventureName ? `내 모험단 (${character.adventureName})` : ' \u00A0'}
-                  {!props.adventure && character.adventureName ? `${character.adventureName}` : ' \u00A0'}
-                </CharacterAdventureNameWrapper>
-                <CharacterStatContainer>
-                  <CharacterStatWrapper>
-                    <StatTitleBadgeWrapper>버프력</StatTitleBadgeWrapper>
-                    <StatValueWrapper>{character.buffPower ? character.buffPower : '\u00A0'}</StatValueWrapper>
-                  </CharacterStatWrapper>
-                  <CharacterStatWrapper>
-                    <StatTitleBadgeWrapper style={{ color: 'darkred' }}>피해증가</StatTitleBadgeWrapper>
-                    <StatValueWrapper>
-                      {character.damageIncrease ? character.damageIncrease : '\u00A0'}
-                    </StatValueWrapper>
-                  </CharacterStatWrapper>
-                </CharacterStatContainer>
-              </CharacterDetailsContainer>
-            </CharacterCard>
-          </Grid>
-        );
-      })}
-    </Grid>
+    <InfiniteScroll
+      width={'100%'}
+      height={'100%'}
+      pageStart={0}
+      loadMore={props.loadFunc ? props.loadFunc : () => {}}
+      hasMore={props.hasMore ? props.hasMore : false}
+      loader={      <div>
+        더 불러오기
+      </div>}
+    >
+      <Grid container spacing={4}
+      >
+          {props.data.pages.map((page, index: number) => {
+            return page.content.map((character, index) => {
+              return (
+                <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
+                <CharacterCard character={character} />
+                </Grid>
+              );
+            });
+          })}
+      </Grid>
+    </InfiniteScroll>
   );
 };
 

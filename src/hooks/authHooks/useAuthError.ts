@@ -1,31 +1,19 @@
-import { enqueueSnackbar } from 'notistack';
+import useError from 'hooks/useError';
 
 const useAuthError = () => {
-  const autoHideDuration = 1500;
+  const {handleError} = useError();
   const handleLoginError = () => {
-    enqueueSnackbar('아이디나 비밀번호가 옳지 않습니다. 😭', {
-      variant: 'error',
-      autoHideDuration,
-    });
+    handleError('로그인에 실패했습니다. 😭');
   };
 
   const handleLogoutError = () => {
-    enqueueSnackbar('로그아웃에 실패했습니다. 😭', {
-      variant: 'error',
-      autoHideDuration,
-    });
+    handleError('로그아웃에 실패했습니다. 😭');
   };
   const handleRegisterError = (error: any) => {
-    enqueueSnackbar(error.message, {
-      variant: 'error',
-      autoHideDuration,
-    });
+    handleError(error.response.data.message)
   };
   const handleTokenExpiredError = () => {
-    enqueueSnackbar('로그인이 만료되었습니다. 🥲', {
-      variant: 'error',
-      autoHideDuration,
-    });
+    handleError('로그인이 만료되었습니다. 😭');
   };
 
   return {

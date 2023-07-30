@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
-import SocialLoginData from '../../../data/SocialLoginButons';
 import { Divider } from '@mui/material';
+import { socialLoginTypes } from '../../../constants';
 
 const Container = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ export function SocialLogin() {
         소셜 아이디로 로그인
       </Divider>
       <ButtonSection>
-        <LoginButtons data={SocialLoginData.squareButtons} />
+        <LoginButtons data={socialLoginTypes.squareButtons}/>
       </ButtonSection>
     </Container>
   );

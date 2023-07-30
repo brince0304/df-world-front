@@ -1,15 +1,10 @@
 import { useLocation } from 'react-router';
-import { ReactNode, SyntheticEvent, useCallback, useEffect, useState } from 'react';
-import { getCharacterDetail } from '../../../apis/character/getCharacterDetail';
-import { RootState, useAppDispatch } from '../../../redux/store';
+import { ReactNode, Suspense, SyntheticEvent, useCallback, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons';
-import { Avatar, Container, Divider, ListItemButton, Paper, Tab, Tabs } from '@mui/material';
-import { CHARACTER_DETAIL_URL } from '../../../apis/data/urls';
+import { Avatar, Container, Divider, List, ListItemButton, Paper, Tab, Tabs } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import CharacterDetailSkeleton from '../../../components/Skeleton/CharacterDetailSkeleton';
-import { useSelector } from 'react-redux';
 import StarsIcon from '@mui/icons-material/Stars';
 import CharacterEquipmentModal from './CharacterEquipmentModal';
 import { BadRequest } from '../../../components/application/error/BadRequest';
@@ -18,10 +13,13 @@ import {
   CharacterDetailCharacterEquipmentDetails,
   CharacterDetailCharacterEquipmentEquipment,
   CharacterDetailCharacterEquipmentEquipmentBakalInfo,
-  CharacterDetailCharacterEquipmentEquipmentGrowInfoOptions,
-  CharacterDetailJson,
-} from '../../../interfaces/CharacterDetailJson';
+  CharacterDetailCharacterEquipmentEquipmentGrowInfoOptions, ICharacterDetail,
+} from '../../../interfaces/ICharacterDetail';
 import CharacterProfile from './CharacterProfile';
+import { dontNeedList, getRarityColor } from '../../../utils/charactersUtil';
+import useCharacterDetail from '../../../hooks/characterHooks/useCharacterDetail';
+import CharacterDetailSkeleton from '../../../components/Skeleton/CharacterDetailSkeleton';
+import styled from '@emotion/styled';
 
 const typographyProps = {
   component: 'span',
@@ -35,7 +33,7 @@ interface TabPanelProps {
   value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
+const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -72,23 +70,6 @@ function TabPanel(props: TabPanelProps) {
     </div>
   );
 }
-
-const getRarityColor = (rarity: string) => {
-  switch (rarity) {
-    case '에픽':
-      return '#FFB400';
-    case '신화':
-      return '#cc70db';
-    case '유니크':
-      return '#FF00FF';
-    case '레어':
-      return '#B36BFF';
-    case '언커먼':
-      return '#68D5ED';
-    default:
-      return 'gray';
-  }
-};
 
 const EquipmentGrowInfoDetail = (props: { data: CharacterDetailCharacterEquipmentEquipmentGrowInfoOptions[] }) => {
   return (
@@ -182,27 +163,6 @@ const CharacterEquipmentModalDetail = (props: {
   detail: CharacterDetailCharacterEquipmentDetails;
   equipment: CharacterDetailCharacterEquipmentEquipment;
 }) => {
-  const dontNeedList = [
-    '물리 방어력',
-    '마법 방어력',
-    '내구도',
-    '공격속도',
-    '캐스트속도',
-    '이동속도',
-    '인벤토리 무게 한도',
-    'HP MAX',
-    'MP MAX',
-    '적중률',
-    '물리 크리티컬 히트',
-    '마을 이동 속도 증가',
-    '마법 크리티컬 히트',
-    '체력',
-    '모든 속성 저항',
-    '히트리커버리',
-    'MP 1분당 회복',
-    'HP 1분당 회복',
-    '모든 상태변화 내성',
-  ];
   const dividerStyle = { width: '100%', marginTop: '10px', marginBottom: '10px' };
   //증가 단어마다 줄바꿈
   return (
@@ -569,59 +529,36 @@ const CharacterEquipmentDetail = (props: {
   );
 };
 
+const CharacterDetailContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  padding: 20px 10px;
+`;
+
 const CharacterDetail = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const characterId = searchParams.get('characterId');
-  const serverId = searchParams.get('serverId');
-  const [data, setData] = useState<CharacterDetailJson>({} as CharacterDetailJson);
-  const dispatch = useAppDispatch();
+  const characterId = searchParams.get('characterId') as string;
+  const serverId = searchParams.get('serverId') as string;
   const [selectedTab, setSelectedTab] = useState(0);
-  const isLoading = useSelector((state: RootState) => state.app.isLoading);
-  const [isError, setIsError] = useState<boolean>(false);
-  const handleChange = useCallback((event: SyntheticEvent, newValue: number) => {
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
-  }, []);
-  useEffect(() => {
-    if (characterId && serverId) {
-      dispatch(
-        getCharacterDetail(
-          CHARACTER_DETAIL_URL + `?characterId=${characterId ? characterId : ''}&serverId=${serverId ? serverId : ''}`,
-          setData,
-          setIsError,
-        ),
-      );
-    }
-  }, [characterId, serverId]);
-  const handleRefresh = useCallback(() => {
-    if (characterId && serverId) {
-      dispatch(
-        getCharacterDetail(
-          CHARACTER_DETAIL_URL + `?characterId=${characterId ? characterId : ''}&serverId=${serverId ? serverId : ''}`,
-          setData,
-          setIsError,
-        ),
-      );
-    }
-  }, [characterId, serverId]);
+  }
+  const {data,refetch ,isError} = useCharacterDetail(characterId, serverId);
   return (
-    <Container
+    <CharacterDetailContainer
       maxWidth={'md'}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative' as 'relative',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        width: '100%',
-        height: '100%',
-        padding: '20px 10px',
-      }}
     >
-      {isLoading && <CharacterDetailSkeleton />}
-      {!isLoading && !isError && <CharacterProfile handleRefresh={handleRefresh} data={data} />}
+      <Suspense fallback={<CharacterDetailSkeleton/>}>
+      {data && <CharacterProfile refetch={refetch} data={data} />}
+      </Suspense>
       {isError && <BadRequest />}
-      {!isError && (
+      {data && (
         <Paper
           elevation={3}
           sx={{
@@ -666,28 +603,37 @@ const CharacterDetail = () => {
             }}
           >
             <TabPanel index={0} value={selectedTab}>
-              {data?.characterEquipment?.equipment?.map((equipment, index) => {
-                return (
-                  <CharacterEquipmentDetail
-                    equipment={equipment}
-                    detail={data?.characterEquipmentDetails?.find((o) => {
-                      return o.itemId === equipment.itemId;
-                    })}
-                    key={index}
-                  />
-                );
-              })}
+              <CharacterEquipmentList {...data} />
             </TabPanel>
             <TabPanel index={1} value={selectedTab}>
-              {data.characterAbility && data.characterAbility.status && (
+              {data?.characterAbility && data.characterAbility.status && (
                 <CharacterStatDetail data={data.characterAbility.status} />
               )}
             </TabPanel>
           </Box>
         </Paper>
       )}
-    </Container>
+    </CharacterDetailContainer>
   );
 };
+
+const CharacterEquipmentList = (data:  ICharacterDetail) => {
+  return (
+    <List>
+      {data.characterEquipment.equipment.map((equipment, index) => {
+      return (
+        <CharacterEquipmentDetail
+          equipment={equipment}
+          detail={data?.characterEquipmentDetails?.find((o) => {
+            return o.itemId === equipment.itemId;
+          })}
+          key={index}
+        />
+      );
+    }
+  )}
+</List>
+  );
+}
 
 export default CharacterDetail;

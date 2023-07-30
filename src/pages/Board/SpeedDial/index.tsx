@@ -3,59 +3,24 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import { IconButton, Pagination, Slide, styled } from '@mui/material';
+import { IconButton, Slide, styled } from '@mui/material';
 import ModeIcon from '@mui/icons-material/Mode';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
-import CustomSearchBox from '../../../components/CustomSearchBox';
 import { DragHandleRounded, HighlightOffOutlined } from '@mui/icons-material';
-import { BOARD_LIST_URL, BOARD_WRITE_URL } from '../../../apis/data/urls';
+import {  BOARD_WRITE_URL } from '../../../apis/data/urls';
 
 const actions = [
   { icon: <ModeIcon />, name: '글쓰기' },
   { icon: <SearchIcon />, name: '검색' },
 ];
 
-const CustomBox = styled(Box)`
-  display: none;
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  z-index: 1000;
-  @media (max-width: 1024px) {
-    display: block;
-  }
-`;
-
-export const boardSelectOptions = {
-  types: [
-    { value: 'title', label: '제목' },
-    { value: 'content', label: '내용' },
-  ],
-};
-
-const SearchboxWrapper = styled(Box)`
-  position: fixed;
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  bottom: 40px;
-  right: 100px;
-  z-index: 1000;
-  width: 350px;
-  height: 40px;
-`;
 
 function BoardSpeedDial(props: {
   boardType: string;
-  totalPages: number;
-  currentPage: number;
-  handlePaginationChange: (event: React.ChangeEvent<unknown>, value: number) => void;
 }) {
   const [searchBoxIsOpened, setSearchBoxIsOpened] = useState(false);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const handleOpenSearchBox = () => {
     setSearchBoxIsOpened(!searchBoxIsOpened);
   };
@@ -67,15 +32,10 @@ function BoardSpeedDial(props: {
       handleOpenSearchBox();
     }
   };
-  const handleNavigate = (searchType: string, searchKeyword: string) => {
-    navigate(BOARD_LIST_URL + `?searchType=${searchKeyword}&keyword=${searchType}&boardType=${props.boardType}`);
-  };
-
   return (
     <CustomBox>
       <Slide in={searchBoxIsOpened} direction={'left'}>
         <SearchboxWrapper>
-          <Pagination count={props.totalPages} color="primary" size="small" onChange={props.handlePaginationChange} />
           <IconButton
             sx={{
               position: 'absolute',
@@ -87,13 +47,6 @@ function BoardSpeedDial(props: {
           >
             <HighlightOffOutlined />
           </IconButton>
-          <CustomSearchBox
-            filterOptions={boardSelectOptions.types}
-            useSearchOption={false}
-            placeholder={'검색'}
-            handleNavigate={handleNavigate}
-            direction={'up'}
-          />
         </SearchboxWrapper>
       </Slide>
       <SpeedDial direction={'up'} ariaLabel="SpeedDial basic example" sx={{}} icon={<DragHandleRounded />}>
@@ -110,5 +63,31 @@ function BoardSpeedDial(props: {
     </CustomBox>
   );
 }
+
+
+const CustomBox = styled(Box)`
+  display: none;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1000;
+  @media (max-width: 1024px) {
+    display: block;
+  }
+`;
+
+const SearchboxWrapper = styled(Box)`
+  position: fixed;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  bottom: 40px;
+  right: 100px;
+  z-index: 1000;
+  width: 350px;
+  height: 40px;
+`;
 
 export default BoardSpeedDial;

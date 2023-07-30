@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { QUERY_KEY } from '../../constants/queryKeys';
+import { QUERY_KEY } from '../../constants';
 import useAuthSuccess from './useAuthSuccess';
 import { useAuthService } from '../../context/userServiceContext';
 import useAuthError from './useAuthError';

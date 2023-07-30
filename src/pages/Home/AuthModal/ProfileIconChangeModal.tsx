@@ -6,12 +6,12 @@ import styled from 'styled-components';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Divider, IconButton } from '@mui/material';
-import { profileIconData } from '../../../data/ProfileIconData';
 import ImageUploader from '../../../components/ImageUploader';
 import axiosInstance from '../../../apis/axiosClient';
+import { profileIcons } from '../../../constants';
 
 export default function ProfileIconChangeModal(props: ProfileIconChangeModalProps) {
-  const data = profileIconData;
+  const data = profileIcons;
   const handleChangeIcon = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (window.confirm('아이콘을 변경하시겠습니까?')) {
       const url = e.currentTarget.dataset.id;
@@ -51,9 +51,9 @@ export default function ProfileIconChangeModal(props: ProfileIconChangeModalProp
               <span>혹은 기본 아이콘을 선택해주세요!</span>
             </IconSelectorWrapper>
             <ProfileIconChangeContainer>
-              {data.map((datum, index) => (
-                <IconButton data-id={datum.url} onClick={handleChangeIcon} key={index}>
-                  <Avatar src={'/images/icon_char/' + datum.name} sx={{ width: 30, height: 30, margin: 1 }} />
+              {data.map((icon, index) => (
+                <IconButton data-id={icon.url} onClick={handleChangeIcon} key={index}>
+                  <Avatar src={'/images/icon_char/' + icon.name} sx={{ width: 30, height: 30, margin: 1 }} />
                 </IconButton>
               ))}
             </ProfileIconChangeContainer>

@@ -1,43 +1,19 @@
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { RootState } from '../../../redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLoginModalOpened } from '../../../redux';
 import { Dialog, DialogContent, Divider } from '@mui/material';
 import RegisterPage from './RegisterPage';
 import { SocialLogin } from './SocialLogin';
 import LoginPage from './LoginPage';
 
-const RegisterContainer = styled.div`
-  display: ${(props: { isloginpage: boolean }) => (props.isloginpage ? 'none' : 'flex')};
-  width: 100%;
-  height: 100%;
-  //넘치면 스크롤바
-  @media (max-width: 768px) {
-    width: 100%;
+function LoginModal({ isOpened, setIsOpened }: LoginModalProps) {
+  const [isLoginPage, setIsLoginPage] = useState<boolean>(true);
+  const handleChangeSection = () => {
+    setIsLoginPage(!isLoginPage);
   }
-`;
-
-const LoginContainer = styled.div`
-  display: ${(props: { isloginpage: boolean }) => (props.isloginpage ? 'flex' : 'none')};
-  height: 100%;
-  align-items: center;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
-
-function LoginModal() {
-  const [isloginpage, setIsloginpage] = useState<boolean>(true);
-  const handleChangeSection = useCallback(() => {
-    setIsloginpage(!isloginpage);
-  }, [isloginpage]);
-  const dispatch = useDispatch();
-  const isOpened = useSelector((state: RootState) => state.modal.loginModalOpened);
   const handleClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
-    dispatch(setLoginModalOpened(false));
+
   };
 
   return (
@@ -52,10 +28,10 @@ function LoginModal() {
       }}
     >
       <DialogContent>
-        <RegisterContainer isloginpage={isloginpage.valueOf()} id={'register-part'}>
+        <RegisterContainer isLoginPage={isLoginPage} id={'register-part'}>
           <RegisterPage handleChangeSection={handleChangeSection} />
         </RegisterContainer>
-        <LoginContainer isloginpage={isloginpage.valueOf()} id={'postSignIn-part'}>
+        <LoginContainer isLoginPage={isLoginPage} id={'postSignIn-part'}>
           <SocialLogin />
           <Divider
             orientation={'vertical'}
@@ -72,5 +48,29 @@ function LoginModal() {
     </Dialog>
   );
 }
+
+interface LoginModalProps {
+  isOpened: boolean;
+  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const RegisterContainer = styled.div`
+  display: ${(props: { isLoginPage: boolean }) => (props.isLoginPage ? 'none' : 'flex')};
+  width: 100%;
+  height: 100%;
+  //넘치면 스크롤바
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const LoginContainer = styled.div`
+  display: ${(props: { isLoginPage: boolean }) => (props.isLoginPage ? 'flex' : 'none')};
+  height: 100%;
+  align-items: center;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
 
 export default LoginModal;

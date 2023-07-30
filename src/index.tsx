@@ -4,36 +4,45 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import { persistStore } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
 import { AxiosClient } from './AxiosClient/axiosClient';
 import axiosClient from './apis/axiosClient';
 import { UserService } from './service/userService';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MyPageService from './service/myPageService';
 import ServiceContextProvider from './context/serviceContextProvider';
+import { RecoilRoot } from 'recoil';
+import CharacterService from './service/characterService';
+import BoardService from './service/boardService';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-const persistor = persistStore(store);
 const client = new AxiosClient(axiosClient);
 const authService = new UserService(client);
+const characterService = new CharacterService(client);
 const myPageService = new MyPageService(client);
-const queryClient = new QueryClient();
+const boardService = new BoardService(client);
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      suspense: true,
+      staleTime: 1000 * 60 * 5,
+    },
+    mutations:{
+      retry: false,
+    }
+}
+});
 
 root.render(
-  <ServiceContextProvider userService={authService} myPageService={myPageService}>
+  <RecoilRoot>
+  <ServiceContextProvider userService={authService} myPageService={myPageService} characterService={characterService} boardService={boardService}>
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        </PersistGate>
-      </Provider>
     </QueryClientProvider>
-  </ServiceContextProvider>,
+  </ServiceContextProvider>
+  </RecoilRoot>
 );
 
 // If you want to start measuring performance in your app, pass a function

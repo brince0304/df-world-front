@@ -8,10 +8,8 @@ interface CharacterImgProps {
 }
 
 const CharacterImg = styled.img`
-  width: 120px;
-  height: 80px;
   scale: 3;
-  transform: translateY(5px);
+  transform: translateY(2px);
 `;
 
 const ImgWrapper = styled.div`

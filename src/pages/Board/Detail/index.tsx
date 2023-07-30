@@ -16,20 +16,12 @@ import {
 import { useParams } from 'react-router';
 import Box from '@mui/material/Box';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BoardDetailData } from '../../../interfaces/BoardDetailData';
-import { setIsLoading } from '../../../redux';
-import { RootState, useAppDispatch } from '../../../redux/store';
-import { useSelector } from 'react-redux';
-import { getBoardDetail } from '../../../apis/board/getBoardDetail';
-import { BOARD_BEST_ARTICLE_URL, BOARD_DETAIL_URL } from '../../../apis/data/urls';
-import BestContent, { ContentFlowProps } from '../../../components/BestContent';
-import { getBestArticles } from '../../../apis/board/getBestArticles';
+import BestContent from '../../../components/BestBoardList';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
-import { postBoardLike } from '../../../apis/board/postBoardLike';
 import SendIcon from '@mui/icons-material/Send';
 import {
   CommentListData,
@@ -41,20 +33,18 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { postBoardComment } from '../../../apis/boardComment/postBoardComment';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import { deleteBoardComment } from '../../../apis/boardComment/deleteBoardComment';
-import { deleteBoard } from '../../../apis/board/deleteBoard';
-import { BadRequest } from '../../../components/application/error/BadRequest';
-import BoardDetailSkeleton from '../../../components/Skeleton/BoardDetailSkeleton';
 import { postCommentLike } from '../../../apis/boardComment/postCommentLike';
-import { BOARD_INSERT_FORM_ROUTE, BOARD_UPDATE_FORM_ROUTE } from '../../../apis/data/route';
 import { putBoardComment } from '../../../apis/boardComment/putBoardComment';
 import { postChildrenComment } from '../../../apis/boardComment/postChildrenComment';
 import { getChildrenComment } from '../../../apis/boardComment/getChildrenComment';
-import { BestArticleNoDataWrapper, BestArticleTitleComponent, CharacterChip, getBoardType, TagChip } from '..';
+import { CharacterChip } from '..';
 import { useUser } from '../../../hooks/authHooks/useUser';
+import useBoardDetail from '../../../hooks/boardHooks/useBoardDetail';
+import useLikeBoard from '../../../hooks/boardHooks/useLikeBoard';
+import useDeleteBoard from '../../../hooks/boardHooks/useDeleteBoard';
+import { getBoardType } from '../../../utils/boardUtil';
+import { TagChip } from '../../../components/BoardList/TagChip';
 
 const TagContainer = styled(Box)`
   display: flex;
@@ -142,16 +132,6 @@ const CommentContainer = styled(Paper)`
   padding: 10px;
 `;
 
-const BestCommentTitle = styled(Typography)`
-  display: flex;
-  font-size: 18px;
-  font-weight: bold;
-  font-family: 'Core Sans', serif;
-  background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
-  -webkit-background-clip: text;
-  color: transparent;
-`;
-
 const deleteEditButtonStyle = {
   color: 'gray',
   fontWeight: '400',
@@ -172,50 +152,42 @@ const commentButtonStyle = {
   },
 };
 
-const BestCommentNoDataWrapper = () => {
-  return (
-    <Box>
-      <Typography fontFamily={'Core Sans'} fontSize={'15px'}>
-        베댓이 존재하지 않습니다.
-      </Typography>
-    </Box>
-  );
-};
 
-const ChipFontWrapper = styled(Box)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: bold;
-  color: white;
-`;
+// const ChipFontWrapper = styled(Box)`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   gap: 5px;
+//   font-size: 12px;
+//   font-weight: bold;
+//   color: white;
+// `;
+//
+// const ChipContainer = styled(Box)`
+//   display: flex;
+//   flex-direction: row;
+//   align-content: center;
+//   justify-content: center;
+//   width: 100%;
+//   height: 100%;
+//   gap: 10px;
+// `;
 
-const ChipContainer = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  gap: 10px;
-`;
-
-const ChipContent = (props: { likeCount: number; commentCount: number }) => {
-  return (
-    <ChipContainer>
-      <ChipFontWrapper>
-        <FavoriteIcon sx={{ fontSize: 12 }} />
-        {props.likeCount}
-      </ChipFontWrapper>
-      <ChipFontWrapper>
-        <FontAwesomeIcon icon={faMessage} />
-        {props.commentCount}
-      </ChipFontWrapper>
-    </ChipContainer>
-  );
-};
+// // eslint-disable-next-line
+// const ChipContent = (props: { likeCount: number; commentCount: number }) => {
+//   return (
+//     <ChipContainer>
+//       <ChipFontWrapper>
+//         <FavoriteIcon sx={{ fontSize: 12 }} />
+//         {props.likeCount}
+//       </ChipFontWrapper>
+//       <ChipFontWrapper>
+//         <FontAwesomeIcon icon={faMessage} />
+//         {props.commentCount}
+//       </ChipFontWrapper>
+//     </ChipContainer>
+//   );
+// };
 
 export interface CommentForm {
   commentContent: string;
@@ -757,83 +729,18 @@ const ReplyList = (props: {
 };
 
 const BoardDetail = () => {
-  const dispatch = useAppDispatch();
   const { boardId } = useParams<{ boardId: string }>();
   let navigate = useNavigate();
   const { user } = useUser();
-  const [boardData, setBoardData] = useState<BoardDetailData>({} as BoardDetailData);
-  const boardType = boardData?.article?.boardType ? boardData?.article?.boardType : 'ALL';
-  const [bestArticle, setBestArticle] = useState<ContentFlowProps[]>([]);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(0);
   const [commentData, setCommentData] = useState<CommentListData>({} as CommentListData);
   const [isCommentLoading, setIsCommentLoading] = useState<boolean>(false);
   // eslint-disable-next-line
   const [isCommentError, setIsCommentError] = useState<boolean>(false);
-  const [bestComments, setBestComments] = useState<ContentFlowProps[]>([]);
-  const [isBoardDetailError, setIsBoardDetailError] = useState<boolean>(false);
-  const isLoading = useSelector((state: RootState) => state.app.isLoading);
-
-  const handleSetBestComment = useCallback((commentList: CommentListData) => {
-    const data = [] as ContentFlowProps[];
-    commentList.bestComments.map((comment) => {
-      data.push({
-        id: comment.id,
-        title: comment.commentContent,
-        avatarSrc: comment.userProfileImgUrl,
-        avatarName: comment.userNickname,
-        content: <ChipContent likeCount={comment.commentLikeCount} commentCount={comment.childrenComments?.length} />,
-        link: '',
-      });
-      setBestComments(data);
-    });
-  }, []);
-
-  useEffect(() => {
+  const {data , isLiked} = useBoardDetail(boardId || '');
+  const { likeBoardMutation:likeBoard, likeCount } = useLikeBoard(boardId || '');
+  const handleBoardLike = () => {
     if (boardId) {
-      handleGetBoardDetail(boardId);
-      handleGetBoardComment(boardId);
-    }
-    getBestArticles(BOARD_BEST_ARTICLE_URL + boardType, BOARD_DETAIL_URL, setBestArticle);
-  }, [boardId]);
-  const handleBestArticleNavigate = (articleId: number) => {
-    navigate(BOARD_DETAIL_URL + articleId);
-  };
-  const handleGetBoardDetail = useCallback(
-    (boardId: string) => {
-      dispatch(setIsLoading(true));
-      getBoardDetail(BOARD_DETAIL_URL + boardId)
-        .then((res) => {
-          setBoardData(res.data);
-          setIsBoardDetailError(false);
-          dispatch(setIsLoading(false));
-          handleSetBoardLike(res.data.likeLog, res.data.article.boardLikeCount);
-        })
-        .catch((err) => {
-          dispatch(setIsLoading(false));
-          setIsBoardDetailError(true);
-        });
-    },
-    [boardId],
-  );
-
-  const handleBoardLike = useCallback(() => {
-    if (boardId) {
-      postBoardLike(boardId, setLikeCount);
-      setIsLiked(!isLiked);
-    }
-  }, [boardId, isLiked]);
-
-  const handleSetBoardLike = useCallback((isLiked: boolean, likeCount: number) => {
-    setIsLiked(isLiked);
-    setLikeCount(likeCount);
-  }, []);
-
-  const handleBestCommentNavigate = (id: number) => {
-    //해당 id 를 갖고있는 섹션으로 이동
-    const commentSection = document.getElementById('comment-' + id);
-    if (commentSection) {
-      commentSection.scrollIntoView({ behavior: 'smooth' });
+        likeBoard();
     }
   };
 
@@ -844,27 +751,18 @@ const BoardDetail = () => {
         setCommentData(res.data);
         setIsCommentError(false);
         setIsCommentLoading(false);
-        handleSetBestComment(res.data);
       })
       .catch((err) => {
         setIsCommentError(true);
         setIsCommentLoading(false);
       });
   }, []);
+  const deleteBoard = useDeleteBoard(boardId || '');
 
-  const handleDeleteBoard = (boardId: string) => {
+  const handleDeleteBoard = () => {
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
-      deleteBoard(boardId)
-        .then((res) => {
-          if (res.status === 200) {
-            alert('게시글이 삭제되었습니다.');
-            navigate(-1);
-          }
-        })
-        .catch((err) => {
-          alert('게시글 삭제에 실패했습니다.');
-        });
-    }
+       deleteBoard();
+      }
   };
 
   const {
@@ -877,19 +775,10 @@ const BoardDetail = () => {
     resolver: yupResolver(schema),
   });
 
-  const handleNavigateToBoardUpdate = () => {
-    if (typeof boardId === 'string') {
-      navigate(BOARD_UPDATE_FORM_ROUTE.replace('{boardId}', boardId).replace('{boardType}', boardType));
-    }
-  };
-
   const handleNavigateToBoardList = () => {
     navigate(-1);
   };
 
-  const handleNavigateToBoardInsert = () => {
-    navigate(BOARD_INSERT_FORM_ROUTE + '?boardType=' + boardType + '&request=add');
-  };
   const handleCommentSubmit = (data: CommentForm) => {
     if (user && boardId) {
       postBoardComment(data, boardId)
@@ -905,49 +794,42 @@ const BoardDetail = () => {
         });
     }
   };
-
+  const article = data?.article;
   const onInvalid = (errors: any) => {
     console.info(errors);
   };
-
   return (
     <Container maxWidth={'md'} sx={{ paddingTop: '20px' }}>
-      {!isBoardDetailError && isLoading && <BoardDetailSkeleton />}
-      {!isBoardDetailError && boardData?.article && !isLoading && (
+
+      {article  && (
         <Paper sx={{ padding: '10px 20px 20px 20px' }}>
           <Box sx={{ paddingBottom: '10px' }}>
-            <BestContent
-              data={bestArticle}
-              flowTitle={<BestArticleTitleComponent />}
-              handleNavigate={handleBestArticleNavigate}
-              chipColor={'default'}
-              noDataWrapper={<BestArticleNoDataWrapper />}
-            />
+            <BestContent boardType={'ALL'} />
           </Box>
           <BoardDetailContainer>
             <TagContainer>
               <Chip
-                label={getBoardType(boardData?.article?.boardType)}
+                label={getBoardType(article.boardType)}
                 size={'small'}
                 color={'primary'}
                 sx={{ fontWeight: 'bold' }}
               />
-              {boardData?.article?.hashtags?.map((hashtag, index) => (
-                <TagChip key={index} boardType={boardData.article.boardType} tag={hashtag} />
+              {article.hashtags.map((hashtag, index) => (
+                <TagChip key={index} boardType={article.boardType} tag={hashtag} />
               ))}
-              {boardData?.article?.character && (
+              {article.character && (
                 <CharacterChip
-                  characterName={boardData.article.character.characterName}
-                  characterImgUrl={boardData.article.character.characterImageUrl}
-                  adventureName={boardData.article.character.adventureName}
-                  serverId={boardData.article.character.serverId}
-                  characterId={boardData.article.character.characterId}
+                  characterName={article.character.characterName}
+                  characterImgUrl={article.character.characterImageUrl}
+                  adventureName={article.character.adventureName}
+                  serverId={article.character.serverId}
+                  characterId={article.character.characterId}
                 />
               )}
             </TagContainer>
-            <BoardTitleWrapper>{boardData?.article?.boardTitle}</BoardTitleWrapper>
+            <BoardTitleWrapper>{data?.article?.boardTitle}</BoardTitleWrapper>
             <BoardAuthorContainer>
-              <Avatar src={boardData?.article?.userProfileIconPath} sx={{ width: '20px', height: '20px' }} />
+              <Avatar src={data?.article?.userProfileIconPath} sx={{ width: '20px', height: '20px' }} />
               <Typography
                 sx={{
                   fontSize: '13px',
@@ -955,12 +837,12 @@ const BoardDetail = () => {
                   fontFamily: 'Core Sans',
                 }}
               >
-                {boardData?.article?.userNickname}
+                {article.userNickname}
               </Typography>
             </BoardAuthorContainer>
             <BoardAuthorContainer>
-              <CreatedAtWrapper>{boardData?.article?.createdAt}</CreatedAtWrapper>
-              <ViewCountWrapper>조회수 {boardData?.article?.boardViewCount}</ViewCountWrapper>
+              <CreatedAtWrapper>{article.createdAt}</CreatedAtWrapper>
+              <ViewCountWrapper>조회수 {article.boardViewCount}</ViewCountWrapper>
             </BoardAuthorContainer>
             <Divider sx={{ marginTop: '10px' }} />
             <LikeButtonContainer>
@@ -976,16 +858,14 @@ const BoardDetail = () => {
                 }
                 label={<LikeCountWrapper>{likeCount}</LikeCountWrapper>}
               />
-              {user && boardData?.article?.userId === user.userId && (
+              {user &&  article.userId === user.userId && (
                 <Box sx={{ display: 'flex' }}>
-                  <Button sx={deleteEditButtonStyle} onClick={handleNavigateToBoardUpdate}>
+                  <Button sx={deleteEditButtonStyle} onClick={()=>{}}>
                     수정
                   </Button>
                   <Button
                     sx={deleteEditButtonStyle}
-                    onClick={(e) => {
-                      handleDeleteBoard(boardData?.article?.id.toString());
-                    }}
+                    onClick={handleDeleteBoard}
                   >
                     삭제
                   </Button>
@@ -993,9 +873,7 @@ const BoardDetail = () => {
               )}
             </LikeButtonContainer>
             <Box sx={{ textAlign: 'left' }}>
-              {boardData?.article?.boardContent && (
-                <div dangerouslySetInnerHTML={{ __html: boardData?.article?.boardContent }} />
-              )}
+              <div dangerouslySetInnerHTML={{ __html: article.boardContent }} />
             </Box>
             <Divider sx={{ marginTop: '10px', marginBottom: '10px' }} />
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 'auto' }}>
@@ -1008,7 +886,7 @@ const BoardDetail = () => {
                   돌아가기
                 </Typography>
               </Button>
-              <Button onClick={handleNavigateToBoardInsert}>
+              <Button onClick={()=>{}}>
                 <Typography
                   sx={{ fontSize: '14px', fontWeight: 'bold', fontFamily: 'Core Sans' }}
                   color={'black'}
@@ -1018,13 +896,6 @@ const BoardDetail = () => {
                 </Typography>
               </Button>
             </Box>
-            <BestContent
-              data={bestComments}
-              handleNavigate={handleBestCommentNavigate}
-              flowTitle={<BestCommentTitle>베스트</BestCommentTitle>}
-              chipColor={'default'}
-              noDataWrapper={<BestCommentNoDataWrapper />}
-            />
             <BoardWriterWrapper sx={{ fontSize: '14px', marginLeft: 0, paddingBottom: '10px' }}>
               댓글 {commentData?.comments?.length}개
               <CircularProgress
@@ -1102,7 +973,6 @@ const BoardDetail = () => {
           </BoardDetailContainer>
         </Paper>
       )}
-      {isBoardDetailError && <BadRequest />}
     </Container>
   );
 };

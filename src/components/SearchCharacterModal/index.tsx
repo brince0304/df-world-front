@@ -5,42 +5,13 @@ import { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import { LinearProgress, styled } from '@mui/material';
 
-const style = {
-  display: 'flex' as 'flex',
-  alignItems: 'flex-start' as 'flex-start',
-  position: 'relative' as 'relative',
-  overflow: 'scroll' as 'scroll',
-  flexDirection: 'column' as 'column',
-  //스크롤바 숨기기
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  //props width
-  bgcolor: 'background.paper',
-  borderRadius: 2,
-  boxShadow: 24,
-  height: '600px',
-  width: '400px',
-};
-const ModalBody = styled(Box)`
-  display: flex;
-  position: relative;
-  height: 100%;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 20px;
-`;
 
 const SearchCharacterModal = (props: {
   isOpened: boolean;
   handleClose: () => void;
   children: ReactNode;
   serachBox: ReactNode;
-  isLoading: boolean;
+  isLoading?: boolean;
 }) => {
   return (
     <Modal open={props.isOpened} onClose={props.handleClose}>
@@ -79,5 +50,36 @@ const SearchCharacterModal = (props: {
     </Modal>
   );
 };
+
+
+const style = {
+  display: 'flex' as 'flex',
+  alignItems: 'flex-start' as 'flex-start',
+  position: 'relative' as 'relative',
+  overflow: 'scroll' as 'scroll',
+  flexDirection: 'column' as 'column',
+  //스크롤바 숨기기
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  //props width
+  bgcolor: 'background.paper',
+  borderRadius: 2,
+  boxShadow: 24,
+  height: '600px',
+  width: '400px',
+};
+const ModalBody = styled(Box)`
+  display: flex;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 20px;
+`;
 
 export default SearchCharacterModal;

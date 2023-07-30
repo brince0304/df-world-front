@@ -1,16 +1,15 @@
-import react from 'react';
-import React, { useEffect } from 'react';
+import react, { Suspense } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import CustomTable from '../../../../components/CustomTable';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faExclamationTriangle, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { ErrorScreen } from '../../../../components/ErrorScreen';
-import { getLatestBoard } from '../../../../apis/board/getLatestBoard';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, IconButton, ListItemButton } from '@mui/material';
 import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import { BoardContent } from '../../../../interfaces/BoardListData';
+import { BoardContent } from '../../../../interfaces/IBoardList';
+import useLatestBoard from '../../../../hooks/boardHooks/useLatestBoard';
 
 const BoardBody = styled.div`
   display: flex;
@@ -111,7 +110,7 @@ const BoardList = (props: { data: BoardContent[] }) => {
     navigate(`/boards/${id}`);
   };
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       {props.data.map((item, index: number) => (
         <ListItemButton
           key={index}
@@ -164,19 +163,14 @@ const BoardList = (props: { data: BoardContent[] }) => {
           </LikeCommentContainer>
         </ListItemButton>
       ))}
-    </>
+    </Suspense>
   );
 };
 
 const LatestBoard = (props: BoardProps) => {
   const [isSelected, setIsSelected] = props.boardTypes ? react.useState('FREE') : react.useState('NOTICE');
-  const [data, setData] = react.useState<[]>([]);
-  const [isLoading, setIsLoading] = react.useState(false);
-  const [isError, setIsError] = react.useState(false);
-  useEffect(() => {
-    getLatestBoard(setIsError, setIsLoading, props.url, isSelected, setData);
-  }, [isSelected]);
-  let navigate = useNavigate();
+  const data = useLatestBoard(isSelected);
+  const navigate = useNavigate();
 
   return (
     <CustomTable
@@ -186,7 +180,6 @@ const LatestBoard = (props: BoardProps) => {
       setIsSelected={setIsSelected}
       useMenu={true}
       useIcon={true}
-      isLoading={isLoading}
       icon={
         <IconButton onClick={() => navigate('/boards/?boardType=' + isSelected)}>
           <FontAwesomeIcon icon={faChevronRight} size="sm" />
@@ -194,9 +187,7 @@ const LatestBoard = (props: BoardProps) => {
       }
     >
       <BoardBody>
-        {data?.length > 0 && !isError && <BoardList data={data} />}
-        {data?.length === 0 && !isError && <ErrorScreen icon={faXmark} message={'게시글이 없습니다.'} />}
-        {isError && <ErrorScreen icon={faExclamationTriangle} message={'게시글을 불러오는데 실패했습니다.'} />}
+        {data && <BoardList data={data.content} />}
       </BoardBody>
     </CustomTable>
   );

@@ -1,14 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import useNavBar from '../../hooks/useNavBar';
 import React, { useCallback, useState } from 'react';
-import { RootState, useAppDispatch } from '../../redux/store';
-import { removeCharacterHistory, setLoginModalOpened } from '../../redux';
-import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
-import CustomSearchBox from '../CustomSearchBox';
-import { HeaderData } from '../../data/HeaderData';
-import { getCharactersAutoComplete } from '../../apis/character/getCharactersAutoComplete';
+import SearchForm from '../SearchBox';
 import { Avatar, Badge, Box, Button, IconButton, Tooltip, tooltipClasses, TooltipProps, Zoom } from '@mui/material';
 import { HeaderProfile } from './HeaderProfile';
 import LoginModal from '../../pages/Home/AuthModal';
@@ -16,9 +11,13 @@ import MobileHeader from '../MobileHeader';
 import styled from 'styled-components';
 import { useUser } from '../../hooks/authHooks/useUser';
 import { useLogout } from '../../hooks/authHooks/useLogout';
+import { serverList } from '../../utils/charactersUtil';
+import { headerMenu } from '../../constants';
+import CharacterSearchBoxChild from '../SearchBox/CharacterSearchBoxChild';
+import useFastCharacterSearch from '../../hooks/useFastSearch';
 
 const HeaderProfileMenuBox = () => {
-  const notificationCount = useSelector((state: RootState) => state.notification.notificationCount);
+  const { user } = useUser();
   const navigate = useNavigate();
   const handleNavigateToMypage = () => {
     navigate('/mypage/');
@@ -36,10 +35,10 @@ const HeaderProfileMenuBox = () => {
       <Tooltip title={'알림'} placement={'bottom'}>
         <MenuIconWrapper>
           <IconButton>
-            {notificationCount === 0 ? (
+            {user?.notificationCount === 0 ? (
               <FontAwesomeIcon icon={faBell} size="sm" />
             ) : (
-              <Badge badgeContent={notificationCount} color="primary">
+              <Badge badgeContent={user?.notificationCount} color="primary">
                 <FontAwesomeIcon icon={faBell} size="sm" />
               </Badge>
             )}
@@ -51,38 +50,31 @@ const HeaderProfileMenuBox = () => {
 };
 const Header = (props: HeaderProps) => {
   const navigate = useNavigate();
-  const handleCharacterSearchNavigate = (characterName: string, serverId: string) => {
-    navigate(`/characters/${serverId}?name=${characterName}`);
-  };
   const [isNavbarOpened, openNavbar, closeNavbar] = useNavBar();
-
-  const handleOptionMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    navigate(
-      '/details/?characterId=' +
-        e.currentTarget.attributes.getNamedItem('data-id')?.value +
-        '&serverId=' +
-        e.currentTarget.attributes.getNamedItem('data-option')?.value,
-    );
+  const { setCharacterName,characterName,serverId,setServerId,fastResult } = useFastCharacterSearch();
+  const searchFormProps = {
+    value: characterName,
+    setValue: setCharacterName,
+    selectedValue: serverId,
+    setSelectedValue: setServerId,
+  }
+  const handleCharacterSearchNavigate = () => {
+    navigate(`/characters/${serverId ? serverId.value : 'all'}?name=${characterName ? characterName : ''}`);
   };
-  const dispatch = useAppDispatch();
-
-  const handleModalOpen = useCallback(() => {
-    dispatch(setLoginModalOpened(true));
-  }, [dispatch]);
-
+  const handleChracterDetailNavigate = (characterId:string,serverId:string) => {
+    navigate(`/details/?serverId=${serverId}&characterId=${characterId}`);
+  }
   const [profileIsOpened, setProfileIsOpened] = useState(false);
-  const searchHistory = useSelector((state: RootState) => state.history.characterHistory);
-  const handleRemoveSearchOptions = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const targetId = e.currentTarget.attributes.getNamedItem('data-id')?.value;
-    if (targetId) {
-      dispatch(removeCharacterHistory(targetId));
-    }
-  };
   const { user } = useUser();
   const handleLogout = useLogout();
   const handleClickProfile = useCallback(() => {
     setProfileIsOpened(!profileIsOpened);
   }, [profileIsOpened, setProfileIsOpened]);
+  const [isLoginModalOpened, setLoginModalOpened] = useState(false);
+  const handleModalToggle= ()=>{
+    setLoginModalOpened(true);
+    closeNavbar();
+  }
   return (
     <Container>
       <HeaderTop>
@@ -97,38 +89,36 @@ const Header = (props: HeaderProps) => {
           {props.title}
         </Logo>
         <SelectSearchWrapper>
-          <CustomSearchBox
+          <SearchForm
+            useSearchForms={searchFormProps}
             placeholder={'캐릭터 검색'}
             direction={'down'}
-            handleNavigate={handleCharacterSearchNavigate}
-            filterOptions={HeaderData.serverList}
-            searchHistoryMouseDown={handleOptionMouseDown}
-            removeSearchHistory={handleRemoveSearchOptions}
-            useSearchOption={true}
-            searchHistory={searchHistory}
-            autoCompleteHandler={getCharactersAutoComplete}
-            autoCompleteUrl={'/characters/autoComplete?name={searchValue}&serverId={selectValue}'}
+            handleSubmit={handleCharacterSearchNavigate}
+            filterOptions={serverList}
+            children={
+            <CharacterSearchBoxChild direction={'down'} searchHandler={handleChracterDetailNavigate} searchResult={fastResult ||[]}  />
+            }
           />
         </SelectSearchWrapper>
       </HeaderTop>
       <HeaderBottom>
         <HeaderMenuWrapper>
-          {HeaderData.menuList.map((item, index) => {
+          {headerMenu.map((menu, index) => {
             return (
               <HeaderMenu
                 key={index}
                 onClick={(e) => {
-                  navigate(item.link);
+                  navigate(menu.link);
                 }}
               >
-                {item.name}
+                {menu.name}
               </HeaderMenu>
             );
           })}
           {user ? (
             <HeaderMenu onClick={handleLogout}>로그아웃</HeaderMenu>
           ) : (
-            <HeaderMenu onClick={handleModalOpen}>로그인</HeaderMenu>
+            <HeaderMenu onClick={handleModalToggle}>로그인</HeaderMenu>
           )}
         </HeaderMenuWrapper>
         <ProfileContainer>
@@ -164,9 +154,9 @@ const Header = (props: HeaderProps) => {
           )}
         </ProfileContainer>
       </HeaderBottom>
-      {!user && <LoginModal />}
+      {!user && <LoginModal isOpened={isLoginModalOpened} setIsOpened={setLoginModalOpened}/>}
       <React.Fragment>
-        <MobileHeader isOpened={isNavbarOpened} menuList={HeaderData.menuList} handleClose={closeNavbar} />
+        <MobileHeader isLoginOpen={isLoginModalOpened} handleModalOpen={handleModalToggle} isOpened={isNavbarOpened}  menuList={headerMenu} handleClose={closeNavbar} />
       </React.Fragment>
       <NavBackground isOpened={isNavbarOpened} onClick={closeNavbar} />
     </Container>

@@ -1,12 +1,10 @@
 import styled from 'styled-components';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../redux/store';
 import { HeaderProfile } from '../Header/HeaderProfile';
 import { Badge, Button, IconButton, Tooltip, Zoom } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faUser } from '@fortawesome/free-solid-svg-icons';
-import { setLoginModalOpened } from '../../redux';
 import { useUser } from '../../hooks/authHooks/useUser';
 
 const Container = styled.div`
@@ -70,6 +68,8 @@ const ProfileWrapper = styled.div`
 //네비바 바깥 누르면 닫히는 함수
 
 interface NavProps {
+  isLoginOpen: boolean;
+  handleModalOpen: () => void;
   isOpened: boolean;
   menuList: { name: string; link: string }[];
   handleClose: () => void;
@@ -150,23 +150,17 @@ const MenuIconWrapper = styled.div`
 
 const MobileHeader = (props: NavProps) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
-  const handleModalOpen = useCallback(() => {
-    dispatch(setLoginModalOpened(true));
-    props.handleClose();
-  }, [setLoginModalOpened, dispatch, props.handleClose]);
   const { user } = useUser();
   const notificationCount = user?.notificationCount;
   const [profileIsOpened, setProfileIsOpened] = useState(false);
-  const handleProfileOpen = useCallback(() => {
+  const handleProfileOpen = () => {
     setProfileIsOpened(!profileIsOpened);
-  }, [profileIsOpened]);
-  const handleNavigateToMyPage = useCallback(() => {
+  }
+  const handleNavigateToMyPage = () => {
     navigate('/mypage/');
     setProfileIsOpened(false);
     props.handleClose();
-  }, [navigate]);
+  }
   return (
     <Container isOpened={props.isOpened}>
       <NavMenu>
@@ -217,7 +211,7 @@ const MobileHeader = (props: NavProps) => {
         )}
         {user && <Division />}
         {user && <NavItem onClick={() => {}}>로그아웃</NavItem>}
-        {!user && <NavItem onClick={handleModalOpen}>로그인</NavItem>}
+        {!user && <NavItem onClick={props.handleModalOpen}>로그인</NavItem>}
         {props.menuList.map((item, index) => {
           return (
             <NavItem

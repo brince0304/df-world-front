@@ -10,9 +10,8 @@ export const useRegister = (): IUseRegister => {
   const { handleRegisterSuccess } = useAuthSuccess();
   const { handleRegisterError } = useAuthError();
   const { register } = useAuthService();
-  const { mutate: registerMutation } = useMutation<void, unknown, IRegisterRequest, unknown>(
-    ({ username, password, passwordCheck, email, nickname }) =>
-      register({ username, password, passwordCheck, email, nickname }),
+  const { mutate: registerMutation } = useMutation(
+      register,
     {
       onSuccess: () => {
         handleRegisterSuccess();

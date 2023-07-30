@@ -2,7 +2,6 @@ import '../../../../assets/css/rankingTable.scss';
 import React, { useEffect, useState } from 'react';
 import { RankingCharacterImg } from '../../../../components/application/character/RankingCharacterImg';
 import styled from 'styled-components';
-import mainPageRankingData from '../../../../data/MainPageRankingData';
 import CustomTable from '../../../../components/CustomTable';
 import { useNavigate } from 'react-router-dom';
 import { faChevronRight, faExclamationTriangle, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorScreen } from '../../../../components/ErrorScreen';
 import IconButton from '@mui/material/IconButton';
 import axiosClient from '../../../../apis/axiosClient';
+import { rankingType } from '../../../../utils/charactersUtil';
+import { Grid } from '@mui/material';
 
 const TableData = styled.div`
   display: flex;
@@ -21,46 +22,47 @@ const TableData = styled.div`
   color: #000;
 `;
 
-const TableBody = styled.div`
-  display: grid;
-  grid-template-rows: repeat(1, minmax(100px, auto));
-  grid-template-columns: repeat(2, minmax(100px, 50%));
-  @media (max-width: 768px) {
-    grid-template-rows: repeat(1, minmax(100px, auto));
-    grid-template-columns: repeat(1, minmax(100px, auto));
-  }
-  @media (max-width: 480px) {
-    grid-template-rows: repeat(1, minmax(100px, auto));
-    grid-template-columns: repeat(1, minmax(100px, auto));
-  }
-  @media (min-width: 1024px) {
-    grid-template-rows: repeat(1, minmax(100px, auto));
-    grid-template-columns: repeat(2, minmax(100px, 50%));
-  }
+// const TableBody = styled.div`
+//   display: grid;
+//   grid-template-rows: repeat(1, minmax(100px, auto));
+//   grid-template-columns: repeat(2, minmax(100px, 50%));
+//   @media (max-width: 768px) {
+//     grid-template-rows: repeat(1, minmax(100px, auto));
+//     grid-template-columns: repeat(1, minmax(100px, auto));
+//   }
+//   @media (max-width: 480px) {
+//     grid-template-rows: repeat(1, minmax(100px, auto));
+//     grid-template-columns: repeat(1, minmax(100px, auto));
+//   }
+//   @media (min-width: 1024px) {
+//     grid-template-rows: repeat(1, minmax(100px, auto));
+//     grid-template-columns: repeat(2, minmax(100px, 50%));
+//   }
+//
+//   //first child's empty space remove
+// `;
 
-  //first child's empty space remove
-`;
-
-const TableCell = styled.div`
-  && {
-    display: table-cell;
-    vertical-align: middle;
-    //구분선
-  }
-`;
 
 const TableRow = styled.div`
-  display: table-row;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
+  height: 100px;
+  position: relative;
+  padding: 0px 30px 0px 30px;
   border-right: 1px solid #e5e5e5;
   border-bottom: 1px solid #e5e5e5;
-
+  font-weight: 500;
+  
+  
   &:hover {
     background-color: #f5f5f5;
     cursor: pointer;
     //랭킹 아이콘 빼고 hover 시 이펙트
     img {
-      transform: translateY(0px);
+      transform: translateY(-3px);
       opacity: 1;
       transition: all 0.7s ease;
     }
@@ -73,7 +75,7 @@ const TableRow = styled.div`
       opacity: 1;
       transition: all 0.7s ease;
       background-color: transparent;
-      color: black;
+      color: white;
     }
 
     span {
@@ -147,7 +149,6 @@ const RankingDetailNameText = styled.span`
 `;
 
 interface RankingTableProps {
-  data: any;
   title: string;
   url: string;
 }
@@ -186,6 +187,7 @@ const RankingTableRow = (props: { data: RankingTableData[]; type: string }) => {
     <>
       {props.data.length > 0 &&
         props.data.map((item, index: number) => (
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={index}>
           <TableRow
             key={index}
             id={item.characterId}
@@ -193,25 +195,41 @@ const RankingTableRow = (props: { data: RankingTableData[]; type: string }) => {
             data-id={item.characterId}
             data-server={item.serverId}
           >
-            <p className="badge bg-black text-gray-700 font-bold text-[13px] absolute bg-black w-5 h-5 text-white opacity-75">
+            <p style={{
+              position: 'absolute',
+              left: '0',
+              top: '0',
+              width: '20px',
+              height: '20px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#121212',
+              color: 'white',
+              fontSize: '12px',
+
+
+            }
+            }>
               {index + 1}
             </p>
-            <TableCell style={{ width: '5%' }}>
+            <div style={{width:'23%', height:'100%'}}>
               <RankingCharacterImg serverId={item.serverId} characterId={item.characterId} />
-            </TableCell>
-            <TableCell style={{ width: '20%' }}>
+            </div>
+            <div>
               <TableData>
                 <RankingDetailNameText>{item.characterName}</RankingDetailNameText>
                 <RankingDetailText>{item.adventureName}</RankingDetailText>
                 <RankingDetailText>{item.serverName}</RankingDetailText>
               </TableData>
-            </TableCell>
-            <TableCell style={{ width: '5%' }}>
+            </div>
+            <div>
               <TableData>
                 <RankingValue type={props.type} value={item.adventureFame} />
               </TableData>
-            </TableCell>
+            </div>
           </TableRow>
+          </Grid>
         ))}
     </>
   );
@@ -242,7 +260,7 @@ function CharacterRanking(props: RankingTableProps) {
       title={props.title}
       isSelected={isSelected}
       setIsSelected={setIsSelected}
-      menus={mainPageRankingData.rankingType}
+      menus={rankingType}
       useMenu={true}
       useIcon={true}
       isLoading={isLoading}
@@ -252,12 +270,12 @@ function CharacterRanking(props: RankingTableProps) {
         </IconButton>
       }
     >
-      <TableBody>
+      <Grid container>
         {data.length > 0 && !isError && <RankingTableRow type={isSelected} data={data} />}
 
         {data.length === 0 && !isError && <ErrorScreen icon={faXmark} message={'데이터가 없습니다.'} />}
         {isError && <ErrorScreen icon={faExclamationTriangle} message={'데이터를 불러오는데 실패했습니다.'} />}
-      </TableBody>
+      </Grid>
     </CustomTable>
   );
 }

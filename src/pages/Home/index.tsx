@@ -1,11 +1,23 @@
 import styled from 'styled-components';
 import React from 'react';
 import CharacterRanking from './Tables/CharacterRanking';
-import MainPageRankingData from '../../data/MainPageRankingData';
-import BoardData from '../../data/BoardData';
 import { Container } from '@mui/material';
 import { CHARACTER_MAINPAGE_RANKING_URL, LATEST_BOARD_URL } from '../../apis/data/urls';
 import LatestBoard from './Tables/LatestBoard';
+import { boardCategories } from '../../utils/boardUtil';
+
+
+const Main = () => {
+  return (
+    <Container maxWidth={'md'}>
+      <LatestBoardContainer>
+        <LatestBoard title={'공지사항'} url={LATEST_BOARD_URL} />
+        <LatestBoard title={'통합 게시판'} boardTypes={boardCategories} url={LATEST_BOARD_URL} />
+      </LatestBoardContainer>
+      <CharacterRanking title={'캐릭터 랭킹'} url={CHARACTER_MAINPAGE_RANKING_URL} />
+    </Container>
+  );
+};
 
 const LatestBoardContainer = styled.div`
   display: grid;
@@ -22,16 +34,5 @@ const LatestBoardContainer = styled.div`
   }
 `;
 
-const Main = () => {
-  return (
-    <Container maxWidth={'md'}>
-      <LatestBoardContainer>
-        <LatestBoard title={'공지사항'} url={LATEST_BOARD_URL} />
-        <LatestBoard title={'통합 게시판'} boardTypes={BoardData.boardTypes} url={LATEST_BOARD_URL} />
-      </LatestBoardContainer>
-      <CharacterRanking data={MainPageRankingData} title={'캐릭터 랭킹'} url={CHARACTER_MAINPAGE_RANKING_URL} />
-    </Container>
-  );
-};
 
 export default Main;

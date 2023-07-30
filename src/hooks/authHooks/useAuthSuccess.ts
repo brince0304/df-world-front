@@ -1,25 +1,16 @@
-import { enqueueSnackbar } from 'notistack';
 import { ILoginResponse } from '../../service/userService';
+import useSuccess from '../useSuccess';
 
 const useAuthSuccess = () => {
-  const autoHideDuration = 1000;
+  const {handleSuccess} = useSuccess();
   const handleRegisterSuccess = () => {
-    enqueueSnackbar('가입이 완료되었습니다. 🤩', {
-      variant: 'success',
-      autoHideDuration,
-    });
+    handleSuccess('회원가입이 완료되었습니다. 🤩');
   };
   const handleLoginSuccess = (data: ILoginResponse) => {
-    enqueueSnackbar(`환영합니다 ${data.nickname}님! 🤩`, {
-      variant: 'success',
-      autoHideDuration,
-    });
+    handleSuccess(`${data.nickname}님, 환영합니다! 🥰`)
   };
   const handleLogoutSuccess = () => {
-    enqueueSnackbar('로그아웃 되었습니다. 다음에 봬요~! 😒', {
-      variant: 'success',
-      autoHideDuration,
-    });
+    handleSuccess('로그아웃 되었습니다. 😭');
   };
 
   return {

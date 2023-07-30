@@ -1,4 +1,4 @@
-import { CharacterDetailJson } from '../../../../interfaces/CharacterDetailJson';
+import { ICharacterDetail } from '../../../../interfaces/ICharacterDetail';
 import { Button, IconButton, Paper, Tooltip } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHandFist, faRotateRight } from '@fortawesome/free-solid-svg-icons';
@@ -34,7 +34,7 @@ const refreshButtonStyle = {
   },
 };
 
-const CharacterProfile = (props: { handleRefresh: () => void; data: CharacterDetailJson }) => {
+const CharacterProfile = (props: { refetch: (...args:any[]) => void; data: ICharacterDetail }) => {
   return (
     <Paper
       elevation={3}
@@ -51,7 +51,7 @@ const CharacterProfile = (props: { handleRefresh: () => void; data: CharacterDet
       }}
     >
       <Tooltip title="새로고침" placement="bottom">
-        <IconButton aria-label="refresh" onClick={props.handleRefresh} sx={refreshButtonStyle}>
+        <IconButton aria-label="refresh" onClick={props.refetch} sx={refreshButtonStyle}>
           <FontAwesomeIcon icon={faRotateRight} />
         </IconButton>
       </Tooltip>

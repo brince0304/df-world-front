@@ -1,12 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.css';
 import Main from './pages/Home';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Board from './pages/Board/';
-import { RootState } from './redux/store';
 import Characters from './pages/Characters';
-import { useSelector } from 'react-redux';
-import { LinearProgress } from '@mui/material';
 import WriteBoard from './pages/Board/Write';
 import { BOARD_LIST_URL } from './apis/data/urls';
 import BoardDetail from './pages/Board/Detail';
@@ -17,15 +14,15 @@ import CharacterDetail from './pages/Characters/Detail';
 import MyPage from './pages/MyPage';
 import Header from './components/Header';
 import { useUser } from './hooks/authHooks/useUser';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import AppLoading from './components/application/loading/AppLoading';
 
 function App() {
-  const isLoading = useSelector((state: RootState) => state.app.isLoading);
-  const progress = useSelector((state: RootState) => state.app.progress);
   const { user } = useUser();
 
   return (
+    <Suspense fallback={<AppLoading/>}>
     <div className="App">
-      {isLoading && <LinearProgress value={progress} />}
       <Header title={'커뮤니티'} />
       <Routes>
         <Route path="/" element={<Main />}></Route>
@@ -41,7 +38,9 @@ function App() {
         <Route path="/mypage/" element={user ? <MyPage /> : <Navigate to={'/'} />}></Route>
       </Routes>
       <Footer />
+      <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
     </div>
+    </Suspense>
   );
 }
 

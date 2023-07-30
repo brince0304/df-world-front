@@ -29,7 +29,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { getBoardType } from '../../../Board';
+import { getBoardType } from 'utils/boardUtil';
 
 interface ActivitiesModalProps {
   activitiesModalOpened: boolean;
