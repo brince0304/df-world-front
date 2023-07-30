@@ -5,10 +5,17 @@ import { Container } from '@mui/material';
 import { CHARACTER_MAINPAGE_RANKING_URL, LATEST_BOARD_URL } from '../../apis/data/urls';
 import LatestBoard from './Tables/LatestBoard';
 import { boardCategories } from '../../utils/boardUtil';
+import MainCarousel from '../../components/MainCarousel';
 
 const Main = () => {
   return (
-    <Container maxWidth={'md'}>
+    <Container
+      maxWidth={'md'}
+      sx={{
+        marginTop: '20px',
+      }}
+    >
+      <MainCarousel />
       <LatestBoardContainer>
         <LatestBoard title={'공지사항'} url={LATEST_BOARD_URL} />
         <LatestBoard title={'통합 게시판'} boardTypes={boardCategories} url={LATEST_BOARD_URL} />

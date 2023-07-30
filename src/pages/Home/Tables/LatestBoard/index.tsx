@@ -5,11 +5,12 @@ import CustomTable from '../../../../components/CustomTable';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { Avatar, IconButton, ListItemButton } from '@mui/material';
-import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined } from '@mui/icons-material';
-import Typography from '@mui/material/Typography';
+import { Avatar, IconButton, ListItemButton, Tooltip } from '@mui/material';
 import { BoardContent } from '../../../../interfaces/IBoardList';
 import useLatestBoard from '../../../../hooks/boardHooks/useLatestBoard';
+import UserAvatarNickname from '../../../../UserAvatar';
+import BoardCommentView from '../../../../components/BoardList/BoardCommentView';
+import { CharacterContent } from '../../../Board';
 
 const BoardBody = styled.div`
   display: flex;
@@ -19,6 +20,13 @@ const BoardBody = styled.div`
   padding: 10px 0;
   font-size: 14px;
   color: #000;
+`;
+const BoardTitleBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 const BoardTitle = styled.div`
   display: block;
@@ -43,14 +51,6 @@ const BoardFooter = styled.div`
   font-size: 14px;
 `;
 
-const LikeCommentWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 5px;
-`;
-
 const LikeCommentContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -66,26 +66,6 @@ const NicknameCreatedAtContainer = styled.div`
 
   width: 100%;
   grid-template-columns: 140px 80px;
-`;
-
-const ProfileImgWrapper = styled.div`
-  display: flex;
-  border-radius: 50%;
-  overflow: hidden;
-  width: 25px;
-  height: 25px;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-`;
-const IconContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 5px;
 `;
 
 const NicknameWrapper = styled.div`
@@ -116,50 +96,52 @@ const BoardList = (props: { data: BoardContent[] }) => {
           key={index}
           onClick={onClickHandler}
           data-id={item.id}
-          sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '6px' }}
+          sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
         >
-          <BoardTitle>{item.boardTitle}</BoardTitle>
+          <BoardTitleBox>
+            <BoardTitle>{item.boardTitle}</BoardTitle>
+            {item.character && (
+              <Tooltip
+                placement={'top'}
+                title={
+                  <CharacterContent
+                    characterName={item.character.characterName}
+                    characterImgUrl={item.character.characterImageUrl}
+                    adventureName={item.character.adventureName}
+                    serverId={item.character.serverId}
+                    characterId={item.character.characterId}
+                  />
+                }
+              >
+                <Avatar
+                  sx={{
+                    width: '30px',
+                    height: '30px',
+                    border: '1px solid #e0e0e0',
+                    '> img': {
+                      objectFit: 'cover',
+                      scale: '3',
+                    },
+                  }}
+                  src={item.character.characterImageUrl}
+                />
+              </Tooltip>
+            )}
+          </BoardTitleBox>
           <BoardFooter>
             <NicknameCreatedAtContainer>
               <NicknameWrapper>
-                <ProfileImgWrapper>
-                  <Avatar src={item.userProfileImgUrl} alt="profile" style={{ width: '25px', height: '25px' }} />
-                </ProfileImgWrapper>
-                <Typography
-                  sx={{
-                    fontSize: '14px',
-                    fontFamily: 'Core Sans',
-                  }}
-                >
-                  {item.userNickname}
-                </Typography>
+                <UserAvatarNickname src={item.userProfileImgUrl} nickname={item.userNickname} />
               </NicknameWrapper>
             </NicknameCreatedAtContainer>
           </BoardFooter>
           <LikeCommentContainer>
-            <IconContainer>
-              <LikeCommentWrapper>
-                <Typography>
-                  <FavoriteBorderOutlined
-                    style={{
-                      padding: '0 2px 0 5px',
-                    }}
-                  />{' '}
-                  {item.boardLikeCount}
-                </Typography>
-              </LikeCommentWrapper>
-              <LikeCommentWrapper>
-                <Typography>
-                  <ChatBubbleOutlineOutlined
-                    style={{
-                      padding: '0 2px 0 5px',
-                    }}
-                  />{' '}
-                  {item.commentCount}
-                </Typography>
-              </LikeCommentWrapper>
-            </IconContainer>
-            <Typography sx={{ justifyContent: 'flex-end' }}>{item.createdAt}</Typography>
+            <BoardCommentView
+              boardLikeCount={item.boardLikeCount}
+              commentCount={item.commentCount}
+              boardViewCount={item.boardViewCount}
+              createdAt={item.createdAt}
+            />
           </LikeCommentContainer>
         </ListItemButton>
       ))}

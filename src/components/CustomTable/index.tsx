@@ -5,11 +5,9 @@ import { Button, Card } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 const TableContainer = styled(Card)`
-  border: 1px solid #e5e5e5;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
   margin-bottom: 20px;
-  border-radius: 10px;
   width: 100%;
   @media (max-width: 768px) {
     margin-top: 10px;
@@ -22,7 +20,7 @@ const TableHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 15px;
+  padding: 2px 10px;
   font-size: 22px;
   color: #000;
   border-bottom: 1px solid #e5e5e5;
@@ -69,7 +67,7 @@ const TableMenu = (props: TableMenuProps) => {
         <Button
           key={index}
           color={props.isSelected === item.id ? 'primary' : 'inherit'}
-          sx={{ padding: '2px 5px' }}
+          sx={{ padding: '2px 5px', borderRight: '1px solid #e5e5e5' }}
           onClick={() => props.setIsSelected?.(item.id)}
         >
           {item.name}{' '}
@@ -96,7 +94,7 @@ function CustomTable(props: TableCustomProps) {
     <TableContainer>
       <TableHeader>
         <TableTitleWrapper>
-          <Typography fontFamily={'Core Sans'}>{props.title}</Typography>
+          <Typography>{props.title}</Typography>
           {props.isLoading && <ReactLoading type={'spinningBubbles'} color={'gray'} width={'25px'} height={'25px'} />}
         </TableTitleWrapper>
         {props.useIcon && props.icon}

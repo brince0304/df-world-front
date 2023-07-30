@@ -3,7 +3,6 @@ import useNavBar from '../../hooks/useNavBar';
 import React, { useCallback, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
-import SearchForm from '../SearchBox';
 import { Avatar, Badge, Box, Button, IconButton, Tooltip, tooltipClasses, TooltipProps, Zoom } from '@mui/material';
 import { HeaderProfile } from './HeaderProfile';
 import LoginModal from '../../pages/Home/AuthModal';
@@ -11,10 +10,8 @@ import MobileHeader from '../MobileHeader';
 import styled from 'styled-components';
 import { useUser } from '../../hooks/authHooks/useUser';
 import { useLogout } from '../../hooks/authHooks/useLogout';
-import { serverList } from '../../utils/charactersUtil';
 import { headerMenu } from '../../constants';
-import CharacterSearchBoxChild from '../SearchBox/CharacterSearchBoxChild';
-import useFastCharacterSearch from '../../hooks/useFastSearch';
+import CharacterSearchBox from '../CharacterSearchBox';
 
 const HeaderProfileMenuBox = () => {
   const { user } = useUser();
@@ -51,19 +48,6 @@ const HeaderProfileMenuBox = () => {
 const Header = (props: HeaderProps) => {
   const navigate = useNavigate();
   const [isNavbarOpened, openNavbar, closeNavbar] = useNavBar();
-  const { setCharacterName, characterName, serverId, setServerId, fastResult } = useFastCharacterSearch();
-  const searchFormProps = {
-    value: characterName,
-    setValue: setCharacterName,
-    selectedValue: serverId,
-    setSelectedValue: setServerId,
-  };
-  const handleCharacterSearchNavigate = () => {
-    navigate(`/characters/${serverId ? serverId.value : 'all'}?name=${characterName ? characterName : ''}`);
-  };
-  const handleChracterDetailNavigate = (characterId: string, serverId: string) => {
-    navigate(`/details/?serverId=${serverId}&characterId=${characterId}`);
-  };
   const [profileIsOpened, setProfileIsOpened] = useState(false);
   const { user } = useUser();
   const handleLogout = useLogout();
@@ -74,6 +58,12 @@ const Header = (props: HeaderProps) => {
   const handleModalToggle = () => {
     setLoginModalOpened(true);
     closeNavbar();
+  };
+  const characterSearchHandler = (characterName: string, serverId: string) => {
+    navigate(`/characters/${serverId}?name=${characterName}`);
+  };
+  const characterDetailHandler = (characterId: number, serverId: string) => {
+    navigate(`/details/?characterId=${characterId}&serverId=${serverId}`);
   };
   return (
     <Container>
@@ -89,20 +79,7 @@ const Header = (props: HeaderProps) => {
           {props.title}
         </Logo>
         <SelectSearchWrapper>
-          <SearchForm
-            useSearchForms={searchFormProps}
-            placeholder={'캐릭터 검색'}
-            direction={'down'}
-            handleSubmit={handleCharacterSearchNavigate}
-            filterOptions={serverList}
-            children={
-              <CharacterSearchBoxChild
-                direction={'down'}
-                searchHandler={handleChracterDetailNavigate}
-                searchResult={fastResult || []}
-              />
-            }
-          />
+          <CharacterSearchBox searchHandler={characterSearchHandler} clickHandler={characterDetailHandler} />
         </SelectSearchWrapper>
       </HeaderTop>
       <HeaderBottom>
