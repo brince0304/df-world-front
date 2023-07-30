@@ -13,6 +13,38 @@ export const QUERY_KEY = {
   latestBoardList: 'latestBoardList',
 };
 
+export const imageData = [
+  {
+    label: 'Image 1',
+    alt: 'image1',
+    url: 'https://bbscdn.df.nexon.com/data6/commu/202307/121742_64c090567f47d.jpg',
+  },
+
+  {
+    label: 'Image 2',
+    alt: 'image2',
+    url: 'https://bbscdn.df.nexon.com/data6/commu/202307/214025_64be71394c077.jpg',
+  },
+
+  {
+    label: 'Image 3',
+    alt: 'image3',
+    url: 'https://bbscdn.df.nexon.com/data6/commu/202307/213828_64be70c47cb30.jpg',
+  },
+
+  {
+    label: 'Image 4',
+    alt: 'image4',
+    url: 'https://bbscdn.df.nexon.com/data6/commu/202306/172803_649a9d93bb07d.jpg',
+  },
+
+  {
+    label: 'Image 5',
+    alt: 'image5',
+    url: 'https://bbscdn.df.nexon.com/data6/commu/202307/182425_64abce49c2c6a.jpg',
+  },
+];
+
 export const headerMenu = [
   {
     name: '랭킹',

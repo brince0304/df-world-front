@@ -11,7 +11,7 @@ export interface IBoardService {
 
   getLatestBoardList(data: { boardType?: string }): Promise<IBoardList>;
 
-  likeBoard(data: { boardId: string }): Promise<void>;
+  likeBoard(data: { boardId: string }): Promise<number>;
 
   getBoardDetail(data: { boardId: string }): Promise<IBoardDetail>;
 
@@ -78,7 +78,7 @@ export default class BoardService implements IBoardService {
     return this.axiosClient.get(this.getLatestBoardListUrl.replace('{boardType}', data.boardType || ''));
   }
 
-  likeBoard(data: { boardId: string }): Promise<void> {
+  likeBoard(data: { boardId: string }): Promise<number> {
     return this.axiosClient.post(this.likeBoardUrl.replace('{boardId}', data.boardId), {});
   }
 
