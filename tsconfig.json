@@ -23,7 +23,6 @@
       "@utils/*": ["src/utils/*"],
       "@context/*": ["src/context/*"],
       "@services/*": ["src/services/*"],
-      "@redux/*": ["src/redux/*"],
       "@hooks/*": ["src/hooks/*"]
     },
     "baseUrl": "src"
