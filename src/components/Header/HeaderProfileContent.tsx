@@ -3,19 +3,7 @@ import React from 'react';
 import { Avatar, Badge, Button } from '@mui/material';
 import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 
-const ProfileNicknameWrapper = styled.span`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-left: 10px;
-  font-size: 14px;
-  color: #f5f5f5;
-  font-weight: 600;
-  width: 100%;
-`;
-
-export const HeaderProfile = (props: { onClick: () => void }) => {
+export const HeaderProfileContent = (props: { onClick: () => void }) => {
   const { user } = useUserQuery();
   return (
     <Button onClick={props.onClick}>
@@ -32,3 +20,16 @@ export const HeaderProfile = (props: { onClick: () => void }) => {
     </Button>
   );
 };
+
+
+const ProfileNicknameWrapper = styled.span`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 10px;
+  font-size: 14px;
+  color: #f5f5f5;
+  font-weight: 600;
+  width: 100%;
+`;

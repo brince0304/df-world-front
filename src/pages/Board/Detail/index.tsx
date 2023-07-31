@@ -153,43 +153,7 @@ const commentButtonStyle = {
   },
 };
 
-// const ChipFontWrapper = styled(Box)`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   gap: 5px;
-//   font-size: 12px;
-//   font-weight: bold;
-//   color: white;
-// `;
-//
-// const ChipContainer = styled(Box)`
-//   display: flex;
-//   flex-direction: row;
-//   align-content: center;
-//   justify-content: center;
-//   width: 100%;
-//   height: 100%;
-//   gap: 10px;
-// `;
-
-// // eslint-disable-next-line
-// const ChipContent = (props: { likeCount: number; commentCount: number }) => {
-//   return (
-//     <ChipContainer>
-//       <ChipFontWrapper>
-//         <FavoriteIcon sx={{ fontSize: 12 }} />
-//         {props.likeCount}
-//       </ChipFontWrapper>
-//       <ChipFontWrapper>
-//         <FontAwesomeIcon icon={faMessage} />
-//         {props.commentCount}
-//       </ChipFontWrapper>
-//     </ChipContainer>
-//   );
-// };
-
-export interface CommentForm {
+export interface ICommentFormProps {
   commentContent: string;
 }
 
@@ -258,7 +222,7 @@ const CommentList = (props: {
     setIsEditOpen(!isEditOpen);
   }, [isEditOpen]);
 
-  const handleUpdateComment = (commentId: string, data: CommentForm) => {
+  const handleUpdateComment = (commentId: string, data: ICommentFormProps) => {
     if (props.boardId && user && user.userId === props.comment.userId) {
       if (window.confirm('수정하시겠습니까?')) {
         putBoardComment(commentId, props.boardId, data)
@@ -278,7 +242,7 @@ const CommentList = (props: {
     }
   };
 
-  const onValidUpdateComment = (data: CommentForm) => {
+  const onValidUpdateComment = (data: ICommentFormProps) => {
     handleUpdateComment(props.comment.id.toString(), data);
   };
 
@@ -286,7 +250,7 @@ const CommentList = (props: {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CommentForm>({
+  } = useForm<ICommentFormProps>({
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
@@ -495,12 +459,12 @@ const ReplyInsertForm = (props: {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<CommentForm>({
+  } = useForm<ICommentFormProps>({
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
   const { user } = useUserQuery();
-  const handlePostChildrenComment = (commentId: string, boardId: string, data: CommentForm) => {
+  const handlePostChildrenComment = (commentId: string, boardId: string, data: ICommentFormProps) => {
     if (!user) {
       alert('로그인이 필요합니다.');
       return;
@@ -516,7 +480,7 @@ const ReplyInsertForm = (props: {
         console.info(err);
       });
   };
-  const handleValidPostChildrenComment = (data: CommentForm) => {
+  const handleValidPostChildrenComment = (data: ICommentFormProps) => {
     handlePostChildrenComment(props.commentId, props.boardId, data);
     setValue('commentContent', '');
   };
@@ -601,13 +565,13 @@ const ReplyList = (props: {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CommentForm>({
+  } = useForm<ICommentFormProps>({
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
   const { user } = useUserQuery();
 
-  const handleUpdateComment = (commentId: string, data: CommentForm) => {
+  const handleUpdateComment = (commentId: string, data: ICommentFormProps) => {
     if (props.boardId && user && user.userId === props.comment.userId) {
       if (window.confirm('수정하시겠습니까?')) {
         putBoardComment(commentId, props.boardId, data)
@@ -628,7 +592,7 @@ const ReplyList = (props: {
     }
   };
 
-  const onValidUpdateComment = (data: CommentForm) => {
+  const onValidUpdateComment = (data: ICommentFormProps) => {
     handleUpdateComment(props.comment.id.toString(), data);
   };
 
@@ -786,7 +750,7 @@ const BoardDetail = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<CommentForm>({
+  } = useForm<ICommentFormProps>({
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
@@ -795,7 +759,7 @@ const BoardDetail = () => {
     navigate(-1);
   };
 
-  const handleCommentSubmit = (data: CommentForm) => {
+  const handleCommentSubmit = (data: ICommentFormProps) => {
     if (user && boardId) {
       postBoardComment(data, boardId)
         .then((res) => {
