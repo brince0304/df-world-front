@@ -13,6 +13,7 @@ import ServiceContextProvider from './context/serviceContextProvider';
 import { RecoilRoot } from 'recoil';
 import CharacterService from './services/characterService';
 import BoardService from './services/boardService';
+import BoardCommentService from 'services/boardCommentService';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const client = new AxiosClient(axiosClient);
@@ -20,6 +21,7 @@ const authService = new UserService(client);
 const characterService = new CharacterService(client);
 const myPageService = new MyPageService(client);
 const boardService = new BoardService(client);
+const boardCommentService = new BoardCommentService(client);
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -40,6 +42,7 @@ root.render(
       myPageService={myPageService}
       characterService={characterService}
       boardService={boardService}
+      boardCommentService={boardCommentService}
     >
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>

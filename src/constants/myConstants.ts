@@ -11,7 +11,11 @@ export const QUERY_KEY = {
   isBoardLiked: 'isBoardLiked',
   boardLikeCount: 'boardLikeCount',
   latestBoardList: 'latestBoardList',
-};
+  boardComments: 'boardComments',
+  isBoardCommentLiked: 'isBoardCommentLiked',
+  boardCommentLikeCount: 'boardCommentLikeCount',
+  childrenComments: 'childrenComments',
+}
 
 export const imageData = [
   {

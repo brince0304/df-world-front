@@ -6,7 +6,7 @@ import Board from './pages/Board/';
 import Characters from './pages/Characters';
 import WriteBoard from './pages/Board/Write';
 import { BOARD_LIST_URL } from './apis/data/urls';
-import BoardDetail from './pages/Board/Detail';
+import BoardDetail from './pages/BoardDetail';
 import { Footer } from './components/application/footer/Footer';
 import { BOARD_INSERT_FORM_ROUTE, BOARD_ROUTE } from './apis/data/route';
 import { BadRequest } from './components/application/error/BadRequest';
