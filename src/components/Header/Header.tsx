@@ -10,7 +10,6 @@ import HeaderTopSection from './HeaderTopSection';
 import HeaderProfileContainer from './HeaderProfileContainer';
 import HeaderMobile from './HeaderMobile/HeaderMobile';
 
-
 const Header = () => {
   const navigate = useNavigate();
   const [isNavbarOpened, openNavbar, closeNavbar] = useNavBar();
@@ -18,7 +17,7 @@ const Header = () => {
   const { user } = useUserQuery();
   const handleClickProfile = () => {
     setIsProfileOpened(!isProfileOpened);
-  }
+  };
   const [isLoginModalOpened, setLoginModalOpened] = useState(false);
   const handleModalToggle = () => {
     setLoginModalOpened(true);
@@ -33,18 +32,22 @@ const Header = () => {
   const handleNavbarCloseCallback = () => {
     closeNavbar();
     setIsProfileOpened(false);
-  }
+  };
   return (
     <Container>
-      <HeaderTopSection handleOpenNavbar={openNavbar} characterSearchHandler={characterSearchHandler} characterDetailHandler={characterDetailHandler} />
+      <HeaderTopSection
+        handleOpenNavbar={openNavbar}
+        characterSearchHandler={characterSearchHandler}
+        characterDetailHandler={characterDetailHandler}
+      />
       <HeaderBottom>
-            <HeaderMenus user={user} handleOpenModal={handleModalToggle} />
-            <HeaderProfileContainer user={user} handleClickProfile={handleClickProfile} />
+        <HeaderMenus user={user} handleOpenModal={handleModalToggle} />
+        <HeaderProfileContainer user={user} handleClickProfile={handleClickProfile} />
       </HeaderBottom>
       {!user && <LoginModal isOpened={isLoginModalOpened} setIsOpened={setLoginModalOpened} />}
       <React.Fragment>
-        <HeaderMobile 
-        user={user}
+        <HeaderMobile
+          user={user}
           isLoginOpen={isLoginModalOpened}
           handleModalOpen={handleModalToggle}
           isOpened={isNavbarOpened}
@@ -73,7 +76,6 @@ const Container = styled.header`
   }
   font-family: 'Core Sans';
 `;
-
 
 const NavBackground = styled.div`
   display: none;
@@ -106,6 +108,5 @@ const HeaderBottom = styled.div`
     display: none;
   }
 `;
-
 
 export default Header;

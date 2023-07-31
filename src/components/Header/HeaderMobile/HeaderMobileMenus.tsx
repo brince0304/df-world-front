@@ -1,33 +1,34 @@
-import styled from "@emotion/styled";
-import { ILoginResponse } from "services/userService";
+import styled from '@emotion/styled';
+import { ILoginResponse } from 'services/userService';
 
-const HeaderMobileMenus = ({user, menuList, navigateCallback, handleModalOpen}: IHeaderMobileMenus) => {
-    return (
+const HeaderMobileMenus = ({ user, menuList, navigateCallback, handleModalOpen }: IHeaderMobileMenus) => {
+  return (
     <>
-            {user && <NavItem onClick={() => {}}>로그아웃</NavItem>}
-        {!user && <NavItem onClick={handleModalOpen}>로그인</NavItem>}
-        {menuList.map((item, index) => {
-            return (
-              <NavItem
-                key={index}
-                onClick={(e) => {
-                    e.preventDefault();
-                    navigateCallback(item.link);}}>
-                {item.name}
-              </NavItem>
-            );
-          })}
-          </>
-    )
-}
-
-interface IHeaderMobileMenus {
-    user : ILoginResponse | null;
-    handleModalOpen: () => void;
-    menuList: { name: string; link: string }[];
-    navigateCallback: (url: string) => void;
+      {user && <NavItem onClick={() => {}}>로그아웃</NavItem>}
+      {!user && <NavItem onClick={handleModalOpen}>로그인</NavItem>}
+      {menuList.map((item, index) => {
+        return (
+          <NavItem
+            key={index}
+            onClick={(e) => {
+              e.preventDefault();
+              navigateCallback(item.link);
+            }}
+          >
+            {item.name}
+          </NavItem>
+        );
+      })}
+    </>
+  );
 };
 
+interface IHeaderMobileMenus {
+  user: ILoginResponse | null;
+  handleModalOpen: () => void;
+  menuList: { name: string; link: string }[];
+  navigateCallback: (url: string) => void;
+}
 
 export default HeaderMobileMenus;
 

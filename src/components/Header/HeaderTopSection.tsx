@@ -1,38 +1,35 @@
-import styled from "@emotion/styled";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "@mui/material";
-import CharacterSearchBox from "components/CharacterSearchBox/CharacterSearchBox";
-import { useNavigate } from "react-router-dom";
+import styled from '@emotion/styled';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from '@mui/material';
+import CharacterSearchBox from 'components/CharacterSearchBox/CharacterSearchBox';
+import { useNavigate } from 'react-router-dom';
 
-const HeaderTopSection = ({handleOpenNavbar, characterSearchHandler, characterDetailHandler}: IHeaderTopSection) => {
-    const navigate = useNavigate();
-    const handleNavigateToMain = () => {
-        navigate('/');
-    }
-    return (
-        <HeaderTop>
-        <MobileNavButton onClick={handleOpenNavbar}>
-          <FontAwesomeIcon icon={faBars} size="lg" />
-        </MobileNavButton>
-        <Logo onClick={handleNavigateToMain} >
-          {'커뮤니티'}
-        </Logo>
-        <SelectSearchWrapper>
-          <CharacterSearchBox searchHandler={characterSearchHandler} clickHandler={characterDetailHandler} />
-        </SelectSearchWrapper>
-      </HeaderTop>
-    );
-}
+const HeaderTopSection = ({ handleOpenNavbar, characterSearchHandler, characterDetailHandler }: IHeaderTopSection) => {
+  const navigate = useNavigate();
+  const handleNavigateToMain = () => {
+    navigate('/');
+  };
+  return (
+    <HeaderTop>
+      <MobileNavButton onClick={handleOpenNavbar}>
+        <FontAwesomeIcon icon={faBars} size="lg" />
+      </MobileNavButton>
+      <Logo onClick={handleNavigateToMain}>{'커뮤니티'}</Logo>
+      <SelectSearchWrapper>
+        <CharacterSearchBox searchHandler={characterSearchHandler} clickHandler={characterDetailHandler} />
+      </SelectSearchWrapper>
+    </HeaderTop>
+  );
+};
 
 export default HeaderTopSection;
 
 interface IHeaderTopSection {
-    handleOpenNavbar: () => void;
-    characterSearchHandler: (...args:any[]) => void;
-    characterDetailHandler: (...args:any[]) => void;
-};
-
+  handleOpenNavbar: () => void;
+  characterSearchHandler: (...args: any[]) => void;
+  characterDetailHandler: (...args: any[]) => void;
+}
 
 const Logo = styled(Button)`
   && {
@@ -82,7 +79,6 @@ const SelectSearchWrapper = styled.div`
     grid-row-end: 3;
   }
 `;
-
 
 //헤더의 한줄 div 스타일 양 옆에 왼쪽은 로고 오른쪽엔 검색창 배치해둘것임
 const HeaderTop = styled.div`

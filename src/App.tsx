@@ -22,7 +22,7 @@ function App() {
   return (
     <Suspense fallback={<div>loading...</div>}>
       <div className="App">
-        <Header title={'커뮤니티'} />
+        <Header />
         <Routes>
           <Route path="/" element={<Main />}></Route>
           <Route path={BOARD_LIST_URL} element={<Board />}></Route>

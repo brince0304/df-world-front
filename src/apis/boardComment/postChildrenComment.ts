@@ -1,8 +1,8 @@
-import { CommentForm } from '../../pages/Board/Detail';
+import { ICommentFormProps } from '../../pages/Board/Detail';
 import { BOARD_COMMENT_CHILDREN_POST_URL } from '../data/urls';
 import createInstance from '../axiosClient';
 
-export const postChildrenComment = async (commentId: string, boardId: string, data: CommentForm) => {
+export const postChildrenComment = async (commentId: string, boardId: string, data: ICommentFormProps) => {
   const form = {
     commentId: commentId,
     boardId: boardId,

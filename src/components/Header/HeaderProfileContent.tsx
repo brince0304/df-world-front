@@ -21,7 +21,6 @@ export const HeaderProfileContent = (props: { onClick: () => void }) => {
   );
 };
 
-
 const ProfileNicknameWrapper = styled.span`
   display: flex;
   flex-direction: column;

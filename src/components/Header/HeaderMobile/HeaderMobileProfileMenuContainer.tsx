@@ -1,47 +1,50 @@
-import styled from "@emotion/styled";
-import { faUser, faBell } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Tooltip, IconButton, Badge, Zoom } from "@mui/material";
+import styled from '@emotion/styled';
+import { faUser, faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip, IconButton, Badge, Zoom } from '@mui/material';
 
-const HeaderMobileProfileMenuContainer = ({isProfileOpened: profileIsOpened, notificationCount, handleNavigateToMyPage}: IHeaderMobileProfileMenuContainer) => {
-    return (
-        <Zoom in={profileIsOpened}>
-        <ProfileMenu>
-          <ProfileMenuList>
-            <Tooltip title={'마이페이지'} placement={'bottom'}>
-              <IconButton onClick={handleNavigateToMyPage}>
+const HeaderMobileProfileMenuContainer = ({
+  isProfileOpened: profileIsOpened,
+  notificationCount,
+  handleNavigateToMyPage,
+}: IHeaderMobileProfileMenuContainer) => {
+  return (
+    <Zoom in={profileIsOpened}>
+      <ProfileMenu>
+        <ProfileMenuList>
+          <Tooltip title={'마이페이지'} placement={'bottom'}>
+            <IconButton onClick={handleNavigateToMyPage}>
+              <MenuIconWrapper>
+                <FontAwesomeIcon icon={faUser} size="sm" />
+              </MenuIconWrapper>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={'알림'} placement={'bottom'}>
+            <IconButton>
+              {notificationCount === 0 && (
                 <MenuIconWrapper>
-                  <FontAwesomeIcon icon={faUser} size="sm" />
+                  <FontAwesomeIcon icon={faBell} size="sm" />
                 </MenuIconWrapper>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={'알림'} placement={'bottom'}>
-              <IconButton>
-                {notificationCount === 0 && (
+              )}
+              {notificationCount !== 0 && (
+                <Badge badgeContent={notificationCount} color="primary">
                   <MenuIconWrapper>
                     <FontAwesomeIcon icon={faBell} size="sm" />
                   </MenuIconWrapper>
-                )}
-                {notificationCount !== 0 && (
-                  <Badge badgeContent={notificationCount} color="primary">
-                    <MenuIconWrapper>
-                      <FontAwesomeIcon icon={faBell} size="sm" />
-                    </MenuIconWrapper>
-                  </Badge>
-                )}
-              </IconButton>
-            </Tooltip>
-          </ProfileMenuList>
-        </ProfileMenu>
-      </Zoom>
-    );
-
-}
+                </Badge>
+              )}
+            </IconButton>
+          </Tooltip>
+        </ProfileMenuList>
+      </ProfileMenu>
+    </Zoom>
+  );
+};
 
 interface IHeaderMobileProfileMenuContainer {
-    isProfileOpened: boolean;
-    notificationCount: number;
-    handleNavigateToMyPage: () => void;
+  isProfileOpened: boolean;
+  notificationCount: number;
+  handleNavigateToMyPage: () => void;
 }
 
 export default HeaderMobileProfileMenuContainer;
@@ -98,4 +101,3 @@ const ProfileMenu = styled.div`
     margin-left: -8px;
   }
 `;
-

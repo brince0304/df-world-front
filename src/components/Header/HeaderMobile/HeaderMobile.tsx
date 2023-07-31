@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, } from '@mui/material';
+import { Button } from '@mui/material';
 import { ILoginResponse } from 'services/userService';
 import HeaderMoctileUserProfile from './HeaderMobileUserProfile';
 import HeaderMobileMenus from './HeaderMobileMenus';
-
 
 const HeaderMobile = ({ user, ...props }: IHeaderMobileProps) => {
   const navigate = useNavigate();
@@ -25,27 +24,27 @@ const HeaderMobile = ({ user, ...props }: IHeaderMobileProps) => {
     navigate(url);
     setProfileIsOpened(false);
     props.handleClose();
-  }
+  };
   return (
     <Container isOpened={props.isOpened}>
       <NavMenu>
-        <Logo onClick={handleNavigateToMain}>
-          커뮤니티
-        </Logo>
+        <Logo onClick={handleNavigateToMain}>커뮤니티</Logo>
         {user && (
-            <HeaderMoctileUserProfile
-              user={user}
-              notificationCount={notificationCount || 0}
-              isProfileOpened={profileIsOpened}
-              handleProfileOpen={handleProfileOpen}
-              handleNavigateToMyPage={handleNavigateToMyPage}
-              />
+          <HeaderMoctileUserProfile
+            user={user}
+            notificationCount={notificationCount || 0}
+            isProfileOpened={profileIsOpened}
+            handleProfileOpen={handleProfileOpen}
+            handleNavigateToMyPage={handleNavigateToMyPage}
+          />
         )}
         {user && <Division />}
-          <HeaderMobileMenus
+        <HeaderMobileMenus
           user={user}
           handleModalOpen={props.handleModalOpen}
-           menuList={props.menuList} navigateCallback={navigateCallback} />
+          menuList={props.menuList}
+          navigateCallback={navigateCallback}
+        />
       </NavMenu>
     </Container>
   );
@@ -54,7 +53,7 @@ const HeaderMobile = ({ user, ...props }: IHeaderMobileProps) => {
 export default HeaderMobile;
 
 interface IHeaderMobileProps {
-  user : ILoginResponse | null;
+  user: ILoginResponse | null;
   isLoginOpen: boolean;
   handleModalOpen: () => void;
   isOpened: boolean;
@@ -81,7 +80,6 @@ const Container = styled.div`
     z-index: 1;
   }
 `;
-
 
 const NavMenu = styled.div`
   display: flex;

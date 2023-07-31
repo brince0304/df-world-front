@@ -1,44 +1,44 @@
-import styled from "@emotion/styled";
-import { Button } from "@mui/material";
-import { headerMenu } from "constants/myConstants";
-import { useLogoutMutation } from "hooks/authHooks/mutations/useLogoutMutation";
-import { useNavigate } from "react-router-dom";
-import { ILoginResponse } from "services/userService";
+import styled from '@emotion/styled';
+import { Button } from '@mui/material';
+import { headerMenu } from 'constants/myConstants';
+import { useLogoutMutation } from 'hooks/authHooks/mutations/useLogoutMutation';
+import { useNavigate } from 'react-router-dom';
+import { ILoginResponse } from 'services/userService';
 
-const HeaderMenus =({user, handleOpenModal}: IHederMenus) => {
-    const navigate = useNavigate();
-    const logoutMutation = useLogoutMutation();
-    const handleLogout = () => {
-        if(window.confirm('로그아웃 하시겠습니까?')) {
-            logoutMutation();
-        }
+const HeaderMenus = ({ user, handleOpenModal }: IHederMenus) => {
+  const navigate = useNavigate();
+  const logoutMutation = useLogoutMutation();
+  const handleLogout = () => {
+    if (window.confirm('로그아웃 하시겠습니까?')) {
+      logoutMutation();
     }
-    return (
-        <HeaderMenuWrapper>
-        {headerMenu.map((menu, index) => {
-          return (
-            <HeaderMenu
-              key={index}
-              onClick={(e) => {
-                navigate(menu.link);
-              }}
-            >
-              {menu.name}
-            </HeaderMenu>
-          );
-        })}
-        {user ? (
-          <HeaderMenu onClick={handleLogout}>로그아웃</HeaderMenu>
-        ) : (
-          <HeaderMenu onClick={handleOpenModal}>로그인</HeaderMenu>
-        )}
-      </HeaderMenuWrapper>
-    )
-}
+  };
+  return (
+    <HeaderMenuWrapper>
+      {headerMenu.map((menu, index) => {
+        return (
+          <HeaderMenu
+            key={index}
+            onClick={(e) => {
+              navigate(menu.link);
+            }}
+          >
+            {menu.name}
+          </HeaderMenu>
+        );
+      })}
+      {user ? (
+        <HeaderMenu onClick={handleLogout}>로그아웃</HeaderMenu>
+      ) : (
+        <HeaderMenu onClick={handleOpenModal}>로그인</HeaderMenu>
+      )}
+    </HeaderMenuWrapper>
+  );
+};
 
 interface IHederMenus {
-    user: ILoginResponse | null;
-    handleOpenModal: () => void;
+  user: ILoginResponse | null;
+  handleOpenModal: () => void;
 }
 
 export default HeaderMenus;

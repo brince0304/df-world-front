@@ -1,50 +1,50 @@
-import styled from "@emotion/styled";
-import { Avatar, Box, Tooltip, TooltipProps, Zoom, tooltipClasses } from "@mui/material";
-import { HeaderProfileContent } from "./HeaderProfileContent";
-import React from "react";
-import HeaderProfileMenuContainer from "./HeaderProfileMenuContainer";
-import { ILoginResponse } from "services/userService";
+import styled from '@emotion/styled';
+import { Avatar, Box, Tooltip, TooltipProps, Zoom, tooltipClasses } from '@mui/material';
+import { HeaderProfileContent } from './HeaderProfileContent';
+import React from 'react';
+import HeaderProfileMenuContainer from './HeaderProfileMenuContainer';
+import { ILoginResponse } from 'services/userService';
 
-const HeaderProfileContainer = ({user, handleClickProfile}: IHeaderProfileContainer) => {
-    return (
-        <ProfileContainer>
-        {user && (
-          <HtmlTooltip
-            title={
-              <React.Fragment>
-                <Box>
-                  <ProfileNicknameWrapper>
-                    <Avatar
-                      alt={user.nickname}
-                      src={user.profileImgPath}
-                      sx={{
-                        width: 30,
-                        height: 30,
-                        backgroundColor: 'white',
-                        border: '1px solid #2e2e2e',
-                      }}
-                    />
-                    {user.nickname}
-                  </ProfileNicknameWrapper>
-                  <HeaderProfileMenuContainer />
-                </Box>
-              </React.Fragment>
-            }
-            placement={'bottom'}
-            TransitionComponent={Zoom}
-          >
-            <ProfileWrapper>
-              <HeaderProfileContent onClick={handleClickProfile} />
-            </ProfileWrapper>
-          </HtmlTooltip>
-        )}
-      </ProfileContainer>
-    );
-}  
+const HeaderProfileContainer = ({ user, handleClickProfile }: IHeaderProfileContainer) => {
+  return (
+    <ProfileContainer>
+      {user && (
+        <HtmlTooltip
+          title={
+            <React.Fragment>
+              <Box>
+                <ProfileNicknameWrapper>
+                  <Avatar
+                    alt={user.nickname}
+                    src={user.profileImgPath}
+                    sx={{
+                      width: 30,
+                      height: 30,
+                      backgroundColor: 'white',
+                      border: '1px solid #2e2e2e',
+                    }}
+                  />
+                  {user.nickname}
+                </ProfileNicknameWrapper>
+                <HeaderProfileMenuContainer />
+              </Box>
+            </React.Fragment>
+          }
+          placement={'bottom'}
+          TransitionComponent={Zoom}
+        >
+          <ProfileWrapper>
+            <HeaderProfileContent onClick={handleClickProfile} />
+          </ProfileWrapper>
+        </HtmlTooltip>
+      )}
+    </ProfileContainer>
+  );
+};
 
 interface IHeaderProfileContainer {
-    user: ILoginResponse | null;
-    handleClickProfile: () => void;
+  user: ILoginResponse | null;
+  handleClickProfile: () => void;
 }
 
 export default HeaderProfileContainer;
@@ -74,7 +74,6 @@ const ProfileContainer = styled.div`
     padding-right: 0;
   }
 `;
-
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />

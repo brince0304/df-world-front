@@ -1,8 +1,8 @@
-import { CommentForm } from '../../pages/Board/Detail';
+import { ICommentFormProps } from '../../pages/Board/Detail';
 import { BOARD_COMMENT_UPDATE_URL } from '../data/urls';
 import createInstance from '../axiosClient';
 
-export const putBoardComment = async (commentId: string, boardId: string, data: CommentForm) => {
+export const putBoardComment = async (commentId: string, boardId: string, data: ICommentFormProps) => {
   const form = {
     commentId: commentId,
     boardId: boardId,
