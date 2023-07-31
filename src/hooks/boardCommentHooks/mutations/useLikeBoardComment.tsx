@@ -1,19 +1,19 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QUERY_KEY } from "constants/myConstants";
-import { useBoardCommentService } from "context/boardCommentServiceContext";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { QUERY_KEY } from 'constants/myConstants';
+import { useBoardCommentService } from 'context/boardCommentServiceContext';
 
 const useLikeBoardComment = (boardId: string, commentId: string) => {
-    const {likeComment} = useBoardCommentService();
-    const queryClient = useQueryClient();
-    const {mutate: likeBoardComment} = useMutation(likeComment, {
-        onSuccess: (data) => {
-            queryClient.setQueryData([QUERY_KEY.boardCommentLikeCount, commentId], data);
-            const prevIsLiked = queryClient.getQueryData([QUERY_KEY.isBoardCommentLiked, commentId]);
-            queryClient.setQueryData([QUERY_KEY.isBoardCommentLiked, commentId], !prevIsLiked);
-        }
-    });
+  const { likeComment } = useBoardCommentService();
+  const queryClient = useQueryClient();
+  const { mutate: likeBoardComment } = useMutation(likeComment, {
+    onSuccess: (data) => {
+      queryClient.setQueryData([QUERY_KEY.boardCommentLikeCount, commentId], data);
+      const prevIsLiked = queryClient.getQueryData([QUERY_KEY.isBoardCommentLiked, commentId]);
+      queryClient.setQueryData([QUERY_KEY.isBoardCommentLiked, commentId], !prevIsLiked);
+    },
+  });
 
-    return likeBoardComment;
-}
+  return likeBoardComment;
+};
 
 export default useLikeBoardComment;

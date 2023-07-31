@@ -35,10 +35,9 @@ const ServiceContextProvider = ({
               <SnackbarProvider maxSnack={3}>{children}</SnackbarProvider>
             </MyPageServiceProvider>
           </CharacterServiceProvider>
-      </BoardCommentServiceProvider>
-    </BoardServiceProvider>
-  </UserServiceProvider>
-
+        </BoardCommentServiceProvider>
+      </BoardServiceProvider>
+    </UserServiceProvider>
   );
 };
 

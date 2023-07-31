@@ -1,13 +1,4 @@
-import {
-  Button,
-  Checkbox,
-  Chip,
-  Container,
-  Divider,
-  FormControlLabel,
-  Paper,
-  styled,
-} from '@mui/material';
+import { Button, Checkbox, Chip, Container, Divider, FormControlLabel, Paper, styled } from '@mui/material';
 import { useParams } from 'react-router';
 import Box from '@mui/material/Box';
 import React from 'react';

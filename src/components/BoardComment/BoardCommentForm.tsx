@@ -1,32 +1,27 @@
-import { Box, IconButton, InputBase, Paper, Typography, styled } from "@mui/material";
-import { useUserQuery } from "hooks/authHooks/queries/useUserQuery";
-import useBoardCommentForm from "hooks/boardCommentHooks/useBoardCommentForm";
-import { CommentListDataComments } from "interfaces/CommentListData";
-import { IBoardCommentUpdateChildrenRequest } from "services/boardCommentService";
+import { Box, IconButton, InputBase, Paper, Typography, styled } from '@mui/material';
+import { useUserQuery } from 'hooks/authHooks/queries/useUserQuery';
+import useBoardCommentForm from 'hooks/boardCommentHooks/useBoardCommentForm';
+import { CommentListDataComments } from 'interfaces/CommentListData';
+import { IBoardCommentUpdateChildrenRequest } from 'services/boardCommentService';
 import SendIcon from '@mui/icons-material/Send';
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-const BoardCommentForm = ({ boardId,initialValues,handleToggleClose ,onSubmit}: ICommentFormProps) => {
-  const {
-    register,
-    handleSubmit,
-    setValues,
-    errors,
-  } = useBoardCommentForm(initialValues);
-    const { user } = useUserQuery();
-    const handleSubmitOnValid = (data: IBoardCommentUpdateChildrenRequest) => {
-      onSubmit(data);
-      handleToggleClose && handleToggleClose();
-    }
-   useEffect(() => {
-    if(!initialValues){
+const BoardCommentForm = ({ boardId, initialValues, handleToggleClose, onSubmit }: ICommentFormProps) => {
+  const { register, handleSubmit, setValues, errors } = useBoardCommentForm(initialValues);
+  const { user } = useUserQuery();
+  const handleSubmitOnValid = (data: IBoardCommentUpdateChildrenRequest) => {
+    onSubmit(data);
+    handleToggleClose && handleToggleClose();
+  };
+  useEffect(() => {
+    if (!initialValues) {
       setValues.setBoardId(Number(boardId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
-    return (
-        <form onSubmit={handleSubmit(handleSubmitOnValid)} style={{ width: '100%' }}>
-        <CommentContainer>
+  }, []);
+  return (
+    <form onSubmit={handleSubmit(handleSubmitOnValid)} style={{ width: '100%' }}>
+      <CommentContainer>
         <CommentFormBox>
           <InputBase
             sx={{ width: '100%' }}
@@ -38,37 +33,37 @@ const BoardCommentForm = ({ boardId,initialValues,handleToggleClose ,onSubmit}: 
           <IconButton type="submit" disabled={!user}>
             <SendIcon />
           </IconButton>
-          </CommentFormBox>
-          <Typography sx={{ color: 'red' }}>{errors.commentContent?.message}</Typography>
-        </CommentContainer>
-      </form>
-    )
-}
+        </CommentFormBox>
+        <Typography sx={{ color: 'red' }}>{errors.commentContent?.message}</Typography>
+      </CommentContainer>
+    </form>
+  );
+};
 
 interface ICommentFormProps {
-    initialValues?: CommentListDataComments;
-    handleToggleClose?: () => void;
-    onSubmit: (...args: any[]) => void;
-    boardId: string;
+  initialValues?: CommentListDataComments;
+  handleToggleClose?: () => void;
+  onSubmit: (...args: any[]) => void;
+  boardId: string;
 }
 
 export default BoardCommentForm;
 
 const CommentFormBox = styled(Box)`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: center;
-width: 100%;
-background-color: white;
-border-radius: 5px;
-padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
 `;
 
 const CommentContainer = styled(Paper)`
   display: flex;
   flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;

@@ -15,7 +15,7 @@ export const QUERY_KEY = {
   isBoardCommentLiked: 'isBoardCommentLiked',
   boardCommentLikeCount: 'boardCommentLikeCount',
   childrenComments: 'childrenComments',
-}
+};
 
 export const imageData = [
   {
