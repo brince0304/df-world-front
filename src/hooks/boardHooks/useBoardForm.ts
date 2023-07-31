@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import * as yup from 'yup';
-import { IBoardRequest } from '../../service/boardService';
+import { IBoardRequest } from '../../services/boardService';
 import { IBoardDetail } from '../../interfaces/IBoardDetail';
-import useCreateBoard from './useCreateBoard';
+import useCreateBoardMutation from './mutations/useCreateBoardMutation';
 
 const useBoardForm = (initialValue?: IBoardDetail) => {
   const schema = yup.object().shape({
@@ -64,7 +64,7 @@ const useBoardForm = (initialValue?: IBoardDetail) => {
     setServerId: (value: string) => setValue('serverId', value),
   };
 
-  const createBoard = useCreateBoard();
+  const createBoard = useCreateBoardMutation();
   const onSubmit = (data: IBoardRequest) => {
     createBoard(data);
   };

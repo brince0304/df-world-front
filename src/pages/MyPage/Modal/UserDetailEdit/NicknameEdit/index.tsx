@@ -1,5 +1,5 @@
 import { Button, FormControl } from '@mui/material';
-import ValidateTextField from '../../../../../components/ValidateTextField';
+import ValidateTextField from '../../../../../components/ValidateTextField/ValidateTextField';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import getValidateNickname from '../../../../../apis/myPage/getValidateNickname';
@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import * as yup from 'yup';
 import putChangeNickname from '../../../../../apis/myPage/putChangeNickname';
-import CollapseButton from '../../../../../components/CollapseButton';
+import CollapseButton from '../../../../../components/CollapseButton/CollapseButton';
 interface FormProps {
   nickname: string;
 }

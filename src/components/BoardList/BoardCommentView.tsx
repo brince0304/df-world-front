@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, RemoveRedEyeOutlined } from '@mui/icons-material';
-import CreatedAt from './CreatedAt';
+import CreatedAt from './BoardCreatedAt';
 import React from 'react';
 import styled from '@emotion/styled';
 import Typography from '@mui/material/Typography';

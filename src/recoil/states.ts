@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { IRecentSearchedQuery } from '../storage/searchQueryLocalStorage';
+import { IRecentSearchedQuery } from '../storages/searchQueryLocalStorage';
 
 export const searchedQueryState = atom({
   key: 'searchedQueryState',

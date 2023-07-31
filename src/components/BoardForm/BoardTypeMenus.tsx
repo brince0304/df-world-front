@@ -1,4 +1,4 @@
-import { boardCategory } from '../../constants';
+import { boardCategory } from '../../constants/myConstants';
 import * as React from 'react';
 import SelectMenu from './SelectMenu';
 

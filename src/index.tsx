@@ -6,13 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { AxiosClient } from './AxiosClient/axiosClient';
 import axiosClient from './apis/axiosClient';
-import { UserService } from './service/userService';
+import { UserService } from './services/userService';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import MyPageService from './service/myPageService';
+import MyPageService from './services/myPageService';
 import ServiceContextProvider from './context/serviceContextProvider';
 import { RecoilRoot } from 'recoil';
-import CharacterService from './service/characterService';
-import BoardService from './service/boardService';
+import CharacterService from './services/characterService';
+import BoardService from './services/boardService';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const client = new AxiosClient(axiosClient);

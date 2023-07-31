@@ -2,16 +2,16 @@ import { useLocation, useParams } from 'react-router';
 import React from 'react';
 import styled from 'styled-components';
 import { Container } from '@mui/material';
-import CharacterList from '../../components/CharactersList';
+import CharacterList from '../../components/CharacterList/CharacterList';
 import { getServerName } from '../../utils/charactersUtil';
-import useCharacters from '../../hooks/characterHooks/useCharacters';
+import useCharactersQuery from 'hooks/characterHooks/queries/useCharactersQuery';
 
 const Characters = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const characterName = searchParams.get('name') || '';
   const { serverId } = useParams();
-  const { data, hasNextPage, fetchNextPage } = useCharacters(characterName, serverId ? serverId : '');
+  const { data, hasNextPage, fetchNextPage } = useCharactersQuery(characterName, serverId ? serverId : '');
   return (
     <Container maxWidth={'lg'}>
       <ResultTitleWrapper>

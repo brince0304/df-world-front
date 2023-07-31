@@ -12,16 +12,15 @@ import { BOARD_INSERT_FORM_ROUTE, BOARD_ROUTE } from './apis/data/route';
 import { BadRequest } from './components/application/error/BadRequest';
 import CharacterDetail from './pages/Characters/Detail';
 import MyPage from './pages/MyPage';
-import Header from './components/Header';
-import { useUser } from './hooks/authHooks/useUser';
+import Header from './components/Header/Header';
+import { useUserQuery } from './hooks/authHooks/queries/useUserQuery';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import AppLoading from './components/application/loading/AppLoading';
 
 function App() {
-  const { user } = useUser();
+  const { user } = useUserQuery();
 
   return (
-    <Suspense fallback={<AppLoading />}>
+    <Suspense fallback={<div>loading...</div>}>
       <div className="App">
         <Header title={'커뮤니티'} />
         <Routes>

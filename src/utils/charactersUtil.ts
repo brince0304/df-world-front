@@ -1,5 +1,5 @@
 import { Content, ICharactersData } from '../interfaces/ICharactersData';
-import { IRecentSearchedQuery } from '../storage/searchQueryLocalStorage';
+import { IRecentSearchedQuery } from '../storages/searchQueryLocalStorage';
 import { ICharacterDetail } from '../interfaces/ICharacterDetail';
 
 export const getFastSearchListsFromCharactersData = (data: ICharactersData) => {

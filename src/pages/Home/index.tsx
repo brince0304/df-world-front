@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import React from 'react';
 import CharacterRanking from './Tables/CharacterRanking';
 import { Container } from '@mui/material';
-import { CHARACTER_MAINPAGE_RANKING_URL, LATEST_BOARD_URL } from '../../apis/data/urls';
-import LatestBoard from './Tables/LatestBoard';
-import { boardCategories } from '../../utils/boardUtil';
-import MainCarousel from '../../components/MainCarousel';
+import { CHARACTER_MAINPAGE_RANKING_URL } from '../../apis/data/urls';
+import MainCarousel from '../../components/MainCarousel/Carousel';
+import LatestBoard from '../../components/LatestBoard/LatestBoard';
 
 const Main = () => {
   return (
@@ -17,8 +16,7 @@ const Main = () => {
     >
       <MainCarousel />
       <LatestBoardContainer>
-        <LatestBoard title={'공지사항'} url={LATEST_BOARD_URL} />
-        <LatestBoard title={'통합 게시판'} boardTypes={boardCategories} url={LATEST_BOARD_URL} />
+        <LatestBoard />
       </LatestBoardContainer>
       <CharacterRanking title={'캐릭터 랭킹'} url={CHARACTER_MAINPAGE_RANKING_URL} />
     </Container>

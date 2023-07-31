@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { IMyPageService } from '../service/myPageService';
+import { IMyPageService } from '../services/myPageService';
 
 const myPageServiceContext = createContext<IMyPageService>({} as IMyPageService);
 

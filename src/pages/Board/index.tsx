@@ -1,4 +1,4 @@
-import CustomTable from '../../components/CustomTable';
+import CustomTable from '../../components/CustomTable/CustomTable';
 import { useLocation, useNavigate } from 'react-router';
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
@@ -7,19 +7,19 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InfoIcon from '@mui/icons-material/Info';
 
 import { Avatar, Button, Chip, Container, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
-import BestContent from '../../components/BestBoardList';
+import BestContent from '../../components/BestBoardList/BestBoardList';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { AllInbox, Announcement, FreeBreakfast, LocalMall, QuestionAnswer, Work } from '@mui/icons-material';
 import { BOARD_LIST_URL, BOARD_WRITE_URL } from '../../apis/data/urls';
-import BoardListSkeleton from '../../components/Skeleton/BoardListSkeleton ';
-import SearchForm from '../../components/SearchBox';
+import BoardListSkeleton from '../../components/Skeleton/BoardListSkeleton /BoardListSkeleton';
+import SearchForm from '../../components/SearchForm/SearchForm';
 import { getServerName } from 'utils/charactersUtil';
-import useSearchForm from '../../hooks/useSearchForm';
 import { boardSearchTypes, getBoardType } from 'utils/boardUtil';
-import useBoardList from '../../hooks/boardHooks/useBoardList';
 import InfiniteScroll from 'react-infinite-scroller';
-import BoardList from 'components/BoardList';
+import BoardList from 'components/BoardList/BoardList';
+import useSearchForm from 'hooks/uiHooks/useSearchForm';
+import useBoardListQuery from 'hooks/boardHooks/queries/useBoardListQuery';
 
 export const CharacterContent = (props: {
   characterName: string;
@@ -202,7 +202,7 @@ const Board = () => {
     data: boardList,
     refetch,
     hasNextPage,
-  } = useBoardList({
+  } = useBoardListQuery({
     searchType,
     keyword,
     boardType,

@@ -16,7 +16,7 @@ import {
 import { useParams } from 'react-router';
 import Box from '@mui/material/Box';
 import React, { useCallback, useEffect, useState } from 'react';
-import BestContent from '../../../components/BestBoardList';
+import BestContent from '../../../components/BestBoardList/BestBoardList';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -39,13 +39,13 @@ import { putBoardComment } from '../../../apis/boardComment/putBoardComment';
 import { postChildrenComment } from '../../../apis/boardComment/postChildrenComment';
 import { getChildrenComment } from '../../../apis/boardComment/getChildrenComment';
 import { CharacterChip } from '..';
-import { useUser } from '../../../hooks/authHooks/useUser';
-import useBoardDetail from '../../../hooks/boardHooks/useBoardDetail';
-import useLikeBoard from '../../../hooks/boardHooks/useLikeBoard';
-import useDeleteBoard from '../../../hooks/boardHooks/useDeleteBoard';
+import { useUserQuery } from '../../../hooks/authHooks/queries/useUserQuery';
 import { getBoardType } from '../../../utils/boardUtil';
-import { TagChip } from '../../../components/BoardList/TagChip';
-import BoardUserAvatar from '../../../components/BoardUserAvatar';
+import { TagChip } from '../../../components/Chips/TagChip';
+import BoardUserAvatar from '../../../components/BoardUserAvatar/BoardUserAvatar';
+import useDeleteBoardMutation from 'hooks/boardHooks/mutations/useDeleteBoardMutation';
+import useLikeBoardMutation from 'hooks/boardHooks/mutations/useLikeBoardMutation';
+import useBoardDetailQuery from 'hooks/boardHooks/queries/useBoardDetailQuery';
 
 const TagContainer = styled(Box)`
   display: flex;
@@ -208,7 +208,7 @@ const CommentList = (props: {
   likeResponse: CommentListDataLikeResponses[];
 }) => {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
-  const { user } = useUser();
+  const { user } = useUserQuery();
   const commentLikeLog = props.likeResponse.map((comment) => {
     if (comment.isLike) {
       return comment.id;
@@ -499,7 +499,7 @@ const ReplyInsertForm = (props: {
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
-  const { user } = useUser();
+  const { user } = useUserQuery();
   const handlePostChildrenComment = (commentId: string, boardId: string, data: CommentForm) => {
     if (!user) {
       alert('로그인이 필요합니다.');
@@ -605,7 +605,7 @@ const ReplyList = (props: {
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
-  const { user } = useUser();
+  const { user } = useUserQuery();
 
   const handleUpdateComment = (commentId: string, data: CommentForm) => {
     if (props.boardId && user && user.userId === props.comment.userId) {
@@ -747,13 +747,13 @@ const ReplyList = (props: {
 const BoardDetail = () => {
   const { boardId } = useParams<{ boardId: string }>();
   let navigate = useNavigate();
-  const { user } = useUser();
+  const { user } = useUserQuery();
   const [commentData, setCommentData] = useState<CommentListData>({} as CommentListData);
   const [isCommentLoading, setIsCommentLoading] = useState<boolean>(false);
   // eslint-disable-next-line
   const [isCommentError, setIsCommentError] = useState<boolean>(false);
-  const { data, isLiked } = useBoardDetail(boardId || '');
-  const { likeBoardMutation: likeBoard, likeCount } = useLikeBoard(boardId || '');
+  const { data, isLiked } = useBoardDetailQuery(boardId || '');
+  const { likeBoardMutation: likeBoard, likeCount } = useLikeBoardMutation(boardId || '');
   const handleBoardLike = () => {
     if (boardId) {
       likeBoard();
@@ -773,7 +773,7 @@ const BoardDetail = () => {
         setIsCommentLoading(false);
       });
   }, []);
-  const deleteBoard = useDeleteBoard(boardId || '');
+  const deleteBoard = useDeleteBoardMutation(boardId || '');
 
   const handleDeleteBoard = () => {
     if (window.confirm('게시글을 삭제하시겠습니까?')) {

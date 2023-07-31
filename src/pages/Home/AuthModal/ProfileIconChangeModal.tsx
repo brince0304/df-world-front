@@ -6,9 +6,9 @@ import styled from 'styled-components';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Divider, IconButton } from '@mui/material';
-import ImageUploader from '../../../components/ImageUploader';
+import ImageUploader from '../../../components/ImageUploader/ImageUploader';
 import axiosInstance from '../../../apis/axiosClient';
-import { profileIcons } from '../../../constants';
+import { profileIcons } from '../../../constants/myConstants';
 
 export default function ProfileIconChangeModal(props: ProfileIconChangeModalProps) {
   const data = profileIcons;

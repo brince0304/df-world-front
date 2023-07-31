@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router';
-import { ReactNode, Suspense, SyntheticEvent, useCallback, useState } from 'react';
+import { ReactNode, Suspense, SyntheticEvent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, Container, Divider, List, ListItemButton, Paper, Tab, Tabs } from '@mui/material';
@@ -18,9 +18,9 @@ import {
 } from '../../../interfaces/ICharacterDetail';
 import CharacterProfile from './CharacterProfile';
 import { dontNeedList, getRarityColor } from '../../../utils/charactersUtil';
-import useCharacterDetail from '../../../hooks/characterHooks/useCharacterDetail';
-import CharacterDetailSkeleton from '../../../components/Skeleton/CharacterDetailSkeleton';
+import CharacterDetailSkeleton from '../../../components/Skeleton/CharacterDetailSkeleton/CharacterDetailSkeleton';
 import styled from '@emotion/styled';
+import useCharacterDetailQuery from 'hooks/characterHooks/queries/useCharacterDetailQuery';
 
 const typographyProps = {
   component: 'span',
@@ -334,199 +334,201 @@ const CharacterEquipmentDetail = (props: {
   detail: CharacterDetailCharacterEquipmentDetails | undefined;
 }) => {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
-  const handleModalOpen = useCallback(() => {
+  const handleModalOpen = (e: SyntheticEvent) => {
+    e.preventDefault();
     setIsModalOpened(true);
-  }, []);
-  const handleModalClose = useCallback(() => {
+  };
+  const handleModalClose = () => {
     setIsModalOpened(false);
-  }, []);
+  };
   return (
-    <ListItemButton
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        width: '100%',
-        height: '100%',
-        padding: '10px',
-        gap: '10px',
-      }}
-      onClick={handleModalOpen}
-    >
+    <Box>
       <CharacterEquipmentModal isOpened={isModalOpened} setIsOpened={handleModalClose}>
         {props.detail && <CharacterEquipmentModalDetail detail={props.detail} equipment={props.equipment} />}
       </CharacterEquipmentModal>
-
-      <Box
-        sx={{
-          position: 'relative',
-          display: 'flex',
-          width: '40px',
-          height: '40px',
-        }}
-      >
-        <Avatar
-          variant={'rounded'}
-          src={`https://img-api.neople.co.kr/df/items/${props.equipment.itemId}`}
-          sx={{ width: '40px', height: '40px' }}
-        />
-        <TypeBadge type={props.equipment.slotName} />
-        {props.equipment.upgradeInfo && (
-          <img
-            style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-            src={'/images/icons/siroco.gif'}
-            width={40}
-            height={40}
-          />
-        )}
-        {props.equipment.itemRarity === '신화' && (
-          <img
-            style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-            src={'/images/icons/ora_myth.png'}
-            width={40}
-            height={40}
-          />
-        )}
-      </Box>
-      <Box
+      <ListItemButton
         sx={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           width: '100%',
           height: '100%',
+          padding: '10px',
+          gap: '10px',
         }}
+        onClick={handleModalOpen}
       >
         <Box
           sx={{
+            position: 'relative',
             display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            //줄바꿈 되지 않도록
+            width: '40px',
+            height: '40px',
           }}
         >
-          <Typography
-            sx={{
-              fontSize: '15px',
-              fontWeight: 'bold',
-              color: getRarityColor(props.equipment.itemRarity),
-              background:
-                props.equipment.itemRarity === '신화'
-                  ? '-webkit-linear-gradient(top, rgb(255, 180, 0), rgb(255, 0, 255));'
-                  : '',
-              backgroundClip: props.equipment.itemRarity === '신화' ? 'text' : '',
-              textFillColor: props.equipment.itemRarity === '신화' ? 'transparent' : '',
-            }}
-          >
-            {props.equipment.itemName}
-          </Typography>
-          {props.equipment.reinforce !== 0 && (
-            <Typography
-              sx={{
-                fontSize: '12px',
-                fontWeight: 'bold',
-                color: props.equipment.amplificationName ? getRarityColor('유니크') : getRarityColor('언커먼'),
-              }}
-            >
-              {' '}
-              +{props.equipment.reinforce}
-              {props.equipment.amplificationName ? '증폭' : '강화'}{' '}
-              {props.equipment.refine !== 0 ? `(${props.equipment.refine})` : ''}
-            </Typography>
+          <Avatar
+            variant={'rounded'}
+            src={`https://img-api.neople.co.kr/df/items/${props.equipment.itemId}`}
+            sx={{ width: '40px', height: '40px' }}
+          />
+          <TypeBadge type={props.equipment.slotName} />
+          {props.equipment.upgradeInfo && (
+            <img
+              style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
+              src={'/images/icons/siroco.gif'}
+              width={40}
+              height={40}
+            />
+          )}
+          {props.equipment.itemRarity === '신화' && (
+            <img
+              style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
+              src={'/images/icons/ora_myth.png'}
+              width={40}
+              height={40}
+            />
           )}
         </Box>
-        {props.equipment.upgradeInfo && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            width: '100%',
+            height: '100%',
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '100%',
+              //줄바꿈 되지 않도록
             }}
           >
-            <Typography fontSize={'12px'} color={'#4c9d17'}>
-              <FontAwesomeIcon
-                icon={faLevelUpAlt}
-                fontSize={'small'}
-                style={{ transform: 'rotate(90deg)', marginRight: '5px' }}
-              />
-              {props.equipment.upgradeInfo.itemName}
+            <Typography
+              sx={{
+                fontSize: '15px',
+                fontWeight: 'bold',
+                color: getRarityColor(props.equipment.itemRarity),
+                background:
+                  props.equipment.itemRarity === '신화'
+                    ? '-webkit-linear-gradient(top, rgb(255, 180, 0), rgb(255, 0, 255));'
+                    : '',
+                backgroundClip: props.equipment.itemRarity === '신화' ? 'text' : '',
+                textFillColor: props.equipment.itemRarity === '신화' ? 'transparent' : '',
+              }}
+            >
+              {props.equipment.itemName}
             </Typography>
+            {props.equipment.reinforce !== 0 && (
+              <Typography
+                sx={{
+                  fontSize: '12px',
+                  fontWeight: 'bold',
+                  color: props.equipment.amplificationName ? getRarityColor('유니크') : getRarityColor('언커먼'),
+                }}
+              >
+                {' '}
+                +{props.equipment.reinforce}
+                {props.equipment.amplificationName ? '증폭' : '강화'}{' '}
+                {props.equipment.refine !== 0 ? `(${props.equipment.refine})` : ''}
+              </Typography>
+            )}
           </Box>
-        )}
-        <Box
-          sx={{
-            display: 'inline-flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            gap: '5px',
-          }}
-        >
-          {props.equipment.enchant &&
-            props.equipment.enchant.status !== null &&
-            props.equipment.enchant.status.map((status, index) => {
-              return (
-                <Typography
-                  key={index}
-                  sx={{
-                    fontSize: '11px',
-                    display: 'flex',
-                  }}
-                >
-                  {status.name} +{status.value}
-                </Typography>
-              );
-            })}
-        </Box>
-        {props.equipment.growInfo && (
+          {props.equipment.upgradeInfo && (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+            >
+              <Typography fontSize={'12px'} color={'#4c9d17'}>
+                <FontAwesomeIcon
+                  icon={faLevelUpAlt}
+                  fontSize={'small'}
+                  style={{ transform: 'rotate(90deg)', marginRight: '5px' }}
+                />
+                {props.equipment.upgradeInfo.itemName}
+              </Typography>
+            </Box>
+          )}
           <Box
             sx={{
               display: 'inline-flex',
               flexDirection: 'row',
               justifyContent: 'flex-start',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               gap: '5px',
-              backgroundColor: '#f5f5f5',
-              padding: '1px 3px',
             }}
           >
-            <StarsIcon
+            {props.equipment.enchant &&
+              props.equipment.enchant.status !== null &&
+              props.equipment.enchant.status.map((status, index) => {
+                return (
+                  <Typography
+                    key={index}
+                    sx={{
+                      fontSize: '11px',
+                      display: 'flex',
+                    }}
+                  >
+                    {status.name} +{status.value}
+                  </Typography>
+                );
+              })}
+          </Box>
+          {props.equipment.growInfo && (
+            <Box
               sx={{
-                fontSize: '10px',
-                color: '#FFB400',
-              }}
-            />
-            {props.equipment?.growInfo?.options?.map((option, index) => {
-              return (
-                <Typography
-                  key={index}
-                  sx={{
-                    fontSize: '11px',
-                    display: 'flex',
-                  }}
-                >
-                  {' '}
-                  {option.level}
-                  {index + 1 !== props.equipment.growInfo.options.length && ' ·'}
-                </Typography>
-              );
-            })}
-            <Typography
-              sx={{
-                fontSize: '11px',
-                display: 'flex',
-                fontWeight: 'bold',
+                display: 'inline-flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: '5px',
+                backgroundColor: '#f5f5f5',
+                padding: '1px 3px',
               }}
             >
-              {' '}
-              ({props.equipment.growInfo?.total?.level})
-            </Typography>
-          </Box>
-        )}
-      </Box>
-    </ListItemButton>
+              <StarsIcon
+                sx={{
+                  fontSize: '10px',
+                  color: '#FFB400',
+                }}
+              />
+              {props.equipment?.growInfo?.options?.map((option, index) => {
+                return (
+                  <Typography
+                    key={index}
+                    sx={{
+                      fontSize: '11px',
+                      display: 'flex',
+                    }}
+                  >
+                    {' '}
+                    {option.level}
+                    {index + 1 !== props.equipment.growInfo.options.length && ' ·'}
+                  </Typography>
+                );
+              })}
+              <Typography
+                sx={{
+                  fontSize: '11px',
+                  display: 'flex',
+                  fontWeight: 'bold',
+                }}
+              >
+                {' '}
+                ({props.equipment.growInfo?.total?.level})
+              </Typography>
+            </Box>
+          )}
+        </Box>
+      </ListItemButton>
+    </Box>
   );
 };
 
@@ -550,7 +552,7 @@ const CharacterDetail = () => {
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
   };
-  const { data, refetch, isError } = useCharacterDetail(characterId, serverId);
+  const { data, refetch, isError } = useCharacterDetailQuery(characterId, serverId);
   return (
     <CharacterDetailContainer maxWidth={'md'}>
       <Suspense fallback={<CharacterDetailSkeleton />}>
@@ -618,7 +620,7 @@ const CharacterDetail = () => {
 
 const CharacterEquipmentList = (data: ICharacterDetail) => {
   return (
-    <List>
+    <List sx={{ width: '100%' }}>
       {data.characterEquipment.equipment.map((equipment, index) => {
         return (
           <CharacterEquipmentDetail

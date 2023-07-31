@@ -1,4 +1,4 @@
-import useSuccess from '../useSuccess';
+import useSuccess from '../uiHooks/useSuccess';
 
 const useMyPageSuccess = () => {
   const { handleSuccess } = useSuccess();

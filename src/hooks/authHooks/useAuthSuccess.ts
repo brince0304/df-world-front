@@ -1,5 +1,5 @@
-import { ILoginResponse } from '../../service/userService';
-import useSuccess from '../useSuccess';
+import { ILoginResponse } from '../../services/userService';
+import useSuccess from '../uiHooks/useSuccess';
 
 const useAuthSuccess = () => {
   const { handleSuccess } = useSuccess();

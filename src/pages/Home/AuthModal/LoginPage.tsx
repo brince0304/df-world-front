@@ -7,8 +7,8 @@ import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useLogin } from '../../../hooks/authHooks/useLogin';
-import { socialLoginTypes } from '../../../constants';
+import { socialLoginTypes } from '../../../constants/myConstants';
+import { useLoginMutation } from 'hooks/authHooks/mutations/useLoginMutation';
 
 interface SocialLoginProps {
   data: { src: string; alt: string; type: string }[];
@@ -51,7 +51,7 @@ const LoginPage = (props: { handleChangeSection: () => void }) => {
     resolver: yupResolver(schema),
   });
 
-  const login = useLogin();
+  const login = useLoginMutation();
 
   const onValid = (data: LoginProps) => {
     login({ username: data.username, password: data.password });

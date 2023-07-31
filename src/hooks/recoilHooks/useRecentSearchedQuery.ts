@@ -5,7 +5,7 @@ import {
   IRecentSearchedQuery,
   localStorageSearchQueryKey,
   searchedQueryLocalStorage,
-} from '../../storage/searchQueryLocalStorage';
+} from '../../storages/searchQueryLocalStorage';
 
 const useRecentSearchedQuery = () => {
   const [recentSearchedQuery, setRecentSearchedQuery] = useRecoilState(searchedQueryState);

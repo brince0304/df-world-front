@@ -7,8 +7,8 @@ import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import useRegister from '../../../hooks/authHooks/useRegister';
-import { IRegisterRequest } from '../../../service/userService';
+import useRegisterMutation from '../../../hooks/authHooks/mutations/useRegisterMutation';
+import { IRegisterRequest } from '../../../services/userService';
 
 // eslint-disable-next-line
 const SocialRegisterButtons = (props: { data: { src: string; alt: string; type: string }[] }) => {
@@ -76,7 +76,7 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
     resolver: yupResolver(schema),
   });
 
-  const signup = useRegister();
+  const signup = useRegisterMutation();
   const onValid = (data: IRegisterRequest) => {
     signup({ ...data });
   };

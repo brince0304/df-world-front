@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { ICharacterService } from '../service/characterService';
+import { ICharacterService } from '../services/characterService';
 
 const characterServiceContext = createContext<ICharacterService>({} as ICharacterService);
 

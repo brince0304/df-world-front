@@ -6,8 +6,8 @@ import { CharacterChip } from '../../pages/Board';
 import { BoardContent } from '../../interfaces/IBoardList';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { TagChip } from './TagChip';
-import BoardUserAvatar from '../BoardUserAvatar';
+import { TagChip } from '../Chips/TagChip';
+import BoardUserAvatar from '../BoardUserAvatar/BoardUserAvatar';
 import BoardCommentView from './BoardCommentView';
 
 const BoardListItem = (data: BoardContent) => {

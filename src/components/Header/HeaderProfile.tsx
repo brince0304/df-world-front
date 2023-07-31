@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import { Avatar, Badge, Button } from '@mui/material';
-import { useUser } from '../../hooks/authHooks/useUser';
+import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 
 const ProfileNicknameWrapper = styled.span`
   display: flex;
@@ -16,7 +16,7 @@ const ProfileNicknameWrapper = styled.span`
 `;
 
 export const HeaderProfile = (props: { onClick: () => void }) => {
-  const { user } = useUser();
+  const { user } = useUserQuery();
   return (
     <Button onClick={props.onClick}>
       <Badge color="primary" badgeContent={user?.notificationCount}>

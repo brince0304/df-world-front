@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import useAddCharacter from './useAddCharacter';
+import useAddCharacterMutation from './mutations/useAddCharacterMuation';
 
 const useCharacterUserLink = () => {
   const [openLinkCharacterModal, setOpenLinkCharacterModal] = useState(false);
-  const addCharacter = useAddCharacter();
+  const addCharacter = useAddCharacterMutation();
   const handlePostCharacter = (characterId: string, serverId: string, characterName: string) => {
     if (characterId && serverId && window.confirm(`${characterName} 캐릭터를 등록하시겠습니까?`)) {
       addCharacter({ characterId, serverId });
+      handleCloseCharacterLinkModal();
     }
   };
   const handleOpenCharacterLinkModal = () => {

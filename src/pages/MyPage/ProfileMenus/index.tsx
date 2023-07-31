@@ -9,15 +9,15 @@ import { Avatar, Badge, List, ListItemButton, styled } from '@mui/material';
 import MyActivitiesModal from '../Modal/MyActivities';
 import UserDetailEditModal from '../Modal/UserDetailEdit';
 import PublicIcon from '@mui/icons-material/Public';
-import CharacterLinkModal from '../../../components/CharacterLinkModal';
-import { useUser } from '../../../hooks/authHooks/useUser';
+import CharacterLinkModal from '../../../components/CharacterLinkModal/CharacterLinkModal';
+import { useUserQuery } from '../../../hooks/authHooks/queries/useUserQuery';
 import useCharacterUserLink from '../../../hooks/myPageHooks/useCharacterUserLink';
 
 const ProfileMenus = (props: { refresh: () => void }) => {
   const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
   const [openActivityHistoryModal, setOpenActivityHistoryModal] = useState(false);
   const [openProfileIconChangeModal, setOpenProfileIconChangeModal] = useState(false);
-  const { user } = useUser();
+  const { user } = useUserQuery();
 
   const { openLinkCharacterModal, handleCloseCharacterLinkModal, handlePostCharacter, handleOpenCharacterLinkModal } =
     useCharacterUserLink();

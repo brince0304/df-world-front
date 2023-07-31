@@ -1,4 +1,4 @@
-import useError from 'hooks/useError';
+import useError from 'hooks/uiHooks/useError';
 
 const useMyPageError = () => {
   const { handleError } = useError();

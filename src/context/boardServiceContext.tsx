@@ -1,4 +1,4 @@
-import { IBoardService } from '../service/boardService';
+import { IBoardService } from '../services/boardService';
 import { createContext, useContext } from 'react';
 import { ReactNode } from 'react';
 

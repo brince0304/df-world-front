@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { IUserService } from '../service/userService';
+import { IUserService } from '../services/userService';
 
 const userServiceContext = createContext<IUserService>({} as IUserService);
 

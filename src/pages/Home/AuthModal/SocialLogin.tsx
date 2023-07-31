@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
 import { Divider } from '@mui/material';
-import { socialLoginTypes } from '../../../constants';
+import { socialLoginTypes } from '../../../constants/myConstants';
 
 const Container = styled.div`
   display: flex;

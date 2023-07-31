@@ -3,17 +3,17 @@ import * as React from 'react';
 import { useLocation } from 'react-router';
 import '@yaireo/tagify/dist/tagify.css';
 import useBoardForm from '../../../hooks/boardHooks/useBoardForm';
-import CharacterLinkModal from '../../../components/CharacterLinkModal';
-import useCharacterBoardLink from '../../../hooks/useCharacterBoardLink';
-import BoardForm from '../../../components/BoardForm';
-import useCreateBoard from '../../../hooks/boardHooks/useCreateBoard';
+import CharacterLinkModal from '../../../components/CharacterLinkModal/CharacterLinkModal';
+import useCharacterBoardLink from '../../../hooks/boardHooks/useCharacterBoardLink';
+import BoardForm from '../../../components/BoardForm/BoardForm';
+import useCreateBoardMutation from '../../../hooks/boardHooks/mutations/useCreateBoardMutation';
 import CharacterLinkBox from '../../../components/BoardForm/CharacterLinkBox';
 import { useEffect } from 'react';
 
 const WriteBoard = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const createBoard = useCreateBoard();
+  const createBoard = useCreateBoardMutation();
   const boardType = searchParams.get('boardType') || 'ALL';
   const { register, handleSubmit, errors, setValues, watchValues, onSubmit } = useBoardForm();
   const formProps = { register, handleSubmit, errors, setValues, watchValues, onSubmit };

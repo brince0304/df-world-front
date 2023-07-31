@@ -3,13 +3,13 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import ProfileMenus from './ProfileMenus';
 import UserCharacters from './UserCharacters';
-import { useUser } from '../../hooks/authHooks/useUser';
-import useMyPage from '../../hooks/myPageHooks/useMyPage';
+import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
+import useMyPageQuery from '../../hooks/myPageHooks/queries/useMyPageQuery';
 import { Suspense } from 'react';
 import Loading from 'components/Loading/Loading';
 
 const UserProfile = () => {
-  const { user } = useUser();
+  const { user } = useUserQuery();
   return (
     <UserProfileImgWrapper>
       <UserProfileAvatar src={user?.profileImgPath} variant={'circular'} alt={'프로필 이미지'} />
@@ -61,8 +61,8 @@ const UserProfileCard = (props: { refresh: () => void }) => {
 };
 
 const MyPage = () => {
-  const { user } = useUser();
-  const { data } = useMyPage();
+  const { user } = useUserQuery();
+  const { data } = useMyPageQuery();
   const response = data?.userDetail;
   return (
     <Suspense fallback={<Loading />}>

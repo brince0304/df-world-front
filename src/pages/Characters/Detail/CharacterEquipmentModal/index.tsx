@@ -31,6 +31,7 @@ interface LoginModalProps {
 
 function CharacterEquipmentModal(props: LoginModalProps) {
   return (
+    // TODO: 바깥 클릭하면 안닫힘
     <Dialog
       sx={{
         display: 'flex',

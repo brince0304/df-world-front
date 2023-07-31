@@ -1,4 +1,4 @@
-import useError from 'hooks/useError';
+import useError from 'hooks/uiHooks/useError';
 
 const useBoardError = () => {
   const { handleError } = useError();

@@ -1,4 +1,4 @@
-import CollapseButton from '../../../../../components/CollapseButton';
+import CollapseButton from '../../../../../components/CollapseButton/CollapseButton';
 import { Button, FormControl, TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';

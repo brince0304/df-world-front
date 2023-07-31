@@ -1,12 +1,12 @@
 import UserServiceProvider from './userServiceContext';
 import MyPageServiceProvider from './myPageServiceContext';
 import { ReactNode } from 'react';
-import { IUserService } from '../service/userService';
-import { IMyPageService } from '../service/myPageService';
+import { IUserService } from '../services/userService';
+import { IMyPageService } from '../services/myPageService';
 import { SnackbarProvider } from 'notistack';
 import CharacterServiceProvider from './characterServiceContext';
-import { ICharacterService } from '../service/characterService';
-import { IBoardService } from '../service/boardService';
+import { ICharacterService } from '../services/characterService';
+import { IBoardService } from '../services/boardService';
 import BoardServiceProvider from './boardServiceContext';
 
 const ServiceContextProvider = ({
