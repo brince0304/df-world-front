@@ -3,7 +3,7 @@ import { QUERY_KEY } from 'constants/myConstants';
 
 const useBoardCommentLike = (boardCommentId: string) => {
   const queryClient = useQueryClient();
-  const isLiked = queryClient.getQueryData([QUERY_KEY, boardCommentId]) as boolean;
+  const isLiked = queryClient.getQueryData([QUERY_KEY.isBoardCommentLiked, boardCommentId]) as boolean;
   return isLiked;
 };
 

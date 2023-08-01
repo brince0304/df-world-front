@@ -8,7 +8,7 @@ const LatestBoardList = (props: { isSelected: string }) => {
 
   return (
     <Suspense fallback={<Loading />}>
-      {data && data.content.map((item, index: number) => <LatestBoardListItem key={index} {...item} />)}
+      {data && data.map((item, index: number) => <LatestBoardListItem key={index} {...item} />)}
     </Suspense>
   );
 };

@@ -191,10 +191,10 @@ const BoardDetail = () => {
                 </Typography>
               </Button>
             </Box>
+            <BoardComments boardId={String(boardId)} commentCount={Number(article?.commentCount) || 0} />
           </BoardDetailContainer>
         </Paper>
       )}
-      <BoardComments boardId={String(boardId)} commentCount={Number(article?.commentCount) || 0} />
     </Container>
   );
 };

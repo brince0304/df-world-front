@@ -11,8 +11,9 @@ const BoardCommentForm = ({ boardId, initialValues, handleToggleClose, onSubmit 
   const { user } = useUserQuery();
   const handleSubmitOnValid = (data: IBoardCommentUpdateChildrenRequest) => {
     onSubmit(data);
+    setValues.setContent('');
     handleToggleClose && handleToggleClose();
-  };
+  }
   useEffect(() => {
     if (!initialValues) {
       setValues.setBoardId(Number(boardId));

@@ -5,10 +5,10 @@ import { useBoardCommentService } from 'context/boardCommentServiceContext';
 const useLikeBoardComment = (boardId: string, commentId: string) => {
   const { likeComment } = useBoardCommentService();
   const queryClient = useQueryClient();
+  const prevIsLiked = queryClient.getQueryData([QUERY_KEY.isBoardCommentLiked, commentId]);
   const { mutate: likeBoardComment } = useMutation(likeComment, {
     onSuccess: (data) => {
       queryClient.setQueryData([QUERY_KEY.boardCommentLikeCount, commentId], data);
-      const prevIsLiked = queryClient.getQueryData([QUERY_KEY.isBoardCommentLiked, commentId]);
       queryClient.setQueryData([QUERY_KEY.isBoardCommentLiked, commentId], !prevIsLiked);
     },
   });
