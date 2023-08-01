@@ -15,7 +15,7 @@ const BoardComments = ({ boardId, commentCount }: IBoardCommentListProps) => {
   };
   return (
     <Box>
-      <Typography sx={{ fontSize: '14px',textAlign:'left', paddingBottom: '10px' }}>댓글 {commentCount}개</Typography>
+      <Typography sx={{ fontSize: '14px', textAlign: 'left', paddingBottom: '10px' }}>댓글 {commentCount}개</Typography>
       <Box>
         <Box
           sx={{

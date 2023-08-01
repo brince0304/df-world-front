@@ -14,7 +14,7 @@ const useCreateBoardComment = (boardId: string) => {
       handleBoardCommentCreateError(error as string);
     },
     onSuccess: (data) => {
-        queryclient.invalidateQueries([QUERY_KEY.boardComments, boardId]);
+      queryclient.invalidateQueries([QUERY_KEY.boardComments, boardId]);
       handleBoardCommentCreateSuccess();
     },
   });
