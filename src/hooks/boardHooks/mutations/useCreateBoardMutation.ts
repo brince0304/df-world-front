@@ -1,5 +1,5 @@
 import { useBoardService } from '../../../context/boardServiceContext';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEY } from '../../../constants/myConstants';
 import useBoardSuccess from '../useBoardSuccess';
 import useBoardError from '../useBoardError';
@@ -10,10 +10,12 @@ const useCreateBoardMutation = () => {
   const { handleCreateBoardSuccess } = useBoardSuccess();
   const { handleCreateBoardError } = useBoardError();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { mutate: createBoardMutation } = useMutation([QUERY_KEY.boards], createBoard, {
     onSuccess: (data) => {
       handleCreateBoardSuccess();
       navigate(`/boards/${data}`);
+      queryClient.invalidateQueries([QUERY_KEY.boards]);
     },
     onError: (error: any) => {
       handleCreateBoardError(error);

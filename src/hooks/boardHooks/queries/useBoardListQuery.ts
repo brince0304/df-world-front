@@ -5,7 +5,7 @@ import { useBoardService } from 'context/boardServiceContext';
 const useBoardListQuery = (queries: { searchType: string; keyword: string; boardType: string }) => {
   const { getBoardList } = useBoardService();
   const { data, refetch, hasNextPage } = useInfiniteQuery(
-    [QUERY_KEY.boards],
+    [QUERY_KEY.boards, queries.searchType, queries.keyword, queries.boardType],
     async ({ pageParam }) =>
       getBoardList({
         searchType: queries.searchType,
