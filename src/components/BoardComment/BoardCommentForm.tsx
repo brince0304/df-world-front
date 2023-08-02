@@ -5,6 +5,7 @@ import { CommentListDataComments } from 'interfaces/CommentListData';
 import { IBoardCommentUpdateChildrenRequest } from 'services/boardCommentService';
 import SendIcon from '@mui/icons-material/Send';
 import { useEffect } from 'react';
+import BoardUserAvatar from 'components/BoardUserAvatar/BoardUserAvatar';
 
 const BoardCommentForm = ({ boardId, initialValues, handleToggleClose, onSubmit }: ICommentFormProps) => {
   const { register, handleSubmit, setValues, errors } = useBoardCommentForm(initialValues);
@@ -21,11 +22,13 @@ const BoardCommentForm = ({ boardId, initialValues, handleToggleClose, onSubmit 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <form onSubmit={handleSubmit(handleSubmitOnValid)} style={{ width: '100%' }}>
-      <CommentContainer>
+    <form onSubmit={handleSubmit(handleSubmitOnValid)} style={{ width: '100%', paddingTop: '10px', gap: '10px' }}>
+      <BoardUserAvatar src={user?.profileImgPath || ''} nickname={user?.nickname || '게스트'} />
+      <CommentContainer sx={{ marginTop: '10px' }}>
         <CommentFormBox>
           <InputBase
-            sx={{ width: '100%' }}
+            multiline
+            sx={{ width: '100%', fontFamily: 'inherit' }}
             placeholder={user?.userId ? '댓글을 입력하세요.' : '로그인이 필요합니다.'}
             {...register('commentContent')}
             id={'comment-input'}
@@ -35,8 +38,10 @@ const BoardCommentForm = ({ boardId, initialValues, handleToggleClose, onSubmit 
             <SendIcon />
           </IconButton>
         </CommentFormBox>
-        <Typography sx={{ color: 'red' }}>{errors.commentContent?.message}</Typography>
       </CommentContainer>
+      <Typography sx={{ color: 'red', textAlign: 'left', fontSize: '13px', paddingTop: '5px' }}>
+        {errors.commentContent?.message}
+      </Typography>
     </form>
   );
 };

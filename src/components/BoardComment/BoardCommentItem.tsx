@@ -29,6 +29,14 @@ const BoardCommentItem = ({ boardId, comment }: IBoardCommentItemProps) => {
   const handleDeleteBoardComment = () => {
     deleteComment({ commentId: commentId });
   };
+  const markupedComment = comment.commentContent.split('\n').map((line, index) => {
+    return (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    );
+  });
 
   return (
     <BoardCommentItemContainer>
@@ -64,7 +72,7 @@ const BoardCommentItem = ({ boardId, comment }: IBoardCommentItemProps) => {
           width: '100%',
         }}
       >
-        {!isEditOpen && <section dangerouslySetInnerHTML={{ __html: comment.commentContent }} />}
+        {!isEditOpen && <BoardCommentContentWrapper>{markupedComment}</BoardCommentContentWrapper>}
         {isEditOpen && (
           <BoardCommentForm
             initialValues={comment}
@@ -123,4 +131,15 @@ const BoardCommentItemContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+`;
+
+const BoardCommentContentWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  margin-left: 8px;
+  font-size: 14px;
+  font-family: 'inherit';
 `;

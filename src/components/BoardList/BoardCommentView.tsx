@@ -3,7 +3,6 @@ import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, RemoveRedEyeOutlined
 import CreatedAt from './BoardCreatedAt';
 import React from 'react';
 import styled from '@emotion/styled';
-import Typography from '@mui/material/Typography';
 
 const BoardCommentView = ({
   boardLikeCount,
@@ -34,16 +33,16 @@ const BoardCommentView = ({
         }}
       >
         <BoardIconWrapper>
-          <FavoriteBorderOutlined sx={{ fontSize: '14px' }} />
-          <BoardIconValues>{boardLikeCount}</BoardIconValues>
+          <FavoriteBorderOutlined sx={{ fontSize: '18px', color: '#787878' }} />
+          <ValueWrapper>{boardLikeCount}</ValueWrapper>
         </BoardIconWrapper>
         <BoardIconWrapper>
-          <ChatBubbleOutlineOutlined sx={{ fontSize: '14px' }} />
-          <BoardIconValues>{commentCount}</BoardIconValues>
+          <ChatBubbleOutlineOutlined sx={{ fontSize: '18px', color: '#787878' }} />
+          <ValueWrapper>{commentCount}</ValueWrapper>
         </BoardIconWrapper>
         <BoardIconWrapper>
-          <RemoveRedEyeOutlined sx={{ fontSize: '14px' }} />
-          <BoardIconValues>{boardViewCount}</BoardIconValues>
+          <RemoveRedEyeOutlined sx={{ fontSize: '18px', color: '#787878' }} />
+          <ValueWrapper>{boardViewCount}</ValueWrapper>
         </BoardIconWrapper>
       </Box>
       <CreatedAt createdAt={createdAt} />
@@ -58,15 +57,12 @@ const BoardIconWrapper = styled(Box)`
   justify-content: flex-start;
   width: 100%;
   gap: 5px;
-  font-size: 12px;
-  color: #000;
 `;
 
-const BoardIconValues = styled(Typography)`
-  && {
-    font-size: 14px;
-    font-weight: bold;
-  }
+const ValueWrapper = styled.p`
+  font-size: 14px;
+  font-weight: 500;
+  color: #787878;
 `;
 
 export default BoardCommentView;
