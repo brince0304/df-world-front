@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router';
 import React from 'react';
-import { BOARD_LIST_URL } from '../../apis/data/urls';
-import { Chip, Tooltip } from '@mui/material';
+import {  Tooltip } from '@mui/material';
 import HashtagContent from './TagChipContent';
 import HashtagLoading from './TagChipLoading';
+import { BOARD_LIST_URL } from 'apis/data/urls';
+import MyChip from '../MyChip';
 
 export const TagChip = ({ boardType, tag }: ITagChipProps) => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export const TagChip = ({ boardType, tag }: ITagChipProps) => {
       disableInteractive
       onMouseOver={handleMouseOver}
     >
-      <Chip
+      <MyChip
         ref={ref}
         label={'#' + tag}
         color="default"
