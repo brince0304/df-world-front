@@ -7,7 +7,6 @@ import Characters from './pages/Characters';
 import WriteBoard from './pages/Board/Write';
 import { BOARD_LIST_URL } from './apis/data/urls';
 import BoardDetail from './pages/BoardDetail';
-import { Footer } from './components/application/footer/Footer';
 import { BOARD_INSERT_FORM_ROUTE, BOARD_ROUTE } from './apis/data/route';
 import { BadRequest } from './components/application/error/BadRequest';
 import CharacterDetail from './pages/Characters/Detail';
@@ -15,6 +14,7 @@ import MyPage from './pages/MyPage';
 import Header from './components/Header/Header';
 import { useUserQuery } from './hooks/authHooks/queries/useUserQuery';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import Footer from 'components/Footer/Footer';
 
 function App() {
   const { user } = useUserQuery();

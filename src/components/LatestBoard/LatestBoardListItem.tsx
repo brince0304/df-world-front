@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { MouseEvent } from 'react';
 import BoardUserAvatar from 'components/BoardUserAvatar/BoardUserAvatar';
 import BoardCommentView from 'components/BoardList/BoardCommentView';
-import { CharacterContent } from 'pages/Board';
+import { CharacterContent } from 'components/Chips/CharacterChip/CharacterChipContent';
 
 const LatestBoardListItem = (data: BoardContent) => {
   let navigate = useNavigate();
