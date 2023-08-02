@@ -4,69 +4,16 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import SpeedDial from './SpeedDial';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import InfoIcon from '@mui/icons-material/Info';
-
-import { Avatar, Button, Chip, Container, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
-import BestContent from '../../components/BestBoardList/BestBoardList';
+import { Container, IconButton, Menu, MenuItem } from '@mui/material';
+import BestContent from '../../components/BestBoardList/BestBoard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { AllInbox, Announcement, FreeBreakfast, LocalMall, QuestionAnswer, Work } from '@mui/icons-material';
-import { BOARD_LIST_URL, BOARD_WRITE_URL } from '../../apis/data/urls';
 import BoardListSkeleton from '../../components/Skeleton/BoardListSkeleton /BoardListSkeleton';
-import SearchForm from '../../components/SearchForm/SearchForm';
-import { getServerName } from 'utils/charactersUtil';
-import { boardSearchTypes, getBoardType } from 'utils/boardUtil';
 import InfiniteScroll from 'react-infinite-scroller';
 import BoardList from 'components/BoardList/BoardList';
-import useSearchForm from 'hooks/uiHooks/useSearchForm';
 import useBoardListQuery from 'hooks/boardHooks/queries/useBoardListQuery';
-
-export const CharacterContent = (props: {
-  characterName: string;
-  serverId: string;
-  characterImgUrl: string;
-  adventureName: string;
-  characterId: string;
-}) => {
-  const navigate = useNavigate();
-  const handleNavigateToCharacterDetail = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    navigate(`/details/?characterId=${props.characterId}&serverId=${props.serverId}`);
-  };
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        position: 'relative',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: '100%',
-        gap: '2px',
-      }}
-    >
-      <Tooltip title={'클릭하여 캐릭터 상세 정보를 확인하세요.'} placement="top" arrow>
-        <IconButton
-          sx={{ position: 'absolute', top: '-5px', right: '-5px', zIndex: '100', color: 'white' }}
-          onClick={handleNavigateToCharacterDetail}
-        >
-          <InfoIcon />
-        </IconButton>
-      </Tooltip>
-      <Avatar src={props.characterImgUrl} sx={{ width: '100px', height: '100px' }} variant="rounded" />
-      <Typography fontFamily={'Core Sans'} fontSize={'13px'}>
-        {props.characterName}
-      </Typography>
-      <Typography fontFamily={'Core Sans'} fontSize={'12px'}>
-        {props.adventureName}
-      </Typography>
-      <Typography fontFamily={'Core Sans'} fontSize={'12px'}>
-        {getServerName(props.serverId)}
-      </Typography>
-    </Box>
-  );
-};
+import { getBoardType } from 'utils/boardUtil';
 
 export const LongMenu = (props: { menuList: MenuItems[]; boardType: string }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -148,53 +95,9 @@ const MenuListItem = [
   { type: 'NOTICE', icon: <Announcement />, label: '공지사항' },
 ];
 
-export const CharacterChip = (props: {
-  characterName: string;
-  characterImgUrl: string;
-  adventureName: string;
-  serverId: string;
-  characterId: string;
-}) => {
-  const chipStyle = {
-    fontSize: '10px',
-    '& > img': {
-      objectFit: 'cover',
-      objectPosition: 'center',
-      height: '500%',
-      width: '1300%',
-      backgroundColor: '#c4c4c4',
-    },
-  };
-  return (
-    <Tooltip
-      title={
-        <CharacterContent
-          characterName={props.characterName}
-          serverId={props.serverId}
-          characterId={props.characterId}
-          characterImgUrl={props.characterImgUrl}
-          adventureName={props.adventureName}
-        />
-      }
-      placement="top"
-      arrow
-    >
-      <Chip
-        avatar={<Avatar src={props.characterImgUrl} sx={chipStyle}></Avatar>}
-        label={props.characterName}
-        color="default"
-        sx={{ fontSize: '10px', fontWeight: 'bold' }}
-        size="small"
-        data-name={props.characterName}
-      />
-    </Tooltip>
-  );
-};
-
 const Board = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const navigate = useNavigate();
   const searchType = searchParams.get('searchType')?.toString() || '';
   const keyword = searchParams.get('keyword')?.toString() || '';
   const boardType = searchParams.get('boardType')?.toString() || 'ALL';
@@ -207,23 +110,7 @@ const Board = () => {
     keyword,
     boardType,
   });
-  const handleNavigateToSearchResult = (searchType: string, searchKeyword: string) => {
-    navigate(BOARD_LIST_URL + `?searchType=${searchKeyword}&keyword=${searchType}&boardType=${boardType}`);
-  };
 
-  const { value, setValue, selectedValue, setSelectedValue } = useSearchForm({
-    initialValues: keyword,
-    initialSelectedValue: {
-      value: searchType,
-      label: getSearchType(searchType) || '',
-    },
-  });
-  const searchFormProps = {
-    value,
-    setValue,
-    selectedValue,
-    setSelectedValue,
-  };
   return (
     <Container maxWidth="md">
       <CustomTable
@@ -244,53 +131,10 @@ const Board = () => {
         <Box sx={{ padding: '10px 10px 10px 10px' }}>
           <BestContent boardType={boardType} />
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '10px 10px 10px 10px',
-            flexDirection: 'row',
-            gap: '10px',
-            borderTop: '1px solid #e0e0e0',
-            borderBottom: '1px solid #e0e0e0',
-            width: '100%',
-            '@media (max-width:1024px)': {
-              display: 'none',
-            },
-          }}
-        >
-          <Box sx={{ width: '60%', height: '40px' }}>
-            <SearchForm
-              placeholder={'검색'}
-              direction={'down'}
-              filterOptions={boardSearchTypes}
-              handleSubmit={handleNavigateToSearchResult}
-              useSearchForms={searchFormProps}
-              setIsFocus={() => {}}
-            />
-          </Box>
-          <Box>
-            <Button
-              sx={{ textAlign: 'right' }}
-              onClick={() => navigate(BOARD_WRITE_URL + `?boardType=${boardType}&request=add`)}
-            >
-              <Typography
-                fontFamily={'Core Sans'}
-                color={'black'}
-                fontWeight={'bold'}
-                component={'span'}
-                fontSize={'15px'}
-              >
-                글쓰기
-              </Typography>
-            </Button>
-          </Box>
-        </Box>
         <InfiniteScroll pageStart={0} loadMore={() => refetch()} hasMore={hasNextPage} loader={<BoardListSkeleton />}>
           {boardList && <BoardList {...boardList} />}
         </InfiniteScroll>
-        <SpeedDial boardType={boardType} />
+        <SpeedDial boardType={boardType} keyword={keyword} searchType={searchType} />
       </CustomTable>
     </Container>
   );

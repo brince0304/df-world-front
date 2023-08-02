@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import React from 'react';
-import {  Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import HashtagContent from './TagChipContent';
 import HashtagLoading from './TagChipLoading';
 import { BOARD_LIST_URL } from 'apis/data/urls';
