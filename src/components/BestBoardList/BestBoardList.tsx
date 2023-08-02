@@ -1,52 +1,16 @@
-import { IconButton, ListItemButton } from '@mui/material';
-import React from 'react';
-import Typography from '@mui/material/Typography';
-import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
+import { Box, ListItemButton, Typography } from '@mui/material';
 import BestBoardListItem from './BestBoardListItem';
-import useBestBoardList from '../../hooks/boardHooks/queries/useBestBoardListQuery';
-import StarIcon from '@mui/icons-material/Star';
-import { BestArticleTitle } from '../../pages/Board';
-import { BOARD_DETAIL_URL } from '../../apis/data/urls';
+import { IBestBoard } from 'interfaces/IBestBoard';
 import { useNavigate } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import useBestBoardStates from '../../hooks/boardHooks/useBestBoardStates';
+import { BOARD_DETAIL_URL } from 'apis/data/urls';
 
-const BestBoardList = (props: { boardType: string }) => {
-  const { data } = useBestBoardList(props.boardType);
-  const listLength = data?.length;
-  const { index, handleLeftClick, handleRightClick } = useBestBoardStates(listLength || 0);
+const BestBoardList = ({ data, index }: IBestBoardListProps) => {
   const navigate = useNavigate();
   const handleBestArticleNavigate = (id: number) => {
     navigate(BOARD_DETAIL_URL + `${id}`);
   };
   return (
-    <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          width: '100%',
-        }}
-      >
-        <BestArticleTitle>
-          <StarIcon /> <Typography fontFamily={'Core Sans'}>인기글</Typography>
-        </BestArticleTitle>
-        {data?.length !== 0 && (
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <IconButton onClick={handleLeftClick} disabled={index === 1}>
-              <KeyboardDoubleArrowLeft />
-            </IconButton>
-            <Typography variant={'body2'}>
-              {index}/{data?.length}
-            </Typography>
-            <IconButton onClick={handleRightClick} disabled={index === data?.length}>
-              <KeyboardDoubleArrowRight />
-            </IconButton>
-          </div>
-        )}
-      </div>
+    <Box>
       {data?.length !== 0 && (
         <ListItemButton
           id={'chip-container'}
@@ -79,8 +43,13 @@ const BestBoardList = (props: { boardType: string }) => {
           </Typography>
         </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
 export default BestBoardList;
+
+interface IBestBoardListProps {
+  data: IBestBoard[];
+  index: number;
+}
