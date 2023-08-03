@@ -1,16 +1,21 @@
 import { Box, styled } from '@mui/material';
 import BoardCommentForm from '../BoardCommentForm';
-import useCreateChildrenComment from 'hooks/boardCommentHooks/mutations/useCreateChildrenComment';
 import { IBoardCommentUpdateChildrenRequest } from 'services/boardCommentService';
-import { ForwardedRef, forwardRef } from 'react';
+import { ForwardedRef, Suspense, forwardRef } from 'react';
 import BoardChildrenCommentList from './BoardChildrenCommentList';
+import Loading from 'components/Loading/Loading';
+import { CommentListDataComments } from 'interfaces/CommentListData';
+import useCreateChildrenComment from 'hooks/boardCommentHooks/mutations/useCreateChildrenComment';
 
-const BoardChildrenComments = ({ boardId, commentId }: IBoardCommentListProps, ref: ForwardedRef<HTMLDivElement>) => {
-  const createChildrenComment = useCreateChildrenComment(boardId, commentId);
+const BoardChildrenComments = (
+  { childrenComments, boardId, parentId }: IBoardCommentListProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) => {
+  const createChildrenComment = useCreateChildrenComment(boardId, parentId);
   const handleCreateChildrenComment = (data: IBoardCommentUpdateChildrenRequest) => {
     createChildrenComment({
       boardId: Number(boardId),
-      commentId: Number(commentId),
+      commentId: Number(parentId),
       commentContent: data.commentContent,
     });
   };
@@ -19,15 +24,18 @@ const BoardChildrenComments = ({ boardId, commentId }: IBoardCommentListProps, r
     <Container ref={ref}>
       <BoardCommentForm boardId={boardId} onSubmit={handleCreateChildrenComment} />
       <Box>
-        <BoardChildrenCommentList boardId={boardId} commentId={commentId} />
+        <Suspense fallback={<Loading />}>
+          <BoardChildrenCommentList childrenComments={childrenComments} />
+        </Suspense>
       </Box>
     </Container>
   );
 };
 
 interface IBoardCommentListProps {
+  childrenComments: CommentListDataComments[];
   boardId: string;
-  commentId: string;
+  parentId: string;
 }
 
 const Container = styled(Box)`

@@ -1,13 +1,11 @@
-import useChildrenComments from 'hooks/boardCommentHooks/queries/useChildrenComments';
 import BoardCommentItem from '../BoardCommentItem';
 import { CommentListDataComments } from 'interfaces/CommentListData';
 
-const BoardChildrenCommentList = ({ boardId, commentId }: IBoardCommentListProps) => {
-  const childrenComments = useChildrenComments(boardId, commentId);
+const BoardChildrenCommentList = ({ childrenComments }: IBoardCommentListProps) => {
   return (
     <>
-      {childrenComments?.map((reply: CommentListDataComments) => {
-        return <BoardCommentItem key={reply.id} boardId={boardId} comment={reply} />;
+      {childrenComments.map((reply: CommentListDataComments) => {
+        return <BoardCommentItem key={reply.id} boardId={reply.boardId} comment={reply} />;
       })}
     </>
   );
@@ -16,6 +14,5 @@ const BoardChildrenCommentList = ({ boardId, commentId }: IBoardCommentListProps
 export default BoardChildrenCommentList;
 
 interface IBoardCommentListProps {
-  boardId: string;
-  commentId: string;
+  childrenComments: CommentListDataComments[];
 }

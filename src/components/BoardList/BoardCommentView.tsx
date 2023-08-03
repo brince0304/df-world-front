@@ -3,18 +3,12 @@ import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, RemoveRedEyeOutlined
 import CreatedAt from './BoardCreatedAt';
 import React from 'react';
 import styled from '@emotion/styled';
+import useBoardCommentCountQuery from 'hooks/boardHooks/queries/useBoardCommentCountQuery';
+import useBoardLikeCount from 'hooks/boardHooks/queries/useBoardLikeCount';
 
-const BoardCommentView = ({
-  boardLikeCount,
-  commentCount,
-  boardViewCount,
-  createdAt,
-}: {
-  boardLikeCount: number;
-  commentCount: string;
-  boardViewCount: number;
-  createdAt: string;
-}) => {
+const BoardCommentView = ({ boardId, boardViewCount, createdAt }: IBoardCommentViewProps) => {
+  const boardCommentCount = useBoardCommentCountQuery(boardId);
+  const boardLikeCount = useBoardLikeCount(boardId);
   return (
     <Box
       sx={{
@@ -38,7 +32,7 @@ const BoardCommentView = ({
         </BoardIconWrapper>
         <BoardIconWrapper>
           <ChatBubbleOutlineOutlined sx={{ fontSize: '18px', color: '#787878' }} />
-          <ValueWrapper>{commentCount}</ValueWrapper>
+          <ValueWrapper>{boardCommentCount}</ValueWrapper>
         </BoardIconWrapper>
         <BoardIconWrapper>
           <RemoveRedEyeOutlined sx={{ fontSize: '18px', color: '#787878' }} />
@@ -49,6 +43,12 @@ const BoardCommentView = ({
     </Box>
   );
 };
+
+interface IBoardCommentViewProps {
+  boardId: string;
+  boardViewCount: number;
+  createdAt: string;
+}
 
 const BoardIconWrapper = styled(Box)`
   display: flex;
