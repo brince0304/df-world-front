@@ -3,24 +3,29 @@ import { searchedQueryState } from '../../recoil/states';
 import { useEffect } from 'react';
 import {
   IRecentSearchedQuery,
-  localStorageSearchQueryKey,
   searchedQueryLocalStorage,
 } from '../../storages/searchQueryLocalStorage';
 
 const useRecentSearchedQuery = () => {
   const [recentSearchedQuery, setRecentSearchedQuery] = useRecoilState(searchedQueryState);
   const handleAddRecentSearchedQuery = (query: IRecentSearchedQuery) => {
-    searchedQueryLocalStorage.addSearchedQuery(query);
+      if(recentSearchedQuery.some((item) => item.characterId === query.characterId)) return;
+      const newRecentSearchedQuery = [query, ...recentSearchedQuery];
+      const spliced = newRecentSearchedQuery.length > 5 ? newRecentSearchedQuery.splice(0, 5) : newRecentSearchedQuery;
+      setRecentSearchedQuery(spliced);
+      searchedQueryLocalStorage.setSearchedQuery(spliced);
   };
 
   const handleRemoveRecentSearchedQuery = (query: string) => {
-    searchedQueryLocalStorage.removeSearchedQuery(query);
+    const newRecentSearchedQuery = recentSearchedQuery.filter((item) => item.characterId !== query);
+    setRecentSearchedQuery(newRecentSearchedQuery);
+    searchedQueryLocalStorage.setSearchedQuery(newRecentSearchedQuery);
   };
 
   useEffect(() => {
-    setRecentSearchedQuery(searchedQueryLocalStorage.getSearchedQuery() || []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setRecentSearchedQuery, localStorage.getItem(localStorageSearchQueryKey)]);
+    const recentSearchedQuery = searchedQueryLocalStorage.getSearchedQuery();
+    if(recentSearchedQuery) setRecentSearchedQuery(recentSearchedQuery);
+  }, []);
 
   return {
     recentSearchedQuery,
