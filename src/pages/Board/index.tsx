@@ -9,10 +9,7 @@ import BestContent from '../../components/BestBoardList/BestBoard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { AllInbox, Announcement, FreeBreakfast, LocalMall, QuestionAnswer, Work } from '@mui/icons-material';
-import BoardListSkeleton from '../../components/Skeleton/BoardListSkeleton /BoardListSkeleton';
-import InfiniteScroll from 'react-infinite-scroller';
 import BoardList from 'components/BoardList/BoardList';
-import useBoardListQuery from 'hooks/boardHooks/queries/useBoardListQuery';
 import { getBoardType } from 'utils/boardUtil';
 
 export const LongMenu = (props: { menuList: MenuItems[]; boardType: string }) => {
@@ -101,15 +98,6 @@ const Board = () => {
   const searchType = searchParams.get('searchType')?.toString() || '';
   const keyword = searchParams.get('keyword')?.toString() || '';
   const boardType = searchParams.get('boardType')?.toString() || 'ALL';
-  const {
-    data: boardList,
-    fetchNextPage,
-    hasNextPage,
-  } = useBoardListQuery({
-    searchType,
-    keyword,
-    boardType,
-  });
 
   return (
     <Container maxWidth="md">
@@ -131,14 +119,7 @@ const Board = () => {
         <Box sx={{ padding: '10px 10px 10px 10px' }}>
           <BestContent boardType={boardType} />
         </Box>
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={() => fetchNextPage()}
-          hasMore={hasNextPage}
-          loader={<BoardListSkeleton />}
-        >
-          {boardList && <BoardList {...boardList} />}
-        </InfiniteScroll>
+        <BoardList searchType={searchType} keyword={keyword} boardType={boardType} />
         <SpeedDial boardType={boardType} keyword={keyword} searchType={searchType} />
       </CustomTable>
     </Container>

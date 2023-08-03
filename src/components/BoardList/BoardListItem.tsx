@@ -16,12 +16,7 @@ const BoardListItem = (data: BoardContent) => {
         <BoardListItemTitleContent boardId={String(data.id)} title={data.boardTitle} content={data.boardContent} />
         <BoardChips data={data} />
         <BoardCommentContainer>
-          <BoardCommentView
-            boardLikeCount={data.boardLikeCount}
-            commentCount={data.commentCount}
-            boardViewCount={data.boardViewCount}
-            createdAt={data.createdAt}
-          />
+          <BoardCommentView boardId={String(data.id)} boardViewCount={data.boardViewCount} createdAt={data.createdAt} />
         </BoardCommentContainer>
       </BoardContainer>
     </ListItem>
