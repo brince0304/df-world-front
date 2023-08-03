@@ -1,10 +1,10 @@
-import { Box, Button, Zoom } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { CommentListDataComments } from 'interfaces/CommentListData';
 import { useState } from 'react';
 import BoardCommentLikeButton from './BoardCommentLikeButton';
 import styled from '@emotion/styled';
 import BoardCommentItem from './BoardCommentItem';
-import BoardChildrenComments from './BoardChildrenComments';
+import BoardChildrenComments from './BoardChildrenComment/BoardChildrenComments';
 
 const BoardCommentItemBox = ({ boardId, comment }: IBoardCommentItemBoxProps) => {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
@@ -30,9 +30,7 @@ const BoardCommentItemBox = ({ boardId, comment }: IBoardCommentItemBoxProps) =>
         </Button>
         <BoardCommentLikeButton boardId={boardId} commentId={commentId} />
       </Box>
-      <Zoom in={isReplyOpen} mountOnEnter unmountOnExit>
-        <BoardChildrenComments boardId={boardId} commentId={commentId} />
-      </Zoom>
+       {isReplyOpen && <BoardChildrenComments boardId={boardId} commentId={commentId} />}
     </BoardCommentItemContainer>
   );
 };

@@ -17,7 +17,7 @@ export default class BoardCommentService implements IBoardCommentService {
   private readonly getChildrenCommentsUrl = '/comments/{boardId}/{commentId}';
   private readonly likeCommentUrl = '/comments/like-comment?boardId={boardId}&commentId={commentId}';
   private readonly createBoardCommentUrl = '/comments';
-  private readonly createChildrenCommentUrl = '/comments/?parentId={commentId}';
+  private readonly createChildrenCommentUrl = '/comments?parentId={commentId}';
   private readonly deleteBoardCommentUrl = '/comments?commentId={commentId}';
   private readonly updateBoardCommentUrl = '/comments';
 

@@ -103,7 +103,7 @@ const Board = () => {
   const boardType = searchParams.get('boardType')?.toString() || 'ALL';
   const {
     data: boardList,
-    refetch,
+    fetchNextPage,
     hasNextPage,
   } = useBoardListQuery({
     searchType,
@@ -131,7 +131,7 @@ const Board = () => {
         <Box sx={{ padding: '10px 10px 10px 10px' }}>
           <BestContent boardType={boardType} />
         </Box>
-        <InfiniteScroll pageStart={0} loadMore={() => refetch()} hasMore={hasNextPage} loader={<BoardListSkeleton />}>
+        <InfiniteScroll pageStart={0} loadMore={()=>fetchNextPage()} hasMore={hasNextPage} loader={<BoardListSkeleton />}>
           {boardList && <BoardList {...boardList} />}
         </InfiniteScroll>
         <SpeedDial boardType={boardType} keyword={keyword} searchType={searchType} />

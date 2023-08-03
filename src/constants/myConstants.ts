@@ -12,7 +12,9 @@ export const QUERY_KEY = {
   boardLikeCount: 'boardLikeCount',
   latestBoardList: 'latestBoardList',
   boardComments: 'boardComments',
+  boardCommentCount: 'boardCommentCount',
   isBoardCommentLiked: 'isBoardCommentLiked',
+  boardCommentChildrenCount: 'boardCommentChildrenCount',
   boardCommentLikeCount: 'boardCommentLikeCount',
   childrenComments: 'childrenComments',
 };

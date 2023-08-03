@@ -23,7 +23,6 @@ const BoardCommentLikeButton = ({ boardId, commentId }: IBoardCommentLikeButtonP
       checked={isCommentLiked || false}
       onChange={handleOnChage}
       label={<LikeCountWrapper>{commentLikeCount || 0}</LikeCountWrapper>}
-      onClick={handleLikeComment}
     />
   );
 };

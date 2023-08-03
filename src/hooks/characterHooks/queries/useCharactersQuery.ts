@@ -15,6 +15,7 @@ const useCharactersQuery = (characterName: string, serverId: string) => {
       cacheTime: 0,
       enabled: !!characterName && characterName !== '',
       getNextPageParam: (lastPage) => {
+        console.info(lastPage);
         if (lastPage.number + 1 >= lastPage.totalPages) return undefined;
         return lastPage.number + 1;
       },
