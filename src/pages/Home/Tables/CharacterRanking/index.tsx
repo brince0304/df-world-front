@@ -155,6 +155,7 @@ interface RankingTableData {
   characterImgUrl: string;
 }
 
+// TODO : props 내리지 말고 리액트쿼리로 데이터 받아오기
 const RankingTableRow = (props: { data: RankingTableData[]; type: string }) => {
   let navigate = useNavigate();
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {

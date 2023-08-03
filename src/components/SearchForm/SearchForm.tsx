@@ -26,11 +26,14 @@ const SearchForm = ({
   const handleSetFocusTrue = () => {
     setIsFocus(true);
   };
+  const handleSetFocusFalse = () => {
+    setIsFocus(false);
+  };
   const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
   return (
-    <Paper component="form" sx={searchFilterWrapperStyle} onSubmit={submitCallback}>
+    <Paper component="form" sx={searchFilterWrapperStyle} onBlur={handleSetFocusFalse} onSubmit={submitCallback}>
       <Box sx={customBoxStyle}>
         <Button style={searchFilterStyle} onClick={handleOpen}>
           {selectedValue.label}
