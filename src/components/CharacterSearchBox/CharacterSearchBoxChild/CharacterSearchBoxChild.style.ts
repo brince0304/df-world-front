@@ -6,18 +6,14 @@ const OptionCell = styled(Box)`
   display: grid;
   align-items: center;
   width: 100%;
-  padding: 10px 15px;
   font-size: 14px;
-  grid-template-columns: 40% 20% 20% 20%;
 `;
 
 const HistoryOptionCell = styled(Box)`
   display: grid;
   align-items: center;
   width: 100%;
-  padding: 10px 15px;
   font-size: 14px;
-  grid-template-columns: 40% 20% 25% 20%;
 `;
 
 const BoldNameWrapper = styled(Typography)`
@@ -40,7 +36,6 @@ const ContentWrapper = styled(Typography)`
 const LatestRemoveButtonWrapper = styled(Typography)`
   display: flex;
   color: #939393;
-  padding: 15px 15px;
 `;
 
 const NoDataWrapper = styled(Typography)`
@@ -60,17 +55,10 @@ const SearchOptionTitleWrapper = styled(Box)`
   align-items: center;
   width: 100%;
   font-size: 14px;
-  color: ${(props: { selected: string }) => (props.selected === 'true' ? 'white' : 'black')};
-  font-weight: bold;
-  padding: 8px 10px;
-  background-color: ${(props: { selected: string }) => (props.selected === 'true' ? 'cornflowerblue' : 'lightgray')};
-
-  &:hover {
-    cursor: pointer;
-    //cornflowerblue 보다 옅은 색으로 바꾸기
-    background-color: rgb(216, 239, 246);
-    transition: 0.2s;
-  }
+  font-family: apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+  color: #121212;
+  padding: 4px;
+  background-color: rgb(226, 226, 226);
 `;
 
 const SearchOptionContainer = styled(Card)`
@@ -84,8 +72,6 @@ const SearchOptionContainer = styled(Card)`
   border-radius: 3px;
   border: 0px solid;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-  grid-column-start: 1;
-  grid-column-end: 4;
   z-index: 2;
 `;
 
@@ -96,7 +82,6 @@ const SearchOptionTitle = styled(Box)`
   align-items: center;
   width: 100%;
   background-color: rgb(226, 226, 226);
-  color: gray;
   font-size: 13px;
   border-bottom: 0.5px solid silver;
 `;

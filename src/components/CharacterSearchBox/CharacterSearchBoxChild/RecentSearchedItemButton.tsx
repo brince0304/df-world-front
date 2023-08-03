@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import React from 'react';
 import * as S from './CharacterSearchBoxChild.style';
 import { IRecentSearchedQuery } from '../../../storages/searchQueryLocalStorage';
@@ -32,16 +32,32 @@ const RecentSearchedItemButton = ({
   };
 
   return (
-    <Button sx={{ padding: 0 }}>
-      <S.HistoryOptionCell onMouseDown={handleAddRecentSearchedQuery}>
-        <S.BoldNameWrapper>{characterName}</S.BoldNameWrapper>
-        <S.ContentWrapper>{characterJob}</S.ContentWrapper>
-        <S.ContentWrapper>{'레벨 ' + characterLevel}</S.ContentWrapper>
-        <S.ContentWrapper>{characterServerName}</S.ContentWrapper>
-      </S.HistoryOptionCell>
-      <S.LatestRemoveButtonWrapper onMouseDown={handleRemoveRecentSearchedQuery}>
-        <FontAwesomeIcon icon={faXmark} size={'lg'} />
-      </S.LatestRemoveButtonWrapper>
+    <Button sx={{ padding: '6px 5px', width: '100%' }}>
+      <Grid
+        container
+        onMouseDown={handleAddRecentSearchedQuery}
+        direction={'row'}
+        sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        spacing={1}
+      >
+        <Grid item xs={5}>
+          <S.BoldNameWrapper>{characterName}</S.BoldNameWrapper>
+        </Grid>
+        <Grid item xs={2}>
+          <S.ContentWrapper>{characterJob}</S.ContentWrapper>
+        </Grid>
+        <Grid item xs={2}>
+          <S.ContentWrapper>{'레벨 ' + characterLevel}</S.ContentWrapper>
+        </Grid>
+        <Grid item xs={2}>
+          <S.ContentWrapper>{characterServerName}</S.ContentWrapper>
+        </Grid>
+        <Grid item xs={1}>
+          <S.LatestRemoveButtonWrapper onMouseDown={handleRemoveRecentSearchedQuery}>
+            <FontAwesomeIcon icon={faXmark} size={'lg'} />
+          </S.LatestRemoveButtonWrapper>
+        </Grid>
+      </Grid>
     </Button>
   );
 };

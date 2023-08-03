@@ -1,26 +1,23 @@
 import * as S from './CharacterSearchBoxChild.style';
-import React, { ForwardedRef, forwardRef, useState } from 'react';
+import React, { ForwardedRef, Suspense, forwardRef } from 'react';
 import useRecentSearchedQuery from '../../../hooks/recoilHooks/useRecentSearchedQuery';
-import RecentSearchedItemButton from './RecentSearchedItemButton';
 import CharacterNoData from './CharacterNoData';
 import { IRecentSearchedQuery } from '../../../storages/searchQueryLocalStorage';
-import CharacterFastSearchItemButton from './CharacterFastSearchItemButton';
+import RecentSearchedList from './RecentSearchedList';
+import useSearchForm from 'hooks/uiHooks/useSearchForm';
+import CharacterFastSearchList from './CharacterFastSearchList';
+import Loading from 'components/Loading/Loading';
 
 const CharacterSearchBoxChild = (
-  { direction, searchResult, clickHandler }: ICharacterSearchBoxChildProps,
+  { direction, clickHandler, searchFormProps }: ICharacterSearchBoxChildProps,
   ref: ForwardedRef<any>,
 ) => {
-  const [selectedMenu, setSelectedMenu] = useState<'최근 검색 기록' | '빠른 검색'>('최근 검색 기록');
-  const { recentSearchedQuery, handleRemoveRecentSearchedQuery, handleAddRecentSearchedQuery } =
-    useRecentSearchedQuery();
+  const recentSearch = '최근 검색 기록';
+  const fastSearch = '빠른 검색';
+
+  const { recentSearchedQuery, handleAddRecentSearchedQuery } = useRecentSearchedQuery();
   const isEmptyRecentSearchedList = recentSearchedQuery.length === 0;
-  const isEmptySearchResult = searchResult.length === 0;
-  const handleClickRecentSearch = () => {
-    setSelectedMenu('최근 검색 기록');
-  };
-  const handleClickFastSearch = () => {
-    setSelectedMenu('빠른 검색');
-  };
+  const isEmptySearchResult = searchFormProps.value.length === 0;
   const searchCallback = (query: IRecentSearchedQuery) => {
     handleAddRecentSearchedQuery(query);
     if (clickHandler.length === 3) {
@@ -29,44 +26,23 @@ const CharacterSearchBoxChild = (
     }
     clickHandler(query.characterId, query.characterServerId);
   };
+  const isFastSearch = searchFormProps.value.length >= 2;
 
   return (
     <S.SearchOptionContainer direction={direction} ref={ref}>
       <S.SearchOptionTitle>
-        <S.SearchOptionTitleWrapper
-          selected={selectedMenu === '최근 검색 기록' ? 'true' : 'false'}
-          onMouseDown={handleClickRecentSearch}
-        >
-          최근 검색 기록
-        </S.SearchOptionTitleWrapper>
-        <S.SearchOptionTitleWrapper
-          selected={selectedMenu === '빠른 검색' ? 'true' : 'false'}
-          onMouseDown={handleClickFastSearch}
-        >
-          빠른 검색
-        </S.SearchOptionTitleWrapper>
+        <S.SearchOptionTitleWrapper>{isFastSearch ? fastSearch : recentSearch}</S.SearchOptionTitleWrapper>
       </S.SearchOptionTitle>
       <S.SearchOptionBody>
-        {selectedMenu === '최근 검색 기록'
-          ? !isEmptyRecentSearchedList &&
-            recentSearchedQuery.map((data, index) => {
-              return (
-                <RecentSearchedItemButton
-                  {...data}
-                  removeHandler={handleRemoveRecentSearchedQuery}
-                  mouseDownHandler={searchCallback}
-                />
-              );
-            })
-          : searchResult.map((item, index) => {
-              return <CharacterFastSearchItemButton {...item} mouseDownHandler={searchCallback} />;
-            })}
-        {isEmptyRecentSearchedList && selectedMenu === '최근 검색 기록' && (
-          <CharacterNoData content={'최근 검색 기록이 없습니다.'} />
+        {!isFastSearch ? (
+          !isEmptyRecentSearchedList && <RecentSearchedList searchCallback={searchCallback} />
+        ) : (
+          <Suspense fallback={<Loading />}>
+            <CharacterFastSearchList searchCallback={searchCallback} searchFormProps={searchFormProps} />
+          </Suspense>
         )}
-        {isEmptySearchResult && selectedMenu === '빠른 검색' && (
-          <CharacterNoData content={'데이터가 존재하지 않습니다.'} />
-        )}
+        {isEmptyRecentSearchedList && !isFastSearch && <CharacterNoData content={'최근 검색 기록이 없습니다.'} />}
+        {isEmptySearchResult && isFastSearch && <CharacterNoData content={'데이터가 존재하지 않습니다.'} />}
       </S.SearchOptionBody>
     </S.SearchOptionContainer>
   );
@@ -74,8 +50,8 @@ const CharacterSearchBoxChild = (
 
 interface ICharacterSearchBoxChildProps {
   direction: string;
-  searchResult: IRecentSearchedQuery[];
   clickHandler: (...args: any[]) => void;
+  searchFormProps: ReturnType<typeof useSearchForm>;
 }
 
 export default forwardRef(CharacterSearchBoxChild);

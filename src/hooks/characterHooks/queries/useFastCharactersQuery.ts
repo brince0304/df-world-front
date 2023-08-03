@@ -2,11 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '../../../constants/myConstants';
 import { useCharacterService } from '../../../context/characterServiceContext';
 import { getFastSearchListsFromCharactersData } from '../../../utils/charactersUtil';
+import { useEffect, useState } from 'react';
+import useDebounce from 'hooks/uiHooks/useDebounce';
 
 const useFastCharactersQuery = (characterName: string, serverId: { label: string; value: string }) => {
   const { getCharacterList } = useCharacterService();
+  const [debouncedCharacterName, setDebouncedCharacterName] = useState(characterName);
+  const debounceddSetCharacterName = useDebounce(setDebouncedCharacterName, 300);
+  useEffect(() => {
+    debounceddSetCharacterName(characterName);
+  }, [characterName, debounceddSetCharacterName]);
   const { data, isLoading, isError } = useQuery(
-    [QUERY_KEY.fastSearchCharacters, characterName, serverId],
+    [QUERY_KEY.fastSearchCharacters, debouncedCharacterName, serverId],
     () =>
       getCharacterList({
         characterName,
@@ -14,10 +21,10 @@ const useFastCharactersQuery = (characterName: string, serverId: { label: string
         page: 0,
       }),
     {
-      refetchOnMount: true,
+      refetchOnMount: false,
       refetchOnWindowFocus: false,
-      refetchOnReconnect: true,
-      enabled: characterName.length > 1,
+      refetchOnReconnect: false,
+      enabled: !!characterName && !!serverId,
       select: (data) => {
         return getFastSearchListsFromCharactersData(data);
       },

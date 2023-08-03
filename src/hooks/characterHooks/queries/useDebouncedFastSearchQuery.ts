@@ -1,27 +1,9 @@
-import { useEffect, useState } from 'react';
 import useFastCharactersQuery from './useFastCharactersQuery';
-import useDebounce from 'hooks/uiHooks/useDebounce';
+import useSearchForm from 'hooks/uiHooks/useSearchForm';
 
-const useFastCharacterSearchQuery = () => {
-  const [characterName, setCharacterName] = useState('');
-  const [debouncedCharacterName, setDebouncedCharacterName] = useState('');
-  const [serverId, setServerId] = useState({ label: '전체', value: 'all' });
-  const debouncedSetCharacterName = useDebounce(setDebouncedCharacterName, 200);
-  const { data: fastResult } = useFastCharactersQuery(debouncedCharacterName, serverId);
-  useEffect(() => {
-    debouncedSetCharacterName(characterName);
-  }, [characterName, debouncedSetCharacterName]);
-
-  return {
-    characterName,
-    debouncedCharacterName,
-    setDebouncedCharacterName,
-    setCharacterName,
-    debouncedSetCharacterName,
-    setServerId,
-    serverId,
-    fastResult,
-  };
+const useFastCharacterSearchQuery = (searchFormProps: ReturnType<typeof useSearchForm>) => {
+  const { data: fastResult } = useFastCharactersQuery(searchFormProps.value, searchFormProps.selectedValue);
+  return fastResult;
 };
 
 export default useFastCharacterSearchQuery;

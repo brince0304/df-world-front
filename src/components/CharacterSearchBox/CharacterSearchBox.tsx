@@ -3,17 +3,17 @@ import { serverList } from '../../utils/charactersUtil';
 import CharacterSearchBoxChild from './CharacterSearchBoxChild/CharacterSearchBoxChild';
 import React from 'react';
 import styled from '@emotion/styled';
-import useFastCharacterSearchQuery from 'hooks/characterHooks/queries/useDebouncedFastSearchQuery';
 import useChildBox from 'hooks/uiHooks/useChildBox';
+import useSearchForm from 'hooks/uiHooks/useSearchForm';
 
 const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) => {
-  const { setCharacterName, characterName, serverId, setServerId, fastResult } = useFastCharacterSearchQuery();
-  const searchFormProps = {
-    value: characterName,
-    setValue: setCharacterName,
-    selectedValue: serverId,
-    setSelectedValue: setServerId,
-  };
+  const searchFormProps = useSearchForm({
+    initialValues: '',
+    initialSelectedValue: {
+      value: 'ALL',
+      label: '전체',
+    },
+  });
   const boxRef = React.useRef<HTMLDivElement>(null);
   const { isFocus, setIsFocus } = useChildBox(boxRef);
 
@@ -28,7 +28,7 @@ const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) =
         filterOptions={serverList}
       />
       {isFocus && (
-        <CharacterSearchBoxChild direction={'down'} clickHandler={clickHandler} searchResult={fastResult || []} />
+        <CharacterSearchBoxChild searchFormProps={searchFormProps} direction={'down'} clickHandler={clickHandler} />
       )}
     </SearchBoxWrapper>
   );
