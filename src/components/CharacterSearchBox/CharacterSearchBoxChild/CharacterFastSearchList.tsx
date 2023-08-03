@@ -1,15 +1,14 @@
 import { List } from '@mui/material';
 import CharacterFastSearchItemButton from './CharacterFastSearchItemButton';
-import useSearchForm from 'hooks/uiHooks/useSearchForm';
-import useFastCharacterSearchQuery from 'hooks/characterHooks/queries/useDebouncedFastSearchQuery';
 import styled from '@emotion/styled';
+import useFastCharactersQuery from 'hooks/characterHooks/queries/useFastCharactersQuery';
 
-const CharacterFastSearchList = ({ searchCallback, searchFormProps }: ICharacterFastSearchListProps) => {
-  const fastResult = useFastCharacterSearchQuery(searchFormProps);
+const CharacterFastSearchList = ({ searchCallback, characterName, serverId }: ICharacterFastSearchListProps) => {
+  const fastResult = useFastCharactersQuery(characterName, serverId);
   return (
     <Container>
       {fastResult?.map((item, index) => {
-        return <CharacterFastSearchItemButton {...item} mouseDownHandler={searchCallback} />;
+        return <CharacterFastSearchItemButton key={index} {...item} mouseDownHandler={searchCallback} />;
       })}
     </Container>
   );
@@ -17,7 +16,8 @@ const CharacterFastSearchList = ({ searchCallback, searchFormProps }: ICharacter
 
 interface ICharacterFastSearchListProps {
   searchCallback: (...args: any[]) => void;
-  searchFormProps: ReturnType<typeof useSearchForm>;
+  characterName: string;
+  serverId: string;
 }
 
 const Container = styled(List)`

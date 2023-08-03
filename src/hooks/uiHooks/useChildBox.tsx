@@ -15,10 +15,6 @@ const useChildBox = (ref: RefObject<HTMLElement>) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.info(isFocus);
-  }, [isFocus]);
-
   return { isFocus, setIsFocus };
 };
 

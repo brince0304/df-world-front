@@ -1,10 +1,11 @@
 import SearchForm from '../SearchForm/SearchForm';
 import { serverList } from '../../utils/charactersUtil';
 import CharacterSearchBoxChild from './CharacterSearchBoxChild/CharacterSearchBoxChild';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import useChildBox from 'hooks/uiHooks/useChildBox';
 import useSearchForm from 'hooks/uiHooks/useSearchForm';
+import useDebounce from 'hooks/uiHooks/useDebounce';
 
 const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) => {
   const searchFormProps = useSearchForm({
@@ -14,6 +15,11 @@ const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) =
       label: '전체',
     },
   });
+  const [newParams, setNewParams] = useState('');
+  const debouncedSetNewParams = useDebounce(setNewParams, 300);
+  useEffect(() => {
+    debouncedSetNewParams(searchFormProps.value);
+  }, [searchFormProps.value, debouncedSetNewParams]);
   const boxRef = React.useRef<HTMLDivElement>(null);
   const { isFocus, setIsFocus } = useChildBox(boxRef);
 
@@ -28,7 +34,7 @@ const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) =
         filterOptions={serverList}
       />
       {isFocus && (
-        <CharacterSearchBoxChild searchFormProps={searchFormProps} direction={'down'} clickHandler={clickHandler} />
+        <CharacterSearchBoxChild direction={'down'} clickHandler={clickHandler} characterName={newParams} serverId={searchFormProps.selectedValue.value} />
       )}
     </SearchBoxWrapper>
   );

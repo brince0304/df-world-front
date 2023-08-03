@@ -4,12 +4,11 @@ import useRecentSearchedQuery from '../../../hooks/recoilHooks/useRecentSearched
 import CharacterNoData from './CharacterNoData';
 import { IRecentSearchedQuery } from '../../../storages/searchQueryLocalStorage';
 import RecentSearchedList from './RecentSearchedList';
-import useSearchForm from 'hooks/uiHooks/useSearchForm';
 import CharacterFastSearchList from './CharacterFastSearchList';
 import Loading from 'components/Loading/Loading';
 
 const CharacterSearchBoxChild = (
-  { direction, clickHandler, searchFormProps }: ICharacterSearchBoxChildProps,
+  { direction, clickHandler, characterName, serverId }: ICharacterSearchBoxChildProps,
   ref: ForwardedRef<any>,
 ) => {
   const recentSearch = '최근 검색 기록';
@@ -17,7 +16,7 @@ const CharacterSearchBoxChild = (
 
   const { recentSearchedQuery, handleAddRecentSearchedQuery } = useRecentSearchedQuery();
   const isEmptyRecentSearchedList = recentSearchedQuery.length === 0;
-  const isEmptySearchResult = searchFormProps.value.length === 0;
+  const isEmptySearchResult = characterName.length === 0;
   const searchCallback = (query: IRecentSearchedQuery) => {
     handleAddRecentSearchedQuery(query);
     if (clickHandler.length === 3) {
@@ -26,7 +25,7 @@ const CharacterSearchBoxChild = (
     }
     clickHandler(query.characterId, query.characterServerId);
   };
-  const isFastSearch = searchFormProps.value.length >= 2;
+  const isFastSearch = characterName.length > 0;
 
   return (
     <S.SearchOptionContainer direction={direction} ref={ref}>
@@ -38,7 +37,7 @@ const CharacterSearchBoxChild = (
           !isEmptyRecentSearchedList && <RecentSearchedList searchCallback={searchCallback} />
         ) : (
           <Suspense fallback={<Loading />}>
-            <CharacterFastSearchList searchCallback={searchCallback} searchFormProps={searchFormProps} />
+            <CharacterFastSearchList searchCallback={searchCallback} characterName={characterName} serverId={serverId} />
           </Suspense>
         )}
         {isEmptyRecentSearchedList && !isFastSearch && <CharacterNoData content={'최근 검색 기록이 없습니다.'} />}
@@ -51,7 +50,8 @@ const CharacterSearchBoxChild = (
 interface ICharacterSearchBoxChildProps {
   direction: string;
   clickHandler: (...args: any[]) => void;
-  searchFormProps: ReturnType<typeof useSearchForm>;
+  characterName: string;
+  serverId: string;
 }
 
 export default forwardRef(CharacterSearchBoxChild);
