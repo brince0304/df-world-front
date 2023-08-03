@@ -30,7 +30,7 @@ const BoardCommentItemBox = ({ boardId, comment }: IBoardCommentItemBoxProps) =>
         </Button>
         <BoardCommentLikeButton boardId={boardId} commentId={commentId} />
       </Box>
-       {isReplyOpen && <BoardChildrenComments boardId={boardId} commentId={commentId} />}
+      {isReplyOpen && <BoardChildrenComments boardId={boardId} commentId={commentId} />}
     </BoardCommentItemContainer>
   );
 };

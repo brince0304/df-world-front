@@ -22,26 +22,6 @@ const TableData = styled.div`
   color: #000;
 `;
 
-// const TableBody = styled.div`
-//   display: grid;
-//   grid-template-rows: repeat(1, minmax(100px, auto));
-//   grid-template-columns: repeat(2, minmax(100px, 50%));
-//   @media (max-width: 768px) {
-//     grid-template-rows: repeat(1, minmax(100px, auto));
-//     grid-template-columns: repeat(1, minmax(100px, auto));
-//   }
-//   @media (max-width: 480px) {
-//     grid-template-rows: repeat(1, minmax(100px, auto));
-//     grid-template-columns: repeat(1, minmax(100px, auto));
-//   }
-//   @media (min-width: 1024px) {
-//     grid-template-rows: repeat(1, minmax(100px, auto));
-//     grid-template-columns: repeat(2, minmax(100px, 50%));
-//   }
-//
-//   //first child's empty space remove
-// `;
-
 const TableRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -234,17 +214,14 @@ const RankingTableRow = (props: { data: RankingTableData[]; type: string }) => {
 
 function CharacterRanking(props: RankingTableProps) {
   const [isSelected, setIsSelected] = useState('adventureFame');
-  const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [data, setData] = useState<RankingTableData[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       setIsError(false);
-      setIsLoading(true);
       try {
         const result = await axiosClient.get(props.url + isSelected);
         setData(result.data.content);
-        setIsLoading(false);
       } catch (error) {
         setIsError(true);
       }
@@ -260,7 +237,6 @@ function CharacterRanking(props: RankingTableProps) {
       menus={rankingType}
       useMenu={true}
       useIcon={true}
-      isLoading={isLoading}
       icon={
         <IconButton>
           <FontAwesomeIcon icon={faChevronRight} size="sm" />

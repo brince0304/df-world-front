@@ -15,8 +15,8 @@ const useChildrenComments = (boardId: string, commentId: string) => {
       refetchOnReconnect: false,
       onSuccess: (data) => {
         queryClient.setQueryData([QUERY_KEY.boardCommentChildrenCount, commentId], data.length);
+      },
     },
-  }
   );
   return data;
 };

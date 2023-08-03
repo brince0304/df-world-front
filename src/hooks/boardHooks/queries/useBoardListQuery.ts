@@ -26,8 +26,9 @@ const useBoardListQuery = (queries: { searchType: string; keyword: string; board
             queryClient.setQueryData([QUERY_KEY.boardLikeCount, board.id], board.boardLikeCount);
           });
         });
-        }
-      });
+      },
+    },
+  );
 
   return {
     data,
