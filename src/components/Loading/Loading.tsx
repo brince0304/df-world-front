@@ -1,9 +1,10 @@
 import * as S from './Loading.style';
 import Typography from '@mui/material/Typography';
+import LoadingImg from 'assets/img/loading2.gif';
 const Loading = () => {
   return (
     <S.Container>
-      <img src={''} alt="loading" />
+      <img src={LoadingImg} alt="loading" />
       <Typography fontSize={'1.5rem'} fontWeight={'bold'}>
         로딩중입니다...
       </Typography>
