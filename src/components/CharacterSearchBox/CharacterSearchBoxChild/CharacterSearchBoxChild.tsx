@@ -37,7 +37,11 @@ const CharacterSearchBoxChild = (
           !isEmptyRecentSearchedList && <RecentSearchedList searchCallback={searchCallback} />
         ) : (
           <Suspense fallback={<Loading />}>
-            <CharacterFastSearchList searchCallback={searchCallback} characterName={characterName} serverId={serverId} />
+            <CharacterFastSearchList
+              searchCallback={searchCallback}
+              characterName={characterName}
+              serverId={serverId}
+            />
           </Suspense>
         )}
         {isEmptyRecentSearchedList && !isFastSearch && <CharacterNoData content={'최근 검색 기록이 없습니다.'} />}

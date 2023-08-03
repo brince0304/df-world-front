@@ -34,7 +34,12 @@ const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) =
         filterOptions={serverList}
       />
       {isFocus && (
-        <CharacterSearchBoxChild direction={'down'} clickHandler={clickHandler} characterName={newParams} serverId={searchFormProps.selectedValue.value} />
+        <CharacterSearchBoxChild
+          direction={'down'}
+          clickHandler={clickHandler}
+          characterName={newParams}
+          serverId={searchFormProps.selectedValue.value}
+        />
       )}
     </SearchBoxWrapper>
   );

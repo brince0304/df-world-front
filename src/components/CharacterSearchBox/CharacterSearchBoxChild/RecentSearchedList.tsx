@@ -11,7 +11,7 @@ const RecentSearchedList = ({ searchCallback }: IRecentSearchedListProps) => {
         return (
           <RecentSearchedItemButton
             {...data}
-            key = {index}
+            key={index}
             removeHandler={handleRemoveRecentSearchedQuery}
             mouseDownHandler={searchCallback}
           />
