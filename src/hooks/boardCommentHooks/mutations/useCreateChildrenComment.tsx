@@ -10,7 +10,7 @@ const useCreateChildrenComment = (boardId: string, commentId: string) => {
   const { handleBoardCommentCreateError } = useBoardCommentError();
   const queryClient = useQueryClient();
   const { mutate: createChildrenCommentMutation } = useMutation(
-    [QUERY_KEY.boardComments, boardId, commentId],
+    [QUERY_KEY.boardComments, boardId],
     createChildrenComment,
     {
       onError: (error) => {
@@ -18,7 +18,7 @@ const useCreateChildrenComment = (boardId: string, commentId: string) => {
       },
       onSuccess: (data) => {
         handleBoardCommentCreateSuccess();
-        queryClient.invalidateQueries([QUERY_KEY.childrenComments, boardId, commentId]);
+        queryClient.invalidateQueries([QUERY_KEY.boardComments, boardId]);
       },
     },
   );
