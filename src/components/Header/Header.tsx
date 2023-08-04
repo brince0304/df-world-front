@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import LoginModal from '../../pages/Home/AuthModal';
-import styled from 'styled-components';
 import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 import { headerMenu } from '../../constants/myConstants';
 import useNavBar from 'hooks/uiHooks/useNavBar';
@@ -9,6 +8,7 @@ import HeaderMenus from './HeaderMenus';
 import HeaderTopSection from './HeaderTopSection';
 import HeaderProfileContainer from './HeaderProfileContainer';
 import HeaderMobile from './HeaderMobile/HeaderMobile';
+import styled from '@emotion/styled';
 
 const Header = () => {
   const navigate = useNavigate();
