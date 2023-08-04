@@ -17,45 +17,43 @@ const PrivateRouter = () => {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <App/>,
-      children:[
+      element: <App />,
+      children: [
         {
           index: true,
-          element: <Main/>
+          element: <Main />,
         },
         {
           path: BOARD_LIST_URL,
-          element: <Board/>
+          element: <Board />,
         },
         {
           path: BOARD_INSERT_FORM_ROUTE,
-          element: isAuth ? <WriteBoard/> : <Navigate to={BOARD_LIST_URL}/>
+          element: isAuth ? <WriteBoard /> : <Navigate to={BOARD_LIST_URL} />,
         },
         {
           path: CHARACTER_SEARCH_URL,
-          element: <Characters/>
+          element: <Characters />,
         },
         {
-          path : CHARACTER_DETAIL_URL,
-          element: <CharacterDetail/>
+          path: CHARACTER_DETAIL_URL,
+          element: <CharacterDetail />,
         },
         {
           path: BOARD_ROUTE,
-          element: <BoardDetail/>
+          element: <BoardDetail />,
         },
         {
           path: '*',
-          element: <Navigate to="/"/>
+          element: <Navigate to="/" />,
         },
         {
           path: USER_MYPAGE_URL,
-          element: isAuth ? <MyPage/> : <Navigate to="/"/>
-        }
-      ]
-    }
-  ])
-  return (
-    <RouterProvider router={router} />
-  );
-}
+          element: isAuth ? <MyPage /> : <Navigate to="/" />,
+        },
+      ],
+    },
+  ]);
+  return <RouterProvider router={router} />;
+};
 export default PrivateRouter;

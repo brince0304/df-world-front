@@ -16,8 +16,8 @@ export function setInterceptors(instance: AxiosInstance) {
       return config;
     },
     (error) => {
-      if(error.response.status === 401) {
-       userLocalStorage.clearUser();
+      if (error.response.status === 401) {
+        userLocalStorage.clearUser();
       }
       return Promise.reject(error);
     },
@@ -28,7 +28,7 @@ export function setInterceptors(instance: AxiosInstance) {
       return response;
     },
     (error) => {
-      if(error.response.status === 401) {
+      if (error.response.status === 401) {
         userLocalStorage.clearUser();
       }
       return Promise.reject(error);

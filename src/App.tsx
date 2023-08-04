@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import './App.css';
-import {  Outlet, } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Header from './components/Header/Header';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Footer from 'components/Footer/Footer';
@@ -10,7 +10,7 @@ function App() {
     <Suspense fallback={<div>loading..</div>}>
       <div className="App">
         <Header />
-        <Outlet/>
+        <Outlet />
         <Footer />
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </div>
