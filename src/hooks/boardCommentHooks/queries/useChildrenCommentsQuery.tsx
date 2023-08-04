@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEY } from 'constants/myConstants';
 import { useBoardCommentService } from 'context/boardCommentServiceContext';
 
-const useChildrenComments = (boardId: string, commentId: string) => {
+const useChildrenCommentsQuery = (boardId: string, commentId: string) => {
   const { getChildrenComments } = useBoardCommentService();
   const queryClient = useQueryClient();
   const { data } = useQuery(
@@ -21,4 +21,4 @@ const useChildrenComments = (boardId: string, commentId: string) => {
   return data;
 };
 
-export default useChildrenComments;
+export default useChildrenCommentsQuery;

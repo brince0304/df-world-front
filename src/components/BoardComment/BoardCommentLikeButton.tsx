@@ -1,20 +1,20 @@
 import styled from '@emotion/styled';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
-import useLikeBoardComment from 'hooks/boardCommentHooks/mutations/useLikeBoardComment';
-import useBoardCommentLike from 'hooks/boardCommentHooks/queries/useBoardCommentLike';
-import useBoardCommentLikeCount from 'hooks/boardCommentHooks/queries/useBoardCommentLikeCount';
+import useLikeBoardCommentMutation from '../../hooks/boardCommentHooks/mutations/useLikeBoardCommentMutation';
+import useBoardCommentLikeQuery from '../../hooks/boardCommentHooks/queries/useBoardCommentLikeQuery';
+import useBoardCommentLikeCountQuery from '../../hooks/boardCommentHooks/queries/useBoardCommentLikeCountQuery';
 
 const BoardCommentLikeButton = ({ boardId, commentId }: IBoardCommentLikeButtonProps) => {
-  const commentLikeCount = useBoardCommentLikeCount(commentId);
-  const likeComment = useLikeBoardComment(boardId, commentId);
+  const commentLikeCount = useBoardCommentLikeCountQuery(commentId);
+  const likeComment = useLikeBoardCommentMutation(boardId, commentId);
   const handleLikeComment = () => {
     likeComment({ boardId: boardId, commentId: commentId });
   };
   const handleOnChage = () => {
     handleLikeComment();
   };
-  const isCommentLiked = useBoardCommentLike(commentId);
+  const isCommentLiked = useBoardCommentLikeQuery(commentId);
 
   return (
     <FormControlLabel

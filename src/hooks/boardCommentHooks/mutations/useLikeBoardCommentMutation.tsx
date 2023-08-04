@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEY } from 'constants/myConstants';
 import { useBoardCommentService } from 'context/boardCommentServiceContext';
 
-const useLikeBoardComment = (boardId: string, commentId: string) => {
+const useLikeBoardCommentMutation = (boardId: string, commentId: string) => {
   const { likeComment } = useBoardCommentService();
   const queryClient = useQueryClient();
   const prevIsLiked = queryClient.getQueryData([QUERY_KEY.isBoardCommentLiked, commentId]);
@@ -16,4 +16,4 @@ const useLikeBoardComment = (boardId: string, commentId: string) => {
   return likeBoardComment;
 };
 
-export default useLikeBoardComment;
+export default useLikeBoardCommentMutation;

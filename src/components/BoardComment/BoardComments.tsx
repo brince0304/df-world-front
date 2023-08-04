@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import BoardCommentForm from './BoardCommentForm';
-import useCreateBoardComment from 'hooks/boardCommentHooks/mutations/useCreateBoardComment';
+import useCreateBoardCommentMutation from '../../hooks/boardCommentHooks/mutations/useCreateBoardCommentMutation';
 import { IBoardCommentRequest } from 'services/boardCommentService';
 import BoardCommentList from './BoardCommentList';
 
 const BoardComments = ({ boardId }: IBoardCommentListProps) => {
-  const createComment = useCreateBoardComment(boardId);
+  const createComment = useCreateBoardCommentMutation(boardId);
   const handleSubmit = (data: IBoardCommentRequest) => {
     createComment(data);
   };

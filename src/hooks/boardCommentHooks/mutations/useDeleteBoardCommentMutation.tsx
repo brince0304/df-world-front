@@ -4,7 +4,7 @@ import { useBoardCommentService } from 'context/boardCommentServiceContext';
 import useBoardCommentError from '../useBoardCommentError';
 import useBoardCommentSuccess from '../useBoardCommentSuccess';
 
-const useDeleteBoardComment = (boardId: string, commentId: string) => {
+const useDeleteBoardCommentMutation = (boardId: string, commentId: string) => {
   const { deleteBoardComment } = useBoardCommentService();
   const { handleBoardCommentDeleteSuccess } = useBoardCommentSuccess();
   const { handleBoardCommentDeleteError } = useBoardCommentError();
@@ -22,4 +22,4 @@ const useDeleteBoardComment = (boardId: string, commentId: string) => {
   return deleteComment;
 };
 
-export default useDeleteBoardComment;
+export default useDeleteBoardCommentMutation;

@@ -4,7 +4,7 @@ import { useBoardCommentService } from 'context/boardCommentServiceContext';
 import useBoardCommentSuccess from '../useBoardCommentSuccess';
 import useBoardCommentError from '../useBoardCommentError';
 
-const useUpdateBoardComment = (boardId: string) => {
+const useUpdateBoardCommentMutation = (boardId: string) => {
   const { updateBoardComment } = useBoardCommentService();
   const { handleBoardCommentUpdateSuccess } = useBoardCommentSuccess();
   const { handleBoardCommentUpdateError } = useBoardCommentError();
@@ -21,4 +21,4 @@ const useUpdateBoardComment = (boardId: string) => {
   return updateComment;
 };
 
-export default useUpdateBoardComment;
+export default useUpdateBoardCommentMutation;

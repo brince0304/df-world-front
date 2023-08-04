@@ -8,8 +8,8 @@ const useBoardDetailQuery = (boardId: string) => {
   const { data } = useQuery([QUERY_KEY.boardDetail, boardId], () => getBoardDetail({ boardId }), {
     enabled: boardId !== '',
     onSuccess: (data) => {
-      queryClient.setQueryData([QUERY_KEY.isBoardLiked, boardId], data.likeLog);
-      queryClient.setQueryData([QUERY_KEY.boardLikeCount, boardId], data.article.boardLikeCount);
+      queryClient.setQueryData([QUERY_KEY.isBoardLiked, String(boardId)], data.likeLog);
+      queryClient.setQueryData([QUERY_KEY.boardLikeCount, String(boardId)], data.article.boardLikeCount);
     },
   });
   const isLiked = queryClient.getQueryData([QUERY_KEY.isBoardLiked, boardId]) as boolean;

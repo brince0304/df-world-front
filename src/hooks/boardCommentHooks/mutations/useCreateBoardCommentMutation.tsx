@@ -4,7 +4,7 @@ import { useBoardCommentService } from 'context/boardCommentServiceContext';
 import useBoardCommentSuccess from '../useBoardCommentSuccess';
 import useBoardCommentError from '../useBoardCommentError';
 
-const useCreateBoardComment = (boardId: string) => {
+const useCreateBoardCommentMutation = (boardId: string) => {
   const { createBoardComment } = useBoardCommentService();
   const { handleBoardCommentCreateSuccess } = useBoardCommentSuccess();
   const { handleBoardCommentCreateError } = useBoardCommentError();
@@ -22,4 +22,4 @@ const useCreateBoardComment = (boardId: string) => {
   return createComment;
 };
 
-export default useCreateBoardComment;
+export default useCreateBoardCommentMutation;

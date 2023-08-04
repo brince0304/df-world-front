@@ -4,7 +4,7 @@ import { useBoardCommentService } from 'context/boardCommentServiceContext';
 import useBoardCommentError from '../useBoardCommentError';
 import useBoardCommentSuccess from '../useBoardCommentSuccess';
 
-const useCreateChildrenComment = (boardId: string, commentId: string) => {
+const useCreateChildrenCommentMutation = (boardId: string, commentId: string) => {
   const { createChildrenComment } = useBoardCommentService();
   const { handleBoardCommentCreateSuccess } = useBoardCommentSuccess();
   const { handleBoardCommentCreateError } = useBoardCommentError();
@@ -25,4 +25,4 @@ const useCreateChildrenComment = (boardId: string, commentId: string) => {
   return createChildrenCommentMutation;
 };
 
-export default useCreateChildrenComment;
+export default useCreateChildrenCommentMutation;

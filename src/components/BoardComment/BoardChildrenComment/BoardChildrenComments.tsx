@@ -5,13 +5,13 @@ import { ForwardedRef, Suspense, forwardRef } from 'react';
 import BoardChildrenCommentList from './BoardChildrenCommentList';
 import Loading from 'components/Loading/Loading';
 import { CommentListDataComments } from 'interfaces/CommentListData';
-import useCreateChildrenComment from 'hooks/boardCommentHooks/mutations/useCreateChildrenComment';
+import useCreateChildrenCommentMutation from '../../../hooks/boardCommentHooks/mutations/useCreateChildrenCommentMutation';
 
 const BoardChildrenComments = (
   { childrenComments, boardId, parentId }: IBoardCommentListProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) => {
-  const createChildrenComment = useCreateChildrenComment(boardId, parentId);
+  const createChildrenComment = useCreateChildrenCommentMutation(boardId, parentId);
   const handleCreateChildrenComment = (data: IBoardCommentUpdateChildrenRequest) => {
     createChildrenComment({
       boardId: Number(boardId),

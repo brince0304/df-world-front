@@ -1,21 +1,20 @@
 import { Box, Button } from '@mui/material';
-import useBoardComments from 'hooks/boardCommentHooks/queries/useBoardComments';
+import useBoardCommentsQuery from '../../hooks/boardCommentHooks/queries/useBoardCommentsQuery';
 import BoardCommentItemBox from './BoardCommentItemBox';
 import { boardButtonStyle } from 'components/BoardViewer/BoardViewer';
 import styled from '@emotion/styled';
+import useBoardCommentCountQuery from 'hooks/boardHooks/queries/useBoardCommentCountQuery';
 
 const BoardCommentList = ({ boardId }: IBoardCommentListProps) => {
-  const data = useBoardComments(boardId);
-  const commentCount = data?.length;
-  const childrenCount = data?.reduce((acc, cur) => acc + cur.childrenComments.length, 0);
-  const boardCommentCount = commentCount && childrenCount ? commentCount + childrenCount : 0;
+  const data = useBoardCommentsQuery(boardId);
+  const commentCount = useBoardCommentCountQuery(boardId);
   const handleClick = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
   return (
     <Container>
       <Button onClick={handleClick} sx={boardButtonStyle}>
-        댓글 {boardCommentCount}개
+        댓글 {commentCount}개
       </Button>
       {data &&
         data.map((comment) => {

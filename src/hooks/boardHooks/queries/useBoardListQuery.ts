@@ -22,8 +22,8 @@ const useBoardListQuery = (queries: { searchType: string; keyword: string; board
       onSuccess: (data) => {
         data.pages.forEach((page) => {
           page.content.forEach((board) => {
-            queryClient.setQueryData([QUERY_KEY.boardCommentCount, board.id], board.commentCount);
-            queryClient.setQueryData([QUERY_KEY.boardLikeCount, board.id], board.boardLikeCount);
+            queryClient.setQueryData([QUERY_KEY.boardCommentCount, String(board.id)], board.commentCount);
+            queryClient.setQueryData([QUERY_KEY.boardLikeCount, String(board.id)], board.boardLikeCount);
           });
         });
       },

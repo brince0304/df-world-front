@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { Box, Button, Typography } from '@mui/material';
 import BoardUserAvatar from 'components/BoardUserAvatar/BoardUserAvatar';
-import useDeleteBoardComment from 'hooks/boardCommentHooks/mutations/useDeleteBoardComment';
-import useUpdateBoardComment from 'hooks/boardCommentHooks/mutations/useUpdateBoardComment';
+import useDeleteBoardCommentMutation from '../../hooks/boardCommentHooks/mutations/useDeleteBoardCommentMutation';
+import useUpdateBoardCommentMutation from '../../hooks/boardCommentHooks/mutations/useUpdateBoardCommentMutation';
 import { CommentListDataComments } from 'interfaces/CommentListData';
 import { useState } from 'react';
 import BoardCommentForm from './BoardCommentForm';
@@ -16,7 +16,7 @@ const BoardCommentItem = ({ boardId, comment }: IBoardCommentItemProps) => {
   };
   const { user } = useUserQuery();
   const commentId = String(comment.id);
-  const updateComment = useUpdateBoardComment(boardId);
+  const updateComment = useUpdateBoardCommentMutation(boardId);
   const onValidUpdateComment = (data: IBoardCommentUpdateChildrenRequest) => {
     updateComment({
       boardId: Number(boardId),
@@ -25,7 +25,7 @@ const BoardCommentItem = ({ boardId, comment }: IBoardCommentItemProps) => {
     });
     handleToggleEdit();
   };
-  const deleteComment = useDeleteBoardComment(boardId, commentId);
+  const deleteComment = useDeleteBoardCommentMutation(boardId, commentId);
   const handleDeleteBoardComment = () => {
     deleteComment({ commentId: commentId });
   };

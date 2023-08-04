@@ -3,12 +3,12 @@ import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, RemoveRedEyeOutlined
 import CreatedAt from './BoardCreatedAt';
 import React from 'react';
 import styled from '@emotion/styled';
-import useBoardCommentCountQuery from 'hooks/boardHooks/queries/useBoardCommentCountQuery';
-import useBoardLikeCount from 'hooks/boardHooks/queries/useBoardLikeCount';
+import useBoardCommentCountQuery from '../../hooks/boardHooks/queries/useBoardCommentCountQuery';
+import useBoardLikeCountQuery from '../../hooks/boardHooks/queries/useBoardLikeCount';
 
 const BoardCommentView = ({ boardId, boardViewCount, createdAt }: IBoardCommentViewProps) => {
-  const boardCommentCount = useBoardCommentCountQuery(boardId);
-  const boardLikeCount = useBoardLikeCount(boardId);
+  const boardCommentCount = useBoardCommentCountQuery(String(boardId));
+  const boardLikeCount = useBoardLikeCountQuery(String(boardId));
   return (
     <Box
       sx={{
