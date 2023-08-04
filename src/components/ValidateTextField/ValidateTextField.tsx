@@ -65,6 +65,7 @@ const ValidateForm = (props: ValidateFormProps) => {
     // Change to default status if value is changed.
     props.setIsChecked(false);
     props.setIsValidated(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.watch(props.formName)]);
 
   const boxStyleObject = {

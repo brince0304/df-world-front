@@ -76,6 +76,7 @@ export const ActivitiesModalBoardTemplate = (props: { data: BoardActivitiesJson 
   const navigate = useNavigate();
   const handleNavigateToBoard = useCallback((boardId: number) => {
     navigate(`/boards/${boardId}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <BoardList>
@@ -181,8 +182,8 @@ const ToggleButtonGroupComponent = (props: {
   groups: IToggleButtonGroup[];
 }) => {
   return (
+    // TODO : disable 됐을 때 툴팁 안 뜨도록
     <ToggleButtonGroup size="small" value={props.sortBy} exclusive onChange={props.handleChangeSortBy}>
-      // TODO : disable 됐을 때 툴팁 안 뜨도록
       {props.groups.map((group, index) => {
         return (
           <Tooltip title={group.tooltipTitle} placement={group.tooltipPlacement} key={index}>
@@ -329,6 +330,7 @@ function MyActivitiesModal(props: ActivitiesModalProps) {
       setSortBy(value);
       setPage(0);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [sortBy],
   );
   useEffect(() => {

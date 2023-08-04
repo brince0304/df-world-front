@@ -31,6 +31,7 @@ export const useUserQuery = (): IUseUser => {
   }, [user]);
   useEffect(() => {
     if (!userLocalStorage.getUser) userLocalStorage.clearUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userLocalStorage.getUser]);
 
   return {

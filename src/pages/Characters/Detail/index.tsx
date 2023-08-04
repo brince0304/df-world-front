@@ -191,12 +191,14 @@ const CharacterEquipmentModalDetail = (props: {
           }}
         >
           <Avatar
+            alt={props.detail.itemName}
             variant={'rounded'}
             src={`https://img-api.neople.co.kr/df/items/${props.detail.itemId}`}
             sx={{ width: '40px', height: '40px' }}
           />
           {props.equipment.upgradeInfo && (
             <img
+              alt={'시로코'}
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
               src={'/images/icons/siroco.gif'}
               width={40}
@@ -205,6 +207,7 @@ const CharacterEquipmentModalDetail = (props: {
           )}
           {props.detail.itemRarity === '신화' && (
             <img
+              alt={'신화'}
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
               src={'/images/icons/ora_myth.png'}
               width={40}
@@ -368,6 +371,7 @@ const CharacterEquipmentDetail = (props: {
           }}
         >
           <Avatar
+            alt={props.equipment.itemName}
             variant={'rounded'}
             src={`https://img-api.neople.co.kr/df/items/${props.equipment.itemId}`}
             sx={{ width: '40px', height: '40px' }}
@@ -379,10 +383,12 @@ const CharacterEquipmentDetail = (props: {
               src={'/images/icons/siroco.gif'}
               width={40}
               height={40}
+              alt={'시로코'}
             />
           )}
           {props.equipment.itemRarity === '신화' && (
             <img
+              alt={'신화'}
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
               src={'/images/icons/ora_myth.png'}
               width={40}

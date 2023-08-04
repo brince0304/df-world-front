@@ -22,6 +22,7 @@ const useRecentSearchedQuery = () => {
   useEffect(() => {
     const recentSearchedQuery = searchedQueryLocalStorage.getSearchedQuery();
     if (recentSearchedQuery) setRecentSearchedQuery(recentSearchedQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

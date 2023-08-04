@@ -228,6 +228,7 @@ function CharacterRanking(props: RankingTableProps) {
       }
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelected]);
 
   return (

@@ -13,6 +13,7 @@ function ImageUploader(props: { handleClose: () => void }) {
     if (user) {
       setProfileUrl(user.profileImgPath);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleUpload = () => {
