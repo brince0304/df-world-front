@@ -2,13 +2,13 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import styled from 'styled-components';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Divider, IconButton } from '@mui/material';
 import ImageUploader from '../../../components/ImageUploader/ImageUploader';
 import axiosInstance from '../../../apis/customAxios';
 import { profileIcons } from '../../../constants/myConstants';
+import styled from '@emotion/styled';
 
 export default function ProfileIconChangeModal(props: ProfileIconChangeModalProps) {
   const data = profileIcons;

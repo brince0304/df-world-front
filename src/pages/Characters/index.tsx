@@ -1,10 +1,10 @@
 import { useLocation, useParams } from 'react-router';
 import React from 'react';
-import styled from 'styled-components';
 import { Container } from '@mui/material';
 import CharacterList from '../../components/CharacterList/CharacterList';
 import { getServerName } from '../../utils/charactersUtil';
 import useCharactersQuery from 'hooks/characterHooks/queries/useCharactersQuery';
+import styled from '@emotion/styled';
 
 const Characters = () => {
   const location = useLocation();

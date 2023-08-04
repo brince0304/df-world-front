@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHandFist, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const typographyProps = {
   component: 'span',

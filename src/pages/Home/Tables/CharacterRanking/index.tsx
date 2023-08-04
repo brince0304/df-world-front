@@ -1,7 +1,6 @@
 import '../../../../assets/css/rankingTable.scss';
 import React, { useEffect, useState } from 'react';
 import { RankingCharacterImg } from '../../../../components/application/character/RankingCharacterImg';
-import styled from 'styled-components';
 import CustomTable from '../../../../components/CustomTable/CustomTable';
 import { useNavigate } from 'react-router-dom';
 import { faChevronRight, faExclamationTriangle, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import axiosClient from '../../../../apis/customAxios';
 import { rankingType } from '../../../../utils/charactersUtil';
 import { Grid } from '@mui/material';
+import styled from '@emotion/styled';
 
 const TableData = styled.div`
   display: flex;

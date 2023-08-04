@@ -1,8 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import { ModalTitle } from '../../../components/application/ui/ModalTitle';
 import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
 import { socialLoginTypes } from '../../../constants/myConstants';
+import styled from '@emotion/styled';
 
 interface LoginButtonsProps {
   data: { src: string; alt: string; type: string }[];

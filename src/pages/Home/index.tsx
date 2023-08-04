@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import React from 'react';
 import CharacterRanking from './Tables/CharacterRanking';
 import { Container } from '@mui/material';
 import { CHARACTER_MAINPAGE_RANKING_URL } from '../../apis/data/urls';
 import MainCarousel from '../../components/MainCarousel/Carousel';
 import LatestBoard from '../../components/LatestBoard/LatestBoard';
+import styled from '@emotion/styled';
 
 const Main = () => {
   return (

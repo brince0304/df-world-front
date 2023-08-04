@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
-import styled from 'styled-components';
 import { Dialog, DialogContent, Divider } from '@mui/material';
 import RegisterPage from './RegisterPage';
 import { SocialLogin } from './SocialLogin';
 import LoginPage from './LoginPage';
+import styled from '@emotion/styled';
 
 function LoginModal({ isOpened, setIsOpened }: LoginModalProps) {
   const [isLoginPage, setIsLoginPage] = useState<boolean>(true);

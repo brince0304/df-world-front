@@ -1,7 +1,6 @@
 import CustomTable from '../../components/CustomTable/CustomTable';
 import { useLocation, useNavigate } from 'react-router';
 import React, { ReactNode } from 'react';
-import styled from 'styled-components';
 import SpeedDial from './SpeedDial';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Container, IconButton, Menu, MenuItem } from '@mui/material';
@@ -11,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { AllInbox, Announcement, FreeBreakfast, LocalMall, QuestionAnswer, Work } from '@mui/icons-material';
 import BoardList from 'components/BoardList/BoardList';
 import { getBoardType } from 'utils/boardUtil';
+import styled from '@emotion/styled';
 
 export const LongMenu = (props: { menuList: MenuItems[]; boardType: string }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import styled from 'styled-components';
 import { ModalTitle } from '../../../components/application/ui/ModalTitle';
 import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
 import { TextField } from '@mui/material';
@@ -9,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { socialLoginTypes } from '../../../constants/myConstants';
 import { useLoginMutation } from 'hooks/authHooks/mutations/useLoginMutation';
+import styled from '@emotion/styled';
 
 interface SocialLoginProps {
   data: { src: string; alt: string; type: string }[];

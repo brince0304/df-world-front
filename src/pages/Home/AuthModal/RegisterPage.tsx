@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import styled from 'styled-components';
 import { ModalTitle } from '../../../components/application/ui/ModalTitle';
 import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
 import { TextField } from '@mui/material';
@@ -9,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import useRegisterMutation from '../../../hooks/authHooks/mutations/useRegisterMutation';
 import { IRegisterRequest } from '../../../services/userService';
+import styled from '@emotion/styled';
 
 // eslint-disable-next-line
 const SocialRegisterButtons = (props: { data: { src: string; alt: string; type: string }[] }) => {
