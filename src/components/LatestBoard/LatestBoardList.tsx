@@ -1,15 +1,14 @@
-import { Suspense } from 'react';
-import Loading from 'react-loading';
 import LatestBoardListItem from './LatestBoardListItem';
 import useLatestBoardQuery from 'hooks/boardHooks/queries/useLatestBoardQuery';
+import { List } from '@mui/material';
 
 const LatestBoardList = (props: { isSelected: string }) => {
   const data = useLatestBoardQuery(props.isSelected);
 
   return (
-    <Suspense fallback={<Loading />}>
+    <List>
       {data && data.map((item, index: number) => <LatestBoardListItem key={index} {...item} />)}
-    </Suspense>
+    </List>
   );
 };
 

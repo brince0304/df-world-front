@@ -8,7 +8,7 @@ import { faChevronRight, faExclamationTriangle, faXmark } from '@fortawesome/fre
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorScreen } from '../../../../components/ErrorScreen/ErrorScreen';
 import IconButton from '@mui/material/IconButton';
-import axiosClient from '../../../../apis/axiosClient';
+import axiosClient from '../../../../apis/customAxios';
 import { rankingType } from '../../../../utils/charactersUtil';
 import { Grid } from '@mui/material';
 

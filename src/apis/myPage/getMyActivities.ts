@@ -1,4 +1,4 @@
-import createInstance from '../axiosClient';
+import createInstance from '../customAxios';
 import { USER_ACTIVITIES_GET_URL } from '../data/urls';
 
 export const getMyActivities = async (

@@ -1,4 +1,4 @@
-import { IAxiosClient } from '../AxiosClient/axiosClient';
+import { IAxiosClient } from '../axiosClient/axiosClient';
 
 export interface IUserService {
   login: (data: ILoginRequest) => Promise<ILoginResponse>;

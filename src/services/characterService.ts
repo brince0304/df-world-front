@@ -1,5 +1,5 @@
 import { ICharactersData } from '../interfaces/ICharactersData';
-import { IAxiosClient } from '../AxiosClient/axiosClient';
+import { IAxiosClient } from '../axiosClient/axiosClient';
 import { ICharacterDetail } from '../interfaces/ICharacterDetail';
 
 export interface ICharacterService {

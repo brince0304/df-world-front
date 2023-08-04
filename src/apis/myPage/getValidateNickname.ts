@@ -1,4 +1,4 @@
-import createInstance from '../axiosClient';
+import createInstance from '../customAxios';
 import { USER_VALIDATE_NICKNAME_URL } from '../data/urls';
 
 export default async function getValidateNickname(nickname: string) {

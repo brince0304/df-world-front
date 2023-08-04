@@ -1,5 +1,5 @@
 import { IMyPageResponse } from '../interfaces/IMyPageResponse';
-import { IAxiosClient } from '../AxiosClient/axiosClient';
+import { IAxiosClient } from '../axiosClient/axiosClient';
 
 export interface IMyPageService {
   getUserActivities: (

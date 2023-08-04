@@ -1,4 +1,4 @@
-import createInstance from '../axiosClient';
+import createInstance from '../customAxios';
 import { USER_DETAIL_UPDATE_PASSWORD_URL } from '../data/urls';
 
 export default async function putChangePassword(password: string, newPassword: string) {

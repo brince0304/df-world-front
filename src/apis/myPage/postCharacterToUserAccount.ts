@@ -1,4 +1,4 @@
-import createInstance from '../axiosClient';
+import createInstance from '../customAxios';
 
 export const postCharacterToUserAccount = async (url: string) => {
   // eslint-disable-next-line

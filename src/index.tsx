@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import { AxiosClient } from './AxiosClient/axiosClient';
-import axiosClient from './apis/axiosClient';
+import { AxiosClient } from './axiosClient/axiosClient';
+import axiosClient from './apis/customAxios';
 import { UserService } from './services/userService';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MyPageService from './services/myPageService';
@@ -14,6 +12,8 @@ import { RecoilRoot } from 'recoil';
 import CharacterService from './services/characterService';
 import BoardService from './services/boardService';
 import BoardCommentService from 'services/boardCommentService';
+import { QUERY_KEY } from './constants/myConstants';
+import PrivateRouter from './router/Router';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const client = new AxiosClient(axiosClient);
@@ -26,7 +26,13 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       suspense: true,
+      retry: false,
       staleTime: 1000 * 60 * 5,
+      onError: (error: any) => {
+        if(error.response.status && error.response.status === 401) {
+          queryClient.setQueryData([QUERY_KEY.user], null);
+        }
+      }
     },
     mutations: {
       retry: false,
@@ -44,9 +50,7 @@ root.render(
       boardCommentService={boardCommentService}
     >
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <PrivateRouter/>
       </QueryClientProvider>
     </ServiceContextProvider>
   </RecoilRoot>,

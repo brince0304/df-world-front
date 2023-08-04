@@ -1,4 +1,4 @@
-import { IAxiosClient } from 'AxiosClient/axiosClient';
+import { IAxiosClient } from '../axiosClient/axiosClient';
 import { CommentListData, CommentListDataComments } from 'interfaces/CommentListData';
 
 export interface IBoardCommentService {

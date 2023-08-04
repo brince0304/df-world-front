@@ -17,6 +17,7 @@ export const useUserQuery = (): IUseUser => {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    retry: false,
     initialData: userLocalStorage.getUser,
     onError: () => {
       userLocalStorage.clearUser();
@@ -28,6 +29,9 @@ export const useUserQuery = (): IUseUser => {
     if (!user) userLocalStorage.clearUser();
     else userLocalStorage.saveUser(user);
   }, [user]);
+  useEffect(() => {
+    if (!userLocalStorage.getUser) userLocalStorage.clearUser();
+  }, [userLocalStorage.getUser]);
 
   return {
     user: user ?? null,
