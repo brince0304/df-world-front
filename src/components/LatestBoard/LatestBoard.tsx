@@ -1,6 +1,5 @@
 import react, { Suspense } from 'react';
 import React from 'react';
-import styled from 'styled-components';
 import CustomTable from '../CustomTable/CustomTable';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +8,7 @@ import { IconButton } from '@mui/material';
 import { boardCategories } from 'utils/boardUtil';
 import Loading from 'components/Loading/Loading';
 import LatestBoardList from './LatestBoardList';
+import styled from '@emotion/styled';
 
 const LatestBoard = () => {
   const [isSelected, setIsSelected] = react.useState('FREE');

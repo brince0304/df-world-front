@@ -1,7 +1,7 @@
+import styled from '@emotion/styled';
 import { Paper, Skeleton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import styled from 'styled-components';
 
 const CharacterImgWrapper = styled.div`
   border-radius: 10px;

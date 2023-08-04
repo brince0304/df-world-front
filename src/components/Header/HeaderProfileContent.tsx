@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import React from 'react';
 import { Avatar, Badge, Button } from '@mui/material';
 import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
+import styled from '@emotion/styled';
 
 export const HeaderProfileContent = (props: { onClick: () => void }) => {
   const { user } = useUserQuery();

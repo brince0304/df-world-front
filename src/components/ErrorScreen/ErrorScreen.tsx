@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import styled from 'styled-components';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import styled from '@emotion/styled';
 
 const NoDataWrapper = styled.div`
   display: flex;

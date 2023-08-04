@@ -1,8 +1,8 @@
-import styled from 'styled-components';
 import React, { ReactNode } from 'react';
-import ReactLoading from 'react-loading';
 import { Button, Card } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import ReactLoading from 'react-loading';
+import styled from '@emotion/styled';
 
 interface TableMenuProps {
   isSelected?: string;
