@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Button } from '@mui/material';
+import styled from '@emotion/styled';
 
 const Image = styled.img`
   padding: 10px 0px;
