@@ -11,7 +11,6 @@ import useBoardCommentCountQuery from '../../hooks/boardHooks/queries/useBoardCo
 import useBoardLikeCountQuery from '../../hooks/boardHooks/queries/useBoardLikeCount';
 
 const BoardListItem = (data: BoardContent) => {
-
   return (
     <ListItem sx={{ width: '100%', border: '0.2px solid #e0e0e0' }}>
       <BoardContainer>
@@ -19,8 +18,7 @@ const BoardListItem = (data: BoardContent) => {
         <BoardListItemTitleContent boardId={String(data.id)} title={data.boardTitle} content={data.boardContent} />
         <BoardChips data={data} />
         <BoardCommentContainer>
-          <BoardCommentView boardViewCount={data.boardViewCount} createdAt={data.createdAt}
-          boardId={String(data.id)} />
+          <BoardCommentView boardViewCount={data.boardViewCount} createdAt={data.createdAt} boardId={String(data.id)} />
         </BoardCommentContainer>
       </BoardContainer>
     </ListItem>

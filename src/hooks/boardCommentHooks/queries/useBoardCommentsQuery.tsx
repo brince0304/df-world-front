@@ -14,7 +14,7 @@ const useBoardCommentsQuery = (boardId: string) => {
       const commentCount = data.comments.length;
       const childrenCount = data.comments.reduce((acc, cur) => acc + cur.childrenComments.length, 0);
       const boardCommentCount = commentCount && childrenCount ? commentCount + childrenCount : data.comments.length;
-      queryClient.setQueryData([QUERY_KEY.boardCommentCount, boardId],boardCommentCount);
+      queryClient.setQueryData([QUERY_KEY.boardCommentCount, boardId], boardCommentCount);
       data.comments.forEach((comment) => {
         const isLiked = data.likeResponses.find((likeResponse) => likeResponse.id === comment.id);
         queryClient.setQueryData([QUERY_KEY.isBoardCommentLiked, String(comment.id)], isLiked?.isLike);

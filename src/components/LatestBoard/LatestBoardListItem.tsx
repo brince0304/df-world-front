@@ -14,7 +14,6 @@ const LatestBoardListItem = (data: BoardContent) => {
     navigate(`/boards/${id}`);
   };
 
-
   return (
     <ListItemButton
       onClick={onClickHandler}
@@ -59,9 +58,7 @@ const LatestBoardListItem = (data: BoardContent) => {
         </NicknameCreatedAtContainer>
       </BoardFooter>
       <LikeCommentContainer>
-        <BoardCommentView boardViewCount={data.boardViewCount} createdAt={data.createdAt}
-        boardId={String(data.id)}
-        />
+        <BoardCommentView boardViewCount={data.boardViewCount} createdAt={data.createdAt} boardId={String(data.id)} />
       </LikeCommentContainer>
     </ListItemButton>
   );
