@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../../assets/css/rankingTable.scss';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 interface CharacterImgProps {
   serverId: string;
