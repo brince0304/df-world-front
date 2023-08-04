@@ -7,8 +7,6 @@ import BoardUserAvatar from '../BoardUserAvatar/BoardUserAvatar';
 import BoardCommentView from './BoardCommentView';
 import BoardListItemTitleContent from './BoardListItemContent';
 import BoardChips from './BoardChips';
-import useBoardCommentCountQuery from '../../hooks/boardHooks/queries/useBoardCommentCountQuery';
-import useBoardLikeCountQuery from '../../hooks/boardHooks/queries/useBoardLikeCount';
 
 const BoardListItem = (data: BoardContent) => {
   return (
