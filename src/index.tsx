@@ -12,7 +12,6 @@ import { RecoilRoot } from 'recoil';
 import CharacterService from './services/characterService';
 import BoardService from './services/boardService';
 import BoardCommentService from 'services/boardCommentService';
-import { QUERY_KEY } from './constants/myConstants';
 import PrivateRouter from './router/Router';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -28,11 +27,6 @@ const queryClient = new QueryClient({
       suspense: true,
       retry: false,
       staleTime: 1000 * 60 * 5,
-      onError: (error: any) => {
-        if (error.response.status && error.response.status === 401) {
-          queryClient.setQueryData([QUERY_KEY.user], null);
-        }
-      },
     },
     mutations: {
       retry: false,

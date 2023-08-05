@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { userLocalStorage } from '../storages/userLocalStorage';
 
 export function setInterceptors(instance: AxiosInstance) {
   // 요청 인터셉터 추가
@@ -16,9 +15,7 @@ export function setInterceptors(instance: AxiosInstance) {
       return config;
     },
     (error) => {
-      if (error.response.status === 401) {
-        userLocalStorage.clearUser();
-      }
+      console.info(error);
       return Promise.reject(error);
     },
   );
@@ -28,9 +25,7 @@ export function setInterceptors(instance: AxiosInstance) {
       return response;
     },
     (error) => {
-      if (error.response.status === 401) {
-        userLocalStorage.clearUser();
-      }
+      console.info(error);
       return Promise.reject(error);
     },
   );
@@ -38,7 +33,7 @@ export function setInterceptors(instance: AxiosInstance) {
   return instance;
 }
 
-const baseURL = process.env.REACT_APP_API_URL || 'http://3.38.203.115:8080/';
+const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:8080/';
 const axiosInstance = (url: string, options?: any) => {
   const instance = axios.create({
     baseURL: url,
