@@ -6,7 +6,7 @@ import UserCharacters from './UserCharacters';
 import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 import useMyPageQuery from '../../hooks/myPageHooks/queries/useMyPageQuery';
 import { Suspense } from 'react';
-import Loading from 'components/Loading/Loading';
+import Loading from '../../components/Fallbacks/Loading';
 
 const UserProfile = () => {
   const { user } = useUserQuery();
@@ -108,7 +108,6 @@ const UserProfileAvatar = styled(Avatar)`
   && {
     width: 50px;
     height: 50px;
-    border: 2px solid black;
     margin-right: 10px;
   }
 `;

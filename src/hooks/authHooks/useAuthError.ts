@@ -2,8 +2,8 @@ import useError from 'hooks/uiHooks/useError';
 
 const useAuthError = () => {
   const { handleError } = useError();
-  const handleLoginError = () => {
-    handleError('로그인에 실패했습니다. 😭');
+  const handleLoginError = (message?: string) => {
+    handleError('로그인에 실패했습니다. 😭 ' + message);
   };
 
   const handleLogoutError = () => {

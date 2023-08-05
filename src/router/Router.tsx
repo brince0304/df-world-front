@@ -13,7 +13,6 @@ import MyPage from '../pages/MyPage';
 
 const PrivateRouter = () => {
   const user = useUserQuery();
-  const isAuth = !!user;
   const router = createBrowserRouter([
     {
       path: '/',
@@ -29,7 +28,7 @@ const PrivateRouter = () => {
         },
         {
           path: BOARD_INSERT_FORM_ROUTE,
-          element: isAuth ? <WriteBoard /> : <Navigate to={BOARD_LIST_URL} />,
+          element: user ? <WriteBoard /> : <Navigate to={BOARD_LIST_URL} />,
         },
         {
           path: CHARACTER_SEARCH_URL,
@@ -49,7 +48,7 @@ const PrivateRouter = () => {
         },
         {
           path: USER_MYPAGE_URL,
-          element: isAuth ? <MyPage /> : <Navigate to="/" />,
+          element: user ? <MyPage /> : <Navigate to="/" />,
         },
       ],
     },

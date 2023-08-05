@@ -17,8 +17,8 @@ export const useLoginMutation = (): IUseLogin => {
       queryClient.setQueryData([QUERY_KEY.user], data);
       handleLoginSuccess(data);
     },
-    onError: () => {
-      handleLoginError();
+    onError: (data:any) => {
+      handleLoginError(data.response.data);
     },
   });
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { ModalTitle } from '../../../components/application/ui/ModalTitle';
 import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
 import { socialLoginTypes } from '../../../constants/myConstants';
 import styled from '@emotion/styled';
@@ -21,7 +20,6 @@ const RegisterButtons = (props: LoginButtonsProps) => {
 export function SocialRegister() {
   return (
     <Container>
-      <ModalTitle title={'소셜 회원가입'} />
       <ButtonSection>
         <RegisterButtons data={socialLoginTypes.squareButtons} />
       </ButtonSection>

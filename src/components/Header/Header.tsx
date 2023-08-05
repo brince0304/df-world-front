@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import LoginModal from '../../pages/Home/AuthModal';
 import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 import { headerMenu } from '../../constants/myConstants';
 import useNavBar from 'hooks/uiHooks/useNavBar';
@@ -9,6 +8,7 @@ import HeaderTopSection from './HeaderTopSection';
 import HeaderProfileContainer from './HeaderProfileContainer';
 import HeaderMobile from './HeaderMobile/HeaderMobile';
 import styled from '@emotion/styled';
+import LoginBox from '../LoginBox/LoginBox';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const Header = () => {
         <HeaderMenus user={user} handleOpenModal={handleModalToggle} />
         <HeaderProfileContainer user={user} handleClickProfile={handleClickProfile} />
       </HeaderBottom>
-      {!user && <LoginModal isOpened={isLoginModalOpened} setIsOpened={setLoginModalOpened} />}
+      <LoginBox isOpened={isLoginModalOpened} setIsOpened={setLoginModalOpened} />
       <React.Fragment>
         <HeaderMobile
           user={user}

@@ -1,10 +1,9 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { IconButton } from '@mui/material';
 import styled from '@emotion/styled';
 
 const Image = styled.img`
-  padding: 10px 0px;
-  margin: 0px 10px;
+  padding: 0px;
   scale: ${(props: { scale: number | undefined }) => (props.scale ? props.scale : 1)};
 `;
 
@@ -18,8 +17,10 @@ interface ImgOpacityButtonProps {
 
 export function ImgOpacityButton(props: ImgOpacityButtonProps) {
   return (
-    <Button>
+    <IconButton sx={{
+      padding: '0px',}
+    }>
       <Image src={props.src} alt={props.alt} scale={props.scale} width={props.width} height={props.height} />
-    </Button>
+    </IconButton>
   );
 }

@@ -1,7 +1,7 @@
 import { enqueueSnackbar } from 'notistack';
 
 const useSuccess = () => {
-  const autoHideDuration = 1000;
+  const autoHideDuration = 3000;
   const handleSuccess = (message: string) => {
     enqueueSnackbar(message, {
       variant: 'success',

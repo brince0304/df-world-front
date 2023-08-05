@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { ModalTitle } from '../../../components/application/ui/ModalTitle';
 import { ImgOpacityButton } from '../../../components/application/ui/ImgOpacityButton';
 import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
@@ -83,7 +82,7 @@ const RegisterPage = (props: { handleChangeSection: () => void }) => {
 
   return (
     <div>
-      <ModalTitle title={'회원가입'} />
+      회원가입
       <FormControl onSubmit={handleSubmit(onValid)}>
         <TextFieldCustom
           label={'아이디'}

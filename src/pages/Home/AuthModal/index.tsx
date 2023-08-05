@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Dialog, DialogContent, Divider } from '@mui/material';
 import RegisterPage from './RegisterPage';
-import { SocialLogin } from './SocialLogin';
-import LoginPage from './LoginPage';
+import { SocialLogin } from '../../../components/LoginBox/SocialLogin';
 import styled from '@emotion/styled';
 
 function LoginModal({ isOpened, setIsOpened }: LoginModalProps) {
@@ -41,7 +40,6 @@ function LoginModal({ isOpened, setIsOpened }: LoginModalProps) {
               },
             }}
           />
-          <LoginPage handleChangeSection={handleChangeSection} />
         </LoginContainer>
       </DialogContent>
     </Dialog>
