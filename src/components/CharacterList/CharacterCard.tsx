@@ -250,4 +250,4 @@ const StatValueWrapper = styled.div`
   font-weight: 600;
 `;
 
-export default CharacterCard;
+export default React.memo(CharacterCard);

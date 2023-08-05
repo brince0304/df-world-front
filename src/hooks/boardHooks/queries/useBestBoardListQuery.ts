@@ -5,13 +5,12 @@ import { QUERY_KEY } from '../../../constants/myConstants';
 const useBestBoardList = (query?: string) => {
   const { getBestBoardList } = useBoardService();
   const boardType = query || 'ALL';
-  const { data } = useQuery([QUERY_KEY.bestBoardList], () => getBestBoardList({ boardType }), {
+  const { data } = useQuery([QUERY_KEY.bestBoardList, boardType], () => getBestBoardList({ boardType }), {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     initialData: [],
   });
-
   return {
     data,
   };

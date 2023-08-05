@@ -18,7 +18,7 @@ const useDeleteBoardMutation = (boardId: string) => {
         handleDeleteBoardSuccess();
       },
       onError: (error: any) => {
-        handleDeleteBoardError(error.response.data.message);
+        handleDeleteBoardError(error.response.data);
       },
     },
   );

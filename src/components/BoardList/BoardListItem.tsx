@@ -23,7 +23,7 @@ const BoardListItem = (data: BoardContent) => {
   );
 };
 
-export default BoardListItem;
+export default React.memo(BoardListItem);
 
 const BoardContainer = styled(Box)`
   display: flex;

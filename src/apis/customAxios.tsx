@@ -8,8 +8,6 @@ export function setInterceptors(instance: AxiosInstance) {
       config.headers['Access-Control-Allow-Origin'] = '*';
       config.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
       config.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
-      config.headers['Access-Control-Allow-Credentials'] = 'true';
-      config.headers.withCredentials = 'true';
       config.timeout = 100000000;
       // 요청 전처리 로직
       return config;
@@ -38,6 +36,7 @@ const axiosInstance = (url: string, options?: any) => {
   const instance = axios.create({
     baseURL: url,
     ...options,
+    withCredentials: true,
   });
 
   return setInterceptors(instance);

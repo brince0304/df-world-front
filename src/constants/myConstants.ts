@@ -1,3 +1,6 @@
+import KakaoCircleButtonImg from 'assets/img/kakao_login_circle.png.webp';
+import GoogleCircleButtonImg from 'assets/img/google_login_circle.png';
+
 export const QUERY_KEY = {
   user: 'user',
   mypage: 'mypage',
@@ -149,19 +152,14 @@ export const socialLoginTypes = {
   ],
   circleButtons: [
     {
-      src: 'kakao_login_circle.png.webp',
-      type: 'kakao',
+      src: KakaoCircleButtonImg,
+      type: 'KAKAO',
       alt: 'kakao',
     },
     {
-      src: 'google_login_circle.png',
-      type: 'google',
+      src: GoogleCircleButtonImg,
+      type: 'GOOGLE',
       alt: 'google',
-    },
-    {
-      src: 'naver_login_circle.png',
-      type: 'naver',
-      alt: 'naver',
     },
   ],
 };

@@ -4,7 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ILoginRequest } from '../../services/userService';
 import { useLoginMutation } from '../authHooks/mutations/useLoginMutation';
 
-
 const useLoginForm = () => {
   const schema = yup.object().shape({
     username: yup.string().required('아이디를 입력해주세요.'),
@@ -45,9 +44,8 @@ const useLoginForm = () => {
     watchValues,
     setValues,
     onValid,
-    errors
-  }
-
-}
+    errors,
+  };
+};
 
 export default useLoginForm;

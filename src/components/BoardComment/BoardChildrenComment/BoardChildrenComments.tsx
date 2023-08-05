@@ -3,7 +3,7 @@ import BoardCommentForm from '../BoardCommentForm';
 import { IBoardCommentUpdateChildrenRequest } from 'services/boardCommentService';
 import { ForwardedRef, Suspense, forwardRef } from 'react';
 import BoardChildrenCommentList from './BoardChildrenCommentList';
-import Loading from 'components/Loading/Loading';
+import Loading from '../../Fallbacks/Loading';
 import { CommentListDataComments } from 'interfaces/CommentListData';
 import useCreateChildrenCommentMutation from '../../../hooks/boardCommentHooks/mutations/useCreateChildrenCommentMutation';
 

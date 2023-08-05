@@ -16,9 +16,10 @@ const useCreateBoardMutation = () => {
       handleCreateBoardSuccess();
       navigate(`/boards/${data}`);
       queryClient.invalidateQueries([QUERY_KEY.boards]);
+      queryClient.invalidateQueries([QUERY_KEY.latestBoardList]);
     },
     onError: (error: any) => {
-      handleCreateBoardError(error);
+      handleCreateBoardError(error.response.data);
     },
   });
 

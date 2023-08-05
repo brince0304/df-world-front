@@ -5,7 +5,7 @@ import CharacterNoData from './CharacterNoData';
 import { IRecentSearchedQuery } from '../../../storages/searchQueryLocalStorage';
 import RecentSearchedList from './RecentSearchedList';
 import CharacterFastSearchList from './CharacterFastSearchList';
-import Loading from 'components/Loading/Loading';
+import Loading from '../../Fallbacks/Loading';
 
 const CharacterSearchBoxChild = (
   { direction, clickHandler, characterName, serverId }: ICharacterSearchBoxChildProps,

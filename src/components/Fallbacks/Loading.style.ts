@@ -7,7 +7,7 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: transparent;
+  background-color: #f5f5f5;
   top: 0;
   left: 0;
   backdrop-filter: blur(5px);

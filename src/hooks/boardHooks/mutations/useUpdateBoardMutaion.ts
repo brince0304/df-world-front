@@ -10,7 +10,7 @@ const useUpdateBoardMutation = (boardId: string) => {
       handleUpdateBoardSuccess();
     },
     onError: (error: any) => {
-      handleUpdateBoardError(error.response.data.message);
+      handleUpdateBoardError(error.response.data);
     },
   });
 

@@ -17,9 +17,11 @@ interface ImgOpacityButtonProps {
 
 export function ImgOpacityButton(props: ImgOpacityButtonProps) {
   return (
-    <IconButton sx={{
-      padding: '0px',}
-    }>
+    <IconButton
+      sx={{
+        padding: '0px',
+      }}
+    >
       <Image src={props.src} alt={props.alt} scale={props.scale} width={props.width} height={props.height} />
     </IconButton>
   );

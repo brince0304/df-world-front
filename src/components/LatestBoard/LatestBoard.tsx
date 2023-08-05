@@ -6,9 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@mui/material';
 import { boardCategories } from 'utils/boardUtil';
-import Loading from 'components/Loading/Loading';
+import Loading from '../Fallbacks/Loading';
 import LatestBoardList from './LatestBoardList';
 import styled from '@emotion/styled';
+import { ErrorBoundary } from 'react-error-boundary';
+import Error from '../Fallbacks/Error';
 
 const LatestBoard = () => {
   const [isSelected, setIsSelected] = react.useState('FREE');
@@ -31,9 +33,11 @@ const LatestBoard = () => {
       }
     >
       <BoardBody>
-        <Suspense fallback={<Loading />}>
-          <LatestBoardList isSelected={isSelected} />
-        </Suspense>
+        <ErrorBoundary fallback={<Error />}>
+          <Suspense fallback={<Loading />}>
+            <LatestBoardList isSelected={isSelected} />
+          </Suspense>
+        </ErrorBoundary>
       </BoardBody>
     </CustomTable>
   );
@@ -46,7 +50,6 @@ const BoardBody = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
   font-size: 14px;
   color: #000;
 `;

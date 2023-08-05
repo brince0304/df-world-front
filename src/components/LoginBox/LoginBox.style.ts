@@ -20,5 +20,3 @@ export const SubTitle = styled.h6`
   font-weight: 500;
   color: #787878;
 `;
-
-
