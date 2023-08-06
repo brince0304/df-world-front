@@ -1,14 +1,15 @@
 import Box from '@mui/material/Box';
 import { Avatar, Button } from '@mui/material';
 import { MuiFileInput } from 'mui-file-input';
-import { useEffect, useState } from 'react';
-import putAvatar from '../../apis/myPage/putAvatar';
+import { useEffect, useRef, useState } from 'react';
 import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
+import useChangeProfileIconMutation from '../../hooks/myPageHooks/mutations/useChangeProfileIconMutationByFile';
 
 function ImageUploader(props: { handleClose: () => void }) {
   const { user } = useUserQuery();
   const [profile, setProfile] = useState<File | null>(null);
   const [profileUrl, setProfileUrl] = useState<string>('');
+  const formData = useRef<FormData | null>(new FormData());
   useEffect(() => {
     if (user) {
       setProfileUrl(user.profileImgPath);
@@ -16,30 +17,26 @@ function ImageUploader(props: { handleClose: () => void }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const changeProfileIcon = useChangeProfileIconMutation();
   const handleUpload = () => {
     if (profile) {
-      const formData = new FormData();
-      formData.append('file', profile);
-      putAvatar(formData)
-        .then((res) => {
-          window.alert('프로필 사진이 변경되었습니다.');
-          props.handleClose();
-        })
-        .catch((err) => {
-          window.alert('프로필 사진 변경에 실패하였습니다.');
-          console.info(err);
-        });
+      formData.current?.append('file', profile);
+      console.info(formData);
+      if(formData.current) {
+        changeProfileIcon(formData.current);
+        props.handleClose();
+      }
     }
   };
   const handleChange = (newValue: File | null) => {
     setProfile(newValue);
+    console.info(newValue);
     if (!newValue) {
       setProfileUrl(user?.profileImgPath || '');
     } else {
       setProfileUrl(URL.createObjectURL(newValue));
     }
   };
-
   return (
     <Box
       sx={{

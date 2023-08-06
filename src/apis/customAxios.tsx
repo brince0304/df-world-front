@@ -4,7 +4,6 @@ export function setInterceptors(instance: AxiosInstance) {
   // 요청 인터셉터 추가
   instance.interceptors.request.use(
     (config) => {
-      config.headers['Content-Type'] = 'application/json';
       config.headers['Access-Control-Allow-Origin'] = '*';
       config.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
       config.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
@@ -23,7 +22,10 @@ export function setInterceptors(instance: AxiosInstance) {
       return response;
     },
     (error) => {
-      console.info(error);
+      if(error.response.status === 401) {
+        localStorage.removeItem('user');
+        window.location.href = '/';
+      }
       return Promise.reject(error);
     },
   );

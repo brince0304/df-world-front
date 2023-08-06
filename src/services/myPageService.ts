@@ -47,9 +47,7 @@ export default class MyPageService implements IMyPageService {
 
   changeUserProfileIcon(formData: FormData) {
     return this.axiosInstance.put(this.changeUserProfileIconUrl, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      contentType: 'multipart/form-data',
     });
   }
 

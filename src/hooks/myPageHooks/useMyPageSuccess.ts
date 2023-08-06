@@ -10,10 +10,14 @@ const useMyPageSuccess = () => {
   const handleDeleteCharacterSuccess = () => {
     handleSuccess('캐릭터가 성공적으로 삭제되었습니다. 🥳');
   };
+  const handleChangeAvatarSuccess = () => {
+    handleSuccess('프로필 이미지가 성공적으로 변경되었습니다. 🥳');
+  }
 
   return {
     handleAddCharacterSuccess,
     handleDeleteCharacterSuccess,
+    handleChangeAvatarSuccess,
   };
 };
 

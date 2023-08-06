@@ -14,10 +14,15 @@ const useMyPageError = () => {
     handleError('캐릭터 삭제에 실패했습니다. 😭');
   };
 
+  const handleChangeAvatarError = () => {
+    handleError('프로필 이미지 변경에 실패했습니다. 😭');
+  }
+
   return {
     handleUpdateError,
     handleAddCharacterError,
     handleDeleteCharacterError,
+    handleChangeAvatarError,
   };
 };
 
