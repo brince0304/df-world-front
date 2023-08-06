@@ -1,10 +1,16 @@
 import styled from '@emotion/styled';
 import { ILoginResponse } from 'services/userService';
+import { useLogoutMutation } from '../../../hooks/authHooks/mutations/useLogoutMutation';
 
-const HeaderMobileMenus = ({ user, menuList, navigateCallback, handleModalOpen }: IHeaderMobileMenus) => {
+const HeaderMobileMenus = ({ user, menuList, navigateCallback, handleModalOpen, handleClose }: IHeaderMobileMenus) => {
+  const logout = useLogoutMutation();
+  const handleLogout = () => {
+    logout();
+    handleClose();
+  }
   return (
     <>
-      {user && <NavItem onClick={() => {}}>로그아웃</NavItem>}
+      {user && <NavItem onClick={handleLogout}>로그아웃</NavItem>}
       {!user && <NavItem onClick={handleModalOpen}>로그인</NavItem>}
       {menuList.map((item, index) => {
         return (
@@ -28,6 +34,7 @@ interface IHeaderMobileMenus {
   handleModalOpen: () => void;
   menuList: { name: string; link: string }[];
   navigateCallback: (url: string) => void;
+  handleClose: () => void;
 }
 
 export default HeaderMobileMenus;

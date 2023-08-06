@@ -41,6 +41,7 @@ const HeaderMobile = ({ user, ...props }: IHeaderMobileProps) => {
         {user && <Division />}
         <HeaderMobileMenus
           user={user}
+          handleClose={props.handleClose}
           handleModalOpen={props.handleModalOpen}
           menuList={props.menuList}
           navigateCallback={navigateCallback}

@@ -17,8 +17,8 @@ const LoginBox = ({ isOpened, setIsOpened }: ILoginBoxProps) => {
   const dialogSx = {
     '.css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
       maxWidth: '400px',
-      width: '400px',
-      height: '488px',
+      width: '420px',
+      height: '500px',
       padding: '20px',
     },
   };
@@ -36,7 +36,7 @@ const LoginBox = ({ isOpened, setIsOpened }: ILoginBoxProps) => {
 
   return (
     <Dialog keepMounted={false} open={isOpened} onClose={handleClose} sx={dialogSx}>
-      <DialogTitle>
+      <DialogTitle component={'div'}>
         <S.Title>로그인</S.Title>
         <S.SubTitle>로그인 하고 더 많은 서비스를 이용해보세요!</S.SubTitle>
       </DialogTitle>

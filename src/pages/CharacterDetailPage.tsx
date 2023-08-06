@@ -20,6 +20,7 @@ import CharacterDetailSkeleton from '../components/Skeleton/CharacterDetailSkele
 import styled from '@emotion/styled';
 import { ErrorBoundary } from 'react-error-boundary';
 import useCharacterDetailQuery from '../hooks/characterHooks/queries/useCharacterDetailQuery';
+import Loading from '../components/Fallbacks/Loading';
 
 const CharacterDetail = () => {
   const location = useLocation();
@@ -81,7 +82,9 @@ const CharacterDetail = () => {
           }}
         >
           <TabPanel index={0} value={selectedTab}>
+            <Suspense fallback={<Loading />}>
             <CharacterEquipmentList characterId={characterId} serverId={serverId} />
+            </Suspense>
           </TabPanel>
           <TabPanel index={1} value={selectedTab}></TabPanel>
         </Box>

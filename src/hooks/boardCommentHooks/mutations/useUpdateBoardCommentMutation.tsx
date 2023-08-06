@@ -16,6 +16,7 @@ const useUpdateBoardCommentMutation = (boardId: string) => {
     onSuccess: (data) => {
       handleBoardCommentUpdateSuccess();
       queryClient.invalidateQueries([QUERY_KEY.boardComments, boardId]);
+      queryClient.invalidateQueries([QUERY_KEY.childrenComments, boardId]);
     },
   });
   return updateComment;

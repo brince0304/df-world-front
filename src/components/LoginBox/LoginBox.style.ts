@@ -7,12 +7,11 @@ export const Container = styled.form`
   justify-content: center;
   height: 100%;
   gap: 10px;
+
 `;
 
 export const Title = styled.h5`
-  font-size: 20px;
-  font-weight: 700;
-  color: #121212;
+
 `;
 
 export const SubTitle = styled.h6`
