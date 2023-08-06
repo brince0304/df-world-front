@@ -7,7 +7,7 @@ const HeaderMobileMenus = ({ user, menuList, navigateCallback, handleModalOpen, 
   const handleLogout = () => {
     logout();
     handleClose();
-  }
+  };
   return (
     <>
       {user && <NavItem onClick={handleLogout}>로그아웃</NavItem>}

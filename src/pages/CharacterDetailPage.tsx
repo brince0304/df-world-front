@@ -83,7 +83,7 @@ const CharacterDetail = () => {
         >
           <TabPanel index={0} value={selectedTab}>
             <Suspense fallback={<Loading />}>
-            <CharacterEquipmentList characterId={characterId} serverId={serverId} />
+              <CharacterEquipmentList characterId={characterId} serverId={serverId} />
             </Suspense>
           </TabPanel>
           <TabPanel index={1} value={selectedTab}></TabPanel>
