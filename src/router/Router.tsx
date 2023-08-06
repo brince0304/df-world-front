@@ -19,6 +19,9 @@ import BoardDetailPage from '../pages/BoardDetailPage';
 import MyPage from '../pages/MypagePage';
 import KaKaoCallback from '../pages/KakaoCallback';
 import Logout from '../pages/Logout';
+import Error from '../components/Fallbacks/Error';
+import React from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const PrivateRouter = () => {
   const user = useUserQuery();
@@ -49,7 +52,11 @@ const PrivateRouter = () => {
         },
         {
           path: BOARD_ROUTE,
-          element: <BoardDetailPage />,
+          element: (
+            <ErrorBoundary fallback={<Error />}>
+              <BoardDetailPage />
+            </ErrorBoundary>
+          ),
         },
         {
           path: '*',

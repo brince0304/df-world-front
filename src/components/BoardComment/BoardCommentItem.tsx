@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import BoardUserAvatar from 'components/BoardUserAvatar/BoardUserAvatar';
 import useDeleteBoardCommentMutation from '../../hooks/boardCommentHooks/mutations/useDeleteBoardCommentMutation';
 import useUpdateBoardCommentMutation from '../../hooks/boardCommentHooks/mutations/useUpdateBoardCommentMutation';
@@ -43,15 +43,6 @@ const BoardCommentItem = ({ boardId, comment }: IBoardCommentItemProps) => {
       <BoardCommentAvatarEditDeleteWrapper>
         <BoardCommentAvatarCreatedAtWrapper>
           <BoardUserAvatar src={comment.userProfileImgUrl} nickname={comment.userNickname} />
-          <Typography
-            sx={{
-              fontSize: '12px',
-              marginLeft: '10px',
-              color: 'gray',
-            }}
-          >
-            {comment.createdAt}
-          </Typography>
         </BoardCommentAvatarCreatedAtWrapper>
         {user && user.userId === comment.userId && (
           <BoardCommentDeleteUpdateButtonWrapper>
@@ -75,6 +66,7 @@ const BoardCommentItem = ({ boardId, comment }: IBoardCommentItemProps) => {
         {!isEditOpen && <BoardCommentContentWrapper>{markupedComment}</BoardCommentContentWrapper>}
         {isEditOpen && (
           <BoardCommentForm
+            showProfile={false}
             initialValues={comment}
             boardId={boardId}
             handleToggleClose={handleToggleEdit}

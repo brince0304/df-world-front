@@ -16,6 +16,7 @@ const useDeleteBoardCommentMutation = (boardId: string, commentId: string) => {
     onSuccess: (data) => {
       handleBoardCommentDeleteSuccess();
       queryclient.invalidateQueries([QUERY_KEY.boardComments, boardId]);
+      queryclient.invalidateQueries([QUERY_KEY.childrenComments, boardId]);
     },
   });
 

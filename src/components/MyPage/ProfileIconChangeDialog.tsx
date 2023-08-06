@@ -1,12 +1,13 @@
 import { Avatar, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import ImageUploader from '../ImageUploader/ImageUploader';
-import axiosInstance from '../../apis/customAxios';
 import { profileIcons } from '../../constants/myConstants';
 import styled from '@emotion/styled';
 import React from 'react';
+import useChangeProfileIconByURLMutation from '../../hooks/myPageHooks/mutations/useChangeProfileIconByURLMutation';
 
 export default function ProfileIconChangeDialog(props: ProfileIconChangeModalProps) {
   const data = profileIcons;
+  const changeProfileIcon = useChangeProfileIconByURLMutation();
   const handleChangeIcon = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (window.confirm('아이콘을 변경하시겠습니까?')) {
       const url = e.currentTarget.dataset.id;
@@ -14,19 +15,8 @@ export default function ProfileIconChangeDialog(props: ProfileIconChangeModalPro
         alert('아이콘 변경에 실패하였습니다.');
         return;
       } else if (url) {
-        axiosInstance
-          .put(url)
-          .then((res) => {
-            if (res.status === 200) {
-              alert('변경되었습니다.');
-              props.handleClose();
-            } else {
-              alert('아이콘 변경에 실패하였습니다.');
-            }
-          })
-          .catch((err) => {
-            alert('아이콘 변경에 실패하였습니다.');
-          });
+        changeProfileIcon(url);
+        props.handleClose();
       }
     }
   };

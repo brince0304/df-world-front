@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { CommentListDataComments } from 'interfaces/CommentListData';
 import { useState } from 'react';
 import BoardCommentLikeButton from './BoardCommentLikeButton';
@@ -26,17 +26,20 @@ const BoardCommentItemBox = ({ boardId, comment }: IBoardCommentItemBoxProps) =>
         }}
       >
         <Button sx={commentButtonStyle} onClick={handleToggleOpenReply}>
-          답글 {comment.childrenComments.length}개
+          답글 {comment.childrenCommentCount}개
         </Button>
         <BoardCommentLikeButton boardId={boardId} commentId={commentId} />
+        <Typography
+          sx={{
+            fontSize: '12px',
+            marginLeft: '10px',
+            color: 'gray',
+          }}
+        >
+          {comment.createdAt}
+        </Typography>
       </Box>
-      {isReplyOpen && (
-        <BoardChildrenComments
-          parentId={String(comment.id)}
-          boardId={boardId}
-          childrenComments={comment.childrenComments}
-        />
-      )}
+      {isReplyOpen && <BoardChildrenComments parentId={String(comment.id)} boardId={boardId} />}
     </BoardCommentItemContainer>
   );
 };

@@ -16,7 +16,7 @@ export interface CommentListDataComments {
   commentLikeCount: number;
   isParent: boolean;
   userProfileImgUrl: string;
-  childrenComments: any[];
+  childrenCommentCount: number;
   profileCharacterIcon: string;
   profileCharacterIconClassName: string;
   boardType: string;

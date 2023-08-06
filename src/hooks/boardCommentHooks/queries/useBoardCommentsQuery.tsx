@@ -12,7 +12,7 @@ const useBoardCommentsQuery = (boardId: string) => {
     refetchOnReconnect: false,
     select: (data) => {
       const commentCount = data.comments.length;
-      const childrenCount = data.comments.reduce((acc, cur) => acc + cur.childrenComments.length, 0);
+      const childrenCount = data.comments.reduce((acc, cur) => acc + cur.childrenCommentCount, 0);
       const boardCommentCount = commentCount && childrenCount ? commentCount + childrenCount : data.comments.length;
       queryClient.setQueryData([QUERY_KEY.boardCommentCount, boardId], boardCommentCount);
       data.comments.forEach((comment) => {

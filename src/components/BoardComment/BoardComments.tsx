@@ -35,7 +35,7 @@ const BoardComments = ({ boardId }: IBoardCommentListProps) => {
           <BoardCommentList boardId={boardId} />
         </Suspense>
       </Box>
-      <BoardCommentForm boardId={boardId} onSubmit={handleSubmit} />
+      <BoardCommentForm showProfile={true} boardId={boardId} onSubmit={handleSubmit} />
     </Box>
   );
 };

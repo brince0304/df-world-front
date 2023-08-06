@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import { Chip, styled } from '@mui/material';
 import Box from '@mui/material/Box';
+import { getBoardType } from '../../utils/boardUtil';
 
 const BestBoardContent = (props: { likeCount: number; commentCount: string; boardType: string }) => {
   return (
@@ -16,7 +17,13 @@ const BestBoardContent = (props: { likeCount: number; commentCount: string; boar
         {props.commentCount}
       </FontWrapper>
       <FontWrapper>
-        <Chip size={'small'} variant={'filled'} label={props.boardType} sx={{ fontSize: 12 }} color={'primary'} />
+        <Chip
+          size={'small'}
+          variant={'filled'}
+          label={getBoardType(props.boardType)}
+          sx={{ fontSize: 12 }}
+          color={'primary'}
+        />
       </FontWrapper>
     </Container>
   );

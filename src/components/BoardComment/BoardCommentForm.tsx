@@ -7,7 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { useEffect } from 'react';
 import BoardUserAvatar from 'components/BoardUserAvatar/BoardUserAvatar';
 
-const BoardCommentForm = ({ boardId, initialValues, handleToggleClose, onSubmit }: ICommentFormProps) => {
+const BoardCommentForm = ({ boardId, initialValues, handleToggleClose, onSubmit, showProfile }: ICommentFormProps) => {
   const { register, handleSubmit, setValues, errors } = useBoardCommentForm(initialValues);
   const { user } = useUserQuery();
   const handleSubmitOnValid = (data: IBoardCommentUpdateChildrenRequest) => {
@@ -22,9 +22,12 @@ const BoardCommentForm = ({ boardId, initialValues, handleToggleClose, onSubmit 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <form onSubmit={handleSubmit(handleSubmitOnValid)} style={{ width: '100%', paddingTop: '10px', gap: '10px' }}>
-      <BoardUserAvatar src={user?.profileImgPath || ''} nickname={user?.nickname || '게스트'} />
-      <CommentContainer sx={{ marginTop: '10px' }}>
+    <form
+      onSubmit={handleSubmit(handleSubmitOnValid)}
+      style={{ width: '100%', paddingTop: showProfile ? '10px' : '0px', gap: '10px' }}
+    >
+      {showProfile && <BoardUserAvatar src={user?.profileImgPath || ''} nickname={user?.nickname || '게스트'} />}
+      <CommentContainer sx={{ marginTop: showProfile ? '10px' : '0px' }}>
         <CommentFormBox>
           <InputBase
             multiline
@@ -51,6 +54,7 @@ interface ICommentFormProps {
   handleToggleClose?: () => void;
   onSubmit: (...args: any[]) => void;
   boardId: string;
+  showProfile?: boolean;
 }
 
 export default BoardCommentForm;

@@ -1,9 +1,10 @@
 import { useLocation, useParams } from 'react-router';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Container } from '@mui/material';
 import CharacterList from '../components/CharacterList/CharacterList';
 import { getServerName } from '../utils/charactersUtil';
 import styled from '@emotion/styled';
+import CharacterListSkeleton from '../components/Skeleton/CharacterListSkeleton/CharacterListSkeleton';
 
 const Characters = () => {
   const location = useLocation();
@@ -17,7 +18,9 @@ const Characters = () => {
         <ResultCharacterNameWrapper>{characterName ? characterName : ''}</ResultCharacterNameWrapper>
         <ResultTitleFooterWrapper>님의 검색결과</ResultTitleFooterWrapper>
       </ResultTitleWrapper>
-      <CharacterList characterName={characterName} serverId={serverId ? serverId : ''} />
+      <Suspense fallback={<CharacterListSkeleton />}>
+        <CharacterList characterName={characterName} serverId={serverId ? serverId : ''} />
+      </Suspense>
     </Container>
   );
 };

@@ -12,6 +12,7 @@ export interface IMyPageService {
   validateUserNickname: (nickname: string) => Promise<any>;
   addCharacterToUserAccount: (data: { characterId: string; serverId: string }) => Promise<void>;
   changeUserProfileIcon: (formData: FormData) => Promise<any>;
+  changeUserProfileIconByURL: (url: string) => Promise<any>;
   changeUserNickname: (nickname: string) => Promise<any>;
   changeUserPassword: (password: string) => Promise<any>;
 }
@@ -49,6 +50,10 @@ export default class MyPageService implements IMyPageService {
     return this.axiosInstance.put(this.changeUserProfileIconUrl, formData, {
       contentType: 'multipart/form-data',
     });
+  }
+
+  changeUserProfileIconByURL(url: string) {
+    return this.axiosInstance.put(url);
   }
 
   deleteCharacterFromUserAccount(characterId: string, serverId: string) {

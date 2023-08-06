@@ -14,9 +14,11 @@ const MyPageServiceProvider = ({ children, myPageService }: { children: ReactNod
   const deleteCharacterFromUserAccount = myPageService.deleteCharacterFromUserAccount.bind(myPageService);
   const getUserActivities = myPageService.getUserActivities.bind(myPageService);
   const validateUserNickname = myPageService.validateUserNickname.bind(myPageService);
+  const changeUserProfileIconByURL = myPageService.changeUserProfileIconByURL.bind(myPageService);
   return (
     <myPageServiceContext.Provider
       value={{
+        changeUserProfileIconByURL,
         getUserActivities,
         deleteCharacterFromUserAccount,
         getUserMyPageResponse,

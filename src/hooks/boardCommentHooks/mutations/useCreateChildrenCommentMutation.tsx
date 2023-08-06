@@ -19,6 +19,7 @@ const useCreateChildrenCommentMutation = (boardId: string, commentId: string) =>
       onSuccess: (data) => {
         handleBoardCommentCreateSuccess();
         queryClient.invalidateQueries([QUERY_KEY.boardComments, boardId]);
+        queryClient.invalidateQueries([QUERY_KEY.childrenComments, boardId, commentId]);
       },
     },
   );

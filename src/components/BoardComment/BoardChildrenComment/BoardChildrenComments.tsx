@@ -4,13 +4,9 @@ import { IBoardCommentUpdateChildrenRequest } from 'services/boardCommentService
 import { ForwardedRef, Suspense, forwardRef } from 'react';
 import BoardChildrenCommentList from './BoardChildrenCommentList';
 import Loading from '../../Fallbacks/Loading';
-import { CommentListDataComments } from 'interfaces/CommentListData';
 import useCreateChildrenCommentMutation from '../../../hooks/boardCommentHooks/mutations/useCreateChildrenCommentMutation';
 
-const BoardChildrenComments = (
-  { childrenComments, boardId, parentId }: IBoardCommentListProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) => {
+const BoardChildrenComments = ({ boardId, parentId }: IBoardCommentListProps, ref: ForwardedRef<HTMLDivElement>) => {
   const createChildrenComment = useCreateChildrenCommentMutation(boardId, parentId);
   const handleCreateChildrenComment = (data: IBoardCommentUpdateChildrenRequest) => {
     createChildrenComment({
@@ -22,18 +18,21 @@ const BoardChildrenComments = (
   return (
     // TODO : 자식댓글 삭제 & 수정 어떻게 핸들링할지 생각해보기
     <Container ref={ref}>
-      <BoardCommentForm boardId={boardId} onSubmit={handleCreateChildrenComment} />
-      <Box>
+      <Box
+        sx={{
+          width: '100%',
+        }}
+      >
         <Suspense fallback={<Loading />}>
-          <BoardChildrenCommentList childrenComments={childrenComments} />
+          <BoardChildrenCommentList boardId={boardId} parentId={parentId} />
         </Suspense>
       </Box>
+      <BoardCommentForm showProfile={true} boardId={boardId} onSubmit={handleCreateChildrenComment} />
     </Container>
   );
 };
 
 interface IBoardCommentListProps {
-  childrenComments: CommentListDataComments[];
   boardId: string;
   parentId: string;
 }

@@ -3,6 +3,7 @@ import { Grid } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroller';
 import CharacterCard from 'components/CharacterList/CharacterCard';
 import useCharactersQuery from '../../hooks/characterHooks/queries/useCharactersQuery';
+import CharacterListSkeleton from '../Skeleton/CharacterListSkeleton/CharacterListSkeleton';
 
 const CharacterList = (props: { characterName: string; serverId: string }) => {
   const { data, hasNextPage, fetchNextPage } = useCharactersQuery(
@@ -16,7 +17,7 @@ const CharacterList = (props: { characterName: string; serverId: string }) => {
       pageStart={0}
       loadMore={() => fetchNextPage()}
       hasMore={hasNextPage}
-      loader={<div>더 불러오기</div>}
+      loader={<CharacterListSkeleton />}
     >
       <Grid container spacing={4}>
         {data?.pages.map((page, index: number) => {
