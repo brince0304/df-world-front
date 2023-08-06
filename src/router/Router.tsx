@@ -6,7 +6,7 @@ import {
   BOARD_LIST_URL,
   CHARACTER_DETAIL_URL,
   CHARACTER_SEARCH_URL,
-  USER_KAKAO_LOGIN_URL,
+  USER_KAKAO_LOGIN_URL, USER_LOGOUT_URL,
   USER_MYPAGE_URL,
 } from '../apis/data/urls';
 import Board from '../pages/BoardListPage';
@@ -17,6 +17,7 @@ import CharacterDetail from '../pages/CharacterDetailPage';
 import BoardDetailPage from '../pages/BoardDetailPage';
 import MyPage from '../pages/MypagePage';
 import KaKaoCallback from '../pages/KakaoCallback';
+import Logout from '../pages/Logout';
 
 const PrivateRouter = () => {
   const user = useUserQuery();
@@ -61,6 +62,10 @@ const PrivateRouter = () => {
           path: USER_KAKAO_LOGIN_URL,
           element: <KaKaoCallback />,
         },
+        {
+          path: USER_LOGOUT_URL,
+          element: <Logout/>,
+        }
       ],
     },
   ]);

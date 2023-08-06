@@ -1,4 +1,4 @@
-import { Avatar, Dialog, DialogContent, DialogTitle, Divider, IconButton } from '@mui/material';
+import { Avatar, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import ImageUploader from '../ImageUploader/ImageUploader';
 import axiosInstance from '../../apis/customAxios';
 import { profileIcons } from '../../constants/myConstants';
@@ -46,7 +46,6 @@ export default function ProfileIconChangeDialog(props: ProfileIconChangeModalPro
       <DialogTitle>프로필 아이콘을 변경합니다!</DialogTitle>
       <DialogContent>
         <ImageUploader handleClose={props.handleClose} />
-        <Divider variant="middle" />
         <IconSelectorWrapper>
           <span>혹은 기본 아이콘을 선택해주세요!</span>
         </IconSelectorWrapper>

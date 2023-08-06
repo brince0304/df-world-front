@@ -13,8 +13,8 @@ const useCreateChildrenCommentMutation = (boardId: string, commentId: string) =>
     [QUERY_KEY.boardComments, boardId],
     createChildrenComment,
     {
-      onError: (error) => {
-        handleBoardCommentCreateError(error as string);
+      onError: (error:any) => {
+        handleBoardCommentCreateError(error.response.data);
       },
       onSuccess: (data) => {
         handleBoardCommentCreateSuccess();

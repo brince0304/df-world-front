@@ -91,3 +91,14 @@ export const boardCategoriesWithoutNotice = [
     id: 'REPORT',
   },
 ];
+
+export function countConsecutiveNewlines(input: string): number {
+  const consecutiveNewlineRegex = /\n+/g;
+  const matches = input.match(consecutiveNewlineRegex);
+
+  if (matches) {
+    return matches.length;
+  }
+
+  return 0;
+}

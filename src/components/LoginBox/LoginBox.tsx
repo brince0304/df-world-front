@@ -16,7 +16,7 @@ const LoginBox = ({ isOpened, setIsOpened }: ILoginBoxProps) => {
   }, []);
   const dialogSx = {
     '.css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
-      width: '400px',
+      maxWidth: '400px',
       padding: '20px',
     },
   };

@@ -10,8 +10,8 @@ const useCreateBoardCommentMutation = (boardId: string) => {
   const { handleBoardCommentCreateError } = useBoardCommentError();
   const queryclient = useQueryClient();
   const { mutate: createComment } = useMutation([QUERY_KEY.boardComments, boardId], createBoardComment, {
-    onError: (error) => {
-      handleBoardCommentCreateError(error as string);
+    onError: (error: any) => {
+      handleBoardCommentCreateError(error.response.data);
     },
     onSuccess: (data) => {
       queryclient.invalidateQueries([QUERY_KEY.boardComments, boardId]);
