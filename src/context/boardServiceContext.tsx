@@ -16,10 +16,12 @@ const BoardServiceProvider = ({ children, boardService }: { children: ReactNode;
   const deleteBoard = boardService.deleteBoard.bind(boardService);
   const createBoard = boardService.createBoard.bind(boardService);
   const updateBoard = boardService.updateBoard.bind(boardService);
+  const postImage = boardService.postImage.bind(boardService);
 
   return (
     <boardServiceContext.Provider
       value={{
+        postImage,
         getBoardList,
         getBestBoardList,
         getLatestBoardList,

@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 import { Editor } from '@toast-ui/editor';
 import { boardToolbarItems } from '../../constants/myConstants';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import { HookImageResponse, postImage } from '../../apis/board/postImage';
 import * as React from 'react';
+import { useBoardService } from '../../context/boardServiceContext';
 
 const ToastEditor = ({ onChange, hooksCallback, initialValue }: IToastEditorProps) => {
   const ref = React.useRef<HTMLDivElement>(null);
+  const { postImage } = useBoardService();
   useEffect(() => {
     const tuieditor = new Editor({
       el: ref.current as HTMLDivElement,
@@ -23,10 +24,14 @@ const ToastEditor = ({ onChange, hooksCallback, initialValue }: IToastEditorProp
       },
       hooks: {
         addImageBlobHook: async (blob, callback) => {
-          const data = (await postImage(blob)) as HookImageResponse;
-          if (data.url) {
-            callback(data.url, '대체 텍스트');
-            hooksCallback();
+          const data = await postImage(blob);
+          if(data){
+            const hook = {
+              url: `/files/?name=${data.fileName}`,
+              fileId: data.id
+            } as HookImageResponse;
+            callback(hook.url, '대체 텍스트');
+            hooksCallback(hook);
           }
         },
       },
@@ -44,6 +49,11 @@ interface IToastEditorProps {
   onChange: (...args: any[]) => void;
   initialValue?: string;
   hooksCallback: (...args: any[]) => void;
+}
+
+export interface HookImageResponse {
+  url: string;
+  fileId: number;
 }
 
 export default ToastEditor;

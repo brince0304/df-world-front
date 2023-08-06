@@ -1,4 +1,4 @@
-import { HookImageResponse } from '../../apis/board/postImage';
+import { HookImageResponse } from '../../components/ToastEditor/ToastEditor';
 
 const useToastEditor = (setValues: any, watchValues: any) => {
   // TODO: 리액트 훅 사용 안하기 때문에 고려사항
@@ -7,7 +7,12 @@ const useToastEditor = (setValues: any, watchValues: any) => {
   };
 
   const hooksCallback = (data: HookImageResponse) => {
-    setValues.setBoardFiles(watchValues.watchBoardFiles + data.fileId + ',');
+    console.info('hooksCallback', data);
+    if(!watchValues.watchBoardFiles){
+      setValues.setBoardFiles(String(data.fileId));
+      return;
+    }
+    setValues.setBoardFiles(String(watchValues.watchBoardFiles)+','+String(data.fileId));
   };
 
   return {

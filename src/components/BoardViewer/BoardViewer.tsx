@@ -7,6 +7,7 @@ import useDeleteBoardMutation from 'hooks/boardHooks/mutations/useDeleteBoardMut
 import useLikeBoardMutation from 'hooks/boardHooks/mutations/useLikeBoardMutation';
 import useBoardDetailQuery from 'hooks/boardHooks/queries/useBoardDetailQuery';
 import { BoardDetailDataArticle } from 'interfaces/IBoardDetail';
+import ReactMarkdown from 'react-markdown';
 
 const BoardViewer = ({ boardId }: IBoardViewerProps) => {
   const { user } = useUserQuery();
@@ -60,7 +61,7 @@ const BoardViewer = ({ boardId }: IBoardViewerProps) => {
         )}
       </LikeButtonContainer>
       <Box sx={{ textAlign: 'left' }}>
-        <div dangerouslySetInnerHTML={{ __html: article.boardContent }} />
+        <ReactMarkdown>{article.boardContent}</ReactMarkdown>
       </Box>
       <BoardChips data={article as any} />
     </BoardDetailContainer>

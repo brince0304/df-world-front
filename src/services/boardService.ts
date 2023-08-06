@@ -23,6 +23,7 @@ export interface IBoardService {
 
   createBoard(data: IBoardRequest): Promise<number>;
   updateBoard(data: IBoardRequest): Promise<number>;
+  postImage (file: File | Blob): Promise<IBoardFileResponse>;
 }
 
 export default class BoardService implements IBoardService {
@@ -38,6 +39,7 @@ export default class BoardService implements IBoardService {
   private readonly deleteBoardUrl = '/boards/{boardId}';
   private readonly createBoardUrl = '/boards';
   private readonly updateBoardUrl = '/boards';
+  private readonly postImageUrl = '/files';
   constructor(axiosClient: IAxiosClient) {
     this.axiosClient = axiosClient;
   }
@@ -85,6 +87,14 @@ export default class BoardService implements IBoardService {
   updateBoard(data: IBoardRequest): Promise<number> {
     return this.axiosClient.put(this.updateBoardUrl, data);
   }
+
+  postImage (file: File | Blob): Promise<IBoardFileResponse> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.axiosClient.post(this.postImageUrl, formData, {
+      contentType: 'multipart/form-data',
+    });
+  }
 }
 
 export interface IBoardRequest {
@@ -101,4 +111,13 @@ export interface IBoardRequest {
 export interface IHashtagRequest {
   value: string;
   __isValid: boolean;
+}
+
+export interface IBoardFileResponse{
+  id: number;
+  fileName: string;
+  filePath: string;
+  fileType: string;
+  fileSize: number;
+  createdAt: string;
 }

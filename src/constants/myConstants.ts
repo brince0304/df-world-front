@@ -22,6 +22,7 @@ export const QUERY_KEY = {
   childrenComments: 'childrenComments',
   mainPageCharacterRanking: 'mainPageCharacterRanking',
   hashtagList: 'hashtagList',
+  boardFileNames: 'boardFileNames',
 };
 
 export const imageData = [
