@@ -25,7 +25,7 @@ const BestBoardListItem = ({ item, chipColor, chipIndex, index, handleNavigate }
         <Zoom in={index === chipIndex + 1} timeout={200} onClick={(e) => handleNavigate(item.id)}>
           <ChipWrapper>
             <BoardUserAvatar src={item.userProfileImgUrl} nickname={item.userNickname} />
-              <TitleWrapper>{item.boardTitle}</TitleWrapper>
+            <TitleWrapper>{item.boardTitle}</TitleWrapper>
           </ChipWrapper>
         </Zoom>
       </Tooltip>

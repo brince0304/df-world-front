@@ -10,17 +10,16 @@ const BestBoardList = ({ data, index }: IBestBoardListProps) => {
     navigate(BOARD_DETAIL_URL + `${id}`);
   };
   return (
-    <Box sx={{padding:'5px 2px'}}>
-      {data?.length !== 0 && (
-          data.map((item, chipIndex) => (
-            <BestBoardListItem
-              item={item}
-              chipIndex={chipIndex}
-              index={index}
-              handleNavigate={handleBestArticleNavigate}
-            />
-          ))
-      )}
+    <Box sx={{ padding: '5px 2px' }}>
+      {data?.length !== 0 &&
+        data.map((item, chipIndex) => (
+          <BestBoardListItem
+            item={item}
+            chipIndex={chipIndex}
+            index={index}
+            handleNavigate={handleBestArticleNavigate}
+          />
+        ))}
       {data?.length === 0 && (
         <Box
           sx={{
