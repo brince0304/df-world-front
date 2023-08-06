@@ -12,7 +12,7 @@ const BoardComments = ({ boardId }: IBoardCommentListProps) => {
     const content = data.commentContent;
     const count = countConsecutiveNewlines(content);
     console.info(count);
-    if(count >= 3){
+    if (count >= 3) {
       alert('연속된 줄바꿈은 3번까지만 가능합니다.');
       return;
     }

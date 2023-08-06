@@ -2,7 +2,7 @@ import useError from 'hooks/uiHooks/useError';
 
 const useBoardCommentError = () => {
   const { handleError } = useError();
-  const handleBoardCommentUpdateError = (message:string) => {
+  const handleBoardCommentUpdateError = (message: string) => {
     handleError('댓글 수정에 실패했습니다. 😰' + message);
   };
   const handleBoardCommentCreateError = (message: string) => {

@@ -6,7 +6,8 @@ import {
   BOARD_LIST_URL,
   CHARACTER_DETAIL_URL,
   CHARACTER_SEARCH_URL,
-  USER_KAKAO_LOGIN_URL, USER_LOGOUT_URL,
+  USER_KAKAO_LOGIN_URL,
+  USER_LOGOUT_URL,
   USER_MYPAGE_URL,
 } from '../apis/data/urls';
 import Board from '../pages/BoardListPage';
@@ -64,8 +65,8 @@ const PrivateRouter = () => {
         },
         {
           path: USER_LOGOUT_URL,
-          element: <Logout/>,
-        }
+          element: <Logout />,
+        },
       ],
     },
   ]);

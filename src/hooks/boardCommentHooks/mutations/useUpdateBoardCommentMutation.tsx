@@ -10,7 +10,7 @@ const useUpdateBoardCommentMutation = (boardId: string) => {
   const { handleBoardCommentUpdateError } = useBoardCommentError();
   const queryClient = useQueryClient();
   const { mutate: updateComment } = useMutation([QUERY_KEY.boardComments, boardId], updateBoardComment, {
-    onError: (error:any) => {
+    onError: (error: any) => {
       handleBoardCommentUpdateError(error.response.data);
     },
     onSuccess: (data) => {
