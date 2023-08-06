@@ -31,7 +31,7 @@ const CharacterLinkBox = ({
   );
 };
 
-interface ICharacterLinkBoxProps {
+export interface ICharacterLinkBoxProps {
   characterId: string;
   characterName: string;
   characterImgUrl: string;
@@ -47,5 +47,4 @@ const SetCharacterContainer = styled(Box)`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding-top: 10px;
 `;

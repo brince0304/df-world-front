@@ -10,6 +10,7 @@ import ToastEditor from '../ToastEditor/ToastEditor';
 import useToastEditor from '../../hooks/boardHooks/useToastEditor';
 import BoardFormChips from '../Chips/BoardFormChips';
 import TagifyContainer from './TagifyContainer';
+import useCharacterBoardLink from '../../hooks/boardHooks/useCharacterBoardLink';
 
 const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: IBoardFormProps) => {
   const handleSelectChange = (value: string) => {
@@ -19,6 +20,27 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
     if (window.confirm('글을 작성하시겠습니까?')) {
       useBoardForms.onSubmit(data);
     }
+  };
+  const {
+    characterName,
+    characterImgPath,
+    characterLinkModalOpen,
+    setCharacterLinkModalOpen,
+    handleSetCharacterDetails,
+    handleDeleteCharacter,
+  } = useCharacterBoardLink(useBoardForms.setValues, '', '');
+  const handleModalOpen = () => {
+    setCharacterLinkModalOpen(true);
+  };
+  const characterLinkBoxProps = {
+    characterId: useBoardForms.watchValues.watchCharacterId || '',
+    characterName,
+    characterImgUrl: characterImgPath,
+    handleOpenModal: handleModalOpen,
+    handleDeleteCharacter,
+  };
+  const handleModalClose = () => {
+    setCharacterLinkModalOpen(false);
   };
   const { hooksCallback, onChange } = useToastEditor(useBoardForms.setValues, useBoardForms.watchValues);
   const handleNavigateBack = () => {
@@ -33,7 +55,12 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
         <Typography variant={'h4'} sx={{ fontWeight: 'bold' }} fontFamily={'Core Sans'}>
           {buttonLabel}
         </Typography>
-        <BoardFormChips boardType={useBoardForms.watchValues.watchBoardType} setBoardType={handleSelectChange} />
+        <BoardFormChips
+          characterLinkBoxProps={characterLinkBoxProps}
+          characterLinkModalOpen={characterLinkModalOpen}
+          handleClose={handleModalClose}
+          handleSetCharacterDetails={handleSetCharacterDetails}
+          boardType={useBoardForms.watchValues.watchBoardType} setBoardType={handleSelectChange} />
       </BoardWriteFormTitleWrapper>
       <Box
         sx={{

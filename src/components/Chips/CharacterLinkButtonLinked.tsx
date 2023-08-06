@@ -38,3 +38,4 @@ interface ICharacterLinkButtonLinkedProps {
 }
 
 export default forwardRef(CharacterLinkButtonLinked);
+

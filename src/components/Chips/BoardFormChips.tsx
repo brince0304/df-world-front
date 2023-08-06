@@ -1,8 +1,11 @@
 import MyChip from './MyChip';
 import { boardTypesForForm, getBoardType } from '../../utils/boardUtil';
 import { List, styled } from '@mui/material';
+import CharacterLinkBox, { ICharacterLinkBoxProps } from '../BoardForm/CharacterLinkBox';
+import * as React from 'react';
+import CharacterLinkModal from '../CharacterLinkModal/CharacterLinkModal';
 
-const BoardFormChips = ({ boardType, setBoardType }: { boardType: string; setBoardType: (value: string) => void }) => {
+const BoardFormChips = ({ boardType, setBoardType , characterLinkBoxProps, characterLinkModalOpen, handleSetCharacterDetails, handleClose}: IBoardFormChipsProps) => {
   return (
     <ListContainer>
       {boardTypesForForm.map((boardCategory, index) => (
@@ -18,16 +21,36 @@ const BoardFormChips = ({ boardType, setBoardType }: { boardType: string; setBoa
           onClick={() => setBoardType(boardCategory.id)}
         />
       ))}
+      <CharacterLinkBox {...characterLinkBoxProps} />
+      <CharacterLinkModal
+        isOpened={characterLinkModalOpen}
+        handleClose={handleClose}
+        handleSetCharacterDetails={handleSetCharacterDetails}
+      />
     </ListContainer>
   );
 };
 
 export default BoardFormChips;
 
+interface IBoardFormChipsProps {
+  boardType: string;
+  setBoardType: (value: string) => void;
+  characterLinkBoxProps : ICharacterLinkBoxProps;
+  characterLinkModalOpen: boolean;
+  handleSetCharacterDetails: (characterId: string, characterName: string, characterImgPath: string) => void;
+  handleClose: () => void;
+}
+
 const ListContainer = styled(List)`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  overflow-x: auto;
+  width: 100%;
+  scroll-behavior: smooth;
+  
   gap: 5px;
 `;
+
