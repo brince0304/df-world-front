@@ -5,7 +5,14 @@ import CharacterLinkBox, { ICharacterLinkBoxProps } from '../BoardForm/Character
 import * as React from 'react';
 import CharacterLinkModal from '../CharacterLinkModal/CharacterLinkModal';
 
-const BoardFormChips = ({ boardType, setBoardType , characterLinkBoxProps, characterLinkModalOpen, handleSetCharacterDetails, handleClose}: IBoardFormChipsProps) => {
+const BoardFormChips = ({
+  boardType,
+  setBoardType,
+  characterLinkBoxProps,
+  characterLinkModalOpen,
+  handleSetCharacterDetails,
+  handleClose,
+}: IBoardFormChipsProps) => {
   return (
     <ListContainer>
       {boardTypesForForm.map((boardCategory, index) => (
@@ -36,7 +43,7 @@ export default BoardFormChips;
 interface IBoardFormChipsProps {
   boardType: string;
   setBoardType: (value: string) => void;
-  characterLinkBoxProps : ICharacterLinkBoxProps;
+  characterLinkBoxProps: ICharacterLinkBoxProps;
   characterLinkModalOpen: boolean;
   handleSetCharacterDetails: (characterId: string, characterName: string, characterImgPath: string) => void;
   handleClose: () => void;
@@ -50,7 +57,6 @@ const ListContainer = styled(List)`
   overflow-x: auto;
   width: 100%;
   scroll-behavior: smooth;
-  
+
   gap: 5px;
 `;
-

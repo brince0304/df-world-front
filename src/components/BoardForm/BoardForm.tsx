@@ -60,7 +60,9 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
           characterLinkModalOpen={characterLinkModalOpen}
           handleClose={handleModalClose}
           handleSetCharacterDetails={handleSetCharacterDetails}
-          boardType={useBoardForms.watchValues.watchBoardType} setBoardType={handleSelectChange} />
+          boardType={useBoardForms.watchValues.watchBoardType}
+          setBoardType={handleSelectChange}
+        />
       </BoardWriteFormTitleWrapper>
       <Box
         sx={{
