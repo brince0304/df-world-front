@@ -2,7 +2,7 @@ import MyChip from './MyChip';
 import { boardTypesForForm, getBoardType } from '../../utils/boardUtil';
 import { List, styled } from '@mui/material';
 
-const BoardFormChips = ({ boardType, setBoardType }: { boardType: string, setBoardType:(value:string)=>void }) => {
+const BoardFormChips = ({ boardType, setBoardType }: { boardType: string; setBoardType: (value: string) => void }) => {
   return (
     <ListContainer>
       {boardTypesForForm.map((boardCategory, index) => (

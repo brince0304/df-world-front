@@ -27,7 +27,11 @@ const CharacterLinkModal = (props: {
       serachBox={<CharacterSearchBox searchHandler={searchHandler} clickHandler={clickHandler} />}
     >
       <Suspense fallback={<Loading />}>
-      <CharactersListForModal characterName={characterName} serverId={serverId} handleClick={props.handleSetCharacterDetails} />
+        <CharactersListForModal
+          characterName={characterName}
+          serverId={serverId}
+          handleClick={props.handleSetCharacterDetails}
+        />
       </Suspense>
     </SearchCharacterModal>
   );
