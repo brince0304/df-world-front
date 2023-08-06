@@ -10,8 +10,11 @@ const UserServiceProvider = ({ children, userService }: { children: ReactNode; u
   const register = userService.register.bind(userService);
   const getUser = userService.getUser.bind(userService);
   const logout = userService.logout.bind(userService);
+  const kakaoLogin = userService.kakaoLogin.bind(userService);
   return (
-    <userServiceContext.Provider value={{ login, register, getUser, logout }}>{children}</userServiceContext.Provider>
+    <userServiceContext.Provider value={{ login, register, getUser, logout, kakaoLogin }}>
+      {children}
+    </userServiceContext.Provider>
   );
 };
 

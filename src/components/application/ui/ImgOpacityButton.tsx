@@ -13,11 +13,13 @@ interface ImgOpacityButtonProps {
   scale?: number;
   width?: number;
   height?: number;
+  onClick?: () => void;
 }
 
 export function ImgOpacityButton(props: ImgOpacityButtonProps) {
   return (
     <IconButton
+      onClick={props.onClick}
       sx={{
         padding: '0px',
       }}

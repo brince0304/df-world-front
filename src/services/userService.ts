@@ -5,6 +5,7 @@ export interface IUserService {
   register: (data: IRegisterRequest) => Promise<void>;
   getUser: () => Promise<ILoginResponse>;
   logout: () => Promise<void>;
+  kakaoLogin: (code: string) => Promise<ILoginResponse>;
 }
 
 export class UserService implements IUserService {
@@ -13,6 +14,7 @@ export class UserService implements IUserService {
   private readonly registerUrl = '/users';
   private readonly getUserUrl = '/users/details';
   private readonly logoutUrl = '/users/logout';
+  private readonly kakaoLoginUrl = '/users/kakao';
 
   constructor(axiosClient: IAxiosClient) {
     this.axiosClient = axiosClient;
@@ -33,6 +35,12 @@ export class UserService implements IUserService {
   logout() {
     return this.axiosClient.get(this.logoutUrl);
   }
+
+  kakaoLogin(token: string) {
+    return this.axiosClient.post(this.kakaoLoginUrl, {
+      authorizationCode: token,
+    });
+  }
 }
 
 export interface IRegisterRequest {
@@ -49,6 +57,7 @@ export interface ILoginResponse {
   profileImgPath: string;
   adventureName: string;
   notificationCount: number;
+  oauthProvider: string;
 }
 
 export interface ILoginRequest {

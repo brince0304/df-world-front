@@ -74,7 +74,6 @@ const Container = styled.header`
   @media (max-width: 1024px) {
     padding: 0 4%;
   }
-  font-family: 'Core Sans';
 `;
 
 const NavBackground = styled.div`

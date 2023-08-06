@@ -7,6 +7,7 @@ import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 import useMyPageQuery from '../../hooks/myPageHooks/queries/useMyPageQuery';
 import { Suspense } from 'react';
 import Loading from '../../components/Fallbacks/Loading';
+import { getOauthProvider } from '../../utils/userUtil';
 
 const UserProfile = () => {
   const { user } = useUserQuery();
@@ -19,7 +20,7 @@ const UserProfile = () => {
             {user?.nickname}
           </Typography>
           <Typography component={'span'} fontSize={'1rem'} fontFamily={'Core Sans'} color={'gray'}>
-            ({user?.userId})
+            ({user?.oauthProvider !== 'NULL' ? getOauthProvider(user?.oauthProvider) : user?.userId})
           </Typography>
         </UserNicknameWrapper>
         <UserEmailAndAdventuerNameWrapper>

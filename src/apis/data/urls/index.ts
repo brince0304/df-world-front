@@ -36,6 +36,8 @@ export const CHARACTER_SEARCH_URL = '/characters/:serverId';
 
 export const USER_MYPAGE_URL = '/mypage/';
 
+export const USER_KAKAO_LOGIN_URL = '/users/kakao';
+
 export const USER_LOGIN_URL = '/users/login';
 
 export const USER_DETAIL_URL = '/users/details';

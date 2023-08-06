@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 const useBestBoardStates = (listLength: number) => {
   const [index, setIndex] = useState(1);
   const handleLeftClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if(listLength === 0) return;
+    if (listLength === 0) return;
     setIndex(index - 1);
   };
   const handleRightClick = (e: React.MouseEvent<HTMLButtonElement>) => {
