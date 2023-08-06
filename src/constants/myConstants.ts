@@ -171,10 +171,6 @@ export const boardCategory = [
     name: '사건/사고',
     id: 'REPORT',
   },
-  {
-    name: '공지',
-    id: 'NOTICE',
-  },
 ];
 export const boardToolbarItems = [
   ['heading', 'bold', 'italic', 'strike'],

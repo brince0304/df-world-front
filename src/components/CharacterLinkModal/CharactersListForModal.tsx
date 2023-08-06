@@ -1,12 +1,16 @@
-import { Content } from '../../interfaces/ICharactersData';
 import { Avatar, Grid, List, ListItemButton, ListItemText, styled } from '@mui/material';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
+import useCharactersQuery from '../../hooks/characterHooks/queries/useCharactersQuery';
+import ErrorScreen from '../ErrorScreen/ErrorScreen';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 export const CharactersListForModal = (props: {
-  data: Content[];
+  characterName: string;
+  serverId: string;
   handleClick: (characterId: string, serverId: string, characterName: string) => void;
 }) => {
+  const { data } = useCharactersQuery(props.characterName, props.serverId);
   return (
     <List
       sx={{
@@ -18,7 +22,7 @@ export const CharactersListForModal = (props: {
         overflowY: 'scroll',
       }}
     >
-      {props.data.map((character, index) => {
+      {data?.pages[0].content.map((character, index) => {
         return (
           <ListItemButton
             key={index}
@@ -62,6 +66,9 @@ export const CharactersListForModal = (props: {
           </ListItemButton>
         );
       })}
+      {data?.pages[0].content.length === 0 && (
+        <ErrorScreen icon={faExclamationCircle} message={'검색 결과가 없습니다.'} />
+      )}
     </List>
   );
 };

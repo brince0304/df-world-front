@@ -8,7 +8,7 @@ import { IBoardDetail } from '../../interfaces/IBoardDetail';
 import { useNavigate } from 'react-router-dom';
 import ToastEditor from '../ToastEditor/ToastEditor';
 import useToastEditor from '../../hooks/boardHooks/useToastEditor';
-import BoardTypeMenus from './BoardTypeMenus';
+import BoardFormChips from '../Chips/BoardFormChips';
 
 const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: IBoardFormProps) => {
   const { register, handleSubmit, errors, setValues, watchValues, onSubmit } = useBoardForms;
@@ -33,11 +33,7 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
         <Typography variant={'h4'} sx={{ fontWeight: 'bold' }} fontFamily={'Core Sans'}>
           {buttonLabel}
         </Typography>
-        <BoardTypeMenus
-          value={watchValues.watchBoardType}
-          register={register('boardType')}
-          handleSelectChange={handleSelectChange}
-        />
+        <BoardFormChips boardType={watchValues.watchBoardType} setBoardType={handleSelectChange} />
       </BoardWriteFormTitleWrapper>
       <Box
         sx={{
@@ -120,9 +116,9 @@ interface IBoardFormProps {
 
 const BoardWriteFormTitleWrapper = styled(Box)`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
 `;

@@ -4,7 +4,6 @@ import SelectMenu from './SelectMenu';
 
 const BoardTypeMenus = ({ register, handleSelectChange, value }: IBoardTypeMenusProps) => {
   const selectSx = {
-    fontFamily: 'Core Sans',
     fontSize: '14px',
     fontWeight: 'bold',
   };
