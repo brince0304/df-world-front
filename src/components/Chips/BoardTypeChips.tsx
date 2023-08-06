@@ -12,6 +12,7 @@ const BoardTypeChips = ({ boardType }: { boardType: string }) => {
     <ListContainer>
       {boardCategories.map((boardCategory, index) => (
         <MyChip
+          key={index}
           label={getBoardType(boardCategory.id)}
           color={boardType === boardCategory.id ? 'info' : 'default'}
           variant={boardType === boardCategory.id ? 'filled' : 'outlined'}

@@ -65,7 +65,7 @@ const Container = styled.header`
   top: 0;
   height: 120px;
   background-color: #212124;
-  padding: 0 16%;
+  padding: 0 18%;
   z-index: 999;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   @media (max-width: 768px) {

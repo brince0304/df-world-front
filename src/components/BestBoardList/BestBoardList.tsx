@@ -14,6 +14,7 @@ const BestBoardList = ({ data, index }: IBestBoardListProps) => {
       {data?.length !== 0 &&
         data.map((item, chipIndex) => (
           <BestBoardListItem
+            key={chipIndex}
             item={item}
             chipIndex={chipIndex}
             index={index}

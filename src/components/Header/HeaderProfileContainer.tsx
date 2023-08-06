@@ -94,7 +94,6 @@ const ProfileNicknameWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-left: 10px;
   font-size: 0.9rem;
   font-weight: 600;
   gap: 10px;

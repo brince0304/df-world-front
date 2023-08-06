@@ -10,11 +10,13 @@ const useLatestBoardQuery = (boardType: string) => {
     async () => await getLatestBoardList({ boardType }),
     {
       select: (data) => {
-        data.content.forEach((board) => {
+        return data.content.length > 5 ? data.content.slice(0, 4) : data.content;
+      },
+      onSuccess: (data) => {
+        data.forEach((board) => {
           queryClient.setQueryData([QUERY_KEY.boardCommentCount, String(board.id)], board.commentCount);
           queryClient.setQueryData([QUERY_KEY.boardLikeCount, String(board.id)], board.boardLikeCount);
         });
-        return data.content.length > 5 ? data.content.slice(0, 4) : data.content;
       },
       refetchOnMount: false,
       refetchOnWindowFocus: false,

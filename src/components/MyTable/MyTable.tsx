@@ -76,7 +76,7 @@ const TableHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 2px 10px;
+  padding: 5px 10px;
   font-size: 22px;
   color: #000;
   border-bottom: 1px solid #e5e5e5;
