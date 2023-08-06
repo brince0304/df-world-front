@@ -3,7 +3,8 @@ import App from '../App';
 import Main from '../pages/MainPage';
 import { useUserQuery } from '../hooks/authHooks/queries/useUserQuery';
 import {
-  BOARD_LIST_URL,
+  BOARD_INSERT_FORM_ROUTE,
+  BOARD_LIST_URL, BOARD_ROUTE,
   CHARACTER_DETAIL_URL,
   CHARACTER_SEARCH_URL,
   USER_KAKAO_LOGIN_URL,
@@ -11,7 +12,6 @@ import {
   USER_MYPAGE_URL,
 } from '../apis/data/urls';
 import Board from '../pages/BoardListPage';
-import { BOARD_INSERT_FORM_ROUTE, BOARD_ROUTE } from '../apis/data/route';
 import WriteBoard from '../pages/WriteBoard';
 import Characters from '../pages/CharacterSearchPage';
 import CharacterDetail from '../pages/CharacterDetailPage';

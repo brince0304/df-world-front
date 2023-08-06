@@ -59,3 +59,6 @@ export const USER_VALIDATE_NICKNAME_URL = '/users/check?nickname={nickname}';
 export const USER_DETAIL_UPDATE_NICKNAME_URL = '/users?nickname={nickname}';
 
 export const USER_DETAIL_UPDATE_PASSWORD_URL = '/users?password={password}&newPassword={newPassword}';
+
+export const BOARD_ROUTE = '/boards/:boardId';
+export const BOARD_INSERT_FORM_ROUTE = '/boards/write';
