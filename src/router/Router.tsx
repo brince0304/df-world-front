@@ -4,7 +4,8 @@ import Main from '../pages/MainPage';
 import { useUserQuery } from '../hooks/authHooks/queries/useUserQuery';
 import {
   BOARD_INSERT_FORM_ROUTE,
-  BOARD_LIST_URL, BOARD_ROUTE,
+  BOARD_LIST_URL,
+  BOARD_ROUTE,
   CHARACTER_DETAIL_URL,
   CHARACTER_SEARCH_URL,
   USER_KAKAO_LOGIN_URL,
