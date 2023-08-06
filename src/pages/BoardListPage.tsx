@@ -51,11 +51,11 @@ const Board = () => {
       >
         <Box sx={{ padding: '10px 10px 10px 10px' }}>
           <Suspense fallback={<div>로딩중...</div>}>
-          <BestContent boardType={boardType} />
+            <BestContent boardType={boardType} />
           </Suspense>
         </Box>
-        <Suspense fallback={<BoardListSkeleton/>}>
-        <BoardList searchType={searchType} keyword={keyword} boardType={boardType} />
+        <Suspense fallback={<BoardListSkeleton />}>
+          <BoardList searchType={searchType} keyword={keyword} boardType={boardType} />
         </Suspense>
         <SpeedDial boardType={boardType} keyword={keyword} searchType={searchType} />
       </MyTable>

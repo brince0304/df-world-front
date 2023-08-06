@@ -22,10 +22,10 @@ const BoardDetailPage = () => {
     <Container maxWidth={'md'} sx={{ paddingTop: '20px' }}>
       <Paper sx={{ padding: '10px 20px 20px 20px' }}>
         <Suspense fallback={<div>로딩중...</div>}>
-        <BestBoard boardType="ALL" />
+          <BestBoard boardType="ALL" />
         </Suspense>
-        <Suspense fallback={<BoardDetailSkeleton/>}>
-        <BoardViewer boardId={boardId || ''} />
+        <Suspense fallback={<BoardDetailSkeleton />}>
+          <BoardViewer boardId={boardId || ''} />
         </Suspense>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 'auto' }}>
           <Button sx={{ marginRight: '10px' }} onClick={handleNavigateToBoardList}>

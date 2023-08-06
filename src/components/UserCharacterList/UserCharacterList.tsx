@@ -7,7 +7,7 @@ import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 
 const UserCharactersList = () => {
   const { data } = useMyPageQuery();
-  const {user} = useUserQuery();
+  const { user } = useUserQuery();
   const deleteCharacter = useDeleteCharacterMutation();
   return (
     <Grid container spacing={3}>

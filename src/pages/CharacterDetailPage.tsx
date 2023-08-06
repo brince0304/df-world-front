@@ -33,60 +33,59 @@ const CharacterDetail = () => {
   return (
     <CharacterDetailContainer maxWidth={'md'}>
       <ErrorBoundary fallback={<BadRequest />}>
-      <Suspense fallback={<CharacterDetailSkeleton />}>
-        <CharacterProfile characterId={characterId} serverId={serverId}/>
-      </Suspense>
+        <Suspense fallback={<CharacterDetailSkeleton />}>
+          <CharacterProfile characterId={characterId} serverId={serverId} />
+        </Suspense>
       </ErrorBoundary>
-        <Paper
-          elevation={3}
+      <Paper
+        elevation={3}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          position: 'relative' as 'relative',
+          width: '100%',
+          height: '100%',
+          borderRadius: '10px',
+          padding: '10px',
+          marginTop: '20px',
+        }}
+      >
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%', display: 'flex' }}>
+          <Tabs
+            value={selectedTab}
+            onChange={handleChange}
+            aria-label="character detail tab"
+            variant="scrollable"
+            scrollButtons
+          >
+            <Tab label="장비" sx={typographyProps} />
+            <Tab label="스탯" sx={typographyProps} />
+            <Tab label="버프 강화" sx={typographyProps} />
+            <Tab label="아바타" sx={typographyProps} />
+            <Tab label="스킬" sx={typographyProps} />
+            <Tab label="gdgd" sx={typographyProps} />
+            <Tab label="버프 강화" sx={typographyProps} />
+          </Tabs>
+        </Box>
+        <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'center',
-            position: 'relative' as 'relative',
             width: '100%',
             height: '100%',
-            borderRadius: '10px',
-            padding: '10px',
-            marginTop: '20px',
+            padding: '0px 0px',
           }}
         >
-          <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%', display: 'flex' }}>
-            <Tabs
-              value={selectedTab}
-              onChange={handleChange}
-              aria-label="character detail tab"
-              variant="scrollable"
-              scrollButtons
-            >
-              <Tab label="장비" sx={typographyProps} />
-              <Tab label="스탯" sx={typographyProps} />
-              <Tab label="버프 강화" sx={typographyProps} />
-              <Tab label="아바타" sx={typographyProps} />
-              <Tab label="스킬" sx={typographyProps} />
-              <Tab label="gdgd" sx={typographyProps} />
-              <Tab label="버프 강화" sx={typographyProps} />
-            </Tabs>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              width: '100%',
-              height: '100%',
-              padding: '0px 0px',
-            }}
-          >
-            <TabPanel index={0} value={selectedTab}>
-              <CharacterEquipmentList characterId={characterId} serverId={serverId} />
-            </TabPanel>
-            <TabPanel index={1} value={selectedTab}>
-            </TabPanel>
-          </Box>
-        </Paper>
+          <TabPanel index={0} value={selectedTab}>
+            <CharacterEquipmentList characterId={characterId} serverId={serverId} />
+          </TabPanel>
+          <TabPanel index={1} value={selectedTab}></TabPanel>
+        </Box>
+      </Paper>
     </CharacterDetailContainer>
   );
 };
@@ -599,8 +598,8 @@ const CharacterDetailContainer = styled(Container)`
 `;
 
 const CharacterEquipmentList = ({ characterId, serverId }: { characterId: string; serverId: string }) => {
-const { data } = useCharacterDetailQuery(characterId, serverId);
-return (
+  const { data } = useCharacterDetailQuery(characterId, serverId);
+  return (
     <List sx={{ width: '100%' }}>
       {data?.characterEquipment.equipment.map((equipment, index) => {
         return (

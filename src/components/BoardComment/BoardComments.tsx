@@ -24,7 +24,7 @@ const BoardComments = ({ boardId }: IBoardCommentListProps) => {
       </Box>
       <Box>
         <Suspense fallback={<div>로딩중...</div>}>
-        <BoardCommentList boardId={boardId} />
+          <BoardCommentList boardId={boardId} />
         </Suspense>
       </Box>
       <BoardCommentForm boardId={boardId} onSubmit={handleSubmit} />

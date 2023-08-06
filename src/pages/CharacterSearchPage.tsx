@@ -17,10 +17,7 @@ const Characters = () => {
         <ResultCharacterNameWrapper>{characterName ? characterName : ''}</ResultCharacterNameWrapper>
         <ResultTitleFooterWrapper>님의 검색결과</ResultTitleFooterWrapper>
       </ResultTitleWrapper>
-     <CharacterList
-      characterName={characterName}
-      serverId={serverId ? serverId : ''}
-     />
+      <CharacterList characterName={characterName} serverId={serverId ? serverId : ''} />
     </Container>
   );
 };

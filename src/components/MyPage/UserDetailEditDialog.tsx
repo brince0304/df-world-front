@@ -6,7 +6,7 @@ import NicknameEdit from './UserNicknameEditForm';
 import PasswordEdit from './UserPasswordEditForm';
 
 const UserDetailEditDialog = (props: { open: boolean; onClose: () => void; refresh: () => void }) => {
-  const {user} = useUserQuery();
+  const { user } = useUserQuery();
   return (
     <Dialog
       open={props.open}
@@ -21,7 +21,7 @@ const UserDetailEditDialog = (props: { open: boolean; onClose: () => void; refre
       }}
     >
       <DialogTitle>
-        <Typography component={'span'}  fontSize={'1.5rem'} fontWeight={'bold'}>
+        <Typography component={'span'} fontSize={'1.5rem'} fontWeight={'bold'}>
           회원정보 수정{' '}
         </Typography>
       </DialogTitle>
@@ -32,6 +32,5 @@ const UserDetailEditDialog = (props: { open: boolean; onClose: () => void; refre
     </Dialog>
   );
 };
-
 
 export default UserDetailEditDialog;

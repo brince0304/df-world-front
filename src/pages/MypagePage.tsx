@@ -1,4 +1,4 @@
-import {  Box,  Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useUserQuery } from '../hooks/authHooks/queries/useUserQuery';
@@ -6,7 +6,6 @@ import { Suspense } from 'react';
 import Loading from '../components/Fallbacks/Loading';
 import UserProfileCard from '../components/MyPage/UserProfileCard';
 import UserCharactersList from '../components/UserCharacterList/UserCharacterList';
-
 
 const MyPage = () => {
   const { user } = useUserQuery();
@@ -37,6 +36,5 @@ const MyPage = () => {
     </Suspense>
   );
 };
-
 
 export default MyPage;

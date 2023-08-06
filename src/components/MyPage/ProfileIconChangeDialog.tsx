@@ -31,33 +31,33 @@ export default function ProfileIconChangeDialog(props: ProfileIconChangeModalPro
     }
   };
   return (
-    <Dialog open={props.isOpened} onClose={props.handleClose}
-            sx={{
-              '& .MuiDialog-paper': {
-                width: '400px',
-                height: '500px',
-                maxWidth: '100%',
-                maxHeight: '100%',
-              },
-            }}
+    <Dialog
+      open={props.isOpened}
+      onClose={props.handleClose}
+      sx={{
+        '& .MuiDialog-paper': {
+          width: '400px',
+          height: '500px',
+          maxWidth: '100%',
+          maxHeight: '100%',
+        },
+      }}
     >
-      <DialogTitle>
-        프로필 아이콘을 변경합니다!
-      </DialogTitle>
-        <DialogContent>
-          <ImageUploader handleClose={props.handleClose} />
-          <Divider variant="middle" />
-            <IconSelectorWrapper>
-              <span>혹은 기본 아이콘을 선택해주세요!</span>
-            </IconSelectorWrapper>
-            <ProfileIconChangeContainer>
-              {data.map((icon, index) => (
-                <IconButton data-id={icon.url} onClick={handleChangeIcon} key={index}>
-                  <Avatar src={'/images/icon_char/' + icon.name} sx={{ width: 30, height: 30, margin: 1 }} />
-                </IconButton>
-              ))}
-            </ProfileIconChangeContainer>
-        </DialogContent>
+      <DialogTitle>프로필 아이콘을 변경합니다!</DialogTitle>
+      <DialogContent>
+        <ImageUploader handleClose={props.handleClose} />
+        <Divider variant="middle" />
+        <IconSelectorWrapper>
+          <span>혹은 기본 아이콘을 선택해주세요!</span>
+        </IconSelectorWrapper>
+        <ProfileIconChangeContainer>
+          {data.map((icon, index) => (
+            <IconButton data-id={icon.url} onClick={handleChangeIcon} key={index}>
+              <Avatar src={'/images/icon_char/' + icon.name} sx={{ width: 30, height: 30, margin: 1 }} />
+            </IconButton>
+          ))}
+        </ProfileIconChangeContainer>
+      </DialogContent>
     </Dialog>
   );
 }

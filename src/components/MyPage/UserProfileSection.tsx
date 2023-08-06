@@ -14,18 +14,13 @@ const UserProfileSection = () => {
           <Typography component={'strong'} fontSize={'1.2rem'} fontWeight={'bold'}>
             {user?.nickname}
           </Typography>
-          <Typography component={'span'} fontSize={'1rem'}  color={'gray'}>
+          <Typography component={'span'} fontSize={'1rem'} color={'gray'}>
             ({user?.oauthProvider !== 'NULL' ? getOauthProvider(user?.oauthProvider) : user?.userId})
           </Typography>
         </UserNicknameWrapper>
         <UserEmailAndAdventuerNameWrapper>
           {!user?.adventureName && (
-            <Typography
-              component={'span'}
-              fontWeight={'bold'}
-              fontSize={'1rem'}
-              color={'gray'}
-            >
+            <Typography component={'span'} fontWeight={'bold'} fontSize={'1rem'} color={'gray'}>
               모험단 등록 안됨
             </Typography>
           )}

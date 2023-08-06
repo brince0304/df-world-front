@@ -24,7 +24,7 @@ const CharacterProfile = ({ characterId, serverId }: { characterId: string; serv
       }}
     >
       <Tooltip title="새로고침" placement="bottom">
-        <IconButton aria-label="refresh" onClick={()=>refetch()} sx={refreshButtonStyle}>
+        <IconButton aria-label="refresh" onClick={() => refetch()} sx={refreshButtonStyle}>
           <FontAwesomeIcon icon={faRotateRight} />
         </IconButton>
       </Tooltip>
@@ -167,7 +167,6 @@ const CharacterProfile = ({ characterId, serverId }: { characterId: string; serv
 
 export default CharacterProfile;
 
-
 const typographyProps = {
   component: 'span',
   fontWeight: '700',
@@ -202,4 +201,3 @@ const refreshButtonStyle = {
     transition: 'transform 0.5s',
   },
 };
-

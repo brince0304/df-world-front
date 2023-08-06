@@ -93,5 +93,4 @@ interface IFormProps {
   nickname: string;
 }
 
-
 export default NicknameEdit;

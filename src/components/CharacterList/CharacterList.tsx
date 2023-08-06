@@ -4,17 +4,17 @@ import InfiniteScroll from 'react-infinite-scroller';
 import CharacterCard from 'components/CharacterList/CharacterCard';
 import useCharactersQuery from '../../hooks/characterHooks/queries/useCharactersQuery';
 
-const CharacterList = (props: {
-  characterName: string;
-  serverId: string;
-}) => {
-  const { data, hasNextPage, fetchNextPage } = useCharactersQuery(props.characterName, props.serverId ? props.serverId : '');
+const CharacterList = (props: { characterName: string; serverId: string }) => {
+  const { data, hasNextPage, fetchNextPage } = useCharactersQuery(
+    props.characterName,
+    props.serverId ? props.serverId : '',
+  );
   return (
     <InfiniteScroll
       width={'100%'}
       height={'100%'}
       pageStart={0}
-      loadMore={()=>fetchNextPage()}
+      loadMore={() => fetchNextPage()}
       hasMore={hasNextPage}
       loader={<div>더 불러오기</div>}
     >
