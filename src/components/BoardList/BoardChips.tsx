@@ -18,8 +18,8 @@ const BoardChips = ({ data }: IBoardChipsProps) => {
         label={getBoardType(data.boardType)}
         color="info"
         clickable={true}
-        sx={{ fontSize: '10px', fontWeight: 'bold' }}
-        size="small"
+        sx={{ fontSize: '13px', fontWeight: 'bold' }}
+        size="medium"
         data-type={data.boardType}
         onClick={handleTypeTagClick}
       />

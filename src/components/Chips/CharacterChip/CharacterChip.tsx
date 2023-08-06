@@ -10,7 +10,7 @@ export const CharacterChip = (props: {
   characterId: string;
 }) => {
   const chipStyle = {
-    fontSize: '10px',
+    fontSize: '13px',
     '& > img': {
       objectFit: 'cover',
       objectPosition: 'center',
@@ -36,8 +36,7 @@ export const CharacterChip = (props: {
         avatar={<Avatar src={props.characterImgUrl} sx={chipStyle}></Avatar>}
         label={props.characterName}
         color="default"
-        sx={{ fontSize: '10px', fontWeight: 'bold' }}
-        size="small"
+        size="medium"
         data-name={props.characterName}
       />
     </Tooltip>

@@ -15,10 +15,10 @@ const HashtagContent = (props: { count: string }) => {
         gap: '5px',
       }}
     >
-      <Typography fontFamily={'Core Sans'} fontSize={'12px'}>
+      <Typography fontSize={'12px'}>
         {props.count}개의 게시글이 등록되어있습니다.
       </Typography>
-      <Typography fontFamily={'Core Sans'} fontSize={'12px'}>
+      <Typography fontSize={'12px'}>
         해당 게시글을 확인해보세요!
       </Typography>
     </Box>

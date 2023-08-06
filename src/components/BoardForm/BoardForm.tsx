@@ -9,31 +9,35 @@ import { useNavigate } from 'react-router-dom';
 import ToastEditor from '../ToastEditor/ToastEditor';
 import useToastEditor from '../../hooks/boardHooks/useToastEditor';
 import BoardFormChips from '../Chips/BoardFormChips';
+import TagifyContainer from './TagifyContainer';
 
 const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: IBoardFormProps) => {
-  const { register, handleSubmit, errors, setValues, watchValues, onSubmit } = useBoardForms;
+
   const handleSelectChange = (value: string) => {
-    setValues.setBoardType(value);
+    useBoardForms.setValues.setBoardType(value);
   };
   const handlePost = (data: IBoardRequest) => {
     if (window.confirm('글을 작성하시겠습니까?')) {
-      onSubmit(data);
+      useBoardForms.onSubmit(data);
     }
   };
-  const { hooksCallback, onChange } = useToastEditor(setValues, watchValues);
+  const { hooksCallback, onChange } = useToastEditor(useBoardForms.setValues, useBoardForms.watchValues);
   const handleNavigateBack = () => {
     if (window.confirm('작성을 취소하시겠습니까?')) {
       navigate(-1);
     }
   };
   const navigate = useNavigate();
+  const onInvalid = (error: any) => {
+    console.info(error);
+  }
   return (
-    <form onSubmit={handleSubmit(handlePost)}>
+    <form onSubmit={useBoardForms.handleSubmit(handlePost,onInvalid)}>
       <BoardWriteFormTitleWrapper>
         <Typography variant={'h4'} sx={{ fontWeight: 'bold' }} fontFamily={'Core Sans'}>
           {buttonLabel}
         </Typography>
-        <BoardFormChips boardType={watchValues.watchBoardType} setBoardType={handleSelectChange} />
+        <BoardFormChips boardType={useBoardForms.watchValues.watchBoardType} setBoardType={handleSelectChange} />
       </BoardWriteFormTitleWrapper>
       <Box
         sx={{
@@ -46,11 +50,11 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
         <TextField
           type="text"
           variant={'outlined'}
-          error={!!errors.boardTitle}
-          helperText={errors.boardTitle?.message}
+          error={!!useBoardForms.errors.boardTitle}
+          helperText={useBoardForms.errors.boardTitle?.message}
           label={'제목'}
-          defaultValue={watchValues.watchBoardTitle}
-          {...register('boardTitle')}
+          defaultValue={useBoardForms.watchValues.watchBoardTitle}
+          {...useBoardForms.register('boardTitle')}
           sx={{
             width: '100%',
             height: '100%',
@@ -60,17 +64,17 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
           }}
         />
         <HashtagWrapper>
-          <input type="text" id="tagify" placeholder="해시태그를 입력해보세요!" />
+          <TagifyContainer useFormProps={useBoardForms} handleAddHashtag={useBoardForms.setValues.setHashtag}/>
         </HashtagWrapper>
         <Typography variant={'body2'} sx={{ color: 'gray', textAlign: 'left' }}>
-          태그는 7자 이하로 5개까지 가능합니다.
+          태그는 7자 이하로 3개까지 가능합니다.
         </Typography>
       </Box>
       <Box width={'100%'} height={'90%'} paddingTop={'20px'}>
-        <ToastEditor onChange={onChange} hooksCallback={hooksCallback} initialValue={watchValues.watchBoardContent} />
-        {errors.boardContent?.message && (
+        <ToastEditor onChange={onChange} hooksCallback={hooksCallback} initialValue={useBoardForms.watchValues.watchBoardContent} />
+        {useBoardForms.errors.boardContent?.message && (
           <Typography variant={'body2'} sx={{ color: 'red', textAlign: 'left' }}>
-            {errors.boardContent?.message}
+            {useBoardForms.errors.boardContent?.message}
           </Typography>
         )}
       </Box>

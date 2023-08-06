@@ -21,6 +21,7 @@ export const QUERY_KEY = {
   boardCommentLikeCount: 'boardCommentLikeCount',
   childrenComments: 'childrenComments',
   mainPageCharacterRanking: 'mainPageCharacterRanking',
+  hashtagList: 'hashtagList',
 };
 
 export const imageData = [

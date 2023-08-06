@@ -5,6 +5,7 @@ import HashtagContent from './TagChipContent';
 import HashtagLoading from './TagChipLoading';
 import { BOARD_LIST_URL } from 'apis/data/urls';
 import MyChip from '../MyChip';
+import useHashtagCountQuery from '../../../hooks/boardHooks/queries/useHashtagCountQuery';
 
 export const TagChip = ({ boardType, tag }: ITagChipProps) => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export const TagChip = ({ boardType, tag }: ITagChipProps) => {
     e.stopPropagation();
   };
   const [isMouseOvered, setIsMouseOvered] = React.useState(false);
-  const { boardCount, isHashtagLoading } = useHashtagCount(tag, isMouseOvered);
+  const { boardCount, isHashtagLoading } = useHashtagCountQuery(tag, isMouseOvered);
   const handleMouseOver = () => {
     setIsMouseOvered(true);
   };
@@ -26,6 +27,7 @@ export const TagChip = ({ boardType, tag }: ITagChipProps) => {
       placement="top"
       data-tag={tag}
       disableInteractive
+      arrow
       onMouseOver={handleMouseOver}
     >
       <MyChip
@@ -33,8 +35,9 @@ export const TagChip = ({ boardType, tag }: ITagChipProps) => {
         label={'#' + tag}
         color="default"
         clickable={true}
-        sx={{ fontSize: '10px', fontWeight: 'bold' }}
-        size="small"
+        sx={{ fontSize: '13px', fontWeight: 'bold' }}
+        size="medium"
+        variant={'outlined'}
         data-tag={tag}
         onClick={handleTagClick}
       />
@@ -45,7 +48,4 @@ export const TagChip = ({ boardType, tag }: ITagChipProps) => {
 interface ITagChipProps {
   boardType: string;
   tag: string;
-}
-function useHashtagCount(tag: string, isMouseOvered: boolean): { boardCount: any; isHashtagLoading: any } {
-  throw new Error('Function not implemented.');
 }

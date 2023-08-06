@@ -15,8 +15,7 @@ const WriteBoard = () => {
   const searchParams = new URLSearchParams(location.search);
   const createBoard = useCreateBoardMutation();
   const boardType = searchParams.get('boardType') || 'ALL';
-  const { register, handleSubmit, errors, setValues, watchValues, onSubmit } = useBoardForm();
-  const formProps = { register, handleSubmit, errors, setValues, watchValues, onSubmit };
+  const formProps = useBoardForm();
   const {
     characterName,
     characterImgPath,
@@ -24,12 +23,12 @@ const WriteBoard = () => {
     setCharacterLinkModalOpen,
     handleSetCharacterDetails,
     handleDeleteCharacter,
-  } = useCharacterBoardLink(setValues, '', '');
+  } = useCharacterBoardLink(formProps.setValues, '', '');
   const handleModalOpen = () => {
     setCharacterLinkModalOpen(true);
   };
   const characterLinkBoxProps = {
-    characterId: watchValues.watchCharacterId || '',
+    characterId: formProps.watchValues.watchCharacterId || '',
     characterName,
     characterImgUrl: characterImgPath,
     handleOpenModal: handleModalOpen,
@@ -40,10 +39,10 @@ const WriteBoard = () => {
   };
   useEffect(() => {
     if (boardType === 'ALL') {
-      setValues.setBoardType('FREE');
+      formProps.setValues.setBoardType('FREE');
       return;
     }
-    setValues.setBoardType(boardType);
+    formProps.setValues.setBoardType(boardType);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

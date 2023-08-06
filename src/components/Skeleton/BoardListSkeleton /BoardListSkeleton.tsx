@@ -41,10 +41,6 @@ const BoardListSkeleton = () => {
     <Box>
       <BoardItemSkeleton />
       <BoardItemSkeleton />
-      <BoardItemSkeleton />
-      <BoardItemSkeleton />
-      <BoardItemSkeleton />
-      <BoardItemSkeleton />
     </Box>
   );
 };

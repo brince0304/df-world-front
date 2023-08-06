@@ -100,4 +100,5 @@ export interface IBoardRequest {
 
 export interface IHashtagRequest {
   value: string;
+  __isValid: boolean;
 }
