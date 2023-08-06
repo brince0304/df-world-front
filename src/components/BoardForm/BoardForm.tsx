@@ -12,7 +12,6 @@ import BoardFormChips from '../Chips/BoardFormChips';
 import TagifyContainer from './TagifyContainer';
 
 const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: IBoardFormProps) => {
-
   const handleSelectChange = (value: string) => {
     useBoardForms.setValues.setBoardType(value);
   };
@@ -28,11 +27,8 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
     }
   };
   const navigate = useNavigate();
-  const onInvalid = (error: any) => {
-    console.info(error);
-  }
   return (
-    <form onSubmit={useBoardForms.handleSubmit(handlePost,onInvalid)}>
+    <form onSubmit={useBoardForms.handleSubmit(handlePost)}>
       <BoardWriteFormTitleWrapper>
         <Typography variant={'h4'} sx={{ fontWeight: 'bold' }} fontFamily={'Core Sans'}>
           {buttonLabel}
@@ -64,14 +60,18 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
           }}
         />
         <HashtagWrapper>
-          <TagifyContainer useFormProps={useBoardForms} handleAddHashtag={useBoardForms.setValues.setHashtag}/>
+          <TagifyContainer useFormProps={useBoardForms} handleAddHashtag={useBoardForms.setValues.setHashtag} />
         </HashtagWrapper>
-        <Typography variant={'body2'} sx={{ color: 'gray', textAlign: 'left' }}>
-          태그는 7자 이하로 3개까지 가능합니다.
+        <Typography variant={'body2'} sx={{ textAlign: 'left', color:useBoardForms.errors.hashtag?.message ? 'red' : 'grey' }}>
+          {useBoardForms.errors.hashtag?.message || '7자 이하로 3개까지 입력해보세요.'}
         </Typography>
       </Box>
       <Box width={'100%'} height={'90%'} paddingTop={'20px'}>
-        <ToastEditor onChange={onChange} hooksCallback={hooksCallback} initialValue={useBoardForms.watchValues.watchBoardContent} />
+        <ToastEditor
+          onChange={onChange}
+          hooksCallback={hooksCallback}
+          initialValue={useBoardForms.watchValues.watchBoardContent}
+        />
         {useBoardForms.errors.boardContent?.message && (
           <Typography variant={'body2'} sx={{ color: 'red', textAlign: 'left' }}>
             {useBoardForms.errors.boardContent?.message}
