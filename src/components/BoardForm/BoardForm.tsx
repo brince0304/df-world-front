@@ -62,7 +62,10 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
         <HashtagWrapper>
           <TagifyContainer useFormProps={useBoardForms} handleAddHashtag={useBoardForms.setValues.setHashtag} />
         </HashtagWrapper>
-        <Typography variant={'body2'} sx={{ textAlign: 'left', color:useBoardForms.errors.hashtag?.message ? 'red' : 'grey' }}>
+        <Typography
+          variant={'body2'}
+          sx={{ textAlign: 'left', color: useBoardForms.errors.hashtag?.message ? 'red' : 'grey' }}
+        >
           {useBoardForms.errors.hashtag?.message || '7자 이하로 3개까지 입력해보세요.'}
         </Typography>
       </Box>
