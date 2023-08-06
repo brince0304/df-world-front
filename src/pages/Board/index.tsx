@@ -1,74 +1,15 @@
-import CustomTable from '../../components/CustomTable/CustomTable';
-import { useLocation, useNavigate } from 'react-router';
-import React, { ReactNode } from 'react';
+import MyTable from '../../components/MyTable/MyTable';
+import { useLocation } from 'react-router';
+import React from 'react';
 import SpeedDial from './SpeedDial';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Container, IconButton, Menu, MenuItem } from '@mui/material';
+import { Container } from '@mui/material';
 import BestContent from '../../components/BestBoardList/BestBoard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { AllInbox, Announcement, FreeBreakfast, LocalMall, QuestionAnswer, Work } from '@mui/icons-material';
 import BoardList from 'components/BoardList/BoardList';
 import { getBoardType } from 'utils/boardUtil';
 import styled from '@emotion/styled';
-
-export const LongMenu = (props: { menuList: MenuItems[]; boardType: string }) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  let navigation = useNavigate();
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = (e: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(null);
-    const type = e.currentTarget.getAttribute('data-type');
-    if (type) {
-      navigation(`/boards/?boardType=${type}`);
-    }
-  };
-
-  return (
-    <Box>
-      <IconButton aria-label="more" id="long-button" onClick={handleClick}>
-        <MoreVertIcon />
-      </IconButton>
-      <Menu
-        MenuListProps={{
-          'aria-labelledby': 'long-button',
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          style: {
-            maxHeight: ITEM_HEIGHT * 4.5,
-            width: '130px',
-          },
-        }}
-      >
-        {props.menuList.map((item) => (
-          <MenuItem
-            key={item.type}
-            selected={props.boardType === item.type}
-            onClick={handleClose}
-            component={'div'}
-            data-type={item.type}
-          >
-            <Typography noWrap fontFamily={'Core Sans'} fontWeight={'bold'}>
-              {item.label}
-            </Typography>
-          </MenuItem>
-        ))}
-      </Menu>
-    </Box>
-  );
-};
-
-interface MenuItems {
-  type: string;
-  icon: ReactNode;
-  label: string;
-}
+import BoardTypeChips from '../../components/Chips/BoardTypeChips';
 
 export const getSearchType = (type: string) => {
   switch (type) {
@@ -83,15 +24,6 @@ export const getSearchType = (type: string) => {
   }
 };
 
-const MenuListItem = [
-  { type: 'ALL', icon: <AllInbox />, label: '전체' },
-  { type: 'MARKET', icon: <LocalMall />, label: '거래' },
-  { type: 'QUESTION', icon: <QuestionAnswer />, label: '질문/답변' },
-  { type: 'RECRUITMENT', icon: <Work />, label: '구인/홍보' },
-  { type: 'FREE', icon: <FreeBreakfast />, label: '자유' },
-  { type: 'NOTICE', icon: <Announcement />, label: '공지사항' },
-];
-
 const Board = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -101,7 +33,7 @@ const Board = () => {
 
   return (
     <Container maxWidth="md">
-      <CustomTable
+      <MyTable
         title={
           <TableTitleWrapper>
             {!keyword && !searchType && <TableTitle>{getBoardType(boardType)}</TableTitle>}
@@ -110,18 +42,18 @@ const Board = () => {
                 {getBoardType(boardType)} - {getSearchType(searchType)} : {keyword}
               </TableTitle>
             )}
+            <BoardTypeChips boardType={boardType} />
           </TableTitleWrapper>
         }
         useMenu={false}
-        useIcon={true}
-        icon={<LongMenu menuList={MenuListItem} boardType={boardType} />}
+        useIcon={false}
       >
         <Box sx={{ padding: '10px 10px 10px 10px' }}>
           <BestContent boardType={boardType} />
         </Box>
         <BoardList searchType={searchType} keyword={keyword} boardType={boardType} />
         <SpeedDial boardType={boardType} keyword={keyword} searchType={searchType} />
-      </CustomTable>
+      </MyTable>
     </Container>
   );
 };
@@ -134,13 +66,11 @@ export const BestArticleTitle = styled.div`
   color: #000;
 `;
 
-const ITEM_HEIGHT = 48;
-
 const TableTitleWrapper = styled(Box)`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   gap: 10px;
 `;
@@ -149,7 +79,6 @@ const TableTitle = styled(Typography)`
   && {
     font-size: 24px;
     font-weight: bold;
-    font-family: 'Core Sans';
   }
 `;
 

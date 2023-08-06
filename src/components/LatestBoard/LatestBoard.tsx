@@ -1,6 +1,6 @@
 import react, { Suspense } from 'react';
 import React from 'react';
-import CustomTable from '../CustomTable/CustomTable';
+import MyTable from '../MyTable/MyTable';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +19,7 @@ const LatestBoard = () => {
     navigate(`/boards?boardType=${isSelected}`);
   };
   return (
-    <CustomTable
+    <MyTable
       menus={boardCategories}
       title={'통합 게시판'}
       isSelected={isSelected}
@@ -39,7 +39,7 @@ const LatestBoard = () => {
           </Suspense>
         </ErrorBoundary>
       </BoardBody>
-    </CustomTable>
+    </MyTable>
   );
 };
 
