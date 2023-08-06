@@ -7,7 +7,7 @@ const MainCharacterRankingList = (props: { type: string }) => {
   return (
     <>
       {data?.content.map((item, index: number) => (
-        <MainCharacterRankingListItem item={item} index={index} type={props.type}/>
+        <MainCharacterRankingListItem item={item} index={index} type={props.type} />
       ))}
     </>
   );

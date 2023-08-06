@@ -17,7 +17,7 @@ const Main = () => {
       <LatestBoardContainer>
         <LatestBoard />
       </LatestBoardContainer>
-      <CharacterRanking/>
+      <CharacterRanking />
     </Container>
   );
 };

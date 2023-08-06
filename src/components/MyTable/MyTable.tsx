@@ -45,9 +45,7 @@ function MyTable(props: TableCustomProps) {
     <TableContainer>
       <TableHeader>
         <TableTitleWrapper>
-          <Typography
-            fontWeight="bold"
-          >{props.title}</Typography>
+          <Typography fontWeight="bold">{props.title}</Typography>
           {props.isLoading && <ReactLoading type={'spinningBubbles'} color={'gray'} width={'25px'} height={'25px'} />}
         </TableTitleWrapper>
         {props.useIcon && props.icon}

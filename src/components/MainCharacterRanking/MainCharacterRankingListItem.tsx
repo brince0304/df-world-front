@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import RankingValue from './RankingValue';
 import { useRef } from 'react';
 
-const MainCharacterRankingListItem = ({ item,index,type }: { item: Content,index:number,type:string }) => {
+const MainCharacterRankingListItem = ({ item, index, type }: { item: Content; index: number; type: string }) => {
   let navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -57,8 +57,8 @@ const MainCharacterRankingListItem = ({ item,index,type }: { item: Content,index
         </div>
       </TableRow>
     </Grid>
-  )
-}
+  );
+};
 
 export default MainCharacterRankingListItem;
 

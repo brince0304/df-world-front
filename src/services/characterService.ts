@@ -33,8 +33,7 @@ export default class CharacterService implements ICharacterService {
   }
 
   getMainCharacterRanking(data: { searchType: string }) {
-    const url = this.getMainCharacterRankingUrl
-      .replace('{searchType}', data.searchType);
+    const url = this.getMainCharacterRankingUrl.replace('{searchType}', data.searchType);
     return this.axiosClient.get(url);
   }
 }

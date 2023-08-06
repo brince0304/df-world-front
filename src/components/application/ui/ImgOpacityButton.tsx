@@ -22,10 +22,9 @@ export function ImgOpacityButton(props: ImgOpacityButtonProps) {
       onClick={props.onClick}
       sx={{
         padding: '0px',
-
       }}
     >
-      <Image src={props.src} alt={props.alt} scale={props.scale} width={'100%'} height={'100%'} />
+      <Image src={props.src} alt={props.alt} scale={props.scale} width={'100%'} />
     </Button>
   );
 }

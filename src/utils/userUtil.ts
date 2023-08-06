@@ -21,4 +21,4 @@ export const getGoogleLoginUrl = () => {
   const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const redirectUrl = process.env.REACT_APP_GOOGLE_REDIRECT_URL;
   return `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUrl}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile`;
-}
+};

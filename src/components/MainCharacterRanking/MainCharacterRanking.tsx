@@ -10,7 +10,7 @@ import Loading from '../Fallbacks/Loading';
 import MainCharacterRankingList from './MainCharacterRankingList';
 
 function CharacterRanking() {
-  const [isSelected, setIsSelected] = useState('adventureFame')
+  const [isSelected, setIsSelected] = useState('adventureFame');
   return (
     <MyTable
       title={'캐릭터 랭킹'}
@@ -26,8 +26,8 @@ function CharacterRanking() {
       }
     >
       <Grid container>
-        <Suspense fallback={<Loading/>}>
-        <MainCharacterRankingList type={isSelected} />
+        <Suspense fallback={<Loading />}>
+          <MainCharacterRankingList type={isSelected} />
         </Suspense>
       </Grid>
     </MyTable>

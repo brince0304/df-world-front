@@ -25,8 +25,8 @@ const LoginButtons = (props: LoginButtonsProps) => {
       case 'KAKAO':
         window.location.href = getKakaoLoginUrl();
         break;
-      case 'GOOGLE' :
-        window.location.href= getGoogleLoginUrl();
+      case 'GOOGLE':
+        window.location.href = getGoogleLoginUrl();
         break;
       default:
         break;
@@ -36,12 +36,7 @@ const LoginButtons = (props: LoginButtonsProps) => {
     <>
       {props.data.map((item, index) => (
         <Tooltip title={item.type} key={index}>
-          <ImgOpacityButton
-            onClick={() => onClick(item.type)}
-            src={item.src}
-            alt={item.alt}
-            key={index}
-          />
+          <ImgOpacityButton onClick={() => onClick(item.type)} src={item.src} alt={item.alt} key={index} />
         </Tooltip>
       ))}
     </>

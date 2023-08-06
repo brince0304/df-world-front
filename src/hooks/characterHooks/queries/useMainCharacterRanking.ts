@@ -14,6 +14,6 @@ const useMainCharacterRanking = (searchType: string) => {
   });
 
   return data;
-}
+};
 
 export default useMainCharacterRanking;

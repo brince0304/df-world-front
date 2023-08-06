@@ -15,7 +15,7 @@ const HeaderTopSection = ({ handleOpenNavbar, characterSearchHandler, characterD
       <MobileNavButton onClick={handleOpenNavbar}>
         <FontAwesomeIcon icon={faBars} size="lg" />
       </MobileNavButton>
-      <Logo onClick={handleNavigateToMain}>{'커뮤니티'}</Logo>
+      <Logo onClick={handleNavigateToMain}>{'던파월드'}</Logo>
       <SelectSearchWrapper>
         <CharacterSearchBox searchHandler={characterSearchHandler} clickHandler={characterDetailHandler} />
       </SelectSearchWrapper>
