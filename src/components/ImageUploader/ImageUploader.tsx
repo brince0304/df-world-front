@@ -22,7 +22,7 @@ function ImageUploader(props: { handleClose: () => void }) {
     if (profile) {
       formData.current?.append('file', profile);
       console.info(formData);
-      if(formData.current) {
+      if (formData.current) {
         changeProfileIcon(formData.current);
         props.handleClose();
       }

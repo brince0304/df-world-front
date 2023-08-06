@@ -16,7 +16,7 @@ const useMyPageError = () => {
 
   const handleChangeAvatarError = () => {
     handleError('프로필 이미지 변경에 실패했습니다. 😭');
-  }
+  };
 
   return {
     handleUpdateError,
