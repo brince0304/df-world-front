@@ -9,7 +9,6 @@ const useBestBoardList = (query?: string) => {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    initialData: [],
   });
   return {
     data,

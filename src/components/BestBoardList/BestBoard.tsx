@@ -23,7 +23,7 @@ const BestBoard = (props: { boardType: string }) => {
         }}
       >
         <BestArticleTitle>
-          <StarIcon /> <Typography fontFamily={'Core Sans'}>인기글</Typography>
+          <StarIcon /> <Typography fontWeight={500}>인기글</Typography>
         </BestArticleTitle>
         {data?.length !== 0 && (
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>

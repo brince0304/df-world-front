@@ -1,43 +1,34 @@
-import { Avatar, Chip, styled, Tooltip, Zoom } from '@mui/material';
+import { styled, Tooltip, Zoom } from '@mui/material';
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { BestArticles } from '../../interfaces/ArticleType';
 import BestBoardContent from './BestBoardContent';
+import BoardUserAvatar from '../BoardUserAvatar/BoardUserAvatar';
 
 const BestBoardListItem = ({ item, chipColor, chipIndex, index, handleNavigate }: IBestListProps) => {
   return (
     <TabPanel value={index} index={chipIndex + 1} key={chipIndex}>
-      <Zoom in={index === chipIndex + 1} timeout={200}>
-        <ChipWrapper>
-          <Chip
-            avatar={<Avatar src={item.userProfileImgUrl} alt={item.userNickname} />}
-            label={item.userNickname}
-            sx={ChipDetail}
-            color={chipColor}
+      <Tooltip
+        placement={'bottom'}
+        title={
+          <BestBoardContent
+            likeCount={item.boardLikeCount}
+            commentCount={item.commentCount}
+            boardType={item.boardType}
           />
-          <div
-            onClick={(e) => handleNavigate(item.id)}
-            style={{ marginLeft: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          >
-            <Tooltip
-              placement={'bottom'}
-              title={
-                <BestBoardContent
-                  likeCount={item.boardLikeCount}
-                  commentCount={item.commentCount}
-                  boardType={item.boardType}
-                />
-              }
-              key={chipIndex}
-              arrow
-              id={'chip-item-' + item.id.toString()}
-            >
+        }
+        key={chipIndex}
+        arrow
+        id={'chip-item-' + item.id.toString()}
+      >
+        <Zoom in={index === chipIndex + 1} timeout={200} onClick={(e) => handleNavigate(item.id)}>
+          <ChipWrapper>
+            <BoardUserAvatar src={item.userProfileImgUrl} nickname={item.userNickname} />
               <TitleWrapper>{item.boardTitle}</TitleWrapper>
-            </Tooltip>
-          </div>
-        </ChipWrapper>
-      </Zoom>
+          </ChipWrapper>
+        </Zoom>
+      </Tooltip>
     </TabPanel>
   );
 };
@@ -57,17 +48,11 @@ function TabPanel(props: { children?: React.ReactNode; value: number; index: num
   return <div hidden={value !== index}>{value === index && <div>{children}</div>}</div>;
 }
 
-const ChipDetail = {
-  fontSize: '0.9rem',
-  fontWeight: 'bold',
-  color: '#000000',
-};
-
 const ChipWrapper = styled(Box)`
   display: flex;
   flex-direction: row;
   align-content: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
 `;
 

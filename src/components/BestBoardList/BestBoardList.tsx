@@ -1,4 +1,4 @@
-import { Box, ListItemButton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import BestBoardListItem from './BestBoardListItem';
 import { IBestBoard } from 'interfaces/IBestBoard';
 import { useNavigate } from 'react-router-dom';
@@ -10,21 +10,16 @@ const BestBoardList = ({ data, index }: IBestBoardListProps) => {
     navigate(BOARD_DETAIL_URL + `${id}`);
   };
   return (
-    <Box>
+    <Box sx={{padding:'5px 2px'}}>
       {data?.length !== 0 && (
-        <ListItemButton
-          id={'chip-container'}
-          sx={{ padding: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: 'auto' }}
-        >
-          {data?.map((item, chipIndex) => (
+          data.map((item, chipIndex) => (
             <BestBoardListItem
               item={item}
               chipIndex={chipIndex}
               index={index}
               handleNavigate={handleBestArticleNavigate}
             />
-          ))}
-        </ListItemButton>
+          ))
       )}
       {data?.length === 0 && (
         <Box
