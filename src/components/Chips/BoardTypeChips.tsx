@@ -1,5 +1,5 @@
 import MyChip from './MyChip';
-import { boardCategories, getBoardType } from '../../utils/boardUtil';
+import { boardCategoriesWithoutNotice, getBoardType } from '../../utils/boardUtil';
 import { useNavigate } from 'react-router-dom';
 import { List, styled } from '@mui/material';
 
@@ -10,7 +10,7 @@ const BoardTypeChips = ({ boardType }: { boardType: string }) => {
   };
   return (
     <ListContainer>
-      {boardCategories.map((boardCategory, index) => (
+      {boardCategoriesWithoutNotice.map((boardCategory, index) => (
         <MyChip
           key={index}
           label={getBoardType(boardCategory.id)}

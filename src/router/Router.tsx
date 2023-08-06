@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import App from '../App';
-import Main from '../pages/Home';
+import Main from '../pages/MainPage';
 import { useUserQuery } from '../hooks/authHooks/queries/useUserQuery';
 import {
   BOARD_LIST_URL,
@@ -9,13 +9,13 @@ import {
   USER_KAKAO_LOGIN_URL,
   USER_MYPAGE_URL,
 } from '../apis/data/urls';
-import Board from '../pages/Board';
+import Board from '../pages/BoardListPage';
 import { BOARD_INSERT_FORM_ROUTE, BOARD_ROUTE } from '../apis/data/route';
-import WriteBoard from '../pages/Board/Write';
-import Characters from '../pages/Characters';
-import CharacterDetail from '../pages/Characters/Detail';
-import BoardDetail from '../pages/BoardDetail';
-import MyPage from '../pages/MyPage';
+import WriteBoard from '../pages/WriteBoard';
+import Characters from '../pages/CharacterSearchPage';
+import CharacterDetail from '../pages/CharacterDetailPage';
+import BoardDetailPage from '../pages/BoardDetailPage';
+import MyPage from '../pages/MypagePage';
 import KaKaoCallback from '../pages/KakaoCallback';
 
 const PrivateRouter = () => {
@@ -47,7 +47,7 @@ const PrivateRouter = () => {
         },
         {
           path: BOARD_ROUTE,
-          element: <BoardDetail />,
+          element: <BoardDetailPage />,
         },
         {
           path: '*',

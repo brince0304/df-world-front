@@ -1,9 +1,9 @@
-import useMainCharacterRanking from '../../hooks/characterHooks/queries/useMainCharacterRanking';
+import useMainCharacterRankingQuery from '../../hooks/characterHooks/queries/useMainCharacterRankingQuery';
 import MainCharacterRankingListItem from './MainCharacterRankingListItem';
 import React from 'react';
 
 const MainCharacterRankingList = (props: { type: string }) => {
-  const data = useMainCharacterRanking(props.type);
+  const data = useMainCharacterRankingQuery(props.type);
   return (
     <>
       {data?.content.map((item, index: number) => (

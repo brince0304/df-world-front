@@ -81,11 +81,12 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: '#F8F8F8',
     color: 'rgba(0, 0, 0, 0.87)',
-    width: '300px',
+    width: '200px',
     height: '100%',
     border: '1px solid #dadde9',
     boxShadow: '0 0 30px 0 rgba(0, 0, 0, 0.1)',
     fontSize: '0.9rem',
+    marginTop: '10px',
   },
 }));
 

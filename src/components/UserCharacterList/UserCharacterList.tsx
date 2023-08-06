@@ -1,20 +1,23 @@
-import { Content } from '../../interfaces/ICharactersData';
 import React from 'react';
 import { Grid } from '@mui/material';
 import CharacterCard from '../CharacterList/CharacterCard';
 import useDeleteCharacterMutation from '../../hooks/myPageHooks/mutations/useDeleteCharacterMutation';
+import useMyPageQuery from '../../hooks/myPageHooks/queries/useMyPageQuery';
+import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 
-const UserCharactersList = (props: { data: Content[]; adventure: string }) => {
+const UserCharactersList = () => {
+  const { data } = useMyPageQuery();
+  const {user} = useUserQuery();
   const deleteCharacter = useDeleteCharacterMutation();
   return (
     <Grid container spacing={3}>
-      {props.data.map((character, index: number) => {
+      {data?.userDetail.characters.map((character, index: number) => {
         return (
           <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
             <CharacterCard
               character={character}
               deletable={true}
-              adventure={props.adventure}
+              adventure={user?.adventureName}
               onClickDeleteButton={deleteCharacter}
             />
           </Grid>

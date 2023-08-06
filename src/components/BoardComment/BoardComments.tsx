@@ -3,6 +3,7 @@ import BoardCommentForm from './BoardCommentForm';
 import useCreateBoardCommentMutation from '../../hooks/boardCommentHooks/mutations/useCreateBoardCommentMutation';
 import { IBoardCommentRequest } from 'services/boardCommentService';
 import BoardCommentList from './BoardCommentList';
+import { Suspense } from 'react';
 
 const BoardComments = ({ boardId }: IBoardCommentListProps) => {
   const createComment = useCreateBoardCommentMutation(boardId);
@@ -22,7 +23,9 @@ const BoardComments = ({ boardId }: IBoardCommentListProps) => {
         ></Box>
       </Box>
       <Box>
+        <Suspense fallback={<div>로딩중...</div>}>
         <BoardCommentList boardId={boardId} />
+        </Suspense>
       </Box>
       <BoardCommentForm boardId={boardId} onSubmit={handleSubmit} />
     </Box>

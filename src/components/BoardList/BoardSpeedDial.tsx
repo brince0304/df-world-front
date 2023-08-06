@@ -4,19 +4,14 @@ import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import { IconButton, Slide, styled } from '@mui/material';
-import ModeIcon from '@mui/icons-material/Mode';
-import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 import { DragHandleRounded, HighlightOffOutlined } from '@mui/icons-material';
-import { BOARD_LIST_URL, BOARD_WRITE_URL } from '../../../apis/data/urls';
-import SearchForm from 'components/SearchForm/SearchForm';
-import { boardSearchTypes, getSearchType } from 'utils/boardUtil';
-import useSearchForm from 'hooks/uiHooks/useSearchForm';
-
-const actions = [
-  { icon: <ModeIcon />, name: '글쓰기' },
-  { icon: <SearchIcon />, name: '검색' },
-];
+import { BOARD_LIST_URL, BOARD_WRITE_URL } from '../../apis/data/urls';
+import SearchForm from '../SearchForm/SearchForm';
+import { boardSearchTypes, getSearchType } from '../../utils/boardUtil';
+import useSearchForm from '../../hooks/uiHooks/useSearchForm';
+import SearchIcon from '@mui/icons-material/Search';
+import ModeIcon from '@mui/icons-material/Mode';
 
 function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps) {
   const [searchBoxIsOpened, setSearchBoxIsOpened] = useState(false);
@@ -24,6 +19,11 @@ function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps
   const handleOpenSearchBox = () => {
     setSearchBoxIsOpened(!searchBoxIsOpened);
   };
+  const actions = [
+    { icon: <ModeIcon />, name: '글쓰기' },
+    { icon: <SearchIcon />, name: '검색' },
+  ];
+
   const handleNavigateToSearchResult = (searchType: string, searchKeyword: string) => {
     navigate(BOARD_LIST_URL + `?searchType=${searchKeyword}&keyword=${searchType}&boardType=${boardType}`);
   };
@@ -49,14 +49,7 @@ function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps
       handleOpenSearchBox();
     }
   };
-  <SearchForm
-    placeholder={'검색'}
-    direction={'down'}
-    filterOptions={boardSearchTypes}
-    handleSubmit={handleNavigateToSearchResult}
-    useSearchForms={searchFormProps}
-    setIsFocus={() => {}}
-  />;
+
   return (
     <CustomBox>
       <SpeedDialWrapper>

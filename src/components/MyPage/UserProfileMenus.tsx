@@ -1,19 +1,19 @@
-import * as React from 'react';
 import { useState } from 'react';
+import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
+import useCharacterUserLink from '../../hooks/myPageHooks/useCharacterUserLink';
 import EditIcon from '@mui/icons-material/Edit';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ProfileIconChangeModal from '../../Home/AuthModal/ProfileIconChangeModal';
+import ProfileIconChangeDialog from './ProfileIconChangeDialog';
 import Typography from '@mui/material/Typography';
 import { Avatar, Badge, List, ListItemButton, styled } from '@mui/material';
-import MyActivitiesModal from '../Modal/MyActivities';
-import UserDetailEditModal from '../Modal/UserDetailEdit';
+import MyActivitiesModal from '../../pages/MyPage/Modal/MyActivities';
 import PublicIcon from '@mui/icons-material/Public';
-import CharacterLinkModal from '../../../components/CharacterLinkModal/CharacterLinkModal';
-import { useUserQuery } from '../../../hooks/authHooks/queries/useUserQuery';
-import useCharacterUserLink from '../../../hooks/myPageHooks/useCharacterUserLink';
+import CharacterLinkModal from '../CharacterLinkModal/CharacterLinkModal';
+import * as React from 'react';
+import UserDetailEditDialog from './UserDetailEditDialog';
 
-const ProfileMenus = (props: { refresh: () => void }) => {
+const UserProfileMenus = (props: { refresh: () => void }) => {
   const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
   const [openActivityHistoryModal, setOpenActivityHistoryModal] = useState(false);
   const [openProfileIconChangeModal, setOpenProfileIconChangeModal] = useState(false);
@@ -65,7 +65,7 @@ const ProfileMenus = (props: { refresh: () => void }) => {
   return (
     <ProfileMenuList>
       {user && (
-        <ProfileIconChangeModal isOpened={openProfileIconChangeModal} handleClose={handleProfileChangeModalClose} />
+        <ProfileIconChangeDialog isOpened={openProfileIconChangeModal} handleClose={handleProfileChangeModalClose} />
       )}
       {profileMenuList.map((menu, index) => {
         return (
@@ -90,7 +90,7 @@ const ProfileMenus = (props: { refresh: () => void }) => {
         activitiesModalOpened={openActivityHistoryModal}
         handleClose={handleCloseActivityHistoryModal}
       />
-      <UserDetailEditModal open={openEditProfileModal} onClose={handleCloseEditProfileModal} refresh={props.refresh} />
+      <UserDetailEditDialog open={openEditProfileModal} onClose={handleCloseEditProfileModal} refresh={props.refresh} />
       <ProfileMenuButton onClick={handleProfileChangeModalOpen}>
         <Avatar sx={{ width: '20px', height: '20px' }} src={user?.profileImgPath} />
         <Typography component={'span'} fontSize={'0.8rem'}>
@@ -132,4 +132,4 @@ const ProfileMenuButton = styled(ListItemButton)`
   float: left;
 `;
 
-export default ProfileMenus;
+export default UserProfileMenus;

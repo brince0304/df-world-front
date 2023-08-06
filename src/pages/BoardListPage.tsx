@@ -1,15 +1,16 @@
-import MyTable from '../../components/MyTable/MyTable';
+import MyTable from '../components/MyTable/MyTable';
 import { useLocation } from 'react-router';
-import React from 'react';
-import SpeedDial from './SpeedDial';
+import React, { Suspense } from 'react';
+import SpeedDial from '../components/BoardList/BoardSpeedDial';
 import { Container } from '@mui/material';
-import BestContent from '../../components/BestBoardList/BestBoard';
+import BestContent from '../components/BestBoardList/BestBoard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import BoardList from 'components/BoardList/BoardList';
-import { getBoardType } from 'utils/boardUtil';
+import BoardList from '../components/BoardList/BoardList';
+import { getBoardType } from '../utils/boardUtil';
 import styled from '@emotion/styled';
-import BoardTypeChips from '../../components/Chips/BoardTypeChips';
+import BoardTypeChips from '../components/Chips/BoardTypeChips';
+import BoardListSkeleton from '../components/Skeleton/BoardListSkeleton /BoardListSkeleton';
 
 export const getSearchType = (type: string) => {
   switch (type) {
@@ -49,9 +50,13 @@ const Board = () => {
         useIcon={false}
       >
         <Box sx={{ padding: '10px 10px 10px 10px' }}>
+          <Suspense fallback={<div>로딩중...</div>}>
           <BestContent boardType={boardType} />
+          </Suspense>
         </Box>
+        <Suspense fallback={<BoardListSkeleton/>}>
         <BoardList searchType={searchType} keyword={keyword} boardType={boardType} />
+        </Suspense>
         <SpeedDial boardType={boardType} keyword={keyword} searchType={searchType} />
       </MyTable>
     </Container>

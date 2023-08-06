@@ -1,10 +1,12 @@
-import * as React from 'react';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import NicknameEdit from './NicknameEdit';
-import PasswordEdit from './PasswordEdit';
+import { useUserQuery } from 'hooks/authHooks/queries/useUserQuery';
+import * as React from 'react';
+import NicknameEdit from './UserNicknameEditForm';
+import PasswordEdit from './UserPasswordEditForm';
 
-const UserDetailEditModal = (props: { open: boolean; onClose: () => void; refresh: () => void }) => {
+const UserDetailEditDialog = (props: { open: boolean; onClose: () => void; refresh: () => void }) => {
+  const {user} = useUserQuery();
   return (
     <Dialog
       open={props.open}
@@ -19,16 +21,17 @@ const UserDetailEditModal = (props: { open: boolean; onClose: () => void; refres
       }}
     >
       <DialogTitle>
-        <Typography component={'span'} fontFamily={'Core Sans'} fontSize={'1.5rem'} fontWeight={'bold'}>
+        <Typography component={'span'}  fontSize={'1.5rem'} fontWeight={'bold'}>
           회원정보 수정{' '}
         </Typography>
       </DialogTitle>
       <DialogContent>
         <NicknameEdit onClose={props.onClose} />
-        <PasswordEdit onClose={props.onClose} />
+        {user?.oauthProvider === 'NONE' && <PasswordEdit onClose={props.onClose} />}
       </DialogContent>
     </Dialog>
   );
 };
 
-export default UserDetailEditModal;
+
+export default UserDetailEditDialog;

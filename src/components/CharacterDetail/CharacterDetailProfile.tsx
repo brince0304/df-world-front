@@ -1,40 +1,13 @@
-import { ICharacterDetail } from '../../../../interfaces/ICharacterDetail';
 import { Button, IconButton, Paper, Tooltip } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHandFist, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import styled from '@emotion/styled';
+import useCharacterDetailQuery from '../../hooks/characterHooks/queries/useCharacterDetailQuery';
 
-const typographyProps = {
-  component: 'span',
-  fontFamily: 'Core Sans',
-  fontWeight: '700',
-};
-
-const CharacterImgWrapper = styled.div`
-  border-radius: 10px;
-  display: flex;
-  background-image: url('/images/icon_char/bg_char.jpg');
-  background-size: cover;
-  background-position: center;
-  width: 200px;
-  height: 230px;
-  //이미지 왼쪽 정렬
-`;
-
-const refreshButtonStyle = {
-  position: 'absolute' as 'absolute',
-  top: '5px',
-  right: '5px',
-  color: 'black',
-  '&:hover': {
-    transform: 'rotate(360deg)',
-    transition: 'transform 0.5s',
-  },
-};
-
-const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICharacterDetail }) => {
+const CharacterProfile = ({ characterId, serverId }: { characterId: string; serverId: string }) => {
+  const { data, refetch } = useCharacterDetailQuery(characterId, serverId);
   return (
     <Paper
       elevation={3}
@@ -51,7 +24,7 @@ const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICha
       }}
     >
       <Tooltip title="새로고침" placement="bottom">
-        <IconButton aria-label="refresh" onClick={props.refetch} sx={refreshButtonStyle}>
+        <IconButton aria-label="refresh" onClick={()=>refetch()} sx={refreshButtonStyle}>
           <FontAwesomeIcon icon={faRotateRight} />
         </IconButton>
       </Tooltip>
@@ -60,7 +33,7 @@ const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICha
           title={
             <Box>
               <Typography {...typographyProps} sx={{ paddingLeft: '5px' }}>
-                {props.data.buffStatus?.[0]} {props.data.buffStatus?.[1]}렙 +{props.data.buffStatus?.[2]}
+                {data?.buffStatus?.[0]} {data?.buffStatus?.[1]}렙 +{data?.buffStatus?.[2]}
               </Typography>
             </Box>
           }
@@ -94,7 +67,7 @@ const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICha
           }}
         >
           <CharacterImgWrapper>
-            <img src={props.data.characterEntityDto?.characterImgPath} alt="characterImg" />
+            <img src={data?.characterEntityDto?.characterImgPath} alt="characterImg" />
           </CharacterImgWrapper>
           <Box
             sx={{
@@ -103,7 +76,7 @@ const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICha
               justifyContent: 'flex-start',
               alignItems: 'flex-start',
               paddingLeft: '10px',
-              gap: '10px',
+              gap: '5px',
               position: 'relative' as 'relative',
               height: '100%',
             }}
@@ -120,25 +93,25 @@ const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICha
               }}
             >
               <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
-                {props.data.characterEntityDto?.serverName}
+                {data?.characterEntityDto?.serverName}
               </Typography>
               <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
-                {props.data.characterEntityDto?.jobGrowName}
+                {data?.characterEntityDto?.jobGrowName}
               </Typography>
             </Box>
             <Box>
               <Typography {...typographyProps} fontSize={25} sx={{ color: 'black' }}>
-                {props.data.characterEntityDto?.characterName}
+                {data?.characterEntityDto?.characterName}
               </Typography>
             </Box>
             <Box>
               <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
-                모험단 : {props.data.characterEntityDto?.adventureName}
+                모험단 : {data?.characterEntityDto?.adventureName}
               </Typography>
             </Box>
             <Box>
               <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
-                길드 : {props.data.characterEntityDto?.guildName}
+                길드 : {data?.characterEntityDto?.guildName}
               </Typography>
             </Box>
             <Box
@@ -153,10 +126,10 @@ const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICha
               }}
             >
               <Typography {...typographyProps} fontSize={10} sx={{ color: 'black' }}>
-                전체 명성 랭킹 : {props.data.characterRank}위 / {props.data.characterCount}명
+                전체 명성 랭킹 : {data?.characterRank}위 / {data?.characterCount}명
               </Typography>
               <Typography {...typographyProps} fontSize={10} sx={{ color: 'darkred' }}>
-                상위 {props.data.characterPercent}%
+                상위 {data?.characterPercent}%
               </Typography>
             </Box>
             <Box
@@ -171,17 +144,17 @@ const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICha
               }}
             >
               <Typography {...typographyProps} fontSize={10} sx={{ color: 'black' }}>
-                직업 명성 랭킹 : {props.data.characterRankByJobName}위 / {props.data.characterCountByJobName}명
+                직업 명성 랭킹 : {data?.characterRankByJobName}위 / {data?.characterCountByJobName}명
               </Typography>
               <Typography {...typographyProps} fontSize={10} sx={{ color: 'darkred' }}>
-                상위 {props.data.characterPercentByJobName}%
+                상위 {data?.characterPercentByJobName}%
               </Typography>
             </Box>
             <Box>
               <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
                 명성 :{' '}
                 <Typography {...typographyProps} fontSize={14} sx={{ color: 'black', display: 'inline-block' }}>
-                  {props.data.characterEntityDto?.adventureFame}
+                  {data?.characterEntityDto?.adventureFame}
                 </Typography>
               </Typography>
             </Box>
@@ -193,3 +166,40 @@ const CharacterProfile = (props: { refetch: (...args: any[]) => void; data: ICha
 };
 
 export default CharacterProfile;
+
+
+const typographyProps = {
+  component: 'span',
+  fontWeight: '700',
+};
+
+const CharacterImgWrapper = styled.div`
+  border-radius: 10px;
+  display: flex;
+  background-image: url('/images/icon_char/bg_char.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 200px;
+  height: 230px;
+  //이미지 왼쪽 정렬
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 180px;
+  }
+  @media (max-width: 425px) {
+    width: 130px;
+    height: 150px;
+  }
+`;
+
+const refreshButtonStyle = {
+  position: 'absolute' as 'absolute',
+  top: '5px',
+  right: '5px',
+  color: 'black',
+  '&:hover': {
+    transform: 'rotate(360deg)',
+    transition: 'transform 0.5s',
+  },
+};
+

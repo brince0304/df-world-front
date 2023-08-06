@@ -1,8 +1,8 @@
 import React from 'react';
-import CharacterRanking from '../../components/MainCharacterRanking/MainCharacterRanking';
+import CharacterRanking from '../components/MainCharacterRanking/MainCharacterRanking';
 import { Container } from '@mui/material';
-import MainCarousel from '../../components/MainCarousel/Carousel';
-import LatestBoard from '../../components/LatestBoard/LatestBoard';
+import MainCarousel from '../components/MainCarousel/Carousel';
+import LatestBoard from '../components/LatestBoard/LatestBoard';
 import styled from '@emotion/styled';
 
 const Main = () => {

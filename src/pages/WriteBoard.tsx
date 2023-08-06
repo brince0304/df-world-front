@@ -2,12 +2,12 @@ import { Container } from '@mui/material';
 import * as React from 'react';
 import { useLocation } from 'react-router';
 import '@yaireo/tagify/dist/tagify.css';
-import useBoardForm from '../../../hooks/boardHooks/useBoardForm';
-import CharacterLinkModal from '../../../components/CharacterLinkModal/CharacterLinkModal';
-import useCharacterBoardLink from '../../../hooks/boardHooks/useCharacterBoardLink';
-import BoardForm from '../../../components/BoardForm/BoardForm';
-import useCreateBoardMutation from '../../../hooks/boardHooks/mutations/useCreateBoardMutation';
-import CharacterLinkBox from '../../../components/BoardForm/CharacterLinkBox';
+import useBoardForm from '../hooks/boardHooks/useBoardForm';
+import CharacterLinkModal from '../components/CharacterLinkModal/CharacterLinkModal';
+import useCharacterBoardLink from '../hooks/boardHooks/useCharacterBoardLink';
+import BoardForm from '../components/BoardForm/BoardForm';
+import useCreateBoardMutation from '../hooks/boardHooks/mutations/useCreateBoardMutation';
+import CharacterLinkBox from '../components/BoardForm/CharacterLinkBox';
 import { useEffect } from 'react';
 
 const WriteBoard = () => {

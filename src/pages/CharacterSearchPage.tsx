@@ -1,9 +1,8 @@
 import { useLocation, useParams } from 'react-router';
 import React from 'react';
 import { Container } from '@mui/material';
-import CharacterList from '../../components/CharacterList/CharacterList';
-import { getServerName } from '../../utils/charactersUtil';
-import useCharactersQuery from 'hooks/characterHooks/queries/useCharactersQuery';
+import CharacterList from '../components/CharacterList/CharacterList';
+import { getServerName } from '../utils/charactersUtil';
 import styled from '@emotion/styled';
 
 const Characters = () => {
@@ -11,7 +10,6 @@ const Characters = () => {
   const searchParams = new URLSearchParams(location.search);
   const characterName = searchParams.get('name') || '';
   const { serverId } = useParams();
-  const { data, hasNextPage, fetchNextPage } = useCharactersQuery(characterName, serverId ? serverId : '');
   return (
     <Container maxWidth={'lg'}>
       <ResultTitleWrapper>
@@ -19,7 +17,10 @@ const Characters = () => {
         <ResultCharacterNameWrapper>{characterName ? characterName : ''}</ResultCharacterNameWrapper>
         <ResultTitleFooterWrapper>님의 검색결과</ResultTitleFooterWrapper>
       </ResultTitleWrapper>
-      {data && <CharacterList loadFunc={fetchNextPage} hasMore={hasNextPage ? hasNextPage : false} data={data} />}
+     <CharacterList
+      characterName={characterName}
+      serverId={serverId ? serverId : ''}
+     />
     </Container>
   );
 };

@@ -2,7 +2,7 @@ import { useCharacterService } from '../../../context/characterServiceContext';
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '../../../constants/myConstants';
 
-const useMainCharacterRanking = (searchType: string) => {
+const useMainCharacterRankingQuery = (searchType: string) => {
   const { getMainCharacterRanking } = useCharacterService();
   const { data } = useQuery({
     queryKey: [QUERY_KEY.mainPageCharacterRanking, searchType],
@@ -16,4 +16,4 @@ const useMainCharacterRanking = (searchType: string) => {
   return data;
 };
 
-export default useMainCharacterRanking;
+export default useMainCharacterRankingQuery;

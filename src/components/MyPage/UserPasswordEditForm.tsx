@@ -1,17 +1,11 @@
-import CollapseButton from '../../../../../components/CollapseButton/CollapseButton';
-import { Button, FormControl, TextField } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import * as React from 'react';
-import putChangePassword from '../../../../../apis/myPage/putChangePassword';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-
-interface FormProps {
-  password: string;
-  passwordValidate: string;
-  passwordConfirm: string;
-}
+import putChangePassword from '../../apis/myPage/putChangePassword';
+import CollapseButton from '../CollapseButton/CollapseButton';
+import { Button, FormControl, TextField } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
 const PasswordEdit = (props: { onClose: () => void }) => {
   const passwordMatch = (password: string, passwordCheck: string) => {
@@ -37,12 +31,12 @@ const PasswordEdit = (props: { onClose: () => void }) => {
     watch,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormProps>({
+  } = useForm<IFormProps>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
-  const onValid = (data: FormProps) => {
+  const onValid = (data: IFormProps) => {
     handleUpdatePassword(data.passwordValidate, data.password);
   };
 
@@ -137,5 +131,11 @@ const PasswordEdit = (props: { onClose: () => void }) => {
     </CollapseButton>
   );
 };
+
+interface IFormProps {
+  password: string;
+  passwordValidate: string;
+  passwordConfirm: string;
+}
 
 export default PasswordEdit;

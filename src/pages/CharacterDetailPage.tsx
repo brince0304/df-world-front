@@ -6,25 +6,93 @@ import { Avatar, Container, Divider, List, ListItemButton, Paper, Tab, Tabs } fr
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import StarsIcon from '@mui/icons-material/Stars';
-import CharacterEquipmentModal from './CharacterEquipmentModal';
-import { BadRequest } from '../../../components/application/error/BadRequest';
+import CharacterEquipmentModal from '../components/CharacterDetail/CharacterEquipmentModal';
+import { BadRequest } from '../components/application/error/BadRequest';
 import {
-  CharacterDetailCharacterAbilityStatus,
   CharacterDetailCharacterEquipmentDetails,
   CharacterDetailCharacterEquipmentEquipment,
   CharacterDetailCharacterEquipmentEquipmentBakalInfo,
   CharacterDetailCharacterEquipmentEquipmentGrowInfoOptions,
-  ICharacterDetail,
-} from '../../../interfaces/ICharacterDetail';
-import CharacterProfile from './CharacterProfile';
-import { dontNeedList, getRarityColor } from '../../../utils/charactersUtil';
-import CharacterDetailSkeleton from '../../../components/Skeleton/CharacterDetailSkeleton/CharacterDetailSkeleton';
+} from '../interfaces/ICharacterDetail';
+import CharacterProfile from '../components/CharacterDetail/CharacterDetailProfile';
+import { dontNeedList, getRarityColor } from '../utils/charactersUtil';
+import CharacterDetailSkeleton from '../components/Skeleton/CharacterDetailSkeleton/CharacterDetailSkeleton';
 import styled from '@emotion/styled';
-import useCharacterDetailQuery from 'hooks/characterHooks/queries/useCharacterDetailQuery';
+import { ErrorBoundary } from 'react-error-boundary';
+import useCharacterDetailQuery from '../hooks/characterHooks/queries/useCharacterDetailQuery';
+
+const CharacterDetail = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const characterId = searchParams.get('characterId') as string;
+  const serverId = searchParams.get('serverId') as string;
+  const [selectedTab, setSelectedTab] = useState(0);
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
+    setSelectedTab(newValue);
+  };
+  return (
+    <CharacterDetailContainer maxWidth={'md'}>
+      <ErrorBoundary fallback={<BadRequest />}>
+      <Suspense fallback={<CharacterDetailSkeleton />}>
+        <CharacterProfile characterId={characterId} serverId={serverId}/>
+      </Suspense>
+      </ErrorBoundary>
+        <Paper
+          elevation={3}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            position: 'relative' as 'relative',
+            width: '100%',
+            height: '100%',
+            borderRadius: '10px',
+            padding: '10px',
+            marginTop: '20px',
+          }}
+        >
+          <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%', display: 'flex' }}>
+            <Tabs
+              value={selectedTab}
+              onChange={handleChange}
+              aria-label="character detail tab"
+              variant="scrollable"
+              scrollButtons
+            >
+              <Tab label="장비" sx={typographyProps} />
+              <Tab label="스탯" sx={typographyProps} />
+              <Tab label="버프 강화" sx={typographyProps} />
+              <Tab label="아바타" sx={typographyProps} />
+              <Tab label="스킬" sx={typographyProps} />
+              <Tab label="gdgd" sx={typographyProps} />
+              <Tab label="버프 강화" sx={typographyProps} />
+            </Tabs>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
+              padding: '0px 0px',
+            }}
+          >
+            <TabPanel index={0} value={selectedTab}>
+              <CharacterEquipmentList characterId={characterId} serverId={serverId} />
+            </TabPanel>
+            <TabPanel index={1} value={selectedTab}>
+            </TabPanel>
+          </Box>
+        </Paper>
+    </CharacterDetailContainer>
+  );
+};
 
 const typographyProps = {
   component: 'span',
-  fontFamily: 'Core Sans',
   fontWeight: '700',
 };
 
@@ -111,25 +179,6 @@ const EquipmentBaklInfoDetail = (props: { data: CharacterDetailCharacterEquipmen
             </Typography>
             <Typography fontSize={'12px'} color={'#BAB290'} sx={{ whiteSpace: 'pre-wrap' }}>
               {bakalInfo.explainDetail}
-            </Typography>
-          </Box>
-        );
-      })}
-    </Box>
-  );
-};
-
-const CharacterStatDetail = (props: { data: CharacterDetailCharacterAbilityStatus[] }) => {
-  return (
-    <Box>
-      {props.data.map((stat, index) => {
-        return (
-          <Box key={index}>
-            <Typography fontSize={'12px'} color={'#4AA356'}>
-              {stat.name}
-            </Typography>
-            <Typography fontSize={'12px'} color={'#8F8356'}>
-              {stat.value}
             </Typography>
           </Box>
         );
@@ -549,85 +598,11 @@ const CharacterDetailContainer = styled(Container)`
   padding: 20px 10px;
 `;
 
-const CharacterDetail = () => {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const characterId = searchParams.get('characterId') as string;
-  const serverId = searchParams.get('serverId') as string;
-  const [selectedTab, setSelectedTab] = useState(0);
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
-    setSelectedTab(newValue);
-  };
-  const { data, refetch, isError } = useCharacterDetailQuery(characterId, serverId);
-  return (
-    <CharacterDetailContainer maxWidth={'md'}>
-      <Suspense fallback={<CharacterDetailSkeleton />}>
-        {data && <CharacterProfile refetch={refetch} data={data} />}
-      </Suspense>
-      {isError && <BadRequest />}
-      {data && (
-        <Paper
-          elevation={3}
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            position: 'relative' as 'relative',
-            width: '100%',
-            height: '100%',
-            borderRadius: '10px',
-            padding: '10px',
-            marginTop: '20px',
-          }}
-        >
-          <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%', display: 'flex' }}>
-            <Tabs
-              value={selectedTab}
-              onChange={handleChange}
-              aria-label="character detail tab"
-              variant="scrollable"
-              scrollButtons
-            >
-              <Tab label="장비" sx={typographyProps} />
-              <Tab label="스탯" sx={typographyProps} />
-              <Tab label="버프 강화" sx={typographyProps} />
-              <Tab label="아바타" sx={typographyProps} />
-              <Tab label="스킬" sx={typographyProps} />
-              <Tab label="gdgd" sx={typographyProps} />
-              <Tab label="버프 강화" sx={typographyProps} />
-            </Tabs>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              width: '100%',
-              height: '100%',
-              padding: '0px 0px',
-            }}
-          >
-            <TabPanel index={0} value={selectedTab}>
-              <CharacterEquipmentList {...data} />
-            </TabPanel>
-            <TabPanel index={1} value={selectedTab}>
-              {data?.characterAbility && data.characterAbility.status && (
-                <CharacterStatDetail data={data.characterAbility.status} />
-              )}
-            </TabPanel>
-          </Box>
-        </Paper>
-      )}
-    </CharacterDetailContainer>
-  );
-};
-
-const CharacterEquipmentList = (data: ICharacterDetail) => {
-  return (
+const CharacterEquipmentList = ({ characterId, serverId }: { characterId: string; serverId: string }) => {
+const { data } = useCharacterDetailQuery(characterId, serverId);
+return (
     <List sx={{ width: '100%' }}>
-      {data.characterEquipment.equipment.map((equipment, index) => {
+      {data?.characterEquipment.equipment.map((equipment, index) => {
         return (
           <CharacterEquipmentDetail
             equipment={equipment}

@@ -4,7 +4,7 @@ import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-ma
 import useBestBoardList from '../../hooks/boardHooks/queries/useBestBoardListQuery';
 import StarIcon from '@mui/icons-material/Star';
 import useBestBoardStates from 'hooks/boardHooks/useBestBoardStates';
-import { BestArticleTitle } from 'pages/Board';
+import { BestArticleTitle } from '../../pages/BoardListPage';
 import BestBoardList from './BestBoardList';
 
 const BestBoard = (props: { boardType: string }) => {

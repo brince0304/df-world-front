@@ -1,22 +1,18 @@
-import { Button, FormControl } from '@mui/material';
-import ValidateTextField from '../../../../../components/ValidateTextField/ValidateTextField';
-import * as React from 'react';
+import * as yup from 'yup';
 import { useEffect, useState } from 'react';
-import getValidateNickname from '../../../../../apis/myPage/getValidateNickname';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import * as yup from 'yup';
-import putChangeNickname from '../../../../../apis/myPage/putChangeNickname';
-import CollapseButton from '../../../../../components/CollapseButton/CollapseButton';
-interface FormProps {
-  nickname: string;
-}
+import getValidateNickname from '../../apis/myPage/getValidateNickname';
+import putChangeNickname from '../../apis/myPage/putChangeNickname';
+import CollapseButton from '../CollapseButton/CollapseButton';
+import { Button, FormControl } from '@mui/material';
+import ValidateTextField from '../ValidateTextField/ValidateTextField';
+import * as React from 'react';
 
 const NicknameEdit = (props: { onClose: () => void }) => {
   const schema = yup.object().shape({
     nickname: yup.string().min(2, '닉네임은 2자리 이상이어야 합니다.').max(8, '닉네임은 8자리 이하여야 합니다.'),
   });
-
   const [isNicknameValidated, setIsNicknameValidated] = useState<boolean>(false);
   const [isNicknameChecked, setIsNicknameChecked] = useState<boolean>(false);
   const {
@@ -25,7 +21,7 @@ const NicknameEdit = (props: { onClose: () => void }) => {
     formState: { errors },
     setFocus,
     handleSubmit,
-  } = useForm<FormProps>({
+  } = useForm<IFormProps>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
@@ -54,7 +50,7 @@ const NicknameEdit = (props: { onClose: () => void }) => {
     setIsNicknameChecked(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch('nickname')]);
-  const onValid = (data: FormProps) => {
+  const onValid = (data: IFormProps) => {
     if (window.confirm('닉네임을 변경하시겠습니까?')) {
       putChangeNickname(data.nickname)
         .then((res) => {
@@ -93,5 +89,9 @@ const NicknameEdit = (props: { onClose: () => void }) => {
     </CollapseButton>
   );
 };
+interface IFormProps {
+  nickname: string;
+}
+
 
 export default NicknameEdit;

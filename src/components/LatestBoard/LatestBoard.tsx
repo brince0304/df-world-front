@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@mui/material';
-import { boardCategories } from 'utils/boardUtil';
+import { boardCategoriesWithoutNotice } from 'utils/boardUtil';
 import Loading from '../Fallbacks/Loading';
 import LatestBoardList from './LatestBoardList';
 import styled from '@emotion/styled';
@@ -20,7 +20,7 @@ const LatestBoard = () => {
   };
   return (
     <MyTable
-      menus={boardCategories}
+      menus={boardCategoriesWithoutNotice}
       title={'통합 게시판'}
       isSelected={isSelected}
       setIsSelected={setIsSelected}

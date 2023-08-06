@@ -65,7 +65,11 @@ export const getSearchType = (value: string) => {
   }
 };
 
-export const boardCategories = [
+export const boardCategoriesWithoutNotice = [
+  {
+    name: '전체',
+    id: 'ALL',
+  },
   {
     name: '자유',
     id: 'FREE',
