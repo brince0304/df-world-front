@@ -1,7 +1,6 @@
 import React from 'react';
-import CharacterRanking from './Tables/CharacterRanking';
+import CharacterRanking from '../../components/MainCharacterRanking/MainCharacterRanking';
 import { Container } from '@mui/material';
-import { CHARACTER_MAINPAGE_RANKING_URL } from '../../apis/data/urls';
 import MainCarousel from '../../components/MainCarousel/Carousel';
 import LatestBoard from '../../components/LatestBoard/LatestBoard';
 import styled from '@emotion/styled';
@@ -18,7 +17,7 @@ const Main = () => {
       <LatestBoardContainer>
         <LatestBoard />
       </LatestBoardContainer>
-      <CharacterRanking title={'캐릭터 랭킹'} url={CHARACTER_MAINPAGE_RANKING_URL} />
+      <CharacterRanking/>
     </Container>
   );
 };

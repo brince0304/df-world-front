@@ -20,6 +20,7 @@ export const QUERY_KEY = {
   boardCommentChildrenCount: 'boardCommentChildrenCount',
   boardCommentLikeCount: 'boardCommentLikeCount',
   childrenComments: 'childrenComments',
+  mainPageCharacterRanking: 'mainPageCharacterRanking',
 };
 
 export const imageData = [

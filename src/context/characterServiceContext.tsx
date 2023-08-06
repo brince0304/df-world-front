@@ -14,12 +14,14 @@ const CharacterServiceProvider = ({
 }) => {
   const getCharacterList = characterService.getCharacterList.bind(characterService);
   const getCharacterDetail = characterService.getCharacterDetail.bind(characterService);
+  const getMainCharacterRanking = characterService.getMainCharacterRanking.bind(characterService);
 
   return (
     <characterServiceContext.Provider
       value={{
         getCharacterList,
         getCharacterDetail,
+        getMainCharacterRanking,
       }}
     >
       {children}

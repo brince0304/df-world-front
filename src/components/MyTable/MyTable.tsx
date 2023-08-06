@@ -40,12 +40,14 @@ interface TableCustomProps {
   children: React.ReactNode;
 }
 
-function CustomTable(props: TableCustomProps) {
+function MyTable(props: TableCustomProps) {
   return (
     <TableContainer>
       <TableHeader>
         <TableTitleWrapper>
-          <Typography>{props.title}</Typography>
+          <Typography
+            fontWeight="bold"
+          >{props.title}</Typography>
           {props.isLoading && <ReactLoading type={'spinningBubbles'} color={'gray'} width={'25px'} height={'25px'} />}
         </TableTitleWrapper>
         {props.useIcon && props.icon}
@@ -58,7 +60,7 @@ function CustomTable(props: TableCustomProps) {
   );
 }
 
-export default CustomTable;
+export default MyTable;
 
 const TableContainer = styled(Card)`
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
