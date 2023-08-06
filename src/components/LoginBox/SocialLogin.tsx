@@ -3,11 +3,12 @@ import { ImgOpacityButton } from '../application/ui/ImgOpacityButton';
 import { socialLoginTypes } from '../../constants/myConstants';
 import styled from '@emotion/styled';
 import { Tooltip } from '@mui/material';
-import { getKakaoLoginUrl } from '../../utils/userUtil';
+import { getGoogleLoginUrl, getKakaoLoginUrl } from '../../utils/userUtil';
+import Typography from '@mui/material/Typography';
 
 const ButtonSection = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 10px 0;
@@ -24,6 +25,9 @@ const LoginButtons = (props: LoginButtonsProps) => {
       case 'KAKAO':
         window.location.href = getKakaoLoginUrl();
         break;
+      case 'GOOGLE' :
+        window.location.href= getGoogleLoginUrl();
+        break;
       default:
         break;
     }
@@ -34,8 +38,6 @@ const LoginButtons = (props: LoginButtonsProps) => {
         <Tooltip title={item.type} key={index}>
           <ImgOpacityButton
             onClick={() => onClick(item.type)}
-            width={45}
-            height={45}
             src={item.src}
             alt={item.alt}
             key={index}
@@ -49,7 +51,10 @@ const LoginButtons = (props: LoginButtonsProps) => {
 export function SocialLogin() {
   return (
     <ButtonSection>
-      <LoginButtons data={socialLoginTypes.circleButtons} />
+      <Typography variant="body2" color="text.secondary">
+        소셜 계정으로 간편 로그인
+      </Typography>
+      <LoginButtons data={socialLoginTypes.squareButtons} />
     </ButtonSection>
   );
 }

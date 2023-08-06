@@ -1,6 +1,6 @@
 import React from 'react';
-import { IconButton } from '@mui/material';
 import styled from '@emotion/styled';
+import { Button } from '@mui/material';
 
 const Image = styled.img`
   padding: 0px;
@@ -18,13 +18,14 @@ interface ImgOpacityButtonProps {
 
 export function ImgOpacityButton(props: ImgOpacityButtonProps) {
   return (
-    <IconButton
+    <Button
       onClick={props.onClick}
       sx={{
         padding: '0px',
+
       }}
     >
-      <Image src={props.src} alt={props.alt} scale={props.scale} width={props.width} height={props.height} />
-    </IconButton>
+      <Image src={props.src} alt={props.alt} scale={props.scale} width={'100%'} height={'100%'} />
+    </Button>
   );
 }
