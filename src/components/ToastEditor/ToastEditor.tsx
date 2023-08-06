@@ -25,10 +25,10 @@ const ToastEditor = ({ onChange, hooksCallback, initialValue }: IToastEditorProp
       hooks: {
         addImageBlobHook: async (blob, callback) => {
           const data = await postImage(blob);
-          if(data){
+          if (data) {
             const hook = {
               url: `/files/?name=${data.fileName}`,
-              fileId: data.id
+              fileId: data.id,
             } as HookImageResponse;
             callback(hook.url, '대체 텍스트');
             hooksCallback(hook);

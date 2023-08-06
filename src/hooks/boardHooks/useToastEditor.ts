@@ -8,11 +8,11 @@ const useToastEditor = (setValues: any, watchValues: any) => {
 
   const hooksCallback = (data: HookImageResponse) => {
     console.info('hooksCallback', data);
-    if(!watchValues.watchBoardFiles){
+    if (!watchValues.watchBoardFiles) {
       setValues.setBoardFiles(String(data.fileId));
       return;
     }
-    setValues.setBoardFiles(String(watchValues.watchBoardFiles)+','+String(data.fileId));
+    setValues.setBoardFiles(String(watchValues.watchBoardFiles) + ',' + String(data.fileId));
   };
 
   return {
