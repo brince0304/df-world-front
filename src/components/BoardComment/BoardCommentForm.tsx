@@ -31,9 +31,7 @@ const BoardCommentForm = ({ boardId, initialValues, handleToggleClose, onSubmit,
         <CommentFormBox>
           <InputBase
             multiline
-            sx={{ width: '100%', fontFamily: 'inherit' ,
-              fontSize: '0.9rem',
-          }}
+            sx={{ width: '100%', fontFamily: 'inherit', fontSize: '0.9rem' }}
             placeholder={user?.userId ? '댓글을 입력하세요.' : '로그인이 필요합니다.'}
             {...register('commentContent')}
             id={'comment-input'}

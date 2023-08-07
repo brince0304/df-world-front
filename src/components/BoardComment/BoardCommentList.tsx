@@ -15,14 +15,20 @@ const BoardCommentList = ({ boardId }: IBoardCommentListProps) => {
   };
   return (
     <Container>
-      <Box sx={{ display: 'flex', flexDirection: 'row',
-        justifyContents:'space-between',
-        width: '100%',
-        alignItems: 'center', marginLeft: 'auto' }}>
-      <Button onClick={handleClick} sx={boardButtonStyle}>
-        댓글 {commentCount}개
-      </Button>
-        <BoardDetailButtons/>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContents: 'space-between',
+          width: '100%',
+          alignItems: 'center',
+          marginLeft: 'auto',
+        }}
+      >
+        <Button onClick={handleClick} sx={boardButtonStyle}>
+          댓글 {commentCount}개
+        </Button>
+        <BoardDetailButtons />
       </Box>
 
       {data &&

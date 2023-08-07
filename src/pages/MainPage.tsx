@@ -6,7 +6,6 @@ import styled from '@emotion/styled';
 import MyContainer from '../components/application/MyContainer';
 
 const Main = () => {
-
   return (
     <MyContainer>
       <MainCarousel />

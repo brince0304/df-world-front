@@ -26,7 +26,7 @@ const BoardList = ({ searchType, keyword, boardType }: IBoardListProps) => {
       <List
         sx={{
           padding: '0px',
-          }}
+        }}
       >
         {boardList?.pages.map((items) => {
           return items.content.map((item) => {

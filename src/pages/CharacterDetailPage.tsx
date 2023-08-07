@@ -590,7 +590,6 @@ const CharacterEquipmentDetail = (props: {
   );
 };
 
-
 const CharacterEquipmentList = ({ characterId, serverId }: { characterId: string; serverId: string }) => {
   const { data } = useCharacterDetailQuery(characterId, serverId);
   return (

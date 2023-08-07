@@ -37,7 +37,6 @@ const BoardViewer = ({ boardId }: IBoardViewerProps) => {
       </BoardAuthorContainer>
       <LikeButtonContainer>
         <FormControlLabel
-
           control={
             <Checkbox
               color={'error'}
@@ -47,9 +46,15 @@ const BoardViewer = ({ boardId }: IBoardViewerProps) => {
               checked={isLiked}
             />
           }
-          label={<Typography       sx={{
-            fontSize: '0.9rem',
-          }}>{likeCount}</Typography>}
+          label={
+            <Typography
+              sx={{
+                fontSize: '0.9rem',
+              }}
+            >
+              {likeCount}
+            </Typography>
+          }
         />
         {user && article.userId === user.userId && (
           <Box sx={{ display: 'flex' }}>
@@ -63,8 +68,7 @@ const BoardViewer = ({ boardId }: IBoardViewerProps) => {
         )}
       </LikeButtonContainer>
       <Box sx={{ textAlign: 'left' }}>
-        <ReactMarkdown
-        >{article.boardContent}</ReactMarkdown>
+        <ReactMarkdown>{article.boardContent}</ReactMarkdown>
       </Box>
       <BoardChips data={article as any} />
     </BoardDetailContainer>
@@ -106,7 +110,7 @@ const BoardTitleWrapper = styled(Typography)`
   color: black;
   width: 100%;
   text-align: left;
-  padding : 5px 0px;
+  padding: 5px 0px;
 `;
 
 const BoardDetailContainer = styled(Box)`

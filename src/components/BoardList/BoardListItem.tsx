@@ -10,7 +10,7 @@ import BoardChips from './BoardChips';
 
 const BoardListItem = (data: BoardContent) => {
   return (
-    <ListItem sx={{ width: '100%', border: '0.2px solid #e0e0e0',padding:'10px' }}>
+    <ListItem sx={{ width: '100%', border: '0.2px solid #e0e0e0', padding: '10px' }}>
       <BoardContainer>
         <BoardUserAvatar src={data.userProfileImgUrl} nickname={data.userNickname} />
         <BoardListItemTitleContent boardId={String(data.id)} title={data.boardTitle} content={data.boardContent} />

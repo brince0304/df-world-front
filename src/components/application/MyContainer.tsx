@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, useMediaQuery } from '@mui/material';
 
-const MyContainer =({children} : {children: React.ReactNode}) => {
+const MyContainer = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useMediaQuery('(max-width: 480px)');
 
   return (
@@ -15,6 +15,6 @@ const MyContainer =({children} : {children: React.ReactNode}) => {
       {children}
     </Container>
   );
-}
+};
 
 export default MyContainer;
