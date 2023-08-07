@@ -26,11 +26,11 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       suspense: true,
-      retry: false,
+      retry: true,
       staleTime: 1000 * 60 * 2,
     },
     mutations: {
-      retry: false,
+      retry: true,
       onError: (error: any) => {
         if (error.response && error.response.status === 401) {
           queryClient.invalidateQueries([QUERY_KEY.user]);

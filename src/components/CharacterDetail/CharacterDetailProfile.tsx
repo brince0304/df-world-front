@@ -176,7 +176,7 @@ const typographyProps = {
 const CharacterImgWrapper = styled.div`
   border-radius: 10px;
   display: flex;
-  background-image: url('https://api.df-world.kr:8080/images/icon_char/bg_char.jpg');
+  background-image: url('https://api.df-world.kr/images/icon_char/bg_char.jpg');
   background-size: cover;
   background-position: center;
   width: 200px;
