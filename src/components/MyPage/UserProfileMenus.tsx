@@ -49,23 +49,35 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
     {
       label: '정보 수정',
       onClick: handleOpenEditProfileModal,
-      icon: <EditIcon sx={{
-        fontSize: '0.8rem',
-      }}/>,
+      icon: (
+        <EditIcon
+          sx={{
+            fontSize: '0.8rem',
+          }}
+        />
+      ),
     },
     {
       label: '캐릭터 링크',
       onClick: handleOpenCharacterLinkModal,
-      icon: <AttachFileIcon sx={{
-        fontSize: '0.8rem',
-      }}/>,
+      icon: (
+        <AttachFileIcon
+          sx={{
+            fontSize: '0.8rem',
+          }}
+        />
+      ),
     },
     {
       label: '활동내역',
       onClick: handleOpenActivityHistoryModal,
-      icon: <AccountCircleIcon sx={{
-        fontSize: '0.8rem',
-      }}/>,
+      icon: (
+        <AccountCircleIcon
+          sx={{
+            fontSize: '0.8rem',
+          }}
+        />
+      ),
     },
   ];
   return (
@@ -105,9 +117,11 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
       </ProfileMenuButton>
       {!user?.adventureName && (
         <ProfileMenuButton>
-          <PublicIcon sx={{
-            fontSize: '0.8rem',
-          }}/>
+          <PublicIcon
+            sx={{
+              fontSize: '0.8rem',
+            }}
+          />
           <Typography component={'span'} fontSize={'0.7rem'}>
             모험단 등록
           </Typography>
