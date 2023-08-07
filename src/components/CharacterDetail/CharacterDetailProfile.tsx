@@ -8,6 +8,7 @@ import useCharacterDetailQuery from '../../hooks/characterHooks/queries/useChara
 
 const CharacterProfile = ({ characterId, serverId }: { characterId: string; serverId: string }) => {
   const { data, refetch } = useCharacterDetailQuery(characterId, serverId);
+  const apiUrl = process.env.REACT_APP_API_URL;
   return (
     <Paper
       elevation={3}
@@ -67,7 +68,8 @@ const CharacterProfile = ({ characterId, serverId }: { characterId: string; serv
             position: 'relative' as 'relative',
           }}
         >
-          <CharacterImgWrapper>
+          <CharacterImgWrapper style={{backgroundImage: `url(${apiUrl}/images/icon_char/bg_char.jpg)`}}
+          >
             <img src={data?.characterEntityDto?.characterImgPath} alt="characterImg" />
           </CharacterImgWrapper>
           <Box
@@ -176,7 +178,6 @@ const typographyProps = {
 const CharacterImgWrapper = styled.div`
   border-radius: 10px;
   display: flex;
-  background-image: url('https://api.df-world.kr/images/icon_char/bg_char.jpg');
   background-size: cover;
   background-position: center;
   width: 200px;
