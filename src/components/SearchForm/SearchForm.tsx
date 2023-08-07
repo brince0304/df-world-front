@@ -1,9 +1,10 @@
 import Box from '@mui/material/Box';
 import { Button, Grow, IconButton, InputBase, ListItemButton, Paper, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Typography from '@mui/material/Typography';
 import useSearchForm from 'hooks/uiHooks/useSearchForm';
+import useChildBox from '../../hooks/uiHooks/useChildBox';
 
 const SearchForm = ({
   placeholder,
@@ -14,14 +15,15 @@ const SearchForm = ({
   setIsFocus,
 }: ISearchFormProps) => {
   const { value, selectedValue, setValue, setSelectedValue } = useSearchForms;
-  const [open, setOpen] = useState(false);
+  const selectRef = useRef<HTMLDivElement | null>(null);
+  const {isFocus:openFocus, setIsFocus:setOpenFocus} = useChildBox(selectRef)
   const inputRef = useRef<HTMLInputElement | null>(null);
   const submitCallback = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSubmit(value, selectedValue.value);
   };
   const handleOpen = () => {
-    setOpen(!open);
+    setOpenFocus(!openFocus);
   };
   const handleSetFocusTrue = () => {
     setIsFocus(true);
@@ -38,15 +40,15 @@ const SearchForm = ({
         <Button style={searchFilterStyle} onClick={handleOpen}>
           {selectedValue.label}
         </Button>
-        <Grow in={open}>
-          <FilterContainer direction={direction}>
+        <Grow in={openFocus} unmountOnExit mountOnEnter>
+          <FilterContainer direction={direction} ref={selectRef}>
             {filterOptions.map((option, index) => (
               <ListItemButton
                 key={index}
                 sx={{ width: '100%' }}
                 onClick={() => {
                   setSelectedValue(option);
-                  setOpen(false);
+                  setOpenFocus(false);
                 }}
               >
                 <FilterOptionWrapper>{option.label}</FilterOptionWrapper>

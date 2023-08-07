@@ -27,15 +27,15 @@ const BoardCommentView = ({ boardId, boardViewCount, createdAt }: IBoardCommentV
         }}
       >
         <BoardIconWrapper>
-          <FavoriteBorderOutlined sx={{ fontSize: '18px', color: '#787878' }} />
+          <FavoriteBorderOutlined sx={{ fontSize: '1rem', color: '#787878' }} />
           <ValueWrapper>{boardLikeCount}</ValueWrapper>
         </BoardIconWrapper>
         <BoardIconWrapper>
-          <ChatBubbleOutlineOutlined sx={{ fontSize: '18px', color: '#787878' }} />
+          <ChatBubbleOutlineOutlined sx={{ fontSize: '1rem', color: '#787878' }} />
           <ValueWrapper>{boardCommentCount}</ValueWrapper>
         </BoardIconWrapper>
         <BoardIconWrapper>
-          <RemoveRedEyeOutlined sx={{ fontSize: '18px', color: '#787878' }} />
+          <RemoveRedEyeOutlined sx={{ fontSize: '1rem', color: '#787878' }} />
           <ValueWrapper>{boardViewCount}</ValueWrapper>
         </BoardIconWrapper>
       </Box>
@@ -60,7 +60,6 @@ const BoardIconWrapper = styled(Box)`
 `;
 
 const ValueWrapper = styled.p`
-  font-size: 14px;
   font-weight: 500;
   color: #787878;
 `;

@@ -35,7 +35,6 @@ export const TagChip = ({ boardType, tag }: ITagChipProps) => {
         label={'#' + tag}
         color="default"
         clickable={true}
-        sx={{ fontSize: '13px', fontWeight: 'bold' }}
         size="medium"
         variant={'outlined'}
         data-tag={tag}

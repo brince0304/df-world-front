@@ -2,7 +2,7 @@ import MyTable from '../components/MyTable/MyTable';
 import { useLocation } from 'react-router';
 import React, { Suspense } from 'react';
 import SpeedDial from '../components/BoardList/BoardSpeedDial';
-import { Container } from '@mui/material';
+import { Container, useMediaQuery } from '@mui/material';
 import BestContent from '../components/BestBoardList/BestBoard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -31,9 +31,14 @@ const Board = () => {
   const searchType = searchParams.get('searchType')?.toString() || '';
   const keyword = searchParams.get('keyword')?.toString() || '';
   const boardType = searchParams.get('boardType')?.toString() || 'ALL';
+  const isMobile = useMediaQuery('(max-width: 480px)');
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth={isMobile ? 'xs' : 'lg'}
+               sx={{
+                 padding: isMobile ? '0px' : '0px 20px 0px 20px',
+               }}
+    >
       <MyTable
         title={
           <TableTitleWrapper>

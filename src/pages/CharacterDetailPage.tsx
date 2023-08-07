@@ -2,7 +2,7 @@ import { useLocation } from 'react-router';
 import { ReactNode, Suspense, SyntheticEvent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons';
-import { Avatar, Container, Divider, List, ListItemButton, Paper, Tab, Tabs } from '@mui/material';
+import { Avatar, Container, Divider, List, ListItemButton, Paper, Tab, Tabs, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import StarsIcon from '@mui/icons-material/Stars';
@@ -31,8 +31,14 @@ const CharacterDetail = () => {
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
   };
+  const isMobile = useMediaQuery('(max-width: 480px)');
+
   return (
-    <CharacterDetailContainer maxWidth={'md'}>
+    <CharacterDetailContainer maxWidth={isMobile ? 'xs' : 'lg'}
+               sx={{
+                 padding: isMobile ? '0px' : '0px 20px 0px 20px',
+               }}
+    >
       <ErrorBoundary fallback={<BadRequest />}>
         <Suspense fallback={<CharacterDetailSkeleton />}>
           <CharacterProfile characterId={characterId} serverId={serverId} />
@@ -597,7 +603,6 @@ const CharacterDetailContainer = styled(Container)`
   align-items: flex-start;
   width: 100%;
   height: 100%;
-  padding: 20px 10px;
 `;
 
 const CharacterEquipmentList = ({ characterId, serverId }: { characterId: string; serverId: string }) => {

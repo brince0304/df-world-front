@@ -10,7 +10,6 @@ export const CharacterChip = (props: {
   characterId: string;
 }) => {
   const chipStyle = {
-    fontSize: '13px',
     '& > img': {
       objectFit: 'cover',
       objectPosition: 'center',
@@ -19,6 +18,7 @@ export const CharacterChip = (props: {
       backgroundColor: '#c4c4c4',
     },
   };
+
   return (
     <Tooltip
       title={

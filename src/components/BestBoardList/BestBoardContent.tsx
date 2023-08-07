@@ -36,7 +36,7 @@ const FontWrapper = styled(Box)`
   align-items: center;
   justify-content: center;
   gap: 5px;
-  font-size: 12px;
+  font-size: 0.8rem;
   font-weight: bold;
   color: white;
 `;

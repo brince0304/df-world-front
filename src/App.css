@@ -31,12 +31,12 @@ html {
 }
 
 .toastui-editor-contents p {
-  font-size: 18px;
+  font-size: 1rem;
   text-align: left;
 }
 
 .toastui-editor md-mode {
-  font-size: 18px;
+  font-size: 1rem;
   text-align: left;
 }
 

@@ -13,11 +13,11 @@ const BoardListItemTitleContent = ({ title, content, boardId }: IBoardListItemCo
   return (
     <Container component="div" onClick={handleListItemClick}>
       <BoardTitleWrapper>
-        <Typography component="h3" style={{ fontSize: '19px', fontWeight: '700' }}>
+        <Typography component="h3" style={{ fontSize: '1.2rem', fontWeight: '700' }}>
           {title}
         </Typography>
       </BoardTitleWrapper>
-      <Typography component={'p'} style={{ fontSize: '14px', color: 'gray' }}>
+      <Typography component={'p'} style={{ fontSize: '0.9rem', color: 'gray' }}>
         {newContent}
       </Typography>
     </Container>

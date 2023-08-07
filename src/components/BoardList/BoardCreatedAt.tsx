@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 const CreatedAt = ({ createdAt }: { createdAt: string }) => {
   return (
     <BoardCreatedAtWrapper>
-      <Typography sx={{ fontSize: '12px', fontFamily: 'Core Sans' }}>{createdAt}</Typography>
+      <Typography sx={{ fontSize: '0.8rem',}}>{createdAt}</Typography>
     </BoardCreatedAtWrapper>
   );
 };
@@ -14,7 +14,6 @@ const CreatedAt = ({ createdAt }: { createdAt: string }) => {
 const BoardCreatedAtWrapper = styled(Box)`
   display: flex;
   align-items: center;
-  font-size: 12px;
   color: #787878;
   justify-content: flex-end;
 `;

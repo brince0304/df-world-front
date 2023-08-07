@@ -45,10 +45,11 @@ const CharacterProfile = ({ characterId, serverId }: { characterId: string; serv
               bottom: '10px',
               right: '10px',
               color: 'black',
+              zIndex: 100,
             }}
           >
             <FontAwesomeIcon icon={faHandFist} />
-            <Typography fontSize={'12px'} sx={{ paddingLeft: '5px' }}>
+            <Typography fontSize={'0.8rem'} sx={{ paddingLeft: '5px' }}>
               버프강화
             </Typography>
           </Button>
@@ -92,25 +93,25 @@ const CharacterProfile = ({ characterId, serverId }: { characterId: string; serv
                 height: '100%',
               }}
             >
-              <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
+              <Typography {...typographyProps} fontSize={'0.8rem'} sx={{ color: 'gray' }}>
                 {data?.characterEntityDto?.serverName}
               </Typography>
-              <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
+              <Typography {...typographyProps} fontSize={'0.8rem'} sx={{ color: 'gray' }}>
                 {data?.characterEntityDto?.jobGrowName}
               </Typography>
             </Box>
             <Box>
-              <Typography {...typographyProps} fontSize={25} sx={{ color: 'black' }}>
+              <Typography {...typographyProps} fontSize={'1rem'} sx={{ color: 'black' }}>
                 {data?.characterEntityDto?.characterName}
               </Typography>
             </Box>
             <Box>
-              <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
+              <Typography {...typographyProps} fontSize={'0.8rem'} sx={{ color: 'gray' }}>
                 모험단 : {data?.characterEntityDto?.adventureName}
               </Typography>
             </Box>
             <Box>
-              <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
+              <Typography {...typographyProps} fontSize={'0.8rem'} sx={{ color: 'gray' }}>
                 길드 : {data?.characterEntityDto?.guildName}
               </Typography>
             </Box>
@@ -125,10 +126,10 @@ const CharacterProfile = ({ characterId, serverId }: { characterId: string; serv
                 height: '100%',
               }}
             >
-              <Typography {...typographyProps} fontSize={10} sx={{ color: 'black' }}>
+              <Typography {...typographyProps} fontSize={'0.7rem'} sx={{ color: 'black' }}>
                 전체 명성 랭킹 : {data?.characterRank}위 / {data?.characterCount}명
               </Typography>
-              <Typography {...typographyProps} fontSize={10} sx={{ color: 'darkred' }}>
+              <Typography {...typographyProps} fontSize={'0.7rem'} sx={{ color: 'darkred' }}>
                 상위 {data?.characterPercent}%
               </Typography>
             </Box>
@@ -143,17 +144,17 @@ const CharacterProfile = ({ characterId, serverId }: { characterId: string; serv
                 height: '100%',
               }}
             >
-              <Typography {...typographyProps} fontSize={10} sx={{ color: 'black' }}>
+              <Typography {...typographyProps} fontSize={'0.7rem'} sx={{ color: 'black' }}>
                 직업 명성 랭킹 : {data?.characterRankByJobName}위 / {data?.characterCountByJobName}명
               </Typography>
-              <Typography {...typographyProps} fontSize={10} sx={{ color: 'darkred' }}>
+              <Typography {...typographyProps} fontSize={'0.7rem'} sx={{ color: 'darkred' }}>
                 상위 {data?.characterPercentByJobName}%
               </Typography>
             </Box>
             <Box>
-              <Typography {...typographyProps} fontSize={14} sx={{ color: 'gray' }}>
+              <Typography {...typographyProps} fontSize={'0.8rem'} sx={{ color: 'gray' }}>
                 명성 :{' '}
-                <Typography {...typographyProps} fontSize={14} sx={{ color: 'black', display: 'inline-block' }}>
+                <Typography {...typographyProps} fontSize={'0.8rem'} sx={{ color: 'black', display: 'inline-block' }}>
                   {data?.characterEntityDto?.adventureFame}
                 </Typography>
               </Typography>

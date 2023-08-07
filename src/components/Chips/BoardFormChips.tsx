@@ -22,7 +22,7 @@ const BoardFormChips = ({
           color={boardType === boardCategory.id ? 'info' : 'default'}
           variant={boardType === boardCategory.id ? 'filled' : 'outlined'}
           clickable={true}
-          sx={{ fontSize: '13px', fontWeight: 'bold' }}
+          sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}
           size="medium"
           data-type={getBoardType(boardCategory.id)}
           onClick={() => setBoardType(boardCategory.id)}

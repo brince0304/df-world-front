@@ -1,6 +1,6 @@
 import { useLocation, useParams } from 'react-router';
 import React, { Suspense } from 'react';
-import { Container } from '@mui/material';
+import { Container, useMediaQuery } from '@mui/material';
 import CharacterList from '../components/CharacterList/CharacterList';
 import { getServerName } from '../utils/charactersUtil';
 import styled from '@emotion/styled';
@@ -13,8 +13,14 @@ const Characters = () => {
   const searchParams = new URLSearchParams(location.search);
   const characterName = searchParams.get('name') || '';
   const { serverId } = useParams();
+  const isMobile = useMediaQuery('(max-width: 480px)');
+
   return (
-    <Container maxWidth={'lg'}>
+    <Container maxWidth={isMobile ? 'xs' : 'lg'}
+               sx={{
+                 padding: isMobile ? '0px' : '0px 20px 0px 20px',
+               }}
+    >
       <ResultTitleWrapper>
         <ResultServerNameWrapper>{getServerName(serverId ? serverId : '')}</ResultServerNameWrapper>
         <ResultCharacterNameWrapper>{characterName ? characterName : ''}</ResultCharacterNameWrapper>

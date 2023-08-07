@@ -83,7 +83,7 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
           sx={{
             width: '100%',
             height: '100%',
-            fontSize: '20px',
+            fontSize: '1rem',
             fontWeight: 'bold',
             display: 'flex',
           }}
@@ -93,7 +93,7 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
         </HashtagWrapper>
         <Typography
           variant={'body2'}
-          sx={{ textAlign: 'left', color: useBoardForms.errors.hashtag?.message ? 'red' : 'grey' }}
+          sx={{ marginLeft:'0.5rem', marginTop:'0.5rem',fontSize:'0.8rem', textAlign: 'left', color: useBoardForms.errors.hashtag?.message ? 'red' : 'grey' }}
         >
           {useBoardForms.errors.hashtag?.message || '7자 이하로 3개까지 입력해보세요.'}
         </Typography>
@@ -105,7 +105,7 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
           initialValue={useBoardForms.watchValues.watchBoardContent}
         />
         {useBoardForms.errors.boardContent?.message && (
-          <Typography variant={'body2'} sx={{ color: 'red', textAlign: 'left' }}>
+          <Typography variant={'body2'} sx={{ fontSize:'0.7rem', color: 'red', textAlign: 'left' }}>
             {useBoardForms.errors.boardContent?.message}
           </Typography>
         )}
