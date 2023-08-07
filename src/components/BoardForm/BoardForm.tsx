@@ -50,7 +50,9 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
   };
   const navigate = useNavigate();
   return (
-    <form onSubmit={useBoardForms.handleSubmit(handlePost)}>
+    <form
+      style={{ padding:'10px'}}
+      onSubmit={useBoardForms.handleSubmit(handlePost)}>
       <BoardWriteFormTitleWrapper>
         <Typography variant={'h4'} sx={{ fontWeight: 'bold' }}>
           {buttonLabel}
