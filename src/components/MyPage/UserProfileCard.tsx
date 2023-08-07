@@ -7,12 +7,12 @@ import UserProfileMenus from './UserProfileMenus';
 const UserProfileCard = (props: { refresh: () => void }) => {
   return (
     <UserProfileCardStyled>
-      <Typography component={'h1'} fontSize={'1.5rem'} fontWeight={'bold'} sx={{ textAlign: 'left' }}>
+      <Typography component={'h1'} fontSize={'1.2rem'} fontWeight={'bold'} sx={{ textAlign: 'left' }}>
         마이페이지
       </Typography>
-      <Divider flexItem sx={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+      <Divider flexItem sx={{ width: '100%', marginTop: '0.5rem', marginBottom: '0.5rem' }} />
       <UserProfileSection />
-      <Divider flexItem sx={{ width: '100%', marginTop: '10px' }} />
+      <Divider flexItem sx={{ width: '100%', marginTop: '0.5rem' }} />
       <UserProfileMenus refresh={props.refresh} />
     </UserProfileCardStyled>
   );

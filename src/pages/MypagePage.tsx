@@ -18,9 +18,8 @@ const MyPage = () => {
             <UserProfileCard refresh={() => {}} />
             <Box sx={{ marginTop: '20px' }}>
               <Typography
-                component={'h1'}
                 color={'#565360'}
-                fontSize={'1.5rem'}
+                fontSize={'1.2rem'}
                 fontWeight={'bold'}
                 sx={{
                   textAlign: 'left',

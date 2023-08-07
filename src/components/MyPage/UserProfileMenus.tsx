@@ -49,17 +49,23 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
     {
       label: '정보 수정',
       onClick: handleOpenEditProfileModal,
-      icon: <EditIcon />,
+      icon: <EditIcon sx={{
+        fontSize: '0.8rem',
+      }}/>,
     },
     {
       label: '캐릭터 링크',
       onClick: handleOpenCharacterLinkModal,
-      icon: <AttachFileIcon />,
+      icon: <AttachFileIcon sx={{
+        fontSize: '0.8rem',
+      }}/>,
     },
     {
       label: '활동내역',
       onClick: handleOpenActivityHistoryModal,
-      icon: <AccountCircleIcon />,
+      icon: <AccountCircleIcon sx={{
+        fontSize: '0.8rem',
+      }}/>,
     },
   ];
   return (
@@ -71,7 +77,7 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
         return (
           <ProfileMenuButton key={index} onClick={menu.onClick}>
             {menu.icon}
-            <Typography component={'span'} fontSize={'0.8rem'}>
+            <Typography component={'span'} fontSize={'0.7rem'}>
               {menu.label}
             </Typography>
             {menu.label === '활동내역' && (
@@ -92,15 +98,17 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
       />
       <UserDetailEditDialog open={openEditProfileModal} onClose={handleCloseEditProfileModal} refresh={props.refresh} />
       <ProfileMenuButton onClick={handleProfileChangeModalOpen}>
-        <Avatar sx={{ width: '20px', height: '20px' }} src={user?.profileImgPath} />
-        <Typography component={'span'} fontSize={'0.8rem'}>
+        <Avatar sx={{ width: '0.8rem', height: '0.8rem' }} src={user?.profileImgPath} />
+        <Typography component={'span'} fontSize={'0.7rem'}>
           프로필 변경
         </Typography>
       </ProfileMenuButton>
       {!user?.adventureName && (
         <ProfileMenuButton>
-          <PublicIcon />
-          <Typography component={'span'} fontSize={'0.8rem'}>
+          <PublicIcon sx={{
+            fontSize: '0.8rem',
+          }}/>
+          <Typography component={'span'} fontSize={'0.7rem'}>
             모험단 등록
           </Typography>
         </ProfileMenuButton>
@@ -118,15 +126,13 @@ const ProfileMenuList = styled(List)`
   display: block;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 10px;
-  padding: 10px;
   width: 100%;
 `;
 
 const ProfileMenuButton = styled(ListItemButton)`
   display: flex;
   gap: 5px;
-  width: 130px;
+  width: 7rem;
   height: 100%;
   border-radius: 10px;
   float: left;

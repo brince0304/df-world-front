@@ -34,8 +34,8 @@ export default UserProfileSection;
 
 const UserProfileAvatar = styled(Avatar)`
   && {
-    width: 50px;
-    height: 50px;
+    width: 2.5rem;
+    height: 2.5rem;
     margin-right: 10px;
   }
 `;
