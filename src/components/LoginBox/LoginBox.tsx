@@ -15,9 +15,9 @@ const LoginBox = ({ isOpened, setIsOpened }: ILoginBoxProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const dialogSx = {
-      width: '350px',
-      height: '400px',
-      padding: '20px',
+    width: '350px',
+    height: '400px',
+    padding: '20px',
   };
   const { user } = useUserQuery();
   const handleSubmitCallback = handleSubmit(onValid);
@@ -32,7 +32,7 @@ const LoginBox = ({ isOpened, setIsOpened }: ILoginBoxProps) => {
   }, [user]);
 
   return (
-    <Dialog keepMounted={false} open={isOpened} onClose={handleClose} >
+    <Dialog keepMounted={false} open={isOpened} onClose={handleClose}>
       <DialogTitle component={'div'}>
         <S.Title>로그인</S.Title>
         <S.SubTitle>로그인 하고 더 많은 서비스를 이용해보세요!</S.SubTitle>

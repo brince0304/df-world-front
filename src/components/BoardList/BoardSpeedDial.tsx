@@ -19,7 +19,7 @@ function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps
   const [searchBoxIsOpened, setSearchBoxIsOpened] = useState(false);
   const navigate = useNavigate();
   const { handleError } = useError();
-  const {user} = useUserQuery();
+  const { user } = useUserQuery();
   const handleOpenSearchBox = () => {
     setSearchBoxIsOpened(!searchBoxIsOpened);
   };
@@ -42,7 +42,7 @@ function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const id = e.currentTarget.dataset.id;
     if (id === '글쓰기') {
-      if(!user){
+      if (!user) {
         handleError('로그인이 필요합니다. 😤');
         return;
       }
