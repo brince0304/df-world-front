@@ -12,10 +12,10 @@ const BoardDetailButtons = () => {
     navigate('/boards/');
   };
 
-  const {user} = useUserQuery();
-  const {handleError} = useError();
+  const { user } = useUserQuery();
+  const { handleError } = useError();
   const handleNavigateToWriteBoard = () => {
-    if(!user) {
+    if (!user) {
       handleError('로그인 후 이용해주세요. 😤');
     }
     navigate('/boards/write');
