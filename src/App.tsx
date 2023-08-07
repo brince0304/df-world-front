@@ -8,13 +8,13 @@ import Error from './components/Fallbacks/Error';
 
 function App() {
   return (
-      <div className="App">
-        <Header />
-        <ErrorBoundary fallback={<Error />}>
-          <Outlet />
-        </ErrorBoundary>
-        <Footer />
-      </div>
+    <div className="App">
+      <Header />
+      <ErrorBoundary fallback={<Error />}>
+        <Outlet />
+      </ErrorBoundary>
+      <Footer />
+    </div>
   );
 }
 
