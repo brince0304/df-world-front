@@ -32,10 +32,10 @@ const CharacterFastSearchItemButton = ({
         sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         spacing={1}
       >
-        <Grid item xs={5}>
+        <Grid item xs={6}>
           <S.BoldNameWrapper>{characterName}</S.BoldNameWrapper>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <S.ContentWrapper>{characterJob}</S.ContentWrapper>
         </Grid>
         <Grid item xs={2}>

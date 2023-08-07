@@ -6,9 +6,7 @@ import { TextField } from '@mui/material';
 const LoginForm = ({ useLoginFormProps }: ILoginFormProps) => {
   const { register, errors } = useLoginFormProps;
   return (
-    <S.InputBox
-
-    >
+    <S.InputBox>
       <TextField
         error={!!errors.username}
         type="text"
