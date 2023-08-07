@@ -17,8 +17,8 @@ const useDeleteBoardMutation = (boardId: string) => {
         queryClient.invalidateQueries([QUERY_KEY.boards]);
         handleDeleteBoardSuccess();
       },
-      onError: (error: any) => {
-        handleDeleteBoardError(error.response.data);
+      onError: () => {
+        handleDeleteBoardError('게시글 삭제에 실패했습니다. 😭');
       },
     },
   );

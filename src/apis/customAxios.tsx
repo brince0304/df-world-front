@@ -22,10 +22,7 @@ export function setInterceptors(instance: AxiosInstance) {
       return response;
     },
     (error) => {
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem('user');
-        window.location.reload();
-      }
+
       return Promise.reject(error);
     },
   );

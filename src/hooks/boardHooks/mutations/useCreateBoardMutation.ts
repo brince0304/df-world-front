@@ -19,7 +19,7 @@ const useCreateBoardMutation = () => {
       queryClient.invalidateQueries([QUERY_KEY.latestBoardList]);
     },
     onError: (error: any) => {
-      handleCreateBoardError(error.response.data);
+      handleCreateBoardError('게시글 작성에 실패했습니다. 😭');
     },
   });
 

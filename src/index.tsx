@@ -13,6 +13,7 @@ import CharacterService from './services/characterService';
 import BoardService from './services/boardService';
 import BoardCommentService from 'services/boardCommentService';
 import PrivateRouter from './router/Router';
+import { QUERY_KEY } from './constants/myConstants';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const client = new AxiosClient(axiosClient);
@@ -26,10 +27,15 @@ const queryClient = new QueryClient({
     queries: {
       suspense: true,
       retry: false,
-      staleTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 2,
     },
     mutations: {
       retry: false,
+      onError: (error:any) => {
+        if (error.response && error.response.status === 401) {
+          queryClient.invalidateQueries([QUERY_KEY.user]);
+        }
+      }
     },
   },
 });

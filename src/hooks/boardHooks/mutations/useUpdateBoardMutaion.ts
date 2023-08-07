@@ -6,11 +6,11 @@ const useUpdateBoardMutation = (boardId: string) => {
   const { handleUpdateBoardSuccess } = useBoardSuccess();
   const { handleUpdateBoardError } = useBoardError();
   const { mutate: updateBoardMutation } = useMutation([QUERY_KEY.boards, boardId], updateBoard, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       handleUpdateBoardSuccess();
     },
-    onError: (error: any) => {
-      handleUpdateBoardError(error.response.data);
+    onError: () => {
+      handleUpdateBoardError('게시글 수정에 실패했습니다. 😭');
     },
   });
 

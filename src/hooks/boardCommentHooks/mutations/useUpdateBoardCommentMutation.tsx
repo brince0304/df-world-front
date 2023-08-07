@@ -11,7 +11,7 @@ const useUpdateBoardCommentMutation = (boardId: string) => {
   const queryClient = useQueryClient();
   const { mutate: updateComment } = useMutation([QUERY_KEY.boardComments, boardId], updateBoardComment, {
     onError: (error: any) => {
-      handleBoardCommentUpdateError(error.response.data);
+      handleBoardCommentUpdateError('댓글 수정에 실패했습니다. 😭');
     },
     onSuccess: (data) => {
       handleBoardCommentUpdateSuccess();

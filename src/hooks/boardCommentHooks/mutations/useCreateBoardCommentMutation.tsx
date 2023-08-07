@@ -11,7 +11,7 @@ const useCreateBoardCommentMutation = (boardId: string) => {
   const queryclient = useQueryClient();
   const { mutate: createComment } = useMutation([QUERY_KEY.boardComments, boardId], createBoardComment, {
     onError: (error: any) => {
-      handleBoardCommentCreateError(error.response.data);
+      handleBoardCommentCreateError('댓글 작성에 실패했습니다. 😭');
     },
     onSuccess: (data) => {
       queryclient.invalidateQueries([QUERY_KEY.boardComments, boardId]);

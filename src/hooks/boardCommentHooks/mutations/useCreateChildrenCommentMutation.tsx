@@ -14,7 +14,7 @@ const useCreateChildrenCommentMutation = (boardId: string, commentId: string) =>
     createChildrenComment,
     {
       onError: (error: any) => {
-        handleBoardCommentCreateError(error.response.data);
+        handleBoardCommentCreateError('답글 작성에 실패했습니다. 😭');
       },
       onSuccess: (data) => {
         handleBoardCommentCreateSuccess();
