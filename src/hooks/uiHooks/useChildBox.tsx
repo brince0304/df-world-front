@@ -1,13 +1,12 @@
 import { RefObject, useEffect, useState } from 'react';
 
-const useChildBox = (ref: RefObject<HTMLElement>) => {
+const useChildBox = (ref: RefObject<HTMLDivElement>) => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const handleClickOutside = (e: MouseEvent) => {
     if (ref.current && !ref.current.contains(e.target as Node)) {
       setIsFocus(false);
     }
   };
-
   const handleKeyPress = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       setIsFocus(false);
@@ -19,10 +18,9 @@ const useChildBox = (ref: RefObject<HTMLElement>) => {
   };
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyPress);
+    ref.current?.addEventListener('keydown', handleKeyPress);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyPress);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

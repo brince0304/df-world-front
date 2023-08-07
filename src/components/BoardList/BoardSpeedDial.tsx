@@ -12,10 +12,14 @@ import { boardSearchTypes, getSearchType } from '../../utils/boardUtil';
 import useSearchForm from '../../hooks/uiHooks/useSearchForm';
 import SearchIcon from '@mui/icons-material/Search';
 import ModeIcon from '@mui/icons-material/Mode';
+import useError from '../../hooks/uiHooks/useError';
+import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 
 function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps) {
   const [searchBoxIsOpened, setSearchBoxIsOpened] = useState(false);
   const navigate = useNavigate();
+  const { handleError } = useError();
+  const {user} = useUserQuery();
   const handleOpenSearchBox = () => {
     setSearchBoxIsOpened(!searchBoxIsOpened);
   };
@@ -28,22 +32,20 @@ function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps
     navigate(BOARD_LIST_URL + `?searchType=${searchKeyword}&keyword=${searchType}&boardType=${boardType}`);
   };
 
-  const { value, setValue, selectedValue, setSelectedValue } = useSearchForm({
+  const searchFormProps = useSearchForm({
     initialValues: keyword,
     initialSelectedValue: {
       value: searchType || 'title',
       label: getSearchType(searchType) || '제목',
     },
   });
-  const searchFormProps = {
-    value,
-    setValue,
-    selectedValue,
-    setSelectedValue,
-  };
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const id = e.currentTarget.dataset.id;
     if (id === '글쓰기') {
+      if(!user){
+        handleError('로그인이 필요합니다. 😤');
+        return;
+      }
       navigate(BOARD_WRITE_URL + `?type=${boardType}&request=add`);
     } else if (id === '검색') {
       handleOpenSearchBox();
