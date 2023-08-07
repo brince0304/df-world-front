@@ -94,7 +94,6 @@ const customBoxStyle = {
 };
 
 const searchFilterStyle = {
-  fontSize: '14px',
   fontWeight: 'bold',
   height: '100%',
   justifyContent: 'center',
@@ -137,7 +136,7 @@ const FilterOptionWrapper = styled(Typography)`
     align-items: center;
     justify-content: center;
     width: 100%;
-    font-size: 14px;
+    font-size: 0.8rem;
     font-weight: 600;
     color: rgb(0, 0, 0);
   }

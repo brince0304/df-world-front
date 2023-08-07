@@ -85,7 +85,6 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
     height: '100%',
     border: '1px solid #dadde9',
     boxShadow: '0 0 30px 0 rgba(0, 0, 0, 0.1)',
-    fontSize: '0.9rem',
     marginTop: '10px',
   },
 }));
@@ -95,7 +94,6 @@ const ProfileNicknameWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
   font-weight: 600;
   gap: 10px;
   padding: 10px 0px;

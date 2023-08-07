@@ -2,31 +2,20 @@ import { Card, styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const OptionCell = styled(Box)`
-  display: grid;
-  align-items: center;
-  width: 100%;
-  font-size: 14px;
-`;
-
-const HistoryOptionCell = styled(Box)`
-  display: grid;
-  align-items: center;
-  width: 100%;
-  font-size: 14px;
-`;
 
 const BoldNameWrapper = styled(Typography)`
   display: flex;
   font-weight: bold;
   color: black;
+  width: 55px;
+  font-size: 0.8rem;
 `;
 
 const ContentWrapper = styled(Typography)`
   display: block;
   color: gray;
-  font-size: 12px;
   width: 55px;
+  font-size: 0.8rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -44,7 +33,7 @@ const NoDataWrapper = styled(Typography)`
   align-items: center;
   width: 100%;
   height: 100%;
-  font-size: 14px;
+  font-size: 0.8rem;
   color: #939393;
   padding: 10px 0px;
 `;
@@ -54,9 +43,9 @@ const SearchOptionTitleWrapper = styled(Box)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  font-size: 14px;
   font-family: apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
   color: #121212;
+  font-size: 0.8rem;
   padding: 4px;
   background-color: rgb(226, 226, 226);
 `;
@@ -82,7 +71,6 @@ const SearchOptionTitle = styled(Box)`
   align-items: center;
   width: 100%;
   background-color: rgb(226, 226, 226);
-  font-size: 13px;
   border-bottom: 0.5px solid silver;
 `;
 
@@ -92,7 +80,6 @@ const SearchOptionBody = styled(Box)`
   width: 100%;
   border-radius: 0px 0px 5px 5px;
   background-color: white;
-  font-size: 12px;
 `;
 
 const OptionRow = styled(Box)`
@@ -107,8 +94,6 @@ const OptionRow = styled(Box)`
 `;
 
 export {
-  OptionCell,
-  HistoryOptionCell,
   BoldNameWrapper,
   ContentWrapper,
   LatestRemoveButtonWrapper,

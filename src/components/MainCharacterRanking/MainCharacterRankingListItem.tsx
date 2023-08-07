@@ -35,7 +35,6 @@ const MainCharacterRankingListItem = ({ item, index, type }: { item: Content; in
             alignItems: 'center',
             backgroundColor: '#121212',
             color: 'white',
-            fontSize: '12px',
           }}
         >
           {index + 1}
@@ -64,17 +63,10 @@ export default MainCharacterRankingListItem;
 
 const RankingDetailText = styled.span`
   color: grey;
-  font-size: 14px;
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+
 `;
 
 const RankingDetailNameText = styled.span`
-  font-size: 16px;
-  @media (max-width: 1024px) {
-    font-size: 18px;
-  }
 `;
 
 const TableRow = styled.div`
@@ -124,6 +116,5 @@ const TableData = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0px 0;
-  font-size: 16px;
   color: #000;
 `;

@@ -25,7 +25,7 @@ const CharacterFastSearchItemButton = ({
   };
 
   return (
-    <Button sx={{ padding: '6px 5px', width: '100%' }} onMouseDown={handleAddRecentSearchedQuery}>
+    <Button sx={{ width: '100%' }} onMouseDown={handleAddRecentSearchedQuery}>
       <Grid
         container
         direction={'row'}

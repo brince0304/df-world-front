@@ -73,14 +73,12 @@ const TableHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 5px 10px;
-  font-size: 22px;
+  font-weight: 500;
   color: #000;
   border-bottom: 1px solid #e5e5e5;
 `;
 
 const TableButton = styled.div`
-  font-size: 14px;
-  font-weight: 0;
   color: silver;
   display: flex;
   flex-direction: row;

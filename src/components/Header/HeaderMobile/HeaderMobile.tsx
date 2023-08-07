@@ -106,7 +106,7 @@ const Logo = styled(Button)`
     align-items: center;
     width: 100%;
     padding-top: 10%;
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #ffffff;
     cursor: pointer;
