@@ -27,7 +27,7 @@ const ToastEditor = ({ onChange, hooksCallback, initialValue }: IToastEditorProp
           const data = await postImage(blob);
           if (data) {
             const hook = {
-              url: process.env.REACT_APP_API_URL+`files/?name=${data.fileName}`,
+              url: process.env.REACT_APP_API_URL + `files/?name=${data.fileName}`,
               fileId: data.id,
             } as HookImageResponse;
             callback(hook.url, '대체 텍스트');
