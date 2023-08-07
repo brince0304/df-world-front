@@ -57,6 +57,5 @@ const ListContainer = styled(List)`
   overflow-x: auto;
   width: 100%;
   scroll-behavior: smooth;
-
   gap: 5px;
 `;

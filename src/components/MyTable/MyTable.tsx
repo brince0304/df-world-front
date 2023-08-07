@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Button, Card } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import ReactLoading from 'react-loading';
+import { Box, Button, Card } from '@mui/material';
 import styled from '@emotion/styled';
 
 interface TableMenuProps {
@@ -34,7 +32,6 @@ interface TableCustomProps {
   setIsSelected?: (value: string) => void;
   menus?: { name: string; id: string }[];
   useMenu: boolean;
-  isLoading?: boolean;
   useIcon: boolean;
   icon?: React.ReactNode;
   children: React.ReactNode;
@@ -45,8 +42,7 @@ function MyTable(props: TableCustomProps) {
     <TableContainer>
       <TableHeader>
         <TableTitleWrapper>
-          <Typography fontWeight="bold">{props.title}</Typography>
-          {props.isLoading && <ReactLoading type={'spinningBubbles'} color={'gray'} width={'25px'} height={'25px'} />}
+          <Box>{props.title}</Box>
         </TableTitleWrapper>
         {props.useIcon && props.icon}
       </TableHeader>
@@ -89,6 +85,8 @@ const TableButton = styled.div`
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #e5e5e5;
+  overflow-x: auto;
+  scroll-behavior: smooth;
 
   span {
     cursor: pointer;

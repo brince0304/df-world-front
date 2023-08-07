@@ -1,7 +1,7 @@
 import MyChip from './MyChip';
 import { boardCategoriesWithoutNotice, getBoardType } from '../../utils/boardUtil';
 import { useNavigate } from 'react-router-dom';
-import { List, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
 const BoardTypeChips = ({ boardType }: { boardType: string }) => {
   const navigate = useNavigate();
@@ -29,10 +29,14 @@ const BoardTypeChips = ({ boardType }: { boardType: string }) => {
 
 export default BoardTypeChips;
 
-const ListContainer = styled(List)`
+const ListContainer = styled(Box)`
   display: flex;
+  overflow-x: auto;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  width: 100%;
   gap: 5px;
+  padding-bottom: 5px;
+  scroll-behavior: smooth;
 `;

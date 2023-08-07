@@ -88,6 +88,33 @@ export const boardTypesForForm = [
   },
 ];
 
+export const latestBoardCategories = [
+  {
+    name: '전체',
+    id: 'ALL',
+  },
+  {
+    name: '자유',
+    id: 'FREE',
+  },
+  {
+    name: '구인',
+    id: 'RECRUITMENT',
+  },
+  {
+    name: '거래',
+    id: 'MARKET',
+  },
+  {
+    name: '질답',
+    id: 'QUESTION',
+  },
+  {
+    name: '사건',
+    id: 'REPORT',
+  },
+];
+
 export const boardCategoriesWithoutNotice = [
   {
     name: '전체',

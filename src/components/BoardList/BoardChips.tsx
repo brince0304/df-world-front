@@ -52,4 +52,6 @@ const BoardTagContainer = styled(Box)`
   gap: 5px;
   padding-top: 20px;
   padding-bottom: 5px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
 `;
