@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, useMediaQuery } from '@mui/material';
 import * as React from 'react';
 import LoginForm from './LoginForm';
 import useLoginForm from '../../hooks/uiHooks/useLoginForm';
@@ -14,9 +14,11 @@ const LoginBox = ({ isOpened, setIsOpened }: ILoginBoxProps) => {
     setIsOpened(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const isMobile = useMediaQuery('(max-width: 480px)');
+
   const dialogSx = {
-    width: '350px',
-    height: '400px',
+    width: isMobile ? '100%' : '450px',
+    height: isMobile ? '100%' : 'auto',
     padding: '20px',
   };
   const { user } = useUserQuery();

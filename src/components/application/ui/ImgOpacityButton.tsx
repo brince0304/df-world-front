@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Button } from '@mui/material';
+import { Button, useMediaQuery } from '@mui/material';
 
 const Image = styled.img`
   padding: 0px;
@@ -17,6 +17,7 @@ interface ImgOpacityButtonProps {
 }
 
 export function ImgOpacityButton(props: ImgOpacityButtonProps) {
+  const isMobile = useMediaQuery('(max-width: 480px)');
   return (
     <Button
       onClick={props.onClick}
@@ -24,7 +25,8 @@ export function ImgOpacityButton(props: ImgOpacityButtonProps) {
         padding: '0px',
       }}
     >
-      <Image src={props.src} alt={props.alt} scale={props.scale} width={'100%'} />
+      <Image src={props.src} alt={props.alt} scale={props.scale} width={
+        isMobile ? props.width ? props.width / 2 : undefined : props.width}/>
     </Button>
   );
 }
