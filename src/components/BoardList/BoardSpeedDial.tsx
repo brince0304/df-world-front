@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import { IconButton, Slide, styled } from '@mui/material';
+import { IconButton, Slide, styled, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { DragHandleRounded, HighlightOffOutlined } from '@mui/icons-material';
 import { BOARD_LIST_URL, BOARD_WRITE_URL } from '../../apis/data/urls';
@@ -51,6 +51,7 @@ function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps
       handleOpenSearchBox();
     }
   };
+  const isMobile = useMediaQuery('(max-width: 480px)');
 
   return (
     <CustomBox>
@@ -67,7 +68,12 @@ function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps
           ))}
         </SpeedDial>
         <Slide in={searchBoxIsOpened} direction={'left'} style={{ zIndex: '1000' }}>
-          <SearchboxWrapper>
+          <SearchboxWrapper
+            sx={{
+              width: isMobile ? '270px' : '350px',
+              right: isMobile ? '70px' : '100px',
+            }}
+          >
             <SearchForm
               placeholder={'검색'}
               direction={'up'}
@@ -78,9 +84,11 @@ function BoardSpeedDial({ boardType, keyword, searchType }: IBoardSpeedDialProps
             />
             <IconButton
               sx={{
+                backgroundColor: 'white',
+                padding: '0px',
                 position: 'absolute',
-                top: '-50%',
-                right: '-10%',
+                top: '-40%',
+                right: '-5%',
                 zIndex: 1020,
               }}
               onClick={handleOpenSearchBox}

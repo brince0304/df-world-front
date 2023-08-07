@@ -11,16 +11,16 @@ const UserProfileSection = () => {
       <UserProfileAvatar src={user?.profileImgPath} variant={'circular'} alt={'프로필 이미지'} />
       <UserNicknameAndEmailWrapper>
         <UserNicknameWrapper>
-          <Typography component={'strong'} fontSize={'1.2rem'} fontWeight={'bold'}>
+          <Typography component={'strong'} fontSize={'1rem'} fontWeight={'bold'}>
             {user?.nickname}
           </Typography>
-          <Typography component={'span'} fontSize={'1rem'} color={'gray'}>
+          <Typography component={'span'} fontSize={'0.9rem'} color={'gray'}>
             ({user?.oauthProvider !== 'NULL' ? getOauthProvider(user?.oauthProvider) : user?.userId})
           </Typography>
         </UserNicknameWrapper>
         <UserEmailAndAdventuerNameWrapper>
           {!user?.adventureName && (
-            <Typography component={'span'} fontWeight={'bold'} fontSize={'1rem'} color={'gray'}>
+            <Typography component={'span'} fontWeight={'bold'} fontSize={'0.9rem'} color={'gray'}>
               모험단 등록 안됨
             </Typography>
           )}

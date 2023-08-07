@@ -52,7 +52,7 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
       icon: (
         <EditIcon
           sx={{
-            fontSize: '0.8rem',
+            fontSize: '0.9rem',
           }}
         />
       ),
@@ -63,7 +63,7 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
       icon: (
         <AttachFileIcon
           sx={{
-            fontSize: '0.8rem',
+            fontSize: '0.9rem',
           }}
         />
       ),
@@ -74,7 +74,7 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
       icon: (
         <AccountCircleIcon
           sx={{
-            fontSize: '0.8rem',
+            fontSize: '0.9rem',
           }}
         />
       ),
@@ -89,7 +89,7 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
         return (
           <ProfileMenuButton key={index} onClick={menu.onClick}>
             {menu.icon}
-            <Typography component={'span'} fontSize={'0.7rem'}>
+            <Typography component={'span'} fontSize={'0.8rem'}>
               {menu.label}
             </Typography>
             {menu.label === '활동내역' && (
@@ -110,8 +110,8 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
       />
       <UserDetailEditDialog open={openEditProfileModal} onClose={handleCloseEditProfileModal} refresh={props.refresh} />
       <ProfileMenuButton onClick={handleProfileChangeModalOpen}>
-        <Avatar sx={{ width: '0.8rem', height: '0.8rem' }} src={user?.profileImgPath} />
-        <Typography component={'span'} fontSize={'0.7rem'}>
+        <Avatar sx={{ width: '0.9rem', height: '0.9rem' }} src={user?.profileImgPath} />
+        <Typography component={'span'} fontSize={'0.8rem'}>
           프로필 변경
         </Typography>
       </ProfileMenuButton>
@@ -119,10 +119,10 @@ const UserProfileMenus = (props: { refresh: () => void }) => {
         <ProfileMenuButton>
           <PublicIcon
             sx={{
-              fontSize: '0.8rem',
+              fontSize: '0.9rem',
             }}
           />
-          <Typography component={'span'} fontSize={'0.7rem'}>
+          <Typography component={'span'} fontSize={'0.8rem'}>
             모험단 등록
           </Typography>
         </ProfileMenuButton>

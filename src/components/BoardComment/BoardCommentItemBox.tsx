@@ -11,6 +11,7 @@ const BoardCommentItemBox = ({ boardId, comment }: IBoardCommentItemBoxProps) =>
   const handleToggleOpenReply = () => {
     setIsReplyOpen(!isReplyOpen);
   };
+
   const commentId = String(comment.id);
   return (
     <BoardCommentItemContainer>
