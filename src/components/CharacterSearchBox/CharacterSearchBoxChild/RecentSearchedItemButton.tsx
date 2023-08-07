@@ -32,7 +32,7 @@ const RecentSearchedItemButton = ({
   };
 
   return (
-    <Button sx={{  width: '100%' }}>
+    <Button sx={{ width: '100%' }}>
       <Grid
         container
         onMouseDown={handleAddRecentSearchedQuery}

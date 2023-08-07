@@ -15,7 +15,7 @@ export const HeaderProfileContent = (props: { onClick: () => void }) => {
         />
       </Badge>
       <ProfileNicknameWrapper>
-        <p style={{ fontSize:'0.8rem' }}>{user?.nickname}</p>
+        <p style={{ fontSize: '0.8rem' }}>{user?.nickname}</p>
       </ProfileNicknameWrapper>
     </Button>
   );

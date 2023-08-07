@@ -63,11 +63,9 @@ export default MainCharacterRankingListItem;
 
 const RankingDetailText = styled.span`
   color: grey;
-
 `;
 
-const RankingDetailNameText = styled.span`
-`;
+const RankingDetailNameText = styled.span``;
 
 const TableRow = styled.div`
   display: flex;

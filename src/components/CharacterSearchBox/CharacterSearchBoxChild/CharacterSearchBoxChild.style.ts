@@ -2,7 +2,6 @@ import { Card, styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-
 const BoldNameWrapper = styled(Typography)`
   display: flex;
   font-weight: bold;
