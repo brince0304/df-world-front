@@ -22,7 +22,7 @@ const BoardChildrenCommentListItem = ({ boardId, comment }: IBoardChildrenCommen
         <BoardCommentLikeButton boardId={boardId} commentId={commentId} />
         <Typography
           sx={{
-            fontSize: '12px',
+            fontSize: '0.8rem',
             marginLeft: '10px',
             color: 'gray',
           }}

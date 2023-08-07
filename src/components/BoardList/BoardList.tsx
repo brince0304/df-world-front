@@ -23,7 +23,11 @@ const BoardList = ({ searchType, keyword, boardType }: IBoardListProps) => {
       hasMore={hasNextPage}
       loader={<BoardListSkeleton />}
     >
-      <List>
+      <List
+        sx={{
+          padding: '0px',
+          }}
+      >
         {boardList?.pages.map((items) => {
           return items.content.map((item) => {
             return <BoardListItem {...item} key={item.id} />;

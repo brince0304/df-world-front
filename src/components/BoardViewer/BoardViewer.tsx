@@ -1,5 +1,5 @@
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
-import { Box, Button, Checkbox, Divider, FormControlLabel, Typography, styled } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, Typography, styled } from '@mui/material';
 import BoardChips from 'components/BoardList/BoardChips';
 import BoardUserAvatar from 'components/BoardUserAvatar/BoardUserAvatar';
 import { useUserQuery } from 'hooks/authHooks/queries/useUserQuery';
@@ -35,9 +35,9 @@ const BoardViewer = ({ boardId }: IBoardViewerProps) => {
         <CreatedAtWrapper>{article.createdAt}</CreatedAtWrapper>
         <ViewCountWrapper>조회수 {article.boardViewCount}</ViewCountWrapper>
       </BoardAuthorContainer>
-      <Divider sx={{ marginTop: '10px' }} />
       <LikeButtonContainer>
         <FormControlLabel
+
           control={
             <Checkbox
               color={'error'}
@@ -47,7 +47,9 @@ const BoardViewer = ({ boardId }: IBoardViewerProps) => {
               checked={isLiked}
             />
           }
-          label={<Typography>{likeCount}</Typography>}
+          label={<Typography       sx={{
+            fontSize: '0.9rem',
+          }}>{likeCount}</Typography>}
         />
         {user && article.userId === user.userId && (
           <Box sx={{ display: 'flex' }}>
@@ -61,7 +63,8 @@ const BoardViewer = ({ boardId }: IBoardViewerProps) => {
         )}
       </LikeButtonContainer>
       <Box sx={{ textAlign: 'left' }}>
-        <ReactMarkdown>{article.boardContent}</ReactMarkdown>
+        <ReactMarkdown
+        >{article.boardContent}</ReactMarkdown>
       </Box>
       <BoardChips data={article as any} />
     </BoardDetailContainer>
@@ -85,24 +88,25 @@ const BoardAuthorContainer = styled(Box)`
 
 const CreatedAtWrapper = styled(Typography)`
   display: flex;
-  font-size: 14px;
+  font-size: 0.8rem;
   color: gray;
 `;
 
 const ViewCountWrapper = styled(Typography)`
   display: flex;
-  font-size: 14px;
+  font-size: 0.8rem;
   color: gray;
   margin-left: 10px;
 `;
 
 const BoardTitleWrapper = styled(Typography)`
   display: block;
-  font-size: 20px;
+  font-size: 1.4rem;
   font-weight: bold;
   color: black;
   width: 100%;
   text-align: left;
+  padding : 5px 0px;
 `;
 
 const BoardDetailContainer = styled(Box)`
@@ -112,7 +116,6 @@ const BoardDetailContainer = styled(Box)`
   width: 100%;
   height: 100%;
   border-top: 1px solid #e0e0e0;
-  padding: 10px;
 `;
 
 const LikeButtonContainer = styled(Box)`
@@ -127,6 +130,7 @@ const LikeButtonContainer = styled(Box)`
 export const boardButtonStyle = {
   color: 'gray',
   fontWeight: '400',
+  fontSize: '0.8rem',
   '&:hover': {
     color: 'black',
     transition: 'all 0.3s',

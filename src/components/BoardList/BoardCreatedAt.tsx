@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 const CreatedAt = ({ createdAt }: { createdAt: string }) => {
   return (
     <BoardCreatedAtWrapper>
-      <Typography sx={{ fontSize: '0.8rem',}}>{createdAt}</Typography>
+      <Typography sx={{ fontSize: '0.8rem' }}>{createdAt}</Typography>
     </BoardCreatedAtWrapper>
   );
 };

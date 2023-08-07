@@ -4,6 +4,8 @@ import BoardCommentItemBox from './BoardCommentItemBox';
 import { boardButtonStyle } from 'components/BoardViewer/BoardViewer';
 import styled from '@emotion/styled';
 import useBoardCommentCountQuery from 'hooks/boardHooks/queries/useBoardCommentCountQuery';
+import React from 'react';
+import BoardDetailButtons from '../BoardViewer/BoardDetailButtons';
 
 const BoardCommentList = ({ boardId }: IBoardCommentListProps) => {
   const data = useBoardCommentsQuery(boardId);
@@ -13,9 +15,16 @@ const BoardCommentList = ({ boardId }: IBoardCommentListProps) => {
   };
   return (
     <Container>
+      <Box sx={{ display: 'flex', flexDirection: 'row',
+        justifyContents:'space-between',
+        width: '100%',
+        alignItems: 'center', marginLeft: 'auto' }}>
       <Button onClick={handleClick} sx={boardButtonStyle}>
         댓글 {commentCount}개
       </Button>
+        <BoardDetailButtons/>
+      </Box>
+
       {data &&
         data.map((comment) => {
           return <BoardCommentItemBox key={comment.id} boardId={boardId} comment={comment} />;

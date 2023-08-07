@@ -1,26 +1,20 @@
 import { useLocation, useParams } from 'react-router';
 import React, { Suspense } from 'react';
-import { Container, useMediaQuery } from '@mui/material';
 import CharacterList from '../components/CharacterList/CharacterList';
 import { getServerName } from '../utils/charactersUtil';
 import styled from '@emotion/styled';
 import CharacterListSkeleton from '../components/Skeleton/CharacterListSkeleton/CharacterListSkeleton';
 import { ErrorBoundary } from 'react-error-boundary';
 import Error from '../components/Fallbacks/Error';
+import MyContainer from 'components/application/MyContainer';
 
 const Characters = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const characterName = searchParams.get('name') || '';
   const { serverId } = useParams();
-  const isMobile = useMediaQuery('(max-width: 480px)');
-
   return (
-    <Container maxWidth={isMobile ? 'xs' : 'lg'}
-               sx={{
-                 padding: isMobile ? '0px' : '0px 20px 0px 20px',
-               }}
-    >
+    <MyContainer>
       <ResultTitleWrapper>
         <ResultServerNameWrapper>{getServerName(serverId ? serverId : '')}</ResultServerNameWrapper>
         <ResultCharacterNameWrapper>{characterName ? characterName : ''}</ResultCharacterNameWrapper>
@@ -31,7 +25,7 @@ const Characters = () => {
           <CharacterList characterName={characterName} serverId={serverId ? serverId : ''} />
         </Suspense>
       </ErrorBoundary>
-    </Container>
+    </MyContainer>
   );
 };
 

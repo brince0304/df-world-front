@@ -31,7 +31,7 @@ const BoardCommentItemBox = ({ boardId, comment }: IBoardCommentItemBoxProps) =>
         <BoardCommentLikeButton boardId={boardId} commentId={commentId} />
         <Typography
           sx={{
-            fontSize: '12px',
+            fontSize: '0.8rem',
             marginLeft: '10px',
             color: 'gray',
           }}
@@ -62,7 +62,7 @@ const BoardCommentItemContainer = styled(Box)`
 
 const commentButtonStyle = {
   color: 'gray',
-  fontSize: '12px',
+  fontSize: '0.8rem',
   justifyContent: 'flex-start',
   minWidth: '0px',
   '&:hover': {

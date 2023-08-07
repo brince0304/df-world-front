@@ -9,7 +9,7 @@ const MyChip = (props: MyChipProps, ref: ForwardedRef<HTMLDivElement>) => {
       ref={ref}
       sx={{
         fontSize: isMobile ? '0.8rem' : '0.9rem',
-        fontWeight:'500',
+        fontWeight: '500',
       }}
       size={isMobile ? 'small' : 'medium'}
       {...props}

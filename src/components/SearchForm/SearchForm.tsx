@@ -16,7 +16,7 @@ const SearchForm = ({
 }: ISearchFormProps) => {
   const { value, selectedValue, setValue, setSelectedValue } = useSearchForms;
   const selectRef = useRef<HTMLDivElement | null>(null);
-  const {isFocus:openFocus, setIsFocus:setOpenFocus} = useChildBox(selectRef)
+  const { isFocus: openFocus, setIsFocus: setOpenFocus } = useChildBox(selectRef);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const submitCallback = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

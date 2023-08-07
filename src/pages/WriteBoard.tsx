@@ -1,4 +1,3 @@
-import { Container } from '@mui/material';
 import * as React from 'react';
 import { useLocation } from 'react-router';
 import '@yaireo/tagify/dist/tagify.css';
@@ -6,6 +5,7 @@ import useBoardForm from '../hooks/boardHooks/useBoardForm';
 import BoardForm from '../components/BoardForm/BoardForm';
 import useCreateBoardMutation from '../hooks/boardHooks/mutations/useCreateBoardMutation';
 import { useEffect } from 'react';
+import MyContainer from '../components/application/MyContainer';
 
 const WriteBoard = () => {
   const location = useLocation();
@@ -24,9 +24,9 @@ const WriteBoard = () => {
   }, []);
 
   return (
-    <Container maxWidth={'md'} sx={{ paddingTop: '20px', flexDirection: 'column', gap: '20px' }}>
+    <MyContainer>
       <BoardForm submitHandler={createBoard} useBoardForms={formProps} buttonLabel={'작성'} />
-    </Container>
+    </MyContainer>
   );
 };
 export default WriteBoard;

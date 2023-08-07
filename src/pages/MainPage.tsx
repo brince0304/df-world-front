@@ -1,25 +1,20 @@
 import React from 'react';
 import CharacterRanking from '../components/MainCharacterRanking/MainCharacterRanking';
-import { Container, useMediaQuery } from '@mui/material';
 import MainCarousel from '../components/MainCarousel/Carousel';
 import LatestBoard from '../components/LatestBoard/LatestBoard';
 import styled from '@emotion/styled';
+import MyContainer from '../components/application/MyContainer';
 
 const Main = () => {
-  const isMobile = useMediaQuery('(max-width: 480px)');
 
   return (
-    <Container maxWidth={isMobile ? 'xs' : 'lg'}
-               sx={{
-                 padding: isMobile ? '0px' : '0px 20px 0px 20px',
-               }}
-    >
+    <MyContainer>
       <MainCarousel />
       <LatestBoardContainer>
         <LatestBoard />
       </LatestBoardContainer>
       <CharacterRanking />
-    </Container>
+    </MyContainer>
   );
 };
 

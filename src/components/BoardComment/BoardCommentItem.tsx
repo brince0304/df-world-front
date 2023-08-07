@@ -87,7 +87,7 @@ export default BoardCommentItem;
 
 const commentButtonStyle = {
   color: 'gray',
-  fontSize: '12px',
+  fontSize: '0.8rem',
   justifyContent: 'flex-start',
   minWidth: '0px',
   '&:hover': {
@@ -132,6 +132,6 @@ const BoardCommentContentWrapper = styled.section`
   justify-content: center;
   width: 100%;
   margin-left: 8px;
-  font-size: 14px;
+  font-size: 0.9rem;
   font-family: 'inherit';
 `;

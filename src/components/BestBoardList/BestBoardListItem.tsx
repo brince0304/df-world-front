@@ -50,12 +50,14 @@ function TabPanel(props: { children?: React.ReactNode; value: number; index: num
   return <div hidden={value !== index}>{value === index && <div>{children}</div>}</div>;
 }
 
+
 const ChipWrapper = styled(Box)`
   display: flex;
   flex-direction: row;
   align-content: center;
   justify-content: flex-start;
   width: 100%;
+  padding: 5px 0px;
 `;
 
 const TitleWrapper = styled(Typography)`

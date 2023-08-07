@@ -2,7 +2,6 @@ import MyTable from '../components/MyTable/MyTable';
 import { useLocation } from 'react-router';
 import React, { Suspense } from 'react';
 import SpeedDial from '../components/BoardList/BoardSpeedDial';
-import { Container, useMediaQuery } from '@mui/material';
 import BestContent from '../components/BestBoardList/BestBoard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -11,6 +10,7 @@ import { getBoardType } from '../utils/boardUtil';
 import styled from '@emotion/styled';
 import BoardTypeChips from '../components/Chips/BoardTypeChips';
 import BoardListSkeleton from '../components/Skeleton/BoardListSkeleton /BoardListSkeleton';
+import MyContainer from 'components/application/MyContainer';
 
 export const getSearchType = (type: string) => {
   switch (type) {
@@ -31,14 +31,9 @@ const Board = () => {
   const searchType = searchParams.get('searchType')?.toString() || '';
   const keyword = searchParams.get('keyword')?.toString() || '';
   const boardType = searchParams.get('boardType')?.toString() || 'ALL';
-  const isMobile = useMediaQuery('(max-width: 480px)');
 
   return (
-    <Container maxWidth={isMobile ? 'xs' : 'lg'}
-               sx={{
-                 padding: isMobile ? '0px' : '0px 20px 0px 20px',
-               }}
-    >
+    <MyContainer>
       <MyTable
         title={
           <TableTitleWrapper>
@@ -64,14 +59,14 @@ const Board = () => {
         </Suspense>
         <SpeedDial boardType={boardType} keyword={keyword} searchType={searchType} />
       </MyTable>
-    </Container>
+    </MyContainer>
   );
 };
 
 export const BestArticleTitle = styled.div`
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #000;
 `;

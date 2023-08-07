@@ -1,8 +1,8 @@
 import { useLocation } from 'react-router';
-import { ReactNode, Suspense, SyntheticEvent, useState } from 'react';
+import React, { ReactNode, Suspense, SyntheticEvent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons';
-import { Avatar, Container, Divider, List, ListItemButton, Paper, Tab, Tabs, useMediaQuery } from '@mui/material';
+import { Avatar, Divider, List, ListItemButton, Paper, Tab, Tabs } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import StarsIcon from '@mui/icons-material/Stars';
@@ -17,10 +17,10 @@ import {
 import CharacterProfile from '../components/CharacterDetail/CharacterDetailProfile';
 import { dontNeedList, getRarityColor } from '../utils/charactersUtil';
 import CharacterDetailSkeleton from '../components/Skeleton/CharacterDetailSkeleton/CharacterDetailSkeleton';
-import styled from '@emotion/styled';
 import { ErrorBoundary } from 'react-error-boundary';
 import useCharacterDetailQuery from '../hooks/characterHooks/queries/useCharacterDetailQuery';
 import Loading from '../components/Fallbacks/Loading';
+import MyContainer from '../components/application/MyContainer';
 
 const CharacterDetail = () => {
   const location = useLocation();
@@ -31,14 +31,9 @@ const CharacterDetail = () => {
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
   };
-  const isMobile = useMediaQuery('(max-width: 480px)');
 
   return (
-    <CharacterDetailContainer maxWidth={isMobile ? 'xs' : 'lg'}
-               sx={{
-                 padding: isMobile ? '0px' : '0px 20px 0px 20px',
-               }}
-    >
+    <MyContainer>
       <ErrorBoundary fallback={<BadRequest />}>
         <Suspense fallback={<CharacterDetailSkeleton />}>
           <CharacterProfile characterId={characterId} serverId={serverId} />
@@ -95,7 +90,7 @@ const CharacterDetail = () => {
           <TabPanel index={1} value={selectedTab}></TabPanel>
         </Box>
       </Paper>
-    </CharacterDetailContainer>
+    </MyContainer>
   );
 };
 
@@ -595,15 +590,6 @@ const CharacterEquipmentDetail = (props: {
   );
 };
 
-const CharacterDetailContainer = styled(Container)`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  height: 100%;
-`;
 
 const CharacterEquipmentList = ({ characterId, serverId }: { characterId: string; serverId: string }) => {
   const { data } = useCharacterDetailQuery(characterId, serverId);
