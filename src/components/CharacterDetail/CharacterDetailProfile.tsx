@@ -68,8 +68,7 @@ const CharacterProfile = ({ characterId, serverId }: { characterId: string; serv
             position: 'relative' as 'relative',
           }}
         >
-          <CharacterImgWrapper style={{backgroundImage: `url(${apiUrl}/images/icon_char/bg_char.jpg)`}}
-          >
+          <CharacterImgWrapper style={{ backgroundImage: `url(${apiUrl}images/icon_char/bg_char.jpg)` }}>
             <img src={data?.characterEntityDto?.characterImgPath} alt="characterImg" />
           </CharacterImgWrapper>
           <Box
