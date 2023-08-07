@@ -31,11 +31,11 @@ const queryClient = new QueryClient({
     },
     mutations: {
       retry: false,
-      onError: (error:any) => {
+      onError: (error: any) => {
         if (error.response && error.response.status === 401) {
           queryClient.invalidateQueries([QUERY_KEY.user]);
         }
-      }
+      },
     },
   },
 });

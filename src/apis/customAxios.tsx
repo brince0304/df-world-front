@@ -22,7 +22,6 @@ export function setInterceptors(instance: AxiosInstance) {
       return response;
     },
     (error) => {
-
       return Promise.reject(error);
     },
   );

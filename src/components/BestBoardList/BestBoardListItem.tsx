@@ -25,7 +25,7 @@ const BestBoardListItem = ({ item, chipColor, chipIndex, index, handleNavigate }
         <Zoom in={index === chipIndex + 1} timeout={200} onClick={(e) => handleNavigate(item.id)}>
           <ChipWrapper>
             <AvatarWrapper>
-            <BoardUserAvatar src={item.userProfileImgUrl} nickname={item.userNickname} />
+              <BoardUserAvatar src={item.userProfileImgUrl} nickname={item.userNickname} />
             </AvatarWrapper>
             <TitleWrapper>{item.boardTitle}</TitleWrapper>
           </ChipWrapper>
@@ -77,4 +77,4 @@ const AvatarWrapper = styled(Box)`
   justify-content: center;
   width: 220px;
   height: 100%;
-  `;
+`;

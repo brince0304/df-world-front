@@ -16,7 +16,13 @@ const BoardList = ({ searchType, keyword, boardType }: IBoardListProps) => {
     boardType,
   });
   return (
-    <InfiniteScroll key={0} pageStart={0} loadMore={() => fetchNextPage()} hasMore={hasNextPage} loader={<BoardListSkeleton />}>
+    <InfiniteScroll
+      key={0}
+      pageStart={0}
+      loadMore={() => fetchNextPage()}
+      hasMore={hasNextPage}
+      loader={<BoardListSkeleton />}
+    >
       <List>
         {boardList?.pages.map((items) => {
           return items.content.map((item) => {
