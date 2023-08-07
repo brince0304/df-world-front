@@ -1,4 +1,4 @@
-import  { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 function useDebounce<T extends any[]>(callback: (...params: T) => void, time: number) {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -12,7 +12,7 @@ function useDebounce<T extends any[]>(callback: (...params: T) => void, time: nu
     document.addEventListener('keypress', handleKeyPress);
     return () => {
       document.removeEventListener('keypress', handleKeyPress);
-    }
+    };
   }, []);
 
   return (...params: T) => {

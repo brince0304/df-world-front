@@ -9,15 +9,14 @@ const useChildBox = (ref: RefObject<HTMLElement>) => {
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {
-    if(e.key === 'Escape'){
+    if (e.key === 'Escape') {
       setIsFocus(false);
-    }
-    else if (e.key === 'Enter') {
+    } else if (e.key === 'Enter') {
       setIsFocus(false);
-    }else{
+    } else {
       setIsFocus(true);
     }
-  }
+  };
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleKeyPress);
