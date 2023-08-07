@@ -2,6 +2,20 @@
   text-align: center;
   font-family: 'inherit';
 }
+body {
+  font-size: 1rem; /* 기본 폰트 크기와 동일 (16px) */
+}
+
+h1 {
+  font-size: 2rem; /* 2배로 큰 폰트 크기 (32px) */
+}
+
+p {
+  font-size: 0.875rem; /* 기본 폰트 크기보다 조금 작은 폰트 크기 (14px) */
+}
+html {
+  font-size: 16px; /* 또는 원하는 기본 글꼴 크기 */
+}
 
 @font-face {
   font-family: 'Core Sans';

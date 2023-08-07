@@ -76,7 +76,6 @@ const BoardTitleBox = styled.div`
 const BoardTitle = styled.div`
   display: block;
   //맨왼쪽부터
-  font-size: 18px;
   color: black;
   width: 100%;
   overflow: hidden;
@@ -94,7 +93,6 @@ const BoardFooter = styled.div`
   justify-content: space-between;
   width: 100%;
   gap: 20px;
-  font-size: 14px;
 `;
 
 const LikeCommentContainer = styled.div`
