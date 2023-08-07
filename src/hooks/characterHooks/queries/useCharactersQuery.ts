@@ -13,9 +13,9 @@ const useCharactersQuery = (characterName: string, serverId: string) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       cacheTime: 0,
+      retry: true,
       enabled: !!characterName && characterName !== '',
       getNextPageParam: (lastPage) => {
-        console.info(lastPage);
         if (lastPage.number + 1 >= lastPage.totalPages) return undefined;
         return lastPage.number + 1;
       },

@@ -7,10 +7,23 @@ const useChildBox = (ref: RefObject<HTMLElement>) => {
       setIsFocus(false);
     }
   };
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if(e.key === 'Escape'){
+      setIsFocus(false);
+    }
+    else if (e.key === 'Enter') {
+      setIsFocus(false);
+    }else{
+      setIsFocus(true);
+    }
+  }
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyPress);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyPress);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -21,9 +21,9 @@ const Characters = () => {
         <ResultTitleFooterWrapper>님의 검색결과</ResultTitleFooterWrapper>
       </ResultTitleWrapper>
       <ErrorBoundary fallback={<Error />}>
-      <Suspense fallback={<CharacterListSkeleton />}>
-        <CharacterList characterName={characterName} serverId={serverId ? serverId : ''} />
-      </Suspense>
+        <Suspense fallback={<CharacterListSkeleton />}>
+          <CharacterList characterName={characterName} serverId={serverId ? serverId : ''} />
+        </Suspense>
       </ErrorBoundary>
     </Container>
   );
