@@ -19,7 +19,7 @@ const CharacterList = (props: { characterName: string; serverId: string }) => {
       hasMore={hasNextPage}
       loader={<CharacterListSkeleton />}
     >
-      <Grid container spacing={4}>
+      <Grid container spacing={2}>
         {data?.pages.map((page, index: number) => {
           return page.content.map((character, index) => {
             return (

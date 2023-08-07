@@ -38,7 +38,7 @@ const ResultTitleWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 20%;
-  font-size: 21px;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #000;
   text-align: center;
@@ -63,7 +63,7 @@ const ResultServerNameWrapper = styled.div`
   justify-content: center;
   align-items: center;
   color: #ca955c;
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: 600;
   padding: 5px;
   margin: 5px;
@@ -74,7 +74,7 @@ const ResultCharacterNameWrapper = styled.div`
   justify-content: center;
   align-items: center;
   color: #282c34;
-  font-size: 22px;
+  font-size: 1.2rem;
   font-weight: 600;
   padding: 5px;
   margin: 5px;
@@ -85,7 +85,7 @@ const ResultTitleFooterWrapper = styled.div`
   justify-content: center;
   align-items: center;
   color: #ca955c;
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: 600;
   padding: 5px;
   margin: 5px;

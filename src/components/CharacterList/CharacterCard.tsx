@@ -127,12 +127,12 @@ const CharacterNameWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 30%;
-  font-size: 21px;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #000;
   text-align: center;
   @media (max-width: 768px) {
-    font-size: 18px;
+    font-size: 1rem;
   }
 `;
 
@@ -156,17 +156,17 @@ const CharacterServerNameBadgeWrapper = styled.div`
   align-items: center;
   color: #ca955c;
   border-radius: 10px;
-  font-size: 12px;
+  font-size: 0.8rem;
   font-weight: 600;
   padding: 5px;
   margin: 5px;
   @media (max-width: 768px) {
-    font-size: 5px;
+    font-size: 0.5rem;
     width: 40%;
   }
   @media (max-width: 1024px) {
     width: 60%;
-    font-size: 5px;
+    font-size: 0.5rem;
   }
 `;
 
@@ -177,18 +177,18 @@ const CharacterJobNameBadgeWrapper = styled.div`
   background-color: #f7f8fd;
   width: 50%;
   border-radius: 10px;
-  font-size: 12px;
+  font-size: 0.8rem;
   font-weight: 600;
   padding: 5px;
   margin: 5px;
   z-index: 1;
   @media (max-width: 768px) {
     width: 60%;
-    font-size: 5px;
+    font-size: 0.5rem;
   }
   @media (max-width: 1024px) {
     width: 60%;
-    font-size: 5px;
+    font-size: 0.5rem;
   }
 `;
 
@@ -205,7 +205,7 @@ const CharacterAdventureNameWrapper = styled.div`
   align-items: center;
   flex-direction: row;
   color: #4e8d7c;
-  font-size: 14px;
+  font-size: 0.8rem;
 `;
 
 const CharacterStatContainer = styled.div`
@@ -235,7 +235,7 @@ const StatTitleBadgeWrapper = styled.div`
   width: 85%;
   background-color: #f7f8fd;
   border-radius: 5px;
-  font-size: 12px;
+  font-size: 0.8rem;
   font-weight: 600;
   padding: 5px;
   margin: 5px;
@@ -246,7 +246,7 @@ const StatValueWrapper = styled.div`
   justify-content: center;
   align-items: center;
   color: dimgrey;
-  font-size: 14px;
+  font-size: 0.8rem;
   font-weight: 600;
 `;
 
