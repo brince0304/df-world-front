@@ -36,7 +36,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: aws deploy create-deployment
           --application-name df-community
-          --deployment-group-name df-community-group
+          --deployment-group-name df-client-deploy
           --file-exists-behavior OVERWRITE
           --s3-location bucket=df-commnuity-deploy,bundleType=zip,key=build.zip
           --region ap-northeast-2

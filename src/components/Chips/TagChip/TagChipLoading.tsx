@@ -17,9 +17,7 @@ const HashtagLoading = () => {
       }}
     >
       <CircularProgress />
-      <Typography fontSize={'15px'}>
-        로딩중...
-      </Typography>
+      <Typography fontSize={'15px'}>로딩중...</Typography>
     </Box>
   );
 };
