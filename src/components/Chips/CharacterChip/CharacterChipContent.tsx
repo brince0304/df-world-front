@@ -38,15 +38,11 @@ export const CharacterContent = (props: {
         </IconButton>
       </Tooltip>
       <Avatar src={props.characterImgUrl} sx={{ width: '100px', height: '100px' }} variant="rounded" />
-      <Typography  fontSize={'0.9rem'} fontWeight={'bold'}>
+      <Typography fontSize={'0.9rem'} fontWeight={'bold'}>
         {props.characterName}
       </Typography>
-      <Typography fontSize={'0.8rem'}>
-        {props.adventureName}
-      </Typography>
-      <Typography  fontSize={'0.8rem'}>
-        {getServerName(props.serverId)}
-      </Typography>
+      <Typography fontSize={'0.8rem'}>{props.adventureName}</Typography>
+      <Typography fontSize={'0.8rem'}>{getServerName(props.serverId)}</Typography>
     </Box>
   );
 };

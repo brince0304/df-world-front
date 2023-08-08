@@ -57,7 +57,7 @@ const ChipWrapper = styled(Box)`
   justify-content: flex-start;
   width: 100%;
   padding: 5px 0px;
-  gap : 10px;
+  gap: 10px;
 `;
 
 const TitleWrapper = styled(Typography)`
@@ -71,4 +71,3 @@ const TitleWrapper = styled(Typography)`
   text-overflow: ellipsis;
   color: #000000;
 `;
-

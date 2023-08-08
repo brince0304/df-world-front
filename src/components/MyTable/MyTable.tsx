@@ -41,9 +41,7 @@ function MyTable(props: TableCustomProps) {
   return (
     <TableContainer>
       <TableHeader>
-        <TableTitleWrapper>
-         {props.title}
-        </TableTitleWrapper>
+        <TableTitleWrapper>{props.title}</TableTitleWrapper>
         {props.useIcon && props.icon}
       </TableHeader>
       {props.useMenu && props.menus && (

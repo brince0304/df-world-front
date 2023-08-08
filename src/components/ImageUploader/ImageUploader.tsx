@@ -49,11 +49,7 @@ function ImageUploader(props: { handleClose: () => void }) {
         padding: 2,
       }}
     >
-      <Avatar src={profileUrl} sx={
-        { width: isMobile ? 30: 50,
-          height: isMobile ? 30: 50,
-          position: 'relative' }
-      } />
+      <Avatar src={profileUrl} sx={{ width: isMobile ? 30 : 50, height: isMobile ? 30 : 50, position: 'relative' }} />
       <MuiFileInput
         value={profile}
         style={{

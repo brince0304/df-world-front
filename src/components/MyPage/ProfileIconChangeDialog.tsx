@@ -22,23 +22,23 @@ export default function ProfileIconChangeDialog(props: ProfileIconChangeModalPro
   };
   const isMobile = useMediaQuery('(max-width: 480px)');
   return (
-    <Dialog
-      open={props.isOpened}
-      onClose={props.handleClose}
-
-    >
-      <DialogTitle sx={{
+    <Dialog open={props.isOpened} onClose={props.handleClose}>
+      <DialogTitle
+        sx={{
           textAlign: 'center',
           fontSize: '1rem',
-      }}>
+        }}
+      >
         프로필 아이콘을 변경합니다!
       </DialogTitle>
-      <DialogContent       sx={{
-        width: isMobile ? '100%' : 'auto',
-        height: '450px',
-        scrollBehavior: 'smooth',
-        overflowY: 'hidden',
-      }}>
+      <DialogContent
+        sx={{
+          width: isMobile ? '100%' : 'auto',
+          height: '450px',
+          scrollBehavior: 'smooth',
+          overflowY: 'hidden',
+        }}
+      >
         <ImageUploader handleClose={props.handleClose} />
         <IconSelectorWrapper>
           <p>혹은 기본 아이콘을 선택해주세요!</p>
@@ -46,7 +46,10 @@ export default function ProfileIconChangeDialog(props: ProfileIconChangeModalPro
         <ProfileIconChangeContainer>
           {data.map((icon, index) => (
             <IconButton data-id={icon.url} onClick={handleChangeIcon} key={index}>
-              <Avatar src={'https://api.df-world.kr/files/?name=' + icon.name} sx={{ width: 30, height: 30, margin: 1 }} />
+              <Avatar
+                src={'https://api.df-world.kr/files/?name=' + icon.name}
+                sx={{ width: 30, height: 30, margin: 1 }}
+              />
             </IconButton>
           ))}
         </ProfileIconChangeContainer>

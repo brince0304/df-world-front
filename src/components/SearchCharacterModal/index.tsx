@@ -16,17 +16,10 @@ const SearchCharacterModal = (props: {
   return (
     <Modal open={props.isOpened} onClose={props.handleClose}>
       <Fade in={props.isOpened} unmountOnExit={true}>
-        <ModalContainer
-          height={isMobile ? '80%' : '600px'}
-          width={isMobile ? '90%' : '400px'}
-        >
-          {props.isLoading && (
-            <LinearProgressWrapper/>
-          )}
+        <ModalContainer height={isMobile ? '80%' : '600px'} width={isMobile ? '90%' : '400px'}>
+          {props.isLoading && <LinearProgressWrapper />}
           <ModalBody>
-            <SearchBoxWrapper>
-              {props.serachBox}
-            </SearchBoxWrapper>
+            <SearchBoxWrapper>{props.serachBox}</SearchBoxWrapper>
             {props.children}
           </ModalBody>
         </ModalContainer>
@@ -36,16 +29,16 @@ const SearchCharacterModal = (props: {
 };
 
 const SearchBoxWrapper = styled(Box)`
-display: flex;
-  width : 100%;
-  height : 52px;
-  position : fixed;
-  left : 0;
-  top : 0;
-  z-index : 1000;
-  background-color : white;
-  padding : 10px 10px;
-  `;
+  display: flex;
+  width: 100%;
+  height: 52px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
+  padding: 10px 10px;
+`;
 
 const LinearProgressWrapper = styled(LinearProgress)`
   position: absolute;
@@ -70,10 +63,9 @@ const ModalContainer = styled(Box)`
   //props width
   background-color: white;
   border-radius: 2px;
-  height: ${(props: { height: string, width:string }) => props.height};
-  width: ${(props: { height: string, width:string }) => props.width};
+  height: ${(props: { height: string; width: string }) => props.height};
+  width: ${(props: { height: string; width: string }) => props.width};
 `;
-
 
 const ModalBody = styled(Box)`
   display: flex;
