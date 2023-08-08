@@ -7,18 +7,17 @@ import { IBoardRequest } from '../../services/boardService';
 import { IBoardDetail } from '../../interfaces/IBoardDetail';
 import { useNavigate } from 'react-router-dom';
 import ToastEditor from '../ToastEditor/ToastEditor';
-import useToastEditor from '../../hooks/boardHooks/useToastEditor';
 import BoardFormChips from '../Chips/BoardFormChips';
 import TagifyContainer from './TagifyContainer';
 import useCharacterBoardLink from '../../hooks/boardHooks/useCharacterBoardLink';
 
-const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: IBoardFormProps) => {
+const BoardForm = ({ initialValue, submitHandler, useBoardForms, buttonLabel }: IBoardFormProps) => {
   const handleSelectChange = (value: string) => {
     useBoardForms.setValues.setBoardType(value);
   };
   const handlePost = (data: IBoardRequest) => {
-    if (window.confirm('글을 작성하시겠습니까?')) {
-      useBoardForms.onSubmit(data);
+    if (window.confirm(`${buttonLabel} 하시겠습니까?`)) {
+      submitHandler(data);
     }
   };
   const {
@@ -28,7 +27,11 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
     setCharacterLinkModalOpen,
     handleSetCharacterDetails,
     handleDeleteCharacter,
-  } = useCharacterBoardLink(useBoardForms.setValues, '', '');
+  } = useCharacterBoardLink(
+    useBoardForms.setValues,
+    initialValue?.article.character?.characterName,
+    initialValue?.article.character?.characterImageUrl,
+  );
   const handleModalOpen = () => {
     setCharacterLinkModalOpen(true);
   };
@@ -42,9 +45,8 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
   const handleModalClose = () => {
     setCharacterLinkModalOpen(false);
   };
-  const { hooksCallback, onChange } = useToastEditor(useBoardForms.setValues, useBoardForms.watchValues);
   const handleNavigateBack = () => {
-    if (window.confirm('작성을 취소하시겠습니까?')) {
+    if (window.confirm(`${buttonLabel}을 취소하시겠습니까?`)) {
       navigate(-1);
     }
   };
@@ -78,7 +80,6 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
           error={!!useBoardForms.errors.boardTitle}
           helperText={useBoardForms.errors.boardTitle?.message}
           label={'제목'}
-          defaultValue={useBoardForms.watchValues.watchBoardTitle}
           {...useBoardForms.register('boardTitle')}
           sx={{
             width: '100%',
@@ -89,7 +90,11 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
           }}
         />
         <HashtagWrapper>
-          <TagifyContainer useFormProps={useBoardForms} handleAddHashtag={useBoardForms.setValues.setHashtag} />
+          <TagifyContainer
+            useFormProps={useBoardForms}
+            initialValue={initialValue?.article.hashtags}
+            handleAddHashtag={useBoardForms.setValues.setHashtag}
+          />
         </HashtagWrapper>
         <Typography
           variant={'body2'}
@@ -105,11 +110,7 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
         </Typography>
       </Box>
       <Box width={'100%'} height={'90%'} paddingTop={'20px'}>
-        <ToastEditor
-          onChange={onChange}
-          hooksCallback={hooksCallback}
-          initialValue={useBoardForms.watchValues.watchBoardContent}
-        />
+        <ToastEditor useBoardForms={useBoardForms} />
         {useBoardForms.errors.boardContent?.message && (
           <Typography variant={'body2'} sx={{ fontSize: '0.7rem', color: 'red', textAlign: 'left' }}>
             {useBoardForms.errors.boardContent?.message}
@@ -150,7 +151,7 @@ const BoardForm = ({ initialData, submitHandler, useBoardForms, buttonLabel }: I
 };
 
 interface IBoardFormProps {
-  initialData?: IBoardDetail;
+  initialValue?: IBoardDetail;
   submitHandler: (data: IBoardRequest) => void;
   useBoardForms: ReturnType<typeof useBoardForm>;
   buttonLabel: string;

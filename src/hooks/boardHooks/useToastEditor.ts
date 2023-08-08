@@ -1,18 +1,19 @@
 import { HookImageResponse } from '../../components/ToastEditor/ToastEditor';
+import useBoardForm from './useBoardForm';
+import { useState } from 'react';
 
-const useToastEditor = (setValues: any, watchValues: any) => {
+const useToastEditor = (useFormProps: ReturnType<typeof useBoardForm>) => {
+  const [value, setValue] = useState<string>('');
   // TODO: 리액트 훅 사용 안하기 때문에 고려사항
   const onChange = (value: string) => {
-    setValues.setBoardContent(value);
+    useFormProps.setValues.setBoardContent(value);
   };
 
   const hooksCallback = (data: HookImageResponse) => {
     console.info('hooksCallback', data);
-    if (!watchValues.watchBoardFiles) {
-      setValues.setBoardFiles(String(data.fileId));
-      return;
-    }
-    setValues.setBoardFiles(String(watchValues.watchBoardFiles) + ',' + String(data.fileId));
+    setValue(value + String(data.fileId));
+    console.info('hooksCallback', value);
+    console.info('hooksCallback', useFormProps.watchValues.watchBoardFiles);
   };
 
   return {

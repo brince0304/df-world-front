@@ -33,8 +33,8 @@ const BestBoardList = ({ data, index }: IBestBoardListProps) => {
             gap: '10px',
           }}
         >
-          <Typography fontFamily={'Core Sans'} fontSize={'15px'}>
-            인기 게시글이 없습니다.
+          <Typography fontSize={'1.1rem'} fontWeight={'bold'}>
+            베스트 게시글이 없습니다.
           </Typography>
         </Box>
       )}

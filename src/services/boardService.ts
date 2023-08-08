@@ -81,7 +81,7 @@ export default class BoardService implements IBoardService {
   }
 
   likeBoard(data: { boardId: string }): Promise<number> {
-    return this.axiosClient.post(this.likeBoardUrl.replace('{boardId}', data.boardId), {});
+    return this.axiosClient.post(this.likeBoardUrl.replace('{boardId}', data.boardId));
   }
 
   updateBoard(data: IBoardRequest): Promise<number> {

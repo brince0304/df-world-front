@@ -1,30 +1,15 @@
-import { Favorite, FavoriteBorder } from '@mui/icons-material';
-import { Box, Button, Checkbox, FormControlLabel, Typography, styled } from '@mui/material';
+import { Box, Typography, styled } from '@mui/material';
 import BoardChips from 'components/BoardList/BoardChips';
 import BoardUserAvatar from 'components/BoardUserAvatar/BoardUserAvatar';
-import { useUserQuery } from 'hooks/authHooks/queries/useUserQuery';
-import useDeleteBoardMutation from 'hooks/boardHooks/mutations/useDeleteBoardMutation';
-import useLikeBoardMutation from 'hooks/boardHooks/mutations/useLikeBoardMutation';
 import useBoardDetailQuery from 'hooks/boardHooks/queries/useBoardDetailQuery';
 import { BoardDetailDataArticle } from 'interfaces/IBoardDetail';
 import ReactMarkdown from 'react-markdown';
+import BoardLikeContainer from '../BoardForm/BoardLikeContainer';
 
 const BoardViewer = ({ boardId }: IBoardViewerProps) => {
-  const { user } = useUserQuery();
-  const { data, isLiked } = useBoardDetailQuery(boardId);
+  const { data } = useBoardDetailQuery(boardId);
   const article = data?.article as BoardDetailDataArticle;
-  const { likeBoardMutation, likeCount } = useLikeBoardMutation(boardId);
-  const handleBoardLike = () => {
-    if (boardId) {
-      likeBoardMutation();
-    }
-  };
-  const deleteBoard = useDeleteBoardMutation(boardId || '');
-  const handleDeleteBoard = () => {
-    if (window.confirm('게시글을 삭제하시겠습니까?')) {
-      deleteBoard();
-    }
-  };
+
   return (
     <BoardDetailContainer>
       <BoardTitleWrapper>{article.boardTitle}</BoardTitleWrapper>
@@ -35,38 +20,7 @@ const BoardViewer = ({ boardId }: IBoardViewerProps) => {
         <CreatedAtWrapper>{article.createdAt}</CreatedAtWrapper>
         <ViewCountWrapper>조회수 {article.boardViewCount}</ViewCountWrapper>
       </BoardAuthorContainer>
-      <LikeButtonContainer>
-        <FormControlLabel
-          control={
-            <Checkbox
-              color={'error'}
-              checkedIcon={<Favorite />}
-              icon={<FavoriteBorder />}
-              onClick={handleBoardLike}
-              checked={isLiked}
-            />
-          }
-          label={
-            <Typography
-              sx={{
-                fontSize: '0.9rem',
-              }}
-            >
-              {likeCount}
-            </Typography>
-          }
-        />
-        {user && article.userId === user.userId && (
-          <Box sx={{ display: 'flex' }}>
-            <Button sx={boardButtonStyle} onClick={() => {}}>
-              수정
-            </Button>
-            <Button sx={boardButtonStyle} onClick={handleDeleteBoard}>
-              삭제
-            </Button>
-          </Box>
-        )}
-      </LikeButtonContainer>
+      <BoardLikeContainer boardId={boardId} boardType={article.boardType} author={article.userId} />
       <Box sx={{ textAlign: 'left' }}>
         <ReactMarkdown>{article.boardContent}</ReactMarkdown>
       </Box>
@@ -120,15 +74,6 @@ const BoardDetailContainer = styled(Box)`
   width: 100%;
   height: 100%;
   border-top: 1px solid #e0e0e0;
-`;
-
-const LikeButtonContainer = styled(Box)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
 `;
 
 export const boardButtonStyle = {

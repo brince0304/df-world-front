@@ -6,17 +6,15 @@ const useBoardDetailQuery = (boardId: string) => {
   const { getBoardDetail } = useBoardService();
   const queryClient = useQueryClient();
   const { data } = useQuery([QUERY_KEY.boardDetail, boardId], () => getBoardDetail({ boardId }), {
-    enabled: boardId !== '',
-    onSuccess: (data) => {
-      queryClient.setQueryData([QUERY_KEY.isBoardLiked, String(boardId)], data.likeLog);
-      queryClient.setQueryData([QUERY_KEY.boardLikeCount, String(boardId)], data.article.boardLikeCount);
+    onSuccess: async (data) => {
+      const likeCount = data.article.boardLikeCount !== undefined ? data.article.boardLikeCount : 0;
+      const isLiked = data.likeLog !== undefined ? data.likeLog : false;
+      queryClient.setQueryData([QUERY_KEY.boardLikeCount, String(data.article.id)], likeCount);
+      queryClient.setQueryData([QUERY_KEY.isBoardLiked, String(data.article.id)], isLiked);
     },
   });
-  const isLiked = queryClient.getQueryData([QUERY_KEY.isBoardLiked, boardId]) as boolean;
-
   return {
     data,
-    isLiked,
   };
 };
 

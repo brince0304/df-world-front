@@ -7,7 +7,7 @@ const useBoardListQuery = (queries: { searchType: string; keyword: string; board
   const queryClient = useQueryClient();
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     [QUERY_KEY.boards, queries.searchType, queries.keyword, queries.boardType],
-    async ({ pageParam }) =>
+    ({ pageParam }) =>
       getBoardList({
         searchType: queries.searchType,
         keyword: queries.keyword,
@@ -19,13 +19,20 @@ const useBoardListQuery = (queries: { searchType: string; keyword: string; board
         if (lastPage.number + 1 >= lastPage.totalPages) return undefined;
         return lastPage.number + 1;
       },
-      onSuccess: (data) => {
-        data.pages.forEach((page) => {
-          page.content.forEach((board) => {
-            queryClient.setQueryData([QUERY_KEY.boardCommentCount, String(board.id)], board.commentCount);
-            queryClient.setQueryData([QUERY_KEY.boardLikeCount, String(board.id)], board.boardLikeCount);
-          });
+      onSuccess: async (data) => {
+        const tasks = data.pages.map(async (page) => {
+          await Promise.all(
+            page.content.map(async (board) => {
+              const commentCount = board.commentCount !== undefined ? board.commentCount : 0;
+              const boardLikeCount = board.boardLikeCount !== undefined ? board.boardLikeCount : 0;
+
+              queryClient.setQueryData([QUERY_KEY.boardCommentCount, String(board.id)], commentCount);
+              queryClient.setQueryData([QUERY_KEY.boardLikeCount, String(board.id)], boardLikeCount);
+            }),
+          );
         });
+
+        await Promise.all(tasks);
       },
     },
   );

@@ -1,23 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEY } from 'constants/myConstants';
-import { useBoardService } from 'context/boardServiceContext';
+import { useBoardService } from '../../../context/boardServiceContext';
 
 const useLikeBoardMutation = (boardId: string) => {
   const { likeBoard } = useBoardService();
   const queryClient = useQueryClient();
-  const isLiked = queryClient.getQueryData([QUERY_KEY.isBoardLiked, boardId]) as boolean;
-  const likeCount = queryClient.getQueryData([QUERY_KEY.boardLikeCount, boardId]) as number;
-  const { mutate: likeBoardMutation } = useMutation([QUERY_KEY.boardLikeCount, boardId], () => likeBoard({ boardId }), {
+  const prevIsLiked = queryClient.getQueryData([QUERY_KEY.isBoardLiked, boardId]);
+  const { mutate: likeBoardMutation } = useMutation(likeBoard, {
     onSuccess: (data) => {
-      queryClient.setQueryData([QUERY_KEY.isBoardLiked, boardId], !isLiked);
+      queryClient.setQueryData([QUERY_KEY.isBoardLiked, boardId], !prevIsLiked);
       queryClient.setQueryData([QUERY_KEY.boardLikeCount, boardId], data);
     },
   });
 
-  return {
-    likeBoardMutation,
-    likeCount,
-  };
+  return likeBoardMutation;
 };
 
 export default useLikeBoardMutation;

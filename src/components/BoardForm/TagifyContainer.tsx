@@ -1,8 +1,12 @@
 import useBoardForm from '../../hooks/boardHooks/useBoardForm';
 import Tags from '@yaireo/tagify/dist/react.tagify';
 import '@yaireo/tagify/dist/tagify.css';
+import { useEffect } from 'react';
 
 const TagifyContainer = ({ handleAddHashtag, useFormProps, initialValue }: ITagsProps) => {
+  useEffect(() => {
+    console.info(initialValue);
+  }, [initialValue]);
   return (
     <Tags
       settings={{

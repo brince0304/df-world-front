@@ -33,4 +33,5 @@ export interface BoardDetailDataArticle {
   userAdventureExist: boolean;
   profileCharacterIcon: string;
   profileCharacterIconClassName: string;
+  boardFiles: string;
 }

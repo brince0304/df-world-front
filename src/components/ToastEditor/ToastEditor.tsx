@@ -4,11 +4,17 @@ import { boardToolbarItems } from '../../constants/myConstants';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import * as React from 'react';
 import { useBoardService } from '../../context/boardServiceContext';
+import useBoardForm from 'hooks/boardHooks/useBoardForm';
 
-const ToastEditor = ({ onChange, hooksCallback, initialValue }: IToastEditorProps) => {
+const ToastEditor = ({ useBoardForms }: IToastEditorProps) => {
   const ref = React.useRef<HTMLDivElement>(null);
+  const { setValues, watchValues } = useBoardForms;
   const { postImage } = useBoardService();
   useEffect(() => {
+    let boardFiles: string[] = [];
+    if (watchValues.watchBoardFiles && watchValues.watchBoardFiles.length > 0) {
+      boardFiles = watchValues.watchBoardFiles.split(',').map((fileId) => fileId.trim());
+    }
     const tuieditor = new Editor({
       el: ref.current as HTMLDivElement,
       height: '500px',
@@ -16,10 +22,10 @@ const ToastEditor = ({ onChange, hooksCallback, initialValue }: IToastEditorProp
       toolbarItems: boardToolbarItems,
       previewStyle: 'vertical',
       plugins: [colorSyntax],
-      initialValue: initialValue,
+      initialValue: watchValues.watchBoardContent,
       events: {
         change: () => {
-          onChange(tuieditor.getMarkdown());
+          setValues.setBoardContent(tuieditor.getMarkdown());
         },
       },
       hooks: {
@@ -31,7 +37,11 @@ const ToastEditor = ({ onChange, hooksCallback, initialValue }: IToastEditorProp
               fileId: data.id,
             } as HookImageResponse;
             callback(hook.url, '대체 텍스트');
-            hooksCallback(hook);
+            console.info(hook.fileId);
+            boardFiles.push(String(hook.fileId));
+            console.info(boardFiles);
+            setValues.setBoardFiles(boardFiles.join(','));
+            console.info(watchValues.watchBoardFiles);
           }
         },
       },
@@ -46,9 +56,7 @@ const ToastEditor = ({ onChange, hooksCallback, initialValue }: IToastEditorProp
 };
 
 interface IToastEditorProps {
-  onChange: (...args: any[]) => void;
-  initialValue?: string;
-  hooksCallback: (...args: any[]) => void;
+  useBoardForms: ReturnType<typeof useBoardForm>;
 }
 
 export interface HookImageResponse {

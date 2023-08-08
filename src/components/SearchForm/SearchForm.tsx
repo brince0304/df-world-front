@@ -20,6 +20,9 @@ const SearchForm = ({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const submitCallback = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!value || value === '' || value.length === 1) {
+      return;
+    }
     handleSubmit(value, selectedValue.value);
   };
   const handleOpen = () => {
