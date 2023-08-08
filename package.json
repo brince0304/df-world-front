@@ -55,7 +55,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postinstall": "husky install",
     "format": "prettier --cache --write .",
     "lint": "eslint --cache ."
   },
@@ -87,6 +86,6 @@
     "react-test-renderer": "^18.2.0",
     "tailwind-styled-components": "^2.2.0",
     "tailwindcss": "^3.2.7"
-  },
-  "proxy": "http://localhost:8080"
+  }
+
 }

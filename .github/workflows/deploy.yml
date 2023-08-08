@@ -17,15 +17,21 @@ jobs:
         run: npm install --frozen-lockfile
       - name: Build
         run: npm run build
-      - name: zip create
-        run: zip -qq -r ./build.zip .
-        shell: bash
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
+      # Download deploy-client.sh from S3 and copy it to the deploy directory
+      - name: Download deploy-client.sh from S3
+        run: aws s3 cp --region ap-northeast-2 s3://$S3_BUCKET_NAME/deploy-client.sh deploy-client.sh
+
+      - name: zip create
+        run: zip -qq -r ./build.zip .
+        shell: bash
+
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./build.zip s3://$S3_BUCKET_NAME/
 
