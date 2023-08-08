@@ -25,12 +25,7 @@ export function ImgOpacityButton(props: ImgOpacityButtonProps) {
         padding: '0px',
       }}
     >
-      <Image
-        src={props.src}
-        alt={props.alt}
-        scale={props.scale}
-        width={isMobile ? (props.width ? props.width / 1.5 : undefined) : props.width}
-      />
+      <Image src={props.src} alt={props.alt} scale={props.scale} width={isMobile ? 300 : props.width} />
     </Button>
   );
 }

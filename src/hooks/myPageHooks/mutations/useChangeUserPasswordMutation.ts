@@ -5,11 +5,11 @@ import { useMutation } from '@tanstack/react-query';
 import { useLogoutMutation } from '../../authHooks/mutations/useLogoutMutation';
 
 const useChangeUserPasswordMutation = () => {
-  const {changeUserPassword} = useMyPageService();
-  const {handleChangeUserPasswordSuccess} = useMyPageSuccess();
-  const {handleChangeUserPasswordError} = useMyPageError();
+  const { changeUserPassword } = useMyPageService();
+  const { handleChangeUserPasswordSuccess } = useMyPageSuccess();
+  const { handleChangeUserPasswordError } = useMyPageError();
   const logout = useLogoutMutation();
-  const { mutate:handleChangeUserPassword } = useMutation({
+  const { mutate: handleChangeUserPassword } = useMutation({
     mutationFn: changeUserPassword,
     onSuccess: () => {
       handleChangeUserPasswordSuccess();
@@ -21,6 +21,6 @@ const useChangeUserPasswordMutation = () => {
   });
 
   return handleChangeUserPassword;
-}
+};
 
 export default useChangeUserPasswordMutation;

@@ -117,11 +117,6 @@ const Logo = styled(Box)`
     cursor: pointer;
     padding-right: 0;
     gap: 6px;
-    margin-bottom: 10%;
-
-    &:hover {
-      color: cornflowerblue;
-      background-color: transparent;
-    }
+    margin-bottom: 20%;
   }
 `;

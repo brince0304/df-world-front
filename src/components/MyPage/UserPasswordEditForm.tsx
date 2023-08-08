@@ -39,11 +39,11 @@ const PasswordEdit = (props: { onClose: () => void }) => {
   const onValid = (data: IFormProps) => {
     handleUpdatePassword(data.passwordValidate, data.password);
   };
-  const changePassword =  useChangeUserPasswordMutation();
+  const changePassword = useChangeUserPasswordMutation();
 
   const handleUpdatePassword = (password: string, newPassword: string) => {
     if (window.confirm('비밀번호를 변경하시겠습니까?')) {
-      changePassword({password, newPassword});
+      changePassword({ password, newPassword });
       props.onClose();
     }
   };
@@ -66,7 +66,7 @@ const PasswordEdit = (props: { onClose: () => void }) => {
           margin={'normal'}
           {...register('passwordValidate')}
           label={
-            <Typography component={'span'}  fontSize={'1rem'} fontWeight={'bold'}>
+            <Typography component={'span'} fontSize={'1rem'} fontWeight={'bold'}>
               현재 비밀번호
             </Typography>
           }
@@ -77,14 +77,14 @@ const PasswordEdit = (props: { onClose: () => void }) => {
           variant={'standard'}
           margin={'normal'}
           helperText={
-            <Typography component={'span'}  fontSize={'0.75rem'}>
+            <Typography component={'span'} fontSize={'0.75rem'}>
               {errors.password?.message}
             </Typography>
           }
           {...register('password')}
           error={!!errors.password}
           label={
-            <Typography component={'span'}  fontSize={'1rem'} fontWeight={'bold'}>
+            <Typography component={'span'} fontSize={'1rem'} fontWeight={'bold'}>
               변경할 비밀번호
             </Typography>
           }
@@ -95,14 +95,14 @@ const PasswordEdit = (props: { onClose: () => void }) => {
           variant={'standard'}
           margin={'normal'}
           helperText={
-            <Typography component={'span'}  fontSize={'0.75rem'}>
+            <Typography component={'span'} fontSize={'0.75rem'}>
               {errors.passwordConfirm?.message}
             </Typography>
           }
           {...register('passwordConfirm')}
           error={!!errors.passwordConfirm}
           label={
-            <Typography component={'span'}  fontSize={'1rem'} fontWeight={'bold'}>
+            <Typography component={'span'} fontSize={'1rem'} fontWeight={'bold'}>
               비밀번호 확인
             </Typography>
           }

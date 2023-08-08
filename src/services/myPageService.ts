@@ -14,7 +14,7 @@ export interface IMyPageService {
   changeUserProfileIcon: (formData: FormData) => Promise<any>;
   changeUserProfileIconByURL: (url: string) => Promise<any>;
   changeUserNickname: (nickname: string) => Promise<any>;
-  changeUserPassword: (data:{password: string,newPassword: string}) => Promise<any>;
+  changeUserPassword: (data: { password: string; newPassword: string }) => Promise<any>;
 }
 
 export default class MyPageService implements IMyPageService {
@@ -42,8 +42,10 @@ export default class MyPageService implements IMyPageService {
     return this.axiosInstance.put(this.changeUserNicknameUrl.replace('{nickname}', nickname));
   }
 
-  changeUserPassword(data:{password: string,newPassword: string}) {
-    return this.axiosInstance.put(this.changeUserPasswordUrl.replace('{password}', data.password).replace('{newPassword}', data.newPassword));
+  changeUserPassword(data: { password: string; newPassword: string }) {
+    return this.axiosInstance.put(
+      this.changeUserPasswordUrl.replace('{password}', data.password).replace('{newPassword}', data.newPassword),
+    );
   }
 
   changeUserProfileIcon(formData: FormData) {
