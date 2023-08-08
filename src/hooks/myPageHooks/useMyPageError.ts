@@ -18,11 +18,21 @@ const useMyPageError = () => {
     handleError('프로필 이미지 변경에 실패했습니다. 😭');
   };
 
+  const handleChangeUserNicknameError = () => {
+    handleError('닉네임 변경에 실패했습니다. 😭');
+  }
+
+  const handleChangeUserPasswordError = () => {
+    handleError('비밀번호 변경에 실패했습니다. 😭');
+  }
+
   return {
     handleUpdateError,
     handleAddCharacterError,
     handleDeleteCharacterError,
     handleChangeAvatarError,
+    handleChangeUserNicknameError,
+    handleChangeUserPasswordError,
   };
 };
 

@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import putChangePassword from '../../apis/myPage/putChangePassword';
 import CollapseButton from '../CollapseButton/CollapseButton';
 import { Button, FormControl, TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import useChangeUserPasswordMutation from '../../hooks/myPageHooks/mutations/useChangeUserPasswordMutation';
 
 const PasswordEdit = (props: { onClose: () => void }) => {
   const passwordMatch = (password: string, passwordCheck: string) => {
@@ -39,18 +39,14 @@ const PasswordEdit = (props: { onClose: () => void }) => {
   const onValid = (data: IFormProps) => {
     handleUpdatePassword(data.passwordValidate, data.password);
   };
+  const changePassword =  useChangeUserPasswordMutation();
 
-  const handleUpdatePassword = (passwordValidate: string, password: string) => {
-    putChangePassword(passwordValidate, password)
-      .then((res) => {
-        alert('비밀번호가 변경되었습니다. 다시 로그인 해주세요');
-        props.onClose();
-      })
-      .catch((err) => {
-        alert(err.response.data);
-      });
+  const handleUpdatePassword = (password: string, newPassword: string) => {
+    if (window.confirm('비밀번호를 변경하시겠습니까?')) {
+      changePassword({password, newPassword});
+      props.onClose();
+    }
   };
-
   return (
     <CollapseButton label={'비밀번호 변경'}>
       <FormControl
@@ -70,7 +66,7 @@ const PasswordEdit = (props: { onClose: () => void }) => {
           margin={'normal'}
           {...register('passwordValidate')}
           label={
-            <Typography component={'span'} fontFamily={'Core Sans'} fontSize={'1rem'} fontWeight={'bold'}>
+            <Typography component={'span'}  fontSize={'1rem'} fontWeight={'bold'}>
               현재 비밀번호
             </Typography>
           }
@@ -81,14 +77,14 @@ const PasswordEdit = (props: { onClose: () => void }) => {
           variant={'standard'}
           margin={'normal'}
           helperText={
-            <Typography component={'span'} fontFamily={'Core Sans'} fontSize={'0.75rem'}>
+            <Typography component={'span'}  fontSize={'0.75rem'}>
               {errors.password?.message}
             </Typography>
           }
           {...register('password')}
           error={!!errors.password}
           label={
-            <Typography component={'span'} fontFamily={'Core Sans'} fontSize={'1rem'} fontWeight={'bold'}>
+            <Typography component={'span'}  fontSize={'1rem'} fontWeight={'bold'}>
               변경할 비밀번호
             </Typography>
           }
@@ -99,14 +95,14 @@ const PasswordEdit = (props: { onClose: () => void }) => {
           variant={'standard'}
           margin={'normal'}
           helperText={
-            <Typography component={'span'} fontFamily={'Core Sans'} fontSize={'0.75rem'}>
+            <Typography component={'span'}  fontSize={'0.75rem'}>
               {errors.passwordConfirm?.message}
             </Typography>
           }
           {...register('passwordConfirm')}
           error={!!errors.passwordConfirm}
           label={
-            <Typography component={'span'} fontFamily={'Core Sans'} fontSize={'1rem'} fontWeight={'bold'}>
+            <Typography component={'span'}  fontSize={'1rem'} fontWeight={'bold'}>
               비밀번호 확인
             </Typography>
           }

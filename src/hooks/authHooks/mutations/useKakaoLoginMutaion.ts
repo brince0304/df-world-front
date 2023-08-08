@@ -10,12 +10,13 @@ export const useKaKaoLoginMutation = () => {
   const { handleLoginSuccess } = useAuthSuccess();
   const queryClient = useQueryClient();
   const { mutate: loginMutation } = useMutation([QUERY_KEY.user], kakaoLogin, {
+    retry: false,
     onSuccess: (data) => {
       queryClient.setQueryData([QUERY_KEY.user], data);
       handleLoginSuccess(data);
     },
-    onError: (data: any) => {
-      handleLoginError(data.response.data);
+    onError: () => {
+      handleLoginError();
     },
   });
 

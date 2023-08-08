@@ -27,7 +27,7 @@ const UserDetailEditDialog = (props: { open: boolean; onClose: () => void; refre
       </DialogTitle>
       <DialogContent>
         <NicknameEdit onClose={props.onClose} />
-        {user?.oauthProvider === 'NONE' && <PasswordEdit onClose={props.onClose} />}
+        {(user?.oauthProvider === 'NONE' || user?.oauthProvider === null) && <PasswordEdit onClose={props.onClose} />}
       </DialogContent>
     </Dialog>
   );

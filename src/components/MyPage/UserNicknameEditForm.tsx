@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import getValidateNickname from '../../apis/myPage/getValidateNickname';
-import putChangeNickname from '../../apis/myPage/putChangeNickname';
 import CollapseButton from '../CollapseButton/CollapseButton';
 import { Button, FormControl } from '@mui/material';
 import ValidateTextField from '../ValidateTextField/ValidateTextField';
 import * as React from 'react';
+import useChangeUserNicknameMuation from '../../hooks/myPageHooks/mutations/useChangeUserNicknameMuation';
 
 const NicknameEdit = (props: { onClose: () => void }) => {
   const schema = yup.object().shape({
@@ -49,14 +49,11 @@ const NicknameEdit = (props: { onClose: () => void }) => {
     setIsNicknameChecked(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch('nickname')]);
+  const changeUserNickname = useChangeUserNicknameMuation();
   const onValid = (data: IFormProps) => {
     if (window.confirm('닉네임을 변경하시겠습니까?')) {
-      putChangeNickname(data.nickname)
-        .then((res) => {
-          alert('닉네임이 변경되었습니다.');
-          props.onClose();
-        })
-        .catch((err) => {});
+      changeUserNickname(data.nickname);
+      props.onClose();
     }
   };
 
