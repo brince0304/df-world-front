@@ -5,7 +5,7 @@ import { useBoardCommentService } from 'context/boardCommentServiceContext';
 const useBoardCommentsQuery = (boardId: string) => {
   const { getBoardComments } = useBoardCommentService();
   const queryClient = useQueryClient();
-  const { data } = useQuery([QUERY_KEY.boardComments, boardId], () => getBoardComments({ boardId }), {
+  const { data } = useQuery([QUERY_KEY.boardComments, boardId], () =>  getBoardComments({ boardId }), {
     enabled: !!boardId,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -15,9 +15,10 @@ const useBoardCommentsQuery = (boardId: string) => {
       const childrenCount = data.comments.reduce((acc, cur) => acc + cur.childrenCommentCount, 0);
       const boardCommentCount = commentCount && childrenCount ? commentCount + childrenCount : data.comments.length;
       queryClient.setQueryData([QUERY_KEY.boardCommentCount, boardId], boardCommentCount);
+      data.likeResponses.forEach((likeResponse) => {
+        queryClient.setQueryData([QUERY_KEY.isBoardCommentLiked, String(likeResponse.id)], likeResponse.isLike);
+      });
       data.comments.forEach((comment) => {
-        const isLiked = data.likeResponses.find((likeResponse) => likeResponse.id === comment.id);
-        queryClient.setQueryData([QUERY_KEY.isBoardCommentLiked, String(comment.id)], isLiked?.isLike);
         queryClient.setQueryData([QUERY_KEY.boardCommentLikeCount, String(comment.id)], comment.commentLikeCount);
       });
       return data.comments;

@@ -7,14 +7,18 @@ const useChildrenCommentsQuery = (boardId: string, commentId: string) => {
   const queryClient = useQueryClient();
   const { data } = useQuery(
     [QUERY_KEY.childrenComments, boardId, commentId],
-    () => getChildrenComments({ boardId, commentId }),
+    async () => getChildrenComments({ boardId, commentId }),
     {
       enabled: !!boardId && !!commentId,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       refetchOnReconnect: false,
       onSuccess: (data) => {
+        data.forEach((comment) => {
+          queryClient.setQueryData([QUERY_KEY.boardCommentLikeCount, String(comment.id)], comment.commentLikeCount);
+        });
         queryClient.setQueryData([QUERY_KEY.boardCommentChildrenCount, commentId], data.length);
+        return data;
       },
     },
   );

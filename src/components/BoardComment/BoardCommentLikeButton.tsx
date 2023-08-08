@@ -7,7 +7,7 @@ import useBoardCommentLikeCountQuery from '../../hooks/boardCommentHooks/queries
 
 const BoardCommentLikeButton = ({ boardId, commentId }: IBoardCommentLikeButtonProps) => {
   const commentLikeCount = useBoardCommentLikeCountQuery(commentId);
-  const likeComment = useLikeBoardCommentMutation(boardId, commentId);
+  const likeComment = useLikeBoardCommentMutation( commentId);
   const handleLikeComment = () => {
     likeComment({ boardId: boardId, commentId: commentId });
   };

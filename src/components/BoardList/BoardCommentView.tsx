@@ -28,7 +28,7 @@ const BoardCommentView = ({ boardId, boardViewCount, createdAt }: IBoardCommentV
       >
         <BoardIconWrapper>
           <FavoriteBorderOutlined sx={{ fontSize: '1rem', color: '#787878' }} />
-          <ValueWrapper>{boardLikeCount}</ValueWrapper>
+          <ValueWrapper>{typeof boardLikeCount === 'number' ? boardLikeCount : 0}</ValueWrapper>
         </BoardIconWrapper>
         <BoardIconWrapper>
           <ChatBubbleOutlineOutlined sx={{ fontSize: '1rem', color: '#787878' }} />
