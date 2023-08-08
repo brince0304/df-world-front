@@ -16,7 +16,7 @@ jobs:
       - name: Install Dependencies
         run: npm install --frozen-lockfile
       - name: Build
-        run: npm build
+        run: npm run build
       - name: zip create
         run: zip -qq -r ./build.zip .
         shell: bash
@@ -34,8 +34,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run:
-          aws deploy create-deployment
+        run: aws deploy create-deployment
           --application-name df-community
           --deployment-group-name df-community-group
           --file-exists-behavior OVERWRITE
