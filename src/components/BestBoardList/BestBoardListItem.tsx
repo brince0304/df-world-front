@@ -24,9 +24,9 @@ const BestBoardListItem = ({ item, chipColor, chipIndex, index, handleNavigate }
       >
         <Zoom in={index === chipIndex + 1} timeout={200} onClick={(e) => handleNavigate(item.id)}>
           <ChipWrapper>
-            <AvatarWrapper>
+            <Box>
               <BoardUserAvatar src={item.userProfileImgUrl} nickname={item.userNickname} />
-            </AvatarWrapper>
+            </Box>
             <TitleWrapper>{item.boardTitle}</TitleWrapper>
           </ChipWrapper>
         </Zoom>
@@ -57,6 +57,7 @@ const ChipWrapper = styled(Box)`
   justify-content: flex-start;
   width: 100%;
   padding: 5px 0px;
+  gap : 10px;
 `;
 
 const TitleWrapper = styled(Typography)`
@@ -65,17 +66,9 @@ const TitleWrapper = styled(Typography)`
   justify-content: flex-start;
   font-size: 0.8rem;
   font-weight: bold;
-  width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #000000;
 `;
 
-const AvatarWrapper = styled(Box)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 220px;
-  height: 100%;
-`;

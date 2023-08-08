@@ -77,7 +77,6 @@ const TableTitleWrapper = styled(Box)`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  overflow-x: auto;
   gap: 10px;
 `;
 

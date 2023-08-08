@@ -1,4 +1,4 @@
-import { Avatar, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { Avatar, Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery } from '@mui/material';
 import ImageUploader from '../ImageUploader/ImageUploader';
 import { profileIcons } from '../../constants/myConstants';
 import styled from '@emotion/styled';
@@ -20,29 +20,33 @@ export default function ProfileIconChangeDialog(props: ProfileIconChangeModalPro
       }
     }
   };
+  const isMobile = useMediaQuery('(max-width: 480px)');
   return (
     <Dialog
       open={props.isOpened}
       onClose={props.handleClose}
-      sx={{
-        '& .MuiDialog-paper': {
-          width: '400px',
-          height: '500px',
-          maxWidth: '100%',
-          maxHeight: '100%',
-        },
-      }}
+
     >
-      <DialogTitle>프로필 아이콘을 변경합니다!</DialogTitle>
-      <DialogContent>
+      <DialogTitle sx={{
+          textAlign: 'center',
+          fontSize: '1rem',
+      }}>
+        프로필 아이콘을 변경합니다!
+      </DialogTitle>
+      <DialogContent       sx={{
+        width: isMobile ? '100%' : 'auto',
+        height: '450px',
+        scrollBehavior: 'smooth',
+        overflowY: 'hidden',
+      }}>
         <ImageUploader handleClose={props.handleClose} />
         <IconSelectorWrapper>
-          <span>혹은 기본 아이콘을 선택해주세요!</span>
+          <p>혹은 기본 아이콘을 선택해주세요!</p>
         </IconSelectorWrapper>
         <ProfileIconChangeContainer>
           {data.map((icon, index) => (
             <IconButton data-id={icon.url} onClick={handleChangeIcon} key={index}>
-              <Avatar src={'/images/icon_char/' + icon.name} sx={{ width: 30, height: 30, margin: 1 }} />
+              <Avatar src={'https://api.df-world.kr/files/?name=' + icon.name} sx={{ width: 30, height: 30, margin: 1 }} />
             </IconButton>
           ))}
         </ProfileIconChangeContainer>
@@ -71,7 +75,7 @@ const IconSelectorWrapper = styled.div`
   align-items: center;
   justify-content: center;
   color: gray;
-  font-size: 18px;
+  font-size: 0.8rem;
   font-weight: 500;
   width: 100%;
 `;

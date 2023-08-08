@@ -38,13 +38,13 @@ export const CharacterContent = (props: {
         </IconButton>
       </Tooltip>
       <Avatar src={props.characterImgUrl} sx={{ width: '100px', height: '100px' }} variant="rounded" />
-      <Typography fontFamily={'Core Sans'} fontSize={'13px'}>
+      <Typography  fontSize={'0.9rem'} fontWeight={'bold'}>
         {props.characterName}
       </Typography>
-      <Typography fontFamily={'Core Sans'} fontSize={'12px'}>
+      <Typography fontSize={'0.8rem'}>
         {props.adventureName}
       </Typography>
-      <Typography fontFamily={'Core Sans'} fontSize={'12px'}>
+      <Typography  fontSize={'0.8rem'}>
         {getServerName(props.serverId)}
       </Typography>
     </Box>

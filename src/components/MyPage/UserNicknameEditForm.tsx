@@ -40,7 +40,7 @@ const NicknameEdit = (props: { onClose: () => void }) => {
     setIsChecked: setIsNicknameChecked,
     setIsValidated: setIsNicknameValidated,
     isValidated: isNicknameValidated,
-    helperText: '한글, 영문, 숫자를 포함한 2~8자리',
+    helperText: '한글, 영문, 숫자를 포함한 2~6자리',
     setFocus: setFocus,
   };
 

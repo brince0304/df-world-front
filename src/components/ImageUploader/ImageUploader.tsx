@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { Avatar, Button } from '@mui/material';
+import { Avatar, Button, useMediaQuery } from '@mui/material';
 import { MuiFileInput } from 'mui-file-input';
 import { useEffect, useRef, useState } from 'react';
 import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
@@ -18,6 +18,7 @@ function ImageUploader(props: { handleClose: () => void }) {
   }, []);
 
   const changeProfileIcon = useChangeProfileIconMutation();
+  const isMobile = useMediaQuery('(max-width: 480px)');
   const handleUpload = () => {
     if (profile) {
       formData.current?.append('file', profile);
@@ -48,9 +49,17 @@ function ImageUploader(props: { handleClose: () => void }) {
         padding: 2,
       }}
     >
-      <Avatar src={profileUrl} sx={{ width: 50, height: 50, position: 'relative' }} />
+      <Avatar src={profileUrl} sx={
+        { width: isMobile ? 30: 50,
+          height: isMobile ? 30: 50,
+          position: 'relative' }
+      } />
       <MuiFileInput
         value={profile}
+        style={{
+          display: 'flex',
+          padding: 0,
+        }}
         onChange={handleChange}
         inputProps={{
           accept: 'image/*',

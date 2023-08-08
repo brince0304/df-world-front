@@ -2,7 +2,6 @@ import { Box, IconButton } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
 import useBestBoardList from '../../hooks/boardHooks/queries/useBestBoardListQuery';
-import StarIcon from '@mui/icons-material/Star';
 import useBestBoardStates from 'hooks/boardHooks/useBestBoardStates';
 import { BestArticleTitle } from '../../pages/BoardListPage';
 import BestBoardList from './BestBoardList';
@@ -23,15 +22,15 @@ const BestBoard = (props: { boardType: string }) => {
         }}
       >
         <BestArticleTitle>
-          <StarIcon /> <Typography fontWeight={500}>인기글</Typography>
+          <Typography fontWeight={500}>베스트</Typography>
         </BestArticleTitle>
         {data?.length !== 0 && (
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
             <IconButton onClick={handleLeftClick} disabled={index === 1}>
               <KeyboardDoubleArrowLeft />
             </IconButton>
-            <Typography variant={'body2'}>
-              {index}/{data?.length}
+            <Typography fontWeight={'500'} fontSize={'1rem'}>
+              {index}위
             </Typography>
             <IconButton onClick={handleRightClick} disabled={index === data?.length}>
               <KeyboardDoubleArrowRight />

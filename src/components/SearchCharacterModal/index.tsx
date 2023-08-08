@@ -3,7 +3,7 @@ import Fade from '@mui/material/Fade';
 import * as React from 'react';
 import { ReactNode } from 'react';
 import Box from '@mui/material/Box';
-import { LinearProgress, styled } from '@mui/material';
+import { LinearProgress, styled, useMediaQuery } from '@mui/material';
 
 const SearchCharacterModal = (props: {
   isOpened: boolean;
@@ -12,64 +12,69 @@ const SearchCharacterModal = (props: {
   serachBox: ReactNode;
   isLoading?: boolean;
 }) => {
+  const isMobile = useMediaQuery('(max-width:480px)');
   return (
     <Modal open={props.isOpened} onClose={props.handleClose}>
       <Fade in={props.isOpened} unmountOnExit={true}>
-        <Box sx={style}>
+        <ModalContainer
+          height={isMobile ? '80%' : '600px'}
+          width={isMobile ? '90%' : '400px'}
+        >
           {props.isLoading && (
-            <LinearProgress
-              sx={{
-                position: 'absolute',
-                top: '0',
-                zIndex: 1020,
-                width: '100%',
-              }}
-            />
+            <LinearProgressWrapper/>
           )}
           <ModalBody>
-            <Box
-              sx={{
-                display: 'flex',
-                width: '100%',
-                height: '52px',
-                position: 'fixed',
-                left: '0',
-                top: '0',
-                zIndex: 1000,
-                backgroundColor: 'white',
-                padding: '10px 10px',
-              }}
-            >
+            <SearchBoxWrapper>
               {props.serachBox}
-            </Box>
+            </SearchBoxWrapper>
             {props.children}
           </ModalBody>
-        </Box>
+        </ModalContainer>
       </Fade>
     </Modal>
   );
 };
 
-const style = {
-  display: 'flex' as 'flex',
-  alignItems: 'flex-start' as 'flex-start',
-  position: 'relative' as 'relative',
-  overflow: 'scroll' as 'scroll',
-  flexDirection: 'column' as 'column',
+const SearchBoxWrapper = styled(Box)`
+display: flex;
+  width : 100%;
+  height : 52px;
+  position : fixed;
+  left : 0;
+  top : 0;
+  z-index : 1000;
+  background-color : white;
+  padding : 10px 10px;
+  `;
+
+const LinearProgressWrapper = styled(LinearProgress)`
+  position: absolute;
+  top: 0;
+  z-index: 1020;
+  width: 100%;
+`;
+
+const ModalContainer = styled(Box)`
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  overflow: scroll;
+  flex-direction: column;
   //스크롤바 숨기기
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   //props width
-  bgcolor: 'background.paper',
-  borderRadius: 2,
-  boxShadow: 24,
-  height: '600px',
-  width: '400px',
-};
+  background-color: white;
+  border-radius: 2px;
+  height: ${(props: { height: string, width:string }) => props.height};
+  width: ${(props: { height: string, width:string }) => props.width};
+`;
+
+
 const ModalBody = styled(Box)`
   display: flex;
   position: relative;

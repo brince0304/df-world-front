@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Box, Button, Card } from '@mui/material';
+import { Button, Card } from '@mui/material';
 import styled from '@emotion/styled';
 
 interface TableMenuProps {
@@ -42,7 +42,7 @@ function MyTable(props: TableCustomProps) {
     <TableContainer>
       <TableHeader>
         <TableTitleWrapper>
-          <Box>{props.title}</Box>
+         {props.title}
         </TableTitleWrapper>
         {props.useIcon && props.icon}
       </TableHeader>
@@ -103,4 +103,5 @@ const TableTitleWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  width: 100%;
 `;
