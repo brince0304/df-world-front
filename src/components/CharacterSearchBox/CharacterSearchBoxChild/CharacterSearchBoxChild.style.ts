@@ -35,6 +35,8 @@ const ContentWrapper = styled(Typography)`
 const LatestRemoveButtonWrapper = styled(Typography)`
   display: flex;
   color: #939393;
+  z-index: 10;
+  padding: 0px 5px;
 `;
 
 const NoDataWrapper = styled(Typography)`
