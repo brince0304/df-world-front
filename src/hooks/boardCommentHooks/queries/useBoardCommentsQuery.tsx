@@ -5,7 +5,7 @@ import { useBoardCommentService } from 'context/boardCommentServiceContext';
 const useBoardCommentsQuery = (boardId: string) => {
   const { getBoardComments } = useBoardCommentService();
   const queryClient = useQueryClient();
-  const { data } = useQuery([QUERY_KEY.boardComments, boardId], () =>  getBoardComments({ boardId }), {
+  const { data } = useQuery([QUERY_KEY.boardComments, boardId], () => getBoardComments({ boardId }), {
     enabled: !!boardId,
     refetchOnWindowFocus: false,
     refetchOnMount: false,

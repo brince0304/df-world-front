@@ -18,7 +18,7 @@ export const useUserQuery = (): IUseUser => {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     retry: false,
-    initialData: userLocalStorage.getUser,
+    cacheTime: 0,
     onError: () => {
       userLocalStorage.clearUser();
       handleTokenExpiredError();
@@ -29,10 +29,6 @@ export const useUserQuery = (): IUseUser => {
     if (!user) userLocalStorage.clearUser();
     else userLocalStorage.saveUser(user);
   }, [user]);
-  useEffect(() => {
-    if (!userLocalStorage.getUser) userLocalStorage.clearUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userLocalStorage.getUser]);
 
   return {
     user: user ?? null,
