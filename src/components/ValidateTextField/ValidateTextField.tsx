@@ -83,12 +83,7 @@ const ValidateForm = (props: ValidateFormProps) => {
         color={props.isValidated ? 'success' : props.isChecked ? 'error' : 'primary'}
         error={!!props.errors}
         variant={'standard'}
-
-        label={
-          <Typography  component={'span'}>
-            {props.placeholder}
-          </Typography>
-        }
+        label={<Typography component={'span'}>{props.placeholder}</Typography>}
         helperText={props.errors?.message || props.helperText}
       />
       <StyledButton

@@ -5,7 +5,7 @@ import { ILoginResponse } from 'services/userService';
 import HeaderMoctileUserProfile from './HeaderMobileUserProfile';
 import HeaderMobileMenus from './HeaderMobileMenus';
 import styled from '@emotion/styled';
-import logo from 'assets/img/df-world-logo.png'
+import logo from 'assets/img/df-world-logo.png';
 
 const HeaderMobile = ({ user, ...props }: IHeaderMobileProps) => {
   const navigate = useNavigate();

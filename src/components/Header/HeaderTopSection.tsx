@@ -18,16 +18,14 @@ const HeaderTopSection = ({ handleOpenNavbar, characterSearchHandler, characterD
       <MobileNavButton onClick={handleOpenNavbar}>
         <FontAwesomeIcon icon={faBars} size="lg" />
       </MobileNavButton>
-      <Logo onClick={handleNavigateToMain}
-            sx={{
-              fontSize: isMobile ? "1rem" : "1rem",
-            }}
+      <Logo
+        onClick={handleNavigateToMain}
+        sx={{
+          fontSize: isMobile ? '1rem' : '1rem',
+        }}
       >
-        <img src={logo}
-          width={isMobile ? "40" : "35"}
-          height={isMobile ? "40" : "35"}
-             alt="logo" />
-        {isTablet? "" : "던파월드"}
+        <img src={logo} width={isMobile ? '40' : '35'} height={isMobile ? '40' : '35'} alt="logo" />
+        {isTablet ? '' : '던파월드'}
       </Logo>
       <SelectSearchWrapper>
         <CharacterSearchBox searchHandler={characterSearchHandler} clickHandler={characterDetailHandler} />
