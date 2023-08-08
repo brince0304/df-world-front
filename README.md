@@ -27,11 +27,7 @@
 
 # 💻 배포 주소
 
-도메인 : https://df-world.kr
-
-혹은 https://\***\*legendary-jalebi-9c6bf2.netlify.app\*\***
-
-현재 KT DNS 는 접속이 되지 않는 현상이 있습니다. WIFI 환경에서 접속을 시도해주세요.
+도메인 : [https://df-world.kr](https://df-world.netlify.app/)
 
 # **🛠 의존성과 스택**
 
