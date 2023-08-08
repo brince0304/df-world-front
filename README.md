@@ -7,7 +7,9 @@
 노션 링크 : https://cut-stetson-69a.notion.site/3f7014b24fdb4dda93d5a2ae83ed05fd?pvs=4
 
 # 🙋🏻 참여인원
+
 ### 서버 / 클라이언트 / 디자인
+
 <img src="https://avatars.githubusercontent.com/u/110673427?v=4" width="100" height="100" style="border-radius: 50%" /> 
 <br>
 
