@@ -36,7 +36,7 @@ const LoginButtons = (props: LoginButtonsProps) => {
     <>
       {props.data.map((item, index) => (
         <Tooltip title={item.type} key={index}>
-          <ImgOpacityButton onClick={() => onClick(item.type)} src={item.src} alt={item.alt} key={index} />
+          <ImgOpacityButton width={300} onClick={() => onClick(item.type)} src={item.src} alt={item.alt} key={index} />
         </Tooltip>
       ))}
     </>

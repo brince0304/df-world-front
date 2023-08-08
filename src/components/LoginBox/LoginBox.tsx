@@ -17,8 +17,8 @@ const LoginBox = ({ isOpened, setIsOpened }: ILoginBoxProps) => {
   const isMobile = useMediaQuery('(max-width: 480px)');
 
   const dialogSx = {
-    width: isMobile ? '100%' : '450px',
-    height: isMobile ? '100%' : 'auto',
+    width: isMobile ? '100%' : '400px',
+    height: 'auto',
     padding: '20px',
   };
   const { user } = useUserQuery();

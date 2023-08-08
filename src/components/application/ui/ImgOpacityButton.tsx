@@ -29,7 +29,7 @@ export function ImgOpacityButton(props: ImgOpacityButtonProps) {
         src={props.src}
         alt={props.alt}
         scale={props.scale}
-        width={isMobile ? (props.width ? props.width / 2 : undefined) : props.width}
+        width={isMobile ? (props.width ? props.width / 1.5 : undefined) : props.width}
       />
     </Button>
   );

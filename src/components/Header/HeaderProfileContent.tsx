@@ -1,21 +1,27 @@
 import React from 'react';
-import { Avatar, Badge, Button } from '@mui/material';
+import { Avatar, Badge, Button, useMediaQuery } from '@mui/material';
 import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
 import styled from '@emotion/styled';
 
 export const HeaderProfileContent = (props: { onClick: () => void }) => {
   const { user } = useUserQuery();
+  const isMobile = useMediaQuery('(max-width:480px)');
   return (
     <Button onClick={props.onClick}>
       <Badge color="primary" badgeContent={user?.notificationCount}>
         <Avatar
           src={user?.profileImgPath}
           alt="profile"
-          sx={{ width: '1.2rem', height: '1.2rem', backgroundColor: 'white', border: '1px solid #f5f5f5' }}
+          sx={{
+            width: isMobile ? '1.2rem' : '1.5rem',
+            height: isMobile ? '1.2rem' : '1.5rem',
+            backgroundColor: 'white',
+            border: '1px solid #f5f5f5',
+          }}
         />
       </Badge>
       <ProfileNicknameWrapper>
-        <p style={{ fontSize: '0.8rem' }}>{user?.nickname}</p>
+        <p style={{ fontSize: isMobile ? '0.8rem' : '1rem' }}>{user?.nickname}</p>
       </ProfileNicknameWrapper>
     </Button>
   );

@@ -40,11 +40,11 @@ const RecentSearchedItemButton = ({
         sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         spacing={1}
       >
-        <Grid item xs={5}>
+        <Grid item xs={4}>
           <S.BoldNameWrapper>{characterName}</S.BoldNameWrapper>
         </Grid>
-        <Grid item xs={2}>
-          <S.ContentWrapper>{characterJob}</S.ContentWrapper>
+        <Grid item xs={3}>
+          <S.JobNameWrapper>{characterJob}</S.JobNameWrapper>
         </Grid>
         <Grid item xs={2}>
           <S.ContentWrapper>{'레벨 ' + characterLevel}</S.ContentWrapper>

@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
-import { Avatar, Box, Tooltip, TooltipProps, Zoom, tooltipClasses } from '@mui/material';
+import { Avatar, Box, Tooltip, TooltipProps, Zoom, tooltipClasses, useMediaQuery } from '@mui/material';
 import { HeaderProfileContent } from './HeaderProfileContent';
 import React from 'react';
 import HeaderProfileMenuContainer from './HeaderProfileMenuContainer';
 import { ILoginResponse } from 'services/userService';
 
 const HeaderProfileContainer = ({ user, handleClickProfile }: IHeaderProfileContainer) => {
+  const isMobile = useMediaQuery('(max-width:480px)');
   return (
     <ProfileContainer>
       {user && (
@@ -13,7 +14,11 @@ const HeaderProfileContainer = ({ user, handleClickProfile }: IHeaderProfileCont
           title={
             <React.Fragment>
               <Box>
-                <ProfileNicknameWrapper>
+                <ProfileNicknameWrapper
+                  style={{
+                    fontSize: isMobile ? '0.8rem' : '1rem',
+                  }}
+                >
                   <Avatar
                     alt={user.nickname}
                     src={user.profileImgPath}

@@ -6,8 +6,19 @@ const BoldNameWrapper = styled(Typography)`
   display: flex;
   font-weight: bold;
   color: black;
-  width: 55px;
+  width: 100px;
   font-size: 0.8rem;
+`;
+
+const JobNameWrapper = styled(Typography)`
+  display: block;
+  color: gray;
+  width: 80px;
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
 `;
 
 const ContentWrapper = styled(Typography)`
@@ -102,4 +113,5 @@ export {
   SearchOptionTitle,
   OptionRow,
   SearchOptionBody,
+  JobNameWrapper,
 };
