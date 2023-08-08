@@ -1,6 +1,6 @@
 import { Box, IconButton, InputBase, Paper, Typography, styled } from '@mui/material';
 import { useUserQuery } from 'hooks/authHooks/queries/useUserQuery';
-import useBoardCommentForm from 'hooks/boardCommentHooks/useBoardCommentForm';
+import useBoardCommentForm from '../../hooks/boardCommentHooks/useBoardCommentForm';
 import { CommentListDataComments } from 'interfaces/CommentListData';
 import { IBoardCommentUpdateChildrenRequest } from 'services/boardCommentService';
 import SendIcon from '@mui/icons-material/Send';

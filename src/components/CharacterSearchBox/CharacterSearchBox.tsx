@@ -3,7 +3,7 @@ import { serverList } from '../../utils/charactersUtil';
 import CharacterSearchBoxChild from './CharacterSearchBoxChild/CharacterSearchBoxChild';
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import useChildBox from 'hooks/uiHooks/useChildBox';
+import useChildBox from '../../hooks/uiHooks/useChildBox';
 import useSearchForm from 'hooks/uiHooks/useSearchForm';
 import useDebounce from 'hooks/uiHooks/useDebounce';
 
