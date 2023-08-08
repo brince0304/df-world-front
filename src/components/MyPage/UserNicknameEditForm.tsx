@@ -11,7 +11,7 @@ import * as React from 'react';
 
 const NicknameEdit = (props: { onClose: () => void }) => {
   const schema = yup.object().shape({
-    nickname: yup.string().min(2, '닉네임은 2자리 이상이어야 합니다.').max(8, '닉네임은 8자리 이하여야 합니다.'),
+    nickname: yup.string().min(2, '닉네임은 2자리 이상이어야 합니다.').max(8, '닉네임은 6자리 이하여야 합니다.'),
   });
   const [isNicknameValidated, setIsNicknameValidated] = useState<boolean>(false);
   const [isNicknameChecked, setIsNicknameChecked] = useState<boolean>(false);
@@ -41,7 +41,6 @@ const NicknameEdit = (props: { onClose: () => void }) => {
     setIsValidated: setIsNicknameValidated,
     isValidated: isNicknameValidated,
     helperText: '한글, 영문, 숫자를 포함한 2~8자리',
-    fontFamily: 'Core Sans',
     setFocus: setFocus,
   };
 

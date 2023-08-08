@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { ILoginResponse } from 'services/userService';
 import HeaderMoctileUserProfile from './HeaderMobileUserProfile';
 import HeaderMobileMenus from './HeaderMobileMenus';
 import styled from '@emotion/styled';
+import logo from 'assets/img/df-world-logo.png'
 
 const HeaderMobile = ({ user, ...props }: IHeaderMobileProps) => {
   const navigate = useNavigate();
@@ -28,7 +29,10 @@ const HeaderMobile = ({ user, ...props }: IHeaderMobileProps) => {
   return (
     <Container isOpened={props.isOpened}>
       <NavMenu>
-        <Logo onClick={handleNavigateToMain}>커뮤니티</Logo>
+        <Logo onClick={handleNavigateToMain}>
+          <img src={logo} width="35" height="35" alt="logo" />
+          던파월드
+        </Logo>
         {user && (
           <HeaderMoctileUserProfile
             user={user}
@@ -99,18 +103,21 @@ const Division = styled.div`
   opacity: 0.5;
 `;
 
-const Logo = styled(Button)`
+const Logo = styled(Box)`
   && {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+    flex-direction: row;
     padding-top: 10%;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: #ffffff;
     cursor: pointer;
     padding-right: 0;
+    gap: 6px;
+    margin-bottom: 10%;
 
     &:hover {
       color: cornflowerblue;

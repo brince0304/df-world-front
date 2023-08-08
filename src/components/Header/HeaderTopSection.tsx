@@ -1,21 +1,34 @@
 import styled from '@emotion/styled';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from '@mui/material';
+import { Box, Button, useMediaQuery } from '@mui/material';
 import CharacterSearchBox from 'components/CharacterSearchBox/CharacterSearchBox';
 import { useNavigate } from 'react-router-dom';
+import logo from 'assets/img/df-world-logo.png';
 
 const HeaderTopSection = ({ handleOpenNavbar, characterSearchHandler, characterDetailHandler }: IHeaderTopSection) => {
   const navigate = useNavigate();
   const handleNavigateToMain = () => {
     navigate('/');
   };
+  const isMobile = useMediaQuery('(max-width:480px)');
+  const isTablet = useMediaQuery('(max-width:768px)');
   return (
     <HeaderTop>
       <MobileNavButton onClick={handleOpenNavbar}>
         <FontAwesomeIcon icon={faBars} size="lg" />
       </MobileNavButton>
-      <Logo onClick={handleNavigateToMain}>{'던파월드'}</Logo>
+      <Logo onClick={handleNavigateToMain}
+            sx={{
+              fontSize: isMobile ? "1rem" : "1rem",
+            }}
+      >
+        <img src={logo}
+          width={isMobile ? "40" : "35"}
+          height={isMobile ? "40" : "35"}
+             alt="logo" />
+        {isTablet? "" : "던파월드"}
+      </Logo>
       <SelectSearchWrapper>
         <CharacterSearchBox searchHandler={characterSearchHandler} clickHandler={characterDetailHandler} />
       </SelectSearchWrapper>
@@ -31,21 +44,19 @@ interface IHeaderTopSection {
   characterDetailHandler: (...args: any[]) => void;
 }
 
-const Logo = styled(Button)`
+const Logo = styled(Box)`
   && {
-    padding-top: 15px;
-    padding-left: 10px;
-    font-size: 20px;
+    margin-top: 10px;
+    margin-left: 10px;
     font-weight: 700;
     color: #ffffff;
     cursor: pointer;
     padding-right: 0;
-    font-family: 'Core Sans';
-
-    &:hover {
-      color: cornflowerblue;
-      background-color: transparent;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 6px;
   }
 
   @media (max-width: 768px) {

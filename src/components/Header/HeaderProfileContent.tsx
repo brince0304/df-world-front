@@ -13,8 +13,8 @@ export const HeaderProfileContent = (props: { onClick: () => void }) => {
           src={user?.profileImgPath}
           alt="profile"
           sx={{
-            width: isMobile ? '1.2rem' : '1.5rem',
-            height: isMobile ? '1.2rem' : '1.5rem',
+            width: isMobile ? '1.5rem' : '1.5rem',
+            height: isMobile ? '1.5rem' : '1.5rem',
             backgroundColor: 'white',
             border: '1px solid #f5f5f5',
           }}

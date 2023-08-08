@@ -36,7 +36,7 @@ export default class BoardService implements IBoardService {
   private readonly getBoardDetailUrl = '/boards/{boardId}';
   private readonly getHashtagsUrl = '/hashtags/?query={hashtag}';
   private readonly getBoardCountByHashtagUrl = '/hashtags/{hashtag}';
-  private readonly deleteBoardUrl = '/boards/{boardId}';
+  private readonly deleteBoardUrl = '/boards?boardId={boardId}';
   private readonly createBoardUrl = '/boards';
   private readonly updateBoardUrl = '/boards';
   private readonly postImageUrl = '/files';

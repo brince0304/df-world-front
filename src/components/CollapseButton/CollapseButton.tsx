@@ -36,7 +36,7 @@ const CollapseButton = (props: { children: ReactNode; label: string }) => {
         }}
         onClick={handleToggleNicknameEditSection}
       >
-        <Typography component={'span'} fontFamily={'Core Sans'} fontSize={'1rem'} color={'#121212'} fontWeight={'bold'}>
+        <Typography component={'span'} fontSize={'1rem'} color={'#121212'} fontWeight={'bold'}>
           {props.label}
         </Typography>
         <ArrowDropDownIcon sx={arrowDropIconStyleNickname} />

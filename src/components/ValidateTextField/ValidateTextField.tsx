@@ -25,7 +25,6 @@ interface ValidateFormProps {
   isChecked: boolean;
   setIsChecked: (value: boolean) => void;
   helperText: string;
-  fontFamily: string;
   setFocus: UseFormSetFocus<any>;
 }
 
@@ -84,21 +83,13 @@ const ValidateForm = (props: ValidateFormProps) => {
         color={props.isValidated ? 'success' : props.isChecked ? 'error' : 'primary'}
         error={!!props.errors}
         variant={'standard'}
-        sx={{
-          '& .MuiInputBase-root': {
-            fontFamily: props.fontFamily,
-          },
-        }}
+
         label={
-          <Typography fontFamily={props.fontFamily} component={'span'}>
+          <Typography  component={'span'}>
             {props.placeholder}
           </Typography>
         }
-        helperText={
-          <Typography fontFamily={props.fontFamily} component={'span'} fontSize={'0.75rem'}>
-            {props.errors?.message || props.helperText}
-          </Typography>
-        }
+        helperText={props.errors?.message || props.helperText}
       />
       <StyledButton
         disabled={!!props.errors || !props.watch(props.formName)}
