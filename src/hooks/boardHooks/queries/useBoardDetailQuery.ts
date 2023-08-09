@@ -6,6 +6,7 @@ const useBoardDetailQuery = (boardId: string) => {
   const { getBoardDetail } = useBoardService();
   const queryClient = useQueryClient();
   const { data } = useQuery([QUERY_KEY.boardDetail, boardId], () => getBoardDetail({ boardId }), {
+    enabled: !!boardId,
     onSuccess: async (data) => {
       const likeCount = data.article.boardLikeCount !== undefined ? data.article.boardLikeCount : 0;
       const isLiked = data.likeLog !== undefined ? data.likeLog : false;

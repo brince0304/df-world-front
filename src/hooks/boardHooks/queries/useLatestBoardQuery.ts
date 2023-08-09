@@ -9,7 +9,6 @@ const useLatestBoardQuery = (boardType: string) => {
     [QUERY_KEY.latestBoardList, boardType],
     async () => {
       const response = await getLatestBoardList({ boardType });
-
       // 동기화 작업 수행
       await Promise.all(
         response.content.map(async (board) => {
@@ -24,13 +23,15 @@ const useLatestBoardQuery = (boardType: string) => {
           };
         }),
       );
-
       return response;
     },
     {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      select:((data) => {
+    return data.content.length > 5 ? data.content.slice(0, 5) : data.content;
+  }),
     },
   );
 

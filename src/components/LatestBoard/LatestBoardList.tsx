@@ -11,7 +11,7 @@ const LatestBoardList = (props: { isSelected: string }) => {
         width: '100%',
       }}
     >
-      {data && data.content.map((item, index: number) => <LatestBoardListItem key={index} {...item} />)}
+      {data && data.map((item, index: number) => <LatestBoardListItem key={index} {...item} />)}
     </List>
   );
 };

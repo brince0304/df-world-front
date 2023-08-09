@@ -24,6 +24,7 @@ const RecentSearchedItemButton = ({
   } as IRecentSearchedQuery;
 
   const handleAddRecentSearchedQuery = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+
     mouseDownHandler(recentQuery);
   };
 
@@ -33,13 +34,13 @@ const RecentSearchedItemButton = ({
   };
 
   return (
-    <Button sx={{ width: '100%' }}>
+    <Button sx={{ width: '100%' }} >
       <Grid
         container
-        onClick={handleAddRecentSearchedQuery}
         direction={'row'}
         sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         spacing={1}
+        onMouseDown={handleAddRecentSearchedQuery}
       >
         <Grid item xs={4}>
           <S.BoldNameWrapper>{characterName}</S.BoldNameWrapper>
