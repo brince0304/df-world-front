@@ -1,9 +1,10 @@
-import { Avatar, Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery } from '@mui/material';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import ImageUploader from '../ImageUploader/ImageUploader';
 import { profileIcons } from '../../constants/myConstants';
 import styled from '@emotion/styled';
 import React from 'react';
 import useChangeProfileIconByURLMutation from '../../hooks/myPageHooks/mutations/useChangeProfileIconByURLMutation';
+import MyDialog from '../MyDialog/MyDialog';
 
 export default function ProfileIconChangeDialog(props: ProfileIconChangeModalProps) {
   const data = profileIcons;
@@ -20,25 +21,17 @@ export default function ProfileIconChangeDialog(props: ProfileIconChangeModalPro
       }
     }
   };
-  const isMobile = useMediaQuery('(max-width: 480px)');
   return (
-    <Dialog open={props.isOpened} onClose={props.handleClose}>
-      <DialogTitle
-        sx={{
-          textAlign: 'center',
-          fontSize: '1rem',
-        }}
-      >
+    <MyDialog
+      useCloseButton
+      isOpen={props.isOpened} onClose={props.handleClose}
+      dialogTitle={
+      <Typography fontSize={'1.2rem'} fontWeight={700}>
         프로필 아이콘을 변경합니다!
-      </DialogTitle>
-      <DialogContent
-        sx={{
-          width: isMobile ? '100%' : 'auto',
-          height: '450px',
-          scrollBehavior: 'smooth',
-          overflowY: 'hidden',
-        }}
-      >
+      </Typography>
+      }
+      dialogContent={
+      <Box>
         <ImageUploader handleClose={props.handleClose} />
         <IconSelectorWrapper>
           <p>혹은 기본 아이콘을 선택해주세요!</p>
@@ -53,8 +46,9 @@ export default function ProfileIconChangeDialog(props: ProfileIconChangeModalPro
             </IconButton>
           ))}
         </ProfileIconChangeContainer>
-      </DialogContent>
-    </Dialog>
+      </Box>
+      }
+    />
   );
 }
 

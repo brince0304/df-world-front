@@ -62,7 +62,7 @@ const ModalContainer = styled(Box)`
   transform: translate(-50%, -50%);
   //props width
   background-color: white;
-  border-radius: 2px;
+  border-radius: 10px;
   height: ${(props: { height: string; width: string }) => props.height};
   width: ${(props: { height: string; width: string }) => props.width};
 `;

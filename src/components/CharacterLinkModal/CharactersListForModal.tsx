@@ -1,4 +1,4 @@
-import { Avatar, Grid, List, ListItemButton, ListItemText, styled } from '@mui/material';
+import { Avatar, Grid, List, ListItemButton, ListItemText, styled, useMediaQuery } from '@mui/material';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import useCharactersQuery from '../../hooks/characterHooks/queries/useCharactersQuery';
@@ -11,13 +11,14 @@ export const CharactersListForModal = (props: {
   handleClick: (characterId: string, serverId: string, characterName: string) => void;
 }) => {
   const { data } = useCharactersQuery(props.characterName, props.serverId);
+  const isMobile = useMediaQuery('(max-width:480px)');
   return (
     <List
       sx={{
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        marginTop: '20px',
+        marginTop: '40px',
         maxHeight: '100%',
         overflowY: 'scroll',
       }}
@@ -31,12 +32,13 @@ export const CharactersListForModal = (props: {
           >
             <Avatar
               sx={{
-                width: '50px',
-                height: '50px',
+                width: isMobile? '35px' : '50px',
+                height: isMobile? '35px' : '50px',
                 position: 'absolute',
                 left: '3%',
                 backgroundColor: 'white',
                 border: '1px solid lightgray',
+                boxShadow: '0 0 5px 0 rgba(0, 0, 0, 0.2)',
                 '& > img': {
                   height: '400%',
                   objectFit: 'cover',
@@ -47,18 +49,35 @@ export const CharactersListForModal = (props: {
               variant={'rounded'}
             />
             <ListItemText
-              sx={{ paddingLeft: '20%' }}
-              primary={character.characterName}
+              sx={{ paddingLeft: '20%', }}
+              primary={
+              <Typography sx={{ fontWeight: 700, fontSize: isMobile? '0.8rem' : '1rem'
+              }}>
+                {character.characterName}
+              </Typography>
+            }
               secondary={
                 <CharacterDetailContainer container spacing={1}>
                   <Grid item xs={3}>
-                    <FontWrapper>{character.serverName}</FontWrapper>
+                    <FontWrapper
+                      sx={{
+                        fontSize: isMobile? '0.6rem' : '0.7rem',
+                      }}
+                    >{character.serverName}</FontWrapper>
                   </Grid>
                   <Grid item xs={3}>
-                    <FontWrapper>{'레벨 ' + character.level}</FontWrapper>
+                    <FontWrapper
+                      sx={{
+                        fontSize: isMobile? '0.6rem' : '0.7rem',
+                      }}
+                    >{'레벨 ' + character.level}</FontWrapper>
                   </Grid>
                   <Grid item xs={5}>
-                    <FontWrapper>{character.jobGrowName}</FontWrapper>
+                    <FontWrapper
+                      sx={{
+                        fontSize: isMobile? '0.6rem' : '0.7rem',
+                      }}
+                    >{character.jobGrowName}</FontWrapper>
                   </Grid>
                 </CharacterDetailContainer>
               }
@@ -78,7 +97,6 @@ const FontWrapper = styled(Typography)`
   align-items: center;
   justify-content: flex-start;
   gap: 5px;
-  font-size: 12px;
   font-weight: bold;
   color: gray;
 `;

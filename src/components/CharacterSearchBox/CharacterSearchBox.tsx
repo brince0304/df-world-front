@@ -7,7 +7,7 @@ import useChildBox from '../../hooks/uiHooks/useChildBox';
 import useSearchForm from 'hooks/uiHooks/useSearchForm';
 import useDebounce from 'hooks/uiHooks/useDebounce';
 
-const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) => {
+const CharacterSearchBox = ({ searchHandler, clickHandler, useChild }: ISearchFormProps) => {
   const searchFormProps = useSearchForm({
     initialValues: '',
     initialSelectedValue: {
@@ -22,7 +22,6 @@ const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) =
   }, [searchFormProps.value, debouncedSetNewParams]);
   const boxRef = React.useRef<HTMLDivElement>(null);
   const { isFocus, setIsFocus } = useChildBox(boxRef);
-
   return (
     <SearchBoxWrapper ref={boxRef}>
       <SearchForm
@@ -33,7 +32,7 @@ const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) =
         handleSubmit={searchHandler}
         filterOptions={serverList}
       />
-      {isFocus && (
+      {isFocus  && useChild && (
         <CharacterSearchBoxChild
           direction={'down'}
           clickHandler={clickHandler}
@@ -46,7 +45,7 @@ const CharacterSearchBox = ({ searchHandler, clickHandler }: ISearchFormProps) =
 };
 const SearchBoxWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 32px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -57,6 +56,7 @@ const SearchBoxWrapper = styled.div`
 interface ISearchFormProps {
   searchHandler: (...args: any[]) => void;
   clickHandler: (...args: any[]) => void;
+  useChild?: boolean;
 }
 
 export default CharacterSearchBox;

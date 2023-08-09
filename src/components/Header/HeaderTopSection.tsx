@@ -28,7 +28,7 @@ const HeaderTopSection = ({ handleOpenNavbar, characterSearchHandler, characterD
         {isTablet ? '' : '던파월드'}
       </Logo>
       <SelectSearchWrapper>
-        <CharacterSearchBox searchHandler={characterSearchHandler} clickHandler={characterDetailHandler} />
+        <CharacterSearchBox useChild searchHandler={characterSearchHandler} clickHandler={characterDetailHandler} />
       </SelectSearchWrapper>
     </HeaderTop>
   );
