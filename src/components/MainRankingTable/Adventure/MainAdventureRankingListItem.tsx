@@ -79,6 +79,7 @@ const TableRow = styled.div`
   border-right: 1px solid #e5e5e5;
   border-bottom: 1px solid #e5e5e5;
   font-weight: 500;
+  overflow: hidden;
 
   &:hover {
     background-color: #f5f5f5;
@@ -87,7 +88,7 @@ const TableRow = styled.div`
     img {
       opacity: 1;
       transition: all 0.7s ease;
-      transform: scale(2);
+      transform: scale(1.5);
     }
     #rankIcon {
       transform: scale(1);
