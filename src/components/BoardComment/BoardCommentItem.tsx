@@ -39,7 +39,7 @@ const BoardCommentItem = ({ boardId, comment }: IBoardCommentItemProps) => {
   });
 
   return (
-    <BoardCommentItemContainer>
+    <>
       <BoardCommentAvatarEditDeleteWrapper>
         <BoardCommentAvatarCreatedAtWrapper>
           <BoardUserAvatar src={comment.userProfileImgUrl} nickname={comment.userNickname} />
@@ -55,14 +55,7 @@ const BoardCommentItem = ({ boardId, comment }: IBoardCommentItemProps) => {
           </BoardCommentDeleteUpdateButtonWrapper>
         )}
       </BoardCommentAvatarEditDeleteWrapper>
-      <Box
-        sx={{
-          marginTop: '10px',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          width: '100%',
-        }}
-      >
+      <Box sx={{ marginTop: '10px' }}>
         {!isEditOpen && <BoardCommentContentWrapper>{markupedComment}</BoardCommentContentWrapper>}
         {isEditOpen && (
           <BoardCommentForm
@@ -74,7 +67,7 @@ const BoardCommentItem = ({ boardId, comment }: IBoardCommentItemProps) => {
           />
         )}
       </Box>
-    </BoardCommentItemContainer>
+    </>
   );
 };
 
@@ -116,13 +109,6 @@ const BoardCommentDeleteUpdateButtonWrapper = styled(Box)`
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-`;
-
-const BoardCommentItemContainer = styled(Box)`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 `;
 
 const BoardCommentContentWrapper = styled.section`

@@ -1,6 +1,6 @@
 import { Box, Button, Checkbox, FormControlLabel, styled, Typography } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
-import { boardButtonStyle } from '../BoardViewer/BoardViewer';
+import { boardButtonStyle } from './BoardViewer';
 import { BOARD_INSERT_FORM_ROUTE } from '../../apis/data/urls';
 import useBoardLikeCount from '../../hooks/boardHooks/queries/useBoardLikeCount';
 import useBoardisLiked from '../../hooks/boardHooks/queries/useBoardisLiked';

@@ -4,7 +4,7 @@ import BoardUserAvatar from 'components/BoardUserAvatar/BoardUserAvatar';
 import useBoardDetailQuery from 'hooks/boardHooks/queries/useBoardDetailQuery';
 import { BoardDetailDataArticle } from 'interfaces/IBoardDetail';
 import ReactMarkdown from 'react-markdown';
-import BoardLikeContainer from '../BoardForm/BoardLikeContainer';
+import BoardLikeContainer from './BoardLikeContainer';
 
 const BoardViewer = ({ boardId }: IBoardViewerProps) => {
   const { data } = useBoardDetailQuery(boardId);

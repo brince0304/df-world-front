@@ -7,7 +7,7 @@ export interface ICharacterService {
   getCharacterList(data: { characterName: string; serverId: string; page: number }): Promise<ICharactersData>;
   getCharacterDetail(data: { characterId: string; serverId: string }): Promise<ICharacterDetail>;
   getMainCharacterRanking(data: { searchType: string }): Promise<ICharactersData>;
-  getMainAdventureRanking(data:{searchType:string}):Promise<IMainAdventureRankingResponse>;
+  getMainAdventureRanking(data: { searchType: string }): Promise<IMainAdventureRankingResponse>;
 }
 
 export default class CharacterService implements ICharacterService {
@@ -40,7 +40,7 @@ export default class CharacterService implements ICharacterService {
     return this.axiosClient.get(url);
   }
 
-  getMainAdventureRanking(data:{searchType:string}){
+  getMainAdventureRanking(data: { searchType: string }) {
     const url = this.getMainAdventureRankingUrl.replace('{searchType}', data.searchType);
     return this.axiosClient.get(url);
   }

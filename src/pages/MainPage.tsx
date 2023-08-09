@@ -1,9 +1,10 @@
 import React from 'react';
-import CharacterRanking from '../components/MainCharacterRanking/MainCharacterRanking';
+import CharacterRanking from '../components/MainRankingTable/Character/MainCharacterRanking';
 import MainCarousel from '../components/MainCarousel/Carousel';
 import LatestBoard from '../components/LatestBoard/LatestBoard';
 import styled from '@emotion/styled';
 import MyContainer from '../components/application/MyContainer';
+import MainAdventureRanking from '../components/MainRankingTable/Adventure/MainAdventureRanking';
 
 const Main = () => {
   return (
@@ -12,6 +13,7 @@ const Main = () => {
       <LatestBoardContainer>
         <LatestBoard />
       </LatestBoardContainer>
+      <MainAdventureRanking />
       <CharacterRanking />
     </MyContainer>
   );

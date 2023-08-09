@@ -8,7 +8,7 @@ const MainAdventureAvatars = ({ characters }: { characters: MainAdventureFameRes
     <Container container spacing={2}>
       {characters.map((character, index) => {
         return (
-          <Grid key={index} item xs={6} >
+          <Grid key={index} item xs={6}>
             <Avatar
               src={character.characterImageUrl}
               sx={{
@@ -29,7 +29,6 @@ const MainAdventureAvatars = ({ characters }: { characters: MainAdventureFameRes
 };
 
 const Container = styled(Grid)`
-
   width: 100px;
 `;
 

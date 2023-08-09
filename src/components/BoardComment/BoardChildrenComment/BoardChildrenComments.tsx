@@ -16,7 +16,6 @@ const BoardChildrenComments = ({ boardId, parentId }: IBoardCommentListProps, re
     });
   };
   return (
-    // TODO : 자식댓글 삭제 & 수정 어떻게 핸들링할지 생각해보기
     <Container ref={ref}>
       <Box
         sx={{

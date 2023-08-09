@@ -76,8 +76,7 @@ export const getRankingType = (rankingType: string) => {
     case 'adventureDamageIncreaseAndBuffPower':
       return '피해증가+버프력';
   }
-}
-
+};
 
 export const serverList = [
   {
@@ -203,7 +202,7 @@ export const adventureRankingType = [
     id: 'adventureFame',
   },
   {
-    name: '피해증가 + 버프력'
-    , id: 'adventureDamageIncreaseAndBuffPower',
-  }
-]
+    name: '피해증가 + 버프력',
+    id: 'adventureDamageIncreaseAndBuffPower',
+  },
+];

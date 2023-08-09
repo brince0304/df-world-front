@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import BoardCommentForm from './BoardCommentForm';
 import useCreateBoardCommentMutation from '../../hooks/boardCommentHooks/mutations/useCreateBoardCommentMutation';
 import { IBoardCommentRequest } from 'services/boardCommentService';
@@ -19,24 +18,12 @@ const BoardComments = ({ boardId }: IBoardCommentListProps) => {
     createComment(data);
   };
   return (
-    <Box>
-      <Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'row',
-            marginBottom: '10px',
-          }}
-        ></Box>
-      </Box>
-      <Box>
-        <Suspense fallback={<div>로딩중...</div>}>
-          <BoardCommentList boardId={boardId} />
-        </Suspense>
-      </Box>
-      <BoardCommentForm showProfile={true} boardId={boardId} onSubmit={handleSubmit} />
-    </Box>
+    <>
+      <Suspense fallback={<div>로딩중...</div>}>
+        <BoardCommentList boardId={boardId} />
+      </Suspense>
+      <BoardCommentForm showProfile boardId={boardId} onSubmit={handleSubmit} />
+    </>
   );
 };
 

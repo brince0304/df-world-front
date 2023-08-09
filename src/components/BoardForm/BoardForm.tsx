@@ -91,7 +91,6 @@ const BoardForm = ({ initialValue, submitHandler, useBoardForms, buttonLabel }: 
         />
         <HashtagWrapper>
           <TagifyContainer
-            useFormProps={useBoardForms}
             initialValue={initialValue?.article.hashtags}
             handleAddHashtag={useBoardForms.setValues.setHashtag}
           />
@@ -119,32 +118,12 @@ const BoardForm = ({ initialValue, submitHandler, useBoardForms, buttonLabel }: 
       </Box>
 
       <FormFooter>
-        <Button
-          variant={'contained'}
-          sx={{
-            width: '100px',
-            height: '40px',
-            backgroundColor: '#3f51b5',
-            color: 'white',
-            fontWeight: 'bold',
-          }}
-          type="submit"
-        >
+        <BoardFormButton variant={'contained'} type="submit">
           {buttonLabel}
-        </Button>
-        <Button
-          variant={'contained'}
-          onClick={handleNavigateBack}
-          sx={{
-            width: '100px',
-            height: '40px',
-            backgroundColor: '#3f51b5',
-            color: 'white',
-            fontWeight: 'bold',
-          }}
-        >
+        </BoardFormButton>
+        <BoardFormButton variant={'contained'} onClick={handleNavigateBack}>
           취소
-        </Button>
+        </BoardFormButton>
       </FormFooter>
     </form>
   );
@@ -184,6 +163,14 @@ const FormFooter = styled(Box)`
   width: 100%;
   height: 100%;
   padding-top: 20px;
+`;
+
+const BoardFormButton = styled(Button)`
+  width: 100px;
+  height: 40px;
+  background-color: #3f51b5;
+  color: white;
+  font-weight: bold;
 `;
 
 export default BoardForm;

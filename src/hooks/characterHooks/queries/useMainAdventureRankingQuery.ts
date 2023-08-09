@@ -4,15 +4,18 @@ import { QUERY_KEY } from '../../../constants/myConstants';
 
 const useMainAdventureRankingQuery = (searchType: string) => {
   const { getMainAdventureRanking } = useCharacterService();
-  const { data } = useQuery([QUERY_KEY.mainPageAdventureRanking, searchType], ()=> getMainAdventureRanking({searchType}),
+  const { data } = useQuery(
+    [QUERY_KEY.mainPageAdventureRanking, searchType],
+    () => getMainAdventureRanking({ searchType }),
     {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       enabled: !!searchType,
-    });
+    },
+  );
 
   return data;
-}
+};
 
 export default useMainAdventureRankingQuery;

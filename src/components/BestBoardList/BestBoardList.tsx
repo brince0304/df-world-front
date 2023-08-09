@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import BestBoardListItem from './BestBoardListItem';
 import { IBestBoard } from 'interfaces/IBestBoard';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ const BestBoardList = ({ data, index }: IBestBoardListProps) => {
     navigate(BOARD_DETAIL_URL + `${id}`);
   };
   return (
-    <Box>
+    <>
       {data?.length !== 0 &&
         data.map((item, chipIndex) => (
           <BestBoardListItem
@@ -22,23 +22,11 @@ const BestBoardList = ({ data, index }: IBestBoardListProps) => {
           />
         ))}
       {data?.length === 0 && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            height: '100%',
-            gap: '10px',
-          }}
-        >
-          <Typography fontSize={'1.1rem'} fontWeight={'bold'}>
-            베스트 게시글이 없습니다.
-          </Typography>
-        </Box>
+        <Typography fontSize={'1.1rem'} fontWeight={'bold'}>
+          베스트 게시글이 없습니다.
+        </Typography>
       )}
-    </Box>
+    </>
   );
 };
 

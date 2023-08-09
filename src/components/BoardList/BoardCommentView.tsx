@@ -10,15 +10,7 @@ const BoardCommentView = ({ boardId, boardViewCount, createdAt }: IBoardCommentV
   const boardCommentCount = useBoardCommentCountQuery(String(boardId));
   const boardLikeCount = useBoardLikeCountQuery(String(boardId));
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-      }}
-    >
+    <Container>
       <Box
         sx={{
           display: 'flex',
@@ -40,7 +32,7 @@ const BoardCommentView = ({ boardId, boardViewCount, createdAt }: IBoardCommentV
         </BoardIconWrapper>
       </Box>
       <CreatedAt createdAt={createdAt} />
-    </Box>
+    </Container>
   );
 };
 
@@ -62,6 +54,14 @@ const BoardIconWrapper = styled(Box)`
 const ValueWrapper = styled.p`
   font-weight: 500;
   color: #787878;
+`;
+
+const Container = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export default BoardCommentView;

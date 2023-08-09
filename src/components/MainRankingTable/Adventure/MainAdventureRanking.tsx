@@ -30,7 +30,7 @@ const MainAdventureRanking = () => {
         </Suspense>
       </Grid>
     </MyTable>
-  )
-}
+  );
+};
 
-export default MainAdventureRanking
+export default MainAdventureRanking;

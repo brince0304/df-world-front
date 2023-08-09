@@ -2,9 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { Grid } from '@mui/material';
 import RankingValue from '../Character/RankingValue';
-import {
-  MainAdventureFameResponseChild,
-} from '../../../interfaces/IMainAdventureRankingResponse';
+import { MainAdventureFameResponseChild } from '../../../interfaces/IMainAdventureRankingResponse';
 import styled from '@emotion/styled';
 import MainAdventureAvatars from './MainAdventureAvatars';
 
@@ -13,11 +11,10 @@ const MainAdventureRankingListItem = ({ item, index, type }: IMainAdventureRanki
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
     navigate(`/characters/${'adventure'}?name=${item.adventureName}`);
   };
-  const rankValue = type === 'adventureFame' ? item.adventureFame : item.adventureDamageIncreaseAndBuffPower
+  const rankValue = type === 'adventureFame' ? item.adventureFame : item.adventureDamageIncreaseAndBuffPower;
   return (
     <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-      <TableRow
-        onClick={onClick}>
+      <TableRow onClick={onClick}>
         <p
           style={{
             position: 'absolute',
@@ -57,9 +54,9 @@ const MainAdventureRankingListItem = ({ item, index, type }: IMainAdventureRanki
 export default MainAdventureRankingListItem;
 
 interface IMainAdventureRankingListItemProps {
-  item : MainAdventureFameResponseChild;
-  index : number;
-  type : string;
+  item: MainAdventureFameResponseChild;
+  index: number;
+  type: string;
 }
 
 const RankingDetailText = styled.p`
@@ -67,7 +64,7 @@ const RankingDetailText = styled.p`
 `;
 
 const RankingDetailNameText = styled.p`
-  color: #121212
+  color: #121212;
 `;
 
 const TableRow = styled.div`

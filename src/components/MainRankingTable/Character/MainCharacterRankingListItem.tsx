@@ -68,7 +68,7 @@ const RankingDetailText = styled.p`
 const RankingDetailNameText = styled.p`
   color: #121212;
   font-weight: 600;
-  fontSize: 1.2rem;
+  fontsize: 1.2rem;
 `;
 
 const TableRow = styled.div`
@@ -97,7 +97,6 @@ const TableRow = styled.div`
     #rankIcon {
       transform: scale(1);
     }
-
   }
 `;
 

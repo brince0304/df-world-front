@@ -254,7 +254,7 @@ const CharacterEquipmentModalDetail = (props: {
             <img
               alt={'시로코'}
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-              src={apiUrl+'images/icons/siroco.gif'}
+              src={apiUrl + 'images/icons/siroco.gif'}
               width={40}
               height={40}
             />
@@ -263,7 +263,7 @@ const CharacterEquipmentModalDetail = (props: {
             <img
               alt={'신화'}
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-              src={apiUrl+'images/icons/ora_myth.png'}
+              src={apiUrl + 'images/icons/ora_myth.png'}
               width={40}
               height={40}
             />
@@ -435,7 +435,7 @@ const CharacterEquipmentDetail = (props: {
           {props.equipment.upgradeInfo && (
             <img
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-              src={apiUrl+'images/icons/siroco.gif'}
+              src={apiUrl + 'images/icons/siroco.gif'}
               width={40}
               height={40}
               alt={'시로코'}
@@ -445,7 +445,7 @@ const CharacterEquipmentDetail = (props: {
             <img
               alt={'신화'}
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-              src={apiUrl+'images/icons/ora_myth.png'}
+              src={apiUrl + 'images/icons/ora_myth.png'}
               width={40}
               height={40}
             />

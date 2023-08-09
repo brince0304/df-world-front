@@ -13,7 +13,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import Error from '../Fallbacks/Error';
 
 const LatestBoard = () => {
-  const [isSelected, setIsSelected] = react.useState('FREE');
+  const [isSelected, setIsSelected] = react.useState('ALL');
   const navigate = useNavigate();
   const handleTypeTagClick = () => {
     navigate(`/boards?boardType=${isSelected}`);
