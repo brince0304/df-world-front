@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
 import useLikeBoardCommentMutation from '../../hooks/boardCommentHooks/mutations/useLikeBoardCommentMutation';
-import useBoardCommentLikeQuery from '../../hooks/boardCommentHooks/queries/useBoardCommentLikeQuery';
-import useBoardCommentLikeCountQuery from '../../hooks/boardCommentHooks/queries/useBoardCommentLikeCountQuery';
+import { useRecoilValue } from 'recoil';
+import { boardCommentIsLikedSelector, boardCommentLikeCountSelector } from '../../recoil/selector';
 
 const BoardCommentLikeButton = ({ boardId, commentId }: IBoardCommentLikeButtonProps) => {
-  const commentLikeCount = useBoardCommentLikeCountQuery(commentId);
+  const commentLikeCount = useRecoilValue(boardCommentLikeCountSelector(commentId));
   const likeComment = useLikeBoardCommentMutation(commentId);
   const handleLikeComment = () => {
     likeComment({ boardId: boardId, commentId: commentId });
@@ -14,15 +14,15 @@ const BoardCommentLikeButton = ({ boardId, commentId }: IBoardCommentLikeButtonP
   const handleOnChage = () => {
     handleLikeComment();
   };
-  const isCommentLiked = useBoardCommentLikeQuery(commentId);
+  const isCommentLiked = useRecoilValue(boardCommentIsLikedSelector(commentId));
 
   return (
     <FormControlLabel
       sx={{ scale: '0.7', marginLeft: '0px' }}
       control={<Checkbox color={'error'} checkedIcon={<Favorite />} icon={<FavoriteBorder />} />}
-      checked={isCommentLiked || false}
+      checked={isCommentLiked}
       onChange={handleOnChage}
-      label={<LikeCountWrapper>{commentLikeCount || 0}</LikeCountWrapper>}
+      label={<LikeCountWrapper>{commentLikeCount}</LikeCountWrapper>}
     />
   );
 };

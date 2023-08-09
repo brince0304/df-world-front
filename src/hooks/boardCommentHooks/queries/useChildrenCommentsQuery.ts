@@ -1,10 +1,11 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from 'constants/myConstants';
 import { useBoardCommentService } from 'context/boardCommentServiceContext';
+import useSetCommentLikeCount from '../../recoilHooks/useSetCommentLikeCount';
 
 const useChildrenCommentsQuery = (boardId: string, commentId: string) => {
   const { getChildrenComments } = useBoardCommentService();
-  const queryClient = useQueryClient();
+  const handleSetBoardCommentLikeCount = useSetCommentLikeCount();
   const { data } = useQuery(
     [QUERY_KEY.childrenComments, boardId, commentId],
     async () => getChildrenComments({ boardId, commentId }),
@@ -15,9 +16,8 @@ const useChildrenCommentsQuery = (boardId: string, commentId: string) => {
       refetchOnReconnect: false,
       onSuccess: (data) => {
         data.forEach((comment) => {
-          queryClient.setQueryData([QUERY_KEY.boardCommentLikeCount, String(comment.id)], comment.commentLikeCount);
+          handleSetBoardCommentLikeCount(String(comment.id), comment.commentLikeCount);
         });
-        queryClient.setQueryData([QUERY_KEY.boardCommentChildrenCount, commentId], data.length);
         return data;
       },
     },

@@ -1,17 +1,18 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from 'constants/myConstants';
 import { useBoardService } from 'context/boardServiceContext';
+import { useSetRecoilState } from 'recoil';
+import { boardLikeCountSelector, isBoardLikedSelector } from '../../../recoil/selector';
 
 const useBoardDetailQuery = (boardId: string) => {
   const { getBoardDetail } = useBoardService();
-  const queryClient = useQueryClient();
+  const setBoardCount = useSetRecoilState(boardLikeCountSelector(boardId));
+  const  setIsLiked = useSetRecoilState(isBoardLikedSelector(boardId));
   const { data } = useQuery([QUERY_KEY.boardDetail, boardId], () => getBoardDetail({ boardId }), {
     enabled: !!boardId,
-    onSuccess: async (data) => {
-      const likeCount = data.article.boardLikeCount !== undefined ? data.article.boardLikeCount : 0;
-      const isLiked = data.likeLog !== undefined ? data.likeLog : false;
-      queryClient.setQueryData([QUERY_KEY.boardLikeCount, String(data.article.id)], likeCount);
-      queryClient.setQueryData([QUERY_KEY.isBoardLiked, String(data.article.id)], isLiked);
+    onSuccess: (data) => {
+      setBoardCount(data.article.boardLikeCount);
+      setIsLiked(data.likeLog);
     },
   });
   return {

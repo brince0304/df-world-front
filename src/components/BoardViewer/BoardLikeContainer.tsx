@@ -2,16 +2,16 @@ import { Box, Button, Checkbox, FormControlLabel, styled, Typography } from '@mu
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { boardButtonStyle } from './BoardViewer';
 import { BOARD_INSERT_FORM_ROUTE } from '../../apis/data/urls';
-import useBoardLikeCount from '../../hooks/boardHooks/queries/useBoardLikeCount';
-import useBoardisLiked from '../../hooks/boardHooks/queries/useBoardisLiked';
 import useLikeBoardMutation from '../../hooks/boardHooks/mutations/useLikeBoardMutation';
 import { useNavigate } from 'react-router-dom';
 import useDeleteBoardMutation from '../../hooks/boardHooks/mutations/useDeleteBoardMutation';
 import { useUserQuery } from '../../hooks/authHooks/queries/useUserQuery';
+import { useRecoilValue } from 'recoil';
+import { boardLikeCountSelector, isBoardLikedSelector } from '../../recoil/selector';
 
 const BoardLikeContainer = ({ boardId, boardType, author }: { boardId: string; boardType: string; author: string }) => {
-  const boardLikeCount = useBoardLikeCount(boardId);
-  const boardIsLiked = useBoardisLiked(boardId);
+  const boardLikeCount = useRecoilValue(boardLikeCountSelector(boardId));
+  const boardIsLiked = useRecoilValue(isBoardLikedSelector(boardId));
   const likeBoardMutation = useLikeBoardMutation(boardId);
   const navigate = useNavigate();
   const handleBoardLike = () => {
@@ -41,7 +41,7 @@ const BoardLikeContainer = ({ boardId, boardType, author }: { boardId: string; b
             checkedIcon={<Favorite />}
             icon={<FavoriteBorder />}
             onClick={handleBoardLike}
-            checked={typeof boardIsLiked === 'boolean' ? boardIsLiked : false}
+            checked={boardIsLiked}
           />
         }
         label={
@@ -50,7 +50,7 @@ const BoardLikeContainer = ({ boardId, boardType, author }: { boardId: string; b
               fontSize: '0.9rem',
             }}
           >
-            {typeof boardLikeCount === 'number' ? boardLikeCount : 0}
+            {boardLikeCount}
           </Typography>
         }
       />

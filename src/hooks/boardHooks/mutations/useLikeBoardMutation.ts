@@ -1,15 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { QUERY_KEY } from 'constants/myConstants';
+import { useMutation } from '@tanstack/react-query';
 import { useBoardService } from '../../../context/boardServiceContext';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { boardLikeCountSelector, isBoardLikedSelector } from '../../../recoil/selector';
 
 const useLikeBoardMutation = (boardId: string) => {
   const { likeBoard } = useBoardService();
-  const queryClient = useQueryClient();
-  const prevIsLiked = queryClient.getQueryData([QUERY_KEY.isBoardLiked, boardId]);
+  const [isLiked,setIsLiked] = useRecoilState(isBoardLikedSelector(boardId));
+  const setLikeCount = useSetRecoilState(boardLikeCountSelector(boardId));
   const { mutate: likeBoardMutation } = useMutation(likeBoard, {
     onSuccess: (data) => {
-      queryClient.setQueryData([QUERY_KEY.isBoardLiked, boardId], !prevIsLiked);
-      queryClient.setQueryData([QUERY_KEY.boardLikeCount, boardId], data);
+     setIsLiked(!isLiked);
+      setLikeCount(data);
     },
   });
 

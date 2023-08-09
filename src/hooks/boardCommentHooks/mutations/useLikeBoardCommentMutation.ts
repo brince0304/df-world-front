@@ -1,15 +1,19 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { QUERY_KEY } from 'constants/myConstants';
+import { useMutation } from '@tanstack/react-query';
 import { useBoardCommentService } from 'context/boardCommentServiceContext';
+import {  useSetRecoilState } from 'recoil';
+import {
+  boardCommentIsLikedSelector,
+  boardCommentLikeCountSelector,
+} from '../../../recoil/selector';
 
 const useLikeBoardCommentMutation = (commentId: string) => {
   const { likeComment } = useBoardCommentService();
-  const queryClient = useQueryClient();
-  const prevIsLiked = queryClient.getQueryData([QUERY_KEY.isBoardCommentLiked, commentId]);
+  const setIsLiked = useSetRecoilState(boardCommentIsLikedSelector(commentId));
+  const setLikeCount = useSetRecoilState(boardCommentLikeCountSelector(commentId));
   const { mutate: likeBoardComment } = useMutation(likeComment, {
     onSuccess: (data) => {
-      queryClient.setQueryData([QUERY_KEY.boardCommentLikeCount, commentId], data);
-      queryClient.setQueryData([QUERY_KEY.isBoardCommentLiked, commentId], !prevIsLiked);
+      setIsLiked((prev) => !prev);
+        setLikeCount(data);
     },
   });
 

@@ -3,12 +3,12 @@ import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, RemoveRedEyeOutlined
 import CreatedAt from './BoardCreatedAt';
 import React from 'react';
 import styled from '@emotion/styled';
-import useBoardCommentCountQuery from '../../hooks/boardHooks/queries/useBoardCommentCountQuery';
-import useBoardLikeCountQuery from '../../hooks/boardHooks/queries/useBoardLikeCount';
+import { useRecoilValue } from 'recoil';
+import { boardCommentCountSelector, boardLikeCountSelector } from '../../recoil/selector';
 
 const BoardCommentView = ({ boardId, boardViewCount, createdAt }: IBoardCommentViewProps) => {
-  const boardCommentCount = useBoardCommentCountQuery(String(boardId));
-  const boardLikeCount = useBoardLikeCountQuery(String(boardId));
+  const boardCommentCount = useRecoilValue(boardCommentCountSelector(boardId));
+  const boardLikeCount = useRecoilValue(boardLikeCountSelector(boardId));
   return (
     <Container>
       <Box
@@ -20,7 +20,7 @@ const BoardCommentView = ({ boardId, boardViewCount, createdAt }: IBoardCommentV
       >
         <BoardIconWrapper>
           <FavoriteBorderOutlined sx={{ fontSize: '1rem', color: '#787878' }} />
-          <ValueWrapper>{typeof boardLikeCount === 'number' ? boardLikeCount : 0}</ValueWrapper>
+          <ValueWrapper>{boardLikeCount}</ValueWrapper>
         </BoardIconWrapper>
         <BoardIconWrapper>
           <ChatBubbleOutlineOutlined sx={{ fontSize: '1rem', color: '#787878' }} />
