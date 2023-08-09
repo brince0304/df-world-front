@@ -27,7 +27,7 @@
 
 # 💻 배포 주소
 
-도메인 : [https://df-world.kr](https://df-world.netlify.app/)
+도메인 : [https://df-world.netlify.app](https://df-world.netlify.app/)
 
 # **🛠 의존성과 스택**
 
