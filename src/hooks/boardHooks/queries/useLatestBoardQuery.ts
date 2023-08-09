@@ -29,9 +29,9 @@ const useLatestBoardQuery = (boardType: string) => {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-      select:((data) => {
-    return data.content.length > 5 ? data.content.slice(0, 5) : data.content;
-  }),
+      select: (data) => {
+        return data.content.length > 5 ? data.content.slice(0, 5) : data.content;
+      },
     },
   );
 
