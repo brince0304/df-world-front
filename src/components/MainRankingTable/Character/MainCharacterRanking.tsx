@@ -1,12 +1,12 @@
-import '../../assets/css/rankingTable.scss';
+import '../../../assets/css/rankingTable.scss';
 import React, { Suspense, useState } from 'react';
-import MyTable from '../MyTable/MyTable';
+import MyTable from '../../MyTable/MyTable';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import IconButton from '@mui/material/IconButton';
-import { rankingType } from '../../utils/charactersUtil';
+import { rankingType } from '../../../utils/charactersUtil';
 import { Grid } from '@mui/material';
-import Loading from '../Fallbacks/Loading';
+import Loading from '../../Fallbacks/Loading';
 import MainCharacterRankingList from './MainCharacterRankingList';
 
 function CharacterRanking() {

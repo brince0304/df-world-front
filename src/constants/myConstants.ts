@@ -21,6 +21,7 @@ export const QUERY_KEY = {
   boardCommentLikeCount: 'boardCommentLikeCount',
   childrenComments: 'childrenComments',
   mainPageCharacterRanking: 'mainPageCharacterRanking',
+  mainPageAdventureRanking: 'mainPageAdventureRanking',
   hashtagList: 'hashtagList',
   boardFileNames: 'boardFileNames',
 };

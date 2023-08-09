@@ -64,6 +64,21 @@ export const getServerName = (serverId: string) => {
       return '카인';
   }
 };
+
+export const getRankingType = (rankingType: string) => {
+  switch (rankingType) {
+    case 'adventureFame':
+      return '모험가명성';
+    case 'damageIncrease':
+      return '피해증가';
+    case 'buffPower':
+      return '버프력';
+    case 'adventureDamageIncreaseAndBuffPower':
+      return '피해증가+버프력';
+  }
+}
+
+
 export const serverList = [
   {
     label: '전체',
@@ -181,3 +196,14 @@ export const rankingType = [
     id: 'buffPower',
   },
 ];
+
+export const adventureRankingType = [
+  {
+    name: '모험단명성',
+    id: 'adventureFame',
+  },
+  {
+    name: '피해증가 + 버프력'
+    , id: 'adventureDamageIncreaseAndBuffPower',
+  }
+]

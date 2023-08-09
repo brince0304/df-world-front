@@ -1,4 +1,4 @@
-import useMainCharacterRankingQuery from '../../hooks/characterHooks/queries/useMainCharacterRankingQuery';
+import useMainCharacterRankingQuery from '../../../hooks/characterHooks/queries/useMainCharacterRankingQuery';
 import MainCharacterRankingListItem from './MainCharacterRankingListItem';
 import React from 'react';
 

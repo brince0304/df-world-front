@@ -1,28 +1,23 @@
-import { Content } from '../../interfaces/ICharactersData';
-import { Grid } from '@mui/material';
-import { RankingCharacterImg } from '../application/character/RankingCharacterImg';
-import React from 'react';
-import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import RankingValue from './RankingValue';
-import { useRef } from 'react';
+import React from 'react';
+import { Grid } from '@mui/material';
+import RankingValue from '../Character/RankingValue';
+import {
+  MainAdventureFameResponseChild,
+} from '../../../interfaces/IMainAdventureRankingResponse';
+import styled from '@emotion/styled';
+import MainAdventureAvatars from './MainAdventureAvatars';
 
-const MainCharacterRankingListItem = ({ item, index, type }: { item: Content; index: number; type: string }) => {
-  let navigate = useNavigate();
-  const ref = useRef<HTMLDivElement>(null);
+const MainAdventureRankingListItem = ({ item, index, type }: IMainAdventureRankingListItemProps) => {
+  const navigate = useNavigate();
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const id = ref.current?.dataset;
-    navigate(`/details?serverId=${id?.server}&characterId=${id?.id}`);
+    navigate(`/characters/${'adventure'}?name=${item.adventureName}`);
   };
+  const rankValue = type === 'adventureFame' ? item.adventureFame : item.adventureDamageIncreaseAndBuffPower
   return (
     <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
       <TableRow
-        ref={ref}
-        id={item.characterId}
-        onClick={onClick}
-        data-id={item.characterId}
-        data-server={item.serverId}
-      >
+        onClick={onClick}>
         <p
           style={{
             position: 'absolute',
@@ -39,19 +34,19 @@ const MainCharacterRankingListItem = ({ item, index, type }: { item: Content; in
         >
           {index + 1}
         </p>
-        <div style={{ width: '23%', height: '100%' }}>
-          <RankingCharacterImg serverId={item.serverId} characterId={item.characterId} />
+        <div style={{ height: '100%' }}>
+          <MainAdventureAvatars characters={item.characters} />
         </div>
         <div>
           <TableData>
-            <RankingDetailNameText>{item.characterName}</RankingDetailNameText>
-            <RankingDetailText>{item.adventureName}</RankingDetailText>
+            <RankingDetailNameText>{`<${item.adventureName}>`}</RankingDetailNameText>
             <RankingDetailText>{item.serverName}</RankingDetailText>
+            <RankingDetailText>{item.representCharacterName}</RankingDetailText>
           </TableData>
         </div>
         <div>
           <TableData>
-            <RankingValue type={type} value={item.adventureFame} />
+            <RankingValue type={'adventureFame'} value={rankValue} />
           </TableData>
         </div>
       </TableRow>
@@ -59,13 +54,21 @@ const MainCharacterRankingListItem = ({ item, index, type }: { item: Content; in
   );
 };
 
-export default MainCharacterRankingListItem;
+export default MainAdventureRankingListItem;
 
-const RankingDetailText = styled.span`
+interface IMainAdventureRankingListItemProps {
+  item : MainAdventureFameResponseChild;
+  index : number;
+  type : string;
+}
+
+const RankingDetailText = styled.p`
   color: grey;
 `;
 
-const RankingDetailNameText = styled.span``;
+const RankingDetailNameText = styled.p`
+  color: #121212
+`;
 
 const TableRow = styled.div`
   display: flex;
@@ -85,25 +88,12 @@ const TableRow = styled.div`
     cursor: pointer;
     //랭킹 아이콘 빼고 hover 시 이펙트
     img {
-      transform: translateY(-3px);
       opacity: 1;
       transition: all 0.7s ease;
+      transform: scale(2);
     }
-
     #rankIcon {
       transform: scale(1);
-    }
-
-    p {
-      opacity: 1;
-      transition: all 0.7s ease;
-      background-color: transparent;
-      color: white;
-    }
-
-    span {
-      color: black;
-      transition: all 0.7s ease;
     }
   }
 `;

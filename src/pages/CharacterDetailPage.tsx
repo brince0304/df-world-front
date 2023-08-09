@@ -218,6 +218,8 @@ const CharacterEquipmentModalDetail = (props: {
 }) => {
   const dividerStyle = { width: '100%', marginTop: '10px', marginBottom: '10px' };
   //증가 단어마다 줄바꿈
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   return (
     <Box
       sx={{
@@ -252,7 +254,7 @@ const CharacterEquipmentModalDetail = (props: {
             <img
               alt={'시로코'}
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-              src={'/images/icons/siroco.gif'}
+              src={apiUrl+'images/icons/siroco.gif'}
               width={40}
               height={40}
             />
@@ -261,7 +263,7 @@ const CharacterEquipmentModalDetail = (props: {
             <img
               alt={'신화'}
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-              src={'/images/icons/ora_myth.png'}
+              src={apiUrl+'images/icons/ora_myth.png'}
               width={40}
               height={40}
             />
@@ -396,6 +398,7 @@ const CharacterEquipmentDetail = (props: {
   const handleModalClose = () => {
     setIsModalOpened(false);
   };
+  const apiUrl = process.env.REACT_APP_API_URL;
   return (
     <Box>
       <CharacterEquipmentModal isOpened={isModalOpened} setIsOpened={handleModalClose}>
@@ -432,7 +435,7 @@ const CharacterEquipmentDetail = (props: {
           {props.equipment.upgradeInfo && (
             <img
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-              src={'/images/icons/siroco.gif'}
+              src={apiUrl+'images/icons/siroco.gif'}
               width={40}
               height={40}
               alt={'시로코'}
@@ -442,7 +445,7 @@ const CharacterEquipmentDetail = (props: {
             <img
               alt={'신화'}
               style={{ position: 'absolute', top: 0, left: 0, opacity: '0.7' }}
-              src={'/images/icons/ora_myth.png'}
+              src={apiUrl+'images/icons/ora_myth.png'}
               width={40}
               height={40}
             />

@@ -1,11 +1,13 @@
 import { ICharactersData } from '../interfaces/ICharactersData';
 import { IAxiosClient } from '../axiosClient/axiosClient';
 import { ICharacterDetail } from '../interfaces/ICharacterDetail';
+import { IMainAdventureRankingResponse } from '../interfaces/IMainAdventureRankingResponse';
 
 export interface ICharacterService {
   getCharacterList(data: { characterName: string; serverId: string; page: number }): Promise<ICharactersData>;
   getCharacterDetail(data: { characterId: string; serverId: string }): Promise<ICharacterDetail>;
   getMainCharacterRanking(data: { searchType: string }): Promise<ICharactersData>;
+  getMainAdventureRanking(data:{searchType:string}):Promise<IMainAdventureRankingResponse>;
 }
 
 export default class CharacterService implements ICharacterService {
@@ -13,6 +15,7 @@ export default class CharacterService implements ICharacterService {
   private readonly getCharacterListUrl = '/characters/?characterName={characterName}&serverId={serverId}&page={page}';
   private readonly getCharacterDetailUrl = '/characters/detail?characterId={characterId}&serverId={serverId}';
   private readonly getMainCharacterRankingUrl = '/characters/mainRank?searchType={searchType}';
+  private readonly getMainAdventureRankingUrl = '/characters/mainAdventureRank?searchType={searchType}';
   constructor(axiosClient: IAxiosClient) {
     this.axiosClient = axiosClient;
   }
@@ -34,6 +37,11 @@ export default class CharacterService implements ICharacterService {
 
   getMainCharacterRanking(data: { searchType: string }) {
     const url = this.getMainCharacterRankingUrl.replace('{searchType}', data.searchType);
+    return this.axiosClient.get(url);
+  }
+
+  getMainAdventureRanking(data:{searchType:string}){
+    const url = this.getMainAdventureRankingUrl.replace('{searchType}', data.searchType);
     return this.axiosClient.get(url);
   }
 }

@@ -15,6 +15,7 @@ const CharacterServiceProvider = ({
   const getCharacterList = characterService.getCharacterList.bind(characterService);
   const getCharacterDetail = characterService.getCharacterDetail.bind(characterService);
   const getMainCharacterRanking = characterService.getMainCharacterRanking.bind(characterService);
+  const getMainAdventureRanking = characterService.getMainAdventureRanking.bind(characterService);
 
   return (
     <characterServiceContext.Provider
@@ -22,6 +23,7 @@ const CharacterServiceProvider = ({
         getCharacterList,
         getCharacterDetail,
         getMainCharacterRanking,
+        getMainAdventureRanking,
       }}
     >
       {children}
