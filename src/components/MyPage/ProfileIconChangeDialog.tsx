@@ -24,29 +24,30 @@ export default function ProfileIconChangeDialog(props: ProfileIconChangeModalPro
   return (
     <MyDialog
       useCloseButton
-      isOpen={props.isOpened} onClose={props.handleClose}
+      isOpen={props.isOpened}
+      onClose={props.handleClose}
       dialogTitle={
-      <Typography fontSize={'1.2rem'} fontWeight={700}>
-        프로필 아이콘을 변경합니다!
-      </Typography>
+        <Typography fontSize={'1.2rem'} fontWeight={700}>
+          프로필 아이콘을 변경합니다!
+        </Typography>
       }
       dialogContent={
-      <Box>
-        <ImageUploader handleClose={props.handleClose} />
-        <IconSelectorWrapper>
-          <p>혹은 기본 아이콘을 선택해주세요!</p>
-        </IconSelectorWrapper>
-        <ProfileIconChangeContainer>
-          {data.map((icon, index) => (
-            <IconButton data-id={icon.url} onClick={handleChangeIcon} key={index}>
-              <Avatar
-                src={'https://api.df-world.kr/files/?name=' + icon.name}
-                sx={{ width: 30, height: 30, margin: 1 }}
-              />
-            </IconButton>
-          ))}
-        </ProfileIconChangeContainer>
-      </Box>
+        <Box>
+          <ImageUploader handleClose={props.handleClose} />
+          <IconSelectorWrapper>
+            <p>혹은 기본 아이콘을 선택해주세요!</p>
+          </IconSelectorWrapper>
+          <ProfileIconChangeContainer>
+            {data.map((icon, index) => (
+              <IconButton data-id={icon.url} onClick={handleChangeIcon} key={index}>
+                <Avatar
+                  src={'https://api.df-world.kr/files/?name=' + icon.name}
+                  sx={{ width: 30, height: 30, margin: 1 }}
+                />
+              </IconButton>
+            ))}
+          </ProfileIconChangeContainer>
+        </Box>
       }
     />
   );

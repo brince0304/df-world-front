@@ -32,8 +32,8 @@ export const CharactersListForModal = (props: {
           >
             <Avatar
               sx={{
-                width: isMobile? '35px' : '50px',
-                height: isMobile? '35px' : '50px',
+                width: isMobile ? '35px' : '50px',
+                height: isMobile ? '35px' : '50px',
                 position: 'absolute',
                 left: '3%',
                 backgroundColor: 'white',
@@ -49,35 +49,40 @@ export const CharactersListForModal = (props: {
               variant={'rounded'}
             />
             <ListItemText
-              sx={{ paddingLeft: '20%', }}
+              sx={{ paddingLeft: '20%' }}
               primary={
-              <Typography sx={{ fontWeight: 700, fontSize: isMobile? '0.8rem' : '1rem'
-              }}>
-                {character.characterName}
-              </Typography>
-            }
+                <Typography sx={{ fontWeight: 700, fontSize: isMobile ? '0.8rem' : '1rem' }}>
+                  {character.characterName}
+                </Typography>
+              }
               secondary={
                 <CharacterDetailContainer container spacing={1}>
                   <Grid item xs={3}>
                     <FontWrapper
                       sx={{
-                        fontSize: isMobile? '0.6rem' : '0.7rem',
+                        fontSize: isMobile ? '0.6rem' : '0.7rem',
                       }}
-                    >{character.serverName}</FontWrapper>
+                    >
+                      {character.serverName}
+                    </FontWrapper>
                   </Grid>
                   <Grid item xs={3}>
                     <FontWrapper
                       sx={{
-                        fontSize: isMobile? '0.6rem' : '0.7rem',
+                        fontSize: isMobile ? '0.6rem' : '0.7rem',
                       }}
-                    >{'레벨 ' + character.level}</FontWrapper>
+                    >
+                      {'레벨 ' + character.level}
+                    </FontWrapper>
                   </Grid>
                   <Grid item xs={5}>
                     <FontWrapper
                       sx={{
-                        fontSize: isMobile? '0.6rem' : '0.7rem',
+                        fontSize: isMobile ? '0.6rem' : '0.7rem',
                       }}
-                    >{character.jobGrowName}</FontWrapper>
+                    >
+                      {character.jobGrowName}
+                    </FontWrapper>
                   </Grid>
                 </CharacterDetailContainer>
               }

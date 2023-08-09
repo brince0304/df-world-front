@@ -12,12 +12,12 @@ const UserDetailEditDialog = (props: { open: boolean; onClose: () => void; refre
       isOpen={props.open}
       onClose={props.onClose}
       useCloseButton
-     dialogContent={
-      <>
-        <NicknameEdit onClose={props.onClose} />
-        {(user?.oauthProvider === 'NONE' || user?.oauthProvider === null) && <PasswordEdit onClose={props.onClose} />}
-      </>
-     }
+      dialogContent={
+        <>
+          <NicknameEdit onClose={props.onClose} />
+          {(user?.oauthProvider === 'NONE' || user?.oauthProvider === null) && <PasswordEdit onClose={props.onClose} />}
+        </>
+      }
       dialogTitle={
         <Typography component={'span'} fontSize={'1.5rem'} fontWeight={'bold'}>
           회원정보 수정{' '}

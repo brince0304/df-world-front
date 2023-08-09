@@ -32,7 +32,7 @@ const CharacterSearchBox = ({ searchHandler, clickHandler, useChild }: ISearchFo
         handleSubmit={searchHandler}
         filterOptions={serverList}
       />
-      {isFocus  && useChild && (
+      {isFocus && useChild && (
         <CharacterSearchBoxChild
           direction={'down'}
           clickHandler={clickHandler}

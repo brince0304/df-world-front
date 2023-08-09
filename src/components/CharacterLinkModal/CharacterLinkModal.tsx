@@ -26,18 +26,18 @@ const CharacterLinkModal = (props: {
       isOpen={props.isOpened}
       onClose={props.handleClose}
       dialogContent={
-      <ContentContainer>
-        <SearchBoxWrapper>
-        <CharacterSearchBox searchHandler={searchHandler} clickHandler={clickHandler} />
-        </SearchBoxWrapper>
-        <Suspense fallback={<Loading />}>
-          <CharactersListForModal
-            characterName={characterName}
-            serverId={serverId}
-            handleClick={props.handleSetCharacterDetails}
-          />
-        </Suspense>
-      </ContentContainer>
+        <ContentContainer>
+          <SearchBoxWrapper>
+            <CharacterSearchBox searchHandler={searchHandler} clickHandler={clickHandler} />
+          </SearchBoxWrapper>
+          <Suspense fallback={<Loading />}>
+            <CharactersListForModal
+              characterName={characterName}
+              serverId={serverId}
+              handleClick={props.handleSetCharacterDetails}
+            />
+          </Suspense>
+        </ContentContainer>
       }
     />
   );
@@ -49,7 +49,7 @@ const ContentContainer = styled(Box)`
   position: relative;
   width: 100%;
   height: 100%;
-`
+`;
 
 const SearchBoxWrapper = styled(Box)`
   position: absolute;

@@ -1,31 +1,33 @@
 import { Box, Dialog, DialogContent, DialogTitle, styled } from '@mui/material';
 import { ReactNode } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-const MyDialog = ({ isOpen, onClose, dialogContent,dialogTitle ,useCloseButton}: MyDialogProps) => {
+const MyDialog = ({ isOpen, onClose, dialogContent, dialogTitle, useCloseButton }: MyDialogProps) => {
   return (
-    <Dialog open={isOpen} onClose={onClose}
-            sx={{
-              '& .MuiDialog-paper': {
-                width: '400px',
-                height: '500px',
-                maxWidth: '100%',
-                maxHeight: '100%',
-                borderRadius: '10px',
-                overflowY: 'hidden',
-                position: 'relative',
-              },
-            }}
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      sx={{
+        '& .MuiDialog-paper': {
+          width: '400px',
+          height: '500px',
+          maxWidth: '100%',
+          maxHeight: '100%',
+          borderRadius: '10px',
+          overflowY: 'hidden',
+          position: 'relative',
+        },
+      }}
     >
-      {useCloseButton && <CloseButtonWrapper onClick={onClose}>
-        <CloseIcon />
-      </CloseButtonWrapper>
-      }
+      {useCloseButton && (
+        <CloseButtonWrapper onClick={onClose}>
+          <CloseIcon />
+        </CloseButtonWrapper>
+      )}
       {dialogTitle && <DialogTitle component="div">{dialogTitle}</DialogTitle>}
-      <DialogContent
-      >{dialogContent}</DialogContent>
+      <DialogContent>{dialogContent}</DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
 export default MyDialog;
 
@@ -43,4 +45,4 @@ const CloseButtonWrapper = styled(Box)`
   right: 0;
   margin: 10px;
   cursor: pointer;
-  `
+`;
