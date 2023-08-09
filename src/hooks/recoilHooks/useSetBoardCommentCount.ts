@@ -12,14 +12,14 @@ const useSetBoardCommentCount = () => {
       const newBoardCommentCount = {
         boardId,
         commentCount: newCommentCount,
-      }
+      };
       const spliced = prev.filter((item) => item.boardId !== boardId);
       spliced.push(newBoardCommentCount);
       return [...spliced];
     });
-  }
+  };
 
   return handleSetBoardCommentCount;
-}
+};
 
 export default useSetBoardCommentCount;

@@ -8,24 +8,20 @@ const useLatestBoardQuery = (boardType: string) => {
   const { getLatestBoardList } = useBoardService();
   const handleSetLikeCount = useSetBoardLikeCount();
   const handleSetBoardCommentCount = useSetBoardCommentCount();
-  const { data } = useQuery(
-    [QUERY_KEY.latestBoardList, boardType],
-    async () => getLatestBoardList({ boardType }),
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      select: (data) => {
-        return data.content.length > 5 ? data.content.slice(0, 5) : data.content;
-      },
-      onSuccess: (data) => {
-        data.forEach((board) => {
-          handleSetLikeCount(String(board.id), board.boardLikeCount);
-          handleSetBoardCommentCount(String(board.id), board.commentCount);
-        });
-      }
+  const { data } = useQuery([QUERY_KEY.latestBoardList, boardType], async () => getLatestBoardList({ boardType }), {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    select: (data) => {
+      return data.content.length > 5 ? data.content.slice(0, 5) : data.content;
     },
-  );
+    onSuccess: (data) => {
+      data.forEach((board) => {
+        handleSetLikeCount(String(board.id), board.boardLikeCount);
+        handleSetBoardCommentCount(String(board.id), board.commentCount);
+      });
+    },
+  });
 
   return data;
 };

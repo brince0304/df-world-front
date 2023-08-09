@@ -1,7 +1,7 @@
 import { useSetRecoilState } from 'recoil';
 import { boardLikeCountStates } from '../../recoil/states';
 
-const useSetBoardLikeCount = () =>{
+const useSetBoardLikeCount = () => {
   const setBoardLikeCount = useSetRecoilState(boardLikeCountStates);
   const handleSetBoardLikeCount = (boardId: string, newLikeCount: number) => {
     setBoardLikeCount((prev) => {
@@ -12,14 +12,14 @@ const useSetBoardLikeCount = () =>{
       const newBoardLikeCount = {
         boardId,
         likeCount: newLikeCount,
-      }
+      };
       const spliced = prev.filter((item) => item.boardId !== boardId);
       spliced.push(newBoardLikeCount);
       return [...spliced];
     });
-  }
+  };
 
   return handleSetBoardLikeCount;
-}
+};
 
 export default useSetBoardLikeCount;

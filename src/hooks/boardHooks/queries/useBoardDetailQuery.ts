@@ -7,7 +7,7 @@ import { boardLikeCountSelector, isBoardLikedSelector } from '../../../recoil/se
 const useBoardDetailQuery = (boardId: string) => {
   const { getBoardDetail } = useBoardService();
   const setBoardCount = useSetRecoilState(boardLikeCountSelector(boardId));
-  const  setIsLiked = useSetRecoilState(isBoardLikedSelector(boardId));
+  const setIsLiked = useSetRecoilState(isBoardLikedSelector(boardId));
   const { data } = useQuery([QUERY_KEY.boardDetail, boardId], () => getBoardDetail({ boardId }), {
     enabled: !!boardId,
     onSuccess: (data) => {

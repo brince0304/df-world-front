@@ -12,14 +12,14 @@ const useSetCommentIsLiked = () => {
       const newCommentIsLiked = {
         boardCommentId,
         isLiked: newIsLiked,
-      }
+      };
       const spliced = prev.filter((item) => item.boardCommentId !== boardCommentId);
       spliced.push(newCommentIsLiked);
       return [...spliced];
     });
-  }
+  };
 
   return handleSetCommentIsLiked;
-}
+};
 
 export default useSetCommentIsLiked;

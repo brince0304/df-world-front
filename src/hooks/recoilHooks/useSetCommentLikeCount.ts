@@ -12,14 +12,14 @@ const useSetCommentLikeCount = () => {
       const newCommentLikeCount = {
         boardCommentId,
         likeCount: newLikeCount,
-      }
+      };
       const spliced = prev.filter((item) => item.boardCommentId !== boardCommentId);
       spliced.push(newCommentLikeCount);
       return [...spliced];
     });
-  }
+  };
 
   return handleSetCommentLikeCount;
-}
+};
 
 export default useSetCommentLikeCount;

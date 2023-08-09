@@ -5,11 +5,11 @@ import { boardLikeCountSelector, isBoardLikedSelector } from '../../../recoil/se
 
 const useLikeBoardMutation = (boardId: string) => {
   const { likeBoard } = useBoardService();
-  const [isLiked,setIsLiked] = useRecoilState(isBoardLikedSelector(boardId));
+  const [isLiked, setIsLiked] = useRecoilState(isBoardLikedSelector(boardId));
   const setLikeCount = useSetRecoilState(boardLikeCountSelector(boardId));
   const { mutate: likeBoardMutation } = useMutation(likeBoard, {
     onSuccess: (data) => {
-     setIsLiked(!isLiked);
+      setIsLiked(!isLiked);
       setLikeCount(data);
     },
   });

@@ -22,7 +22,7 @@ const useBoardListQuery = (queries: { searchType: string; keyword: string; board
         if (lastPage.number + 1 >= lastPage.totalPages) return undefined;
         return lastPage.number + 1;
       },
-      onSuccess:  (data) => {
+      onSuccess: (data) => {
         data.pages.forEach((page) => {
           page.content.forEach((board) => {
             handleSetLikeCount(String(board.id), board.boardLikeCount);

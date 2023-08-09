@@ -1,6 +1,5 @@
-import { Avatar, Grid, List, ListItemButton, ListItemText, styled, useMediaQuery } from '@mui/material';
+import { Avatar, Box, Grid, List, ListItemButton, ListItemText, styled, useMediaQuery } from '@mui/material';
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import useCharactersQuery from '../../hooks/characterHooks/queries/useCharactersQuery';
 import ErrorScreen from '../ErrorScreen/ErrorScreen';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
@@ -49,12 +48,14 @@ export const CharactersListForModal = (props: {
               variant={'rounded'}
             />
             <ListItemText
-              sx={{ paddingLeft: '20%' }}
-              primary={
-                <Typography sx={{ fontWeight: 700, fontSize: isMobile ? '0.8rem' : '1rem' }}>
-                  {character.characterName}
-                </Typography>
-              }
+              sx={{
+                paddingLeft: '20%',
+                span: {
+                  fontSize: isMobile ? '0.8rem' : '1rem',
+                  fontWeight: 'bold',
+                },
+              }}
+              primary={character.characterName}
               secondary={
                 <CharacterDetailContainer container spacing={1}>
                   <Grid item xs={3}>
@@ -97,7 +98,7 @@ export const CharactersListForModal = (props: {
   );
 };
 
-const FontWrapper = styled(Typography)`
+const FontWrapper = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: flex-start;

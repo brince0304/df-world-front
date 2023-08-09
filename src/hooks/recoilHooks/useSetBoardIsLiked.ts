@@ -12,14 +12,14 @@ const useSetBoardIsLiked = () => {
       const newBoardIsLiked = {
         boardId,
         isLiked: newIsLiked,
-      }
+      };
       const spliced = prev.filter((item) => item.boardId !== boardId);
       spliced.push(newBoardIsLiked);
       return [...spliced];
     });
-  }
+  };
 
   return handleSetBoardIsLiked;
-}
+};
 
 export default useSetBoardIsLiked;

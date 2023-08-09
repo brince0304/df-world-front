@@ -26,7 +26,7 @@ const useBoardCommentsQuery = (boardId: string) => {
       data.comments.forEach((comment) => {
         handleSetCommentLikeCount(String(comment.id), comment.commentLikeCount);
       });
-    }
+    },
   });
   return data;
 };

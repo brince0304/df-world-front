@@ -4,7 +4,7 @@ import { IRecentSearchedQuery, searchedQueryLocalStorage } from '../../storages/
 import { searchedQuerySelector } from '../../recoil/selector';
 
 const useRecentSearchedQuery = () => {
-  const [recentSearchedQuery,setRecentSearchedQuery] = useRecoilState(searchedQuerySelector);
+  const [recentSearchedQuery, setRecentSearchedQuery] = useRecoilState(searchedQuerySelector);
   const handleAddRecentSearchedQuery = (query: IRecentSearchedQuery) => {
     if (recentSearchedQuery.some((item) => item.characterId === query.characterId)) return;
     const newRecentSearchedQuery = [query, ...recentSearchedQuery];
