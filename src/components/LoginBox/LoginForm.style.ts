@@ -8,11 +8,10 @@ export const InputBox = styled(Box)`
   justify-content: center;
   width: 100%;
   gap: 10px;
-  margin-top: 10px;
 `;
 
 export const MissingPassword = styled.span`
-  font-size: 13px;
+  font-size: 0.8rem;
   color: #787878;
   font-weight: 500;
   &:hover {
