@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext } from 'react';
 import { IBoardCommentService } from 'services/boardCommentService';
 
-const BoardCommentServiceContext = createContext<IBoardCommentService>({} as IBoardCommentService);
+const BoardCommentServiceContext = createContext<IBoardCommentService | null>(null);
 export const useBoardCommentService = () => useContext(BoardCommentServiceContext);
 
 const BoardCommentServiceProvider = ({

@@ -4,7 +4,9 @@ import { useCharacterService } from '../../../context/characterServiceContext';
 import { getFastSearchListsFromCharactersData } from '../../../utils/charactersUtil';
 
 const useFastCharactersQuery = (characterName: string, serverId: string) => {
-  const { getCharacterList } = useCharacterService();
+  const characterService = useCharacterService();
+  if (!characterService) throw new Error('Cannot find CharacterService');
+  const { getCharacterList } = characterService;
   const { data } = useQuery(
     [QUERY_KEY.fastSearchCharacters, characterName, serverId],
     () =>

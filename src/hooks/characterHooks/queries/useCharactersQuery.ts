@@ -4,7 +4,9 @@ import { useCharacterService } from 'context/characterServiceContext';
 import { ICharactersData } from 'interfaces/ICharactersData';
 
 const useCharactersQuery = (characterName: string, serverId: string) => {
-  const { getCharacterList } = useCharacterService();
+  const characterService = useCharacterService();
+  if (!characterService) throw new Error('Cannot find CharacterService');
+  const { getCharacterList } = characterService;
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<ICharactersData>(
     [QUERY_KEY.characters, characterName, serverId],
     async ({ pageParam }): Promise<ICharactersData> => getCharacterList({ characterName, serverId, page: pageParam }),

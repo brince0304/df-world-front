@@ -9,7 +9,9 @@ import useBoardForm from 'hooks/boardHooks/useBoardForm';
 const ToastEditor = ({ useBoardForms }: IToastEditorProps) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const { setValues, watchValues } = useBoardForms;
-  const { postImage } = useBoardService();
+  const boardService = useBoardService();
+  if (!boardService) throw new Error('Cannot find BoardService');
+  const { postImage } = boardService;
   useEffect(() => {
     let boardFiles: string[] = [];
     if (watchValues.watchBoardFiles && watchValues.watchBoardFiles.length > 0) {

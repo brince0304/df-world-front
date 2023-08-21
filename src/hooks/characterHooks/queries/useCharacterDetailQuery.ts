@@ -6,7 +6,9 @@ import { ICharacterDetail } from 'interfaces/ICharacterDetail';
 import { getRecentSearchedQueryFromCharacterDetail } from 'utils/charactersUtil';
 
 const useCharacterDetailQuery = (characterId: string, serverId: string) => {
-  const { getCharacterDetail } = useCharacterService();
+  const characterService = useCharacterService();
+  if (!characterService) throw new Error('Cannot find CharacterService');
+  const { getCharacterDetail } = characterService;
   const queryClient = useQueryClient();
   const { handleAddRecentSearchedQuery } = useRecentSearchedQuery();
   const { data, refetch, isError } = useQuery<ICharacterDetail>(

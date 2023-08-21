@@ -6,7 +6,9 @@ import { useLogoutMutation } from '../../authHooks/mutations/useLogoutMutation';
 import { useNavigate } from 'react-router-dom';
 
 const useChangeUserPasswordMutation = () => {
-  const { changeUserPassword } = useMyPageService();
+  const myPageService = useMyPageService();
+  if (!myPageService) throw new Error('Cannot find MyPageService');
+  const { changeUserPassword } = myPageService;
   const { handleChangeUserPasswordSuccess } = useMyPageSuccess();
   const { handleChangeUserPasswordError } = useMyPageError();
   const logout = useLogoutMutation();

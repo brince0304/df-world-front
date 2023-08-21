@@ -3,7 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '../../../constants/myConstants';
 
 const useHashtagListQuery = (query: string) => {
-  const { getHashtags } = useBoardService();
+  const boardService = useBoardService();
+  if (!boardService) throw new Error('Cannot find BoardService');
+  const { getHashtags } = boardService;
   const { data, isLoading, isError } = useQuery({
     queryKey: [QUERY_KEY.hashtagList, query],
     queryFn: () => getHashtags({ hashtag: query }),

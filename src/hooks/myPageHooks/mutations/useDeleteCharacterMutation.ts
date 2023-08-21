@@ -5,7 +5,9 @@ import useMyPageSuccess from '../useMyPageSuccess';
 import useMyPageError from '../useMyPageError';
 
 const useDeleteCharacterMutation = () => {
-  const { deleteCharacterFromUserAccount } = useMyPageService();
+  const myPageService = useMyPageService();
+  if (!myPageService) throw new Error('Cannot find MyPageService');
+  const { deleteCharacterFromUserAccount } = myPageService;
   const queryClient = useQueryClient();
   const { handleDeleteCharacterSuccess } = useMyPageSuccess();
   const { handleDeleteCharacterError } = useMyPageError();

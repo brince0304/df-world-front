@@ -4,7 +4,9 @@ import { useBoardCommentService } from 'context/boardCommentServiceContext';
 import useSetCommentLikeCount from '../../recoilHooks/useSetCommentLikeCount';
 
 const useChildrenCommentsQuery = (boardId: string, commentId: string) => {
-  const { getChildrenComments } = useBoardCommentService();
+  const boardCommentService = useBoardCommentService();
+  if (!boardCommentService) throw new Error('Cannot find BoardCommentService');
+  const { getChildrenComments } = boardCommentService;
   const handleSetBoardCommentLikeCount = useSetCommentLikeCount();
   const { data } = useQuery(
     [QUERY_KEY.childrenComments, boardId, commentId],

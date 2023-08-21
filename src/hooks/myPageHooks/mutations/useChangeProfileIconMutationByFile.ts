@@ -5,7 +5,9 @@ import useMyPageError from '../useMyPageError';
 import useMyPageSuccess from '../useMyPageSuccess';
 
 const useChangeProfileIconByFileMutation = () => {
-  const { changeUserProfileIcon } = useMyPageService();
+  const myPageService = useMyPageService();
+  if (!myPageService) throw new Error('Cannot find MyPageService');
+  const { changeUserProfileIcon } = myPageService;
   const queryClient = useQueryClient();
   const { handleChangeAvatarError } = useMyPageError();
   const { handleChangeAvatarSuccess } = useMyPageSuccess();

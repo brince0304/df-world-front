@@ -3,7 +3,9 @@ import { QUERY_KEY } from 'constants/myConstants';
 import { useBoardService } from 'context/boardServiceContext';
 
 const useHashtagCountQuery = (hashtag: string, mouseOvered: boolean) => {
-  const { getBoardCountByHashtag } = useBoardService();
+  const boardService = useBoardService();
+  if (!boardService) throw new Error('Cannot find BoardService');
+  const { getBoardCountByHashtag } = boardService;
   const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEY.boardCountByHashtag, hashtag],
     queryFn: () => getBoardCountByHashtag({ hashtag }),

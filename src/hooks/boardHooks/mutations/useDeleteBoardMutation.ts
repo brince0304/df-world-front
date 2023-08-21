@@ -6,7 +6,9 @@ import useBoardSuccess from '../useBoardSuccess';
 import { useNavigate } from 'react-router-dom';
 
 const useDeleteBoardMutation = (boardId: string) => {
-  const { deleteBoard } = useBoardService();
+  const boardService = useBoardService();
+  if (!boardService) throw new Error('Cannot find BoardService');
+  const { deleteBoard } = boardService;
   const queryClient = useQueryClient();
   const { handleDeleteBoardSuccess } = useBoardSuccess();
   const { handleDeleteBoardError } = useBoardError();

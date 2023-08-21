@@ -5,7 +5,9 @@ import useSetBoardLikeCount from '../../recoilHooks/useSetBoardLikeCount';
 import useSetBoardCommentCount from '../../recoilHooks/useSetBoardCommentCount';
 
 const useBoardListQuery = (queries: { searchType: string; keyword: string; boardType: string }) => {
-  const { getBoardList } = useBoardService();
+  const boardService = useBoardService();
+  if (!boardService) throw new Error('Cannot find BoardService');
+  const { getBoardList } = boardService;
   const handleSetLikeCount = useSetBoardLikeCount();
   const handleSetBoardCommentCount = useSetBoardCommentCount();
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(

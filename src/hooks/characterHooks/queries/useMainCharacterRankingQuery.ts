@@ -3,7 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '../../../constants/myConstants';
 
 const useMainCharacterRankingQuery = (searchType: string) => {
-  const { getMainCharacterRanking } = useCharacterService();
+  const characterService = useCharacterService();
+  if (!characterService) throw new Error('Cannot find CharacterService');
+  const { getMainCharacterRanking } = characterService;
   const { data } = useQuery({
     queryKey: [QUERY_KEY.mainPageCharacterRanking, searchType],
     queryFn: () => getMainCharacterRanking({ searchType }),

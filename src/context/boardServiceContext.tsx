@@ -2,7 +2,7 @@ import { IBoardService } from '../services/boardService';
 import { createContext, useContext } from 'react';
 import { ReactNode } from 'react';
 
-const boardServiceContext = createContext<IBoardService>({} as IBoardService);
+const boardServiceContext = createContext<IBoardService | null>(null);
 export const useBoardService = () => useContext(boardServiceContext);
 
 const BoardServiceProvider = ({ children, boardService }: { children: ReactNode; boardService: IBoardService }) => {

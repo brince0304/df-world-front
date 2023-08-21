@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext } from 'react';
 import { ICharacterService } from '../services/characterService';
 
-const characterServiceContext = createContext<ICharacterService>({} as ICharacterService);
+const characterServiceContext = createContext<ICharacterService | null>(null);
 
 export const useCharacterService = () => useContext(characterServiceContext);
 

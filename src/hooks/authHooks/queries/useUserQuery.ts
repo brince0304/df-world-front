@@ -11,7 +11,9 @@ interface IUseUser {
 }
 
 export const useUserQuery = (): IUseUser => {
-  const { getUser } = useAuthService();
+  const authService = useAuthService();
+  if (!authService) throw new Error('Cannot find AuthService');
+  const { getUser } = authService;
   const { handleTokenExpiredError } = useAuthError();
   const { data: user } = useQuery<ILoginResponse | null>([QUERY_KEY.user], getUser, {
     refetchOnMount: false,

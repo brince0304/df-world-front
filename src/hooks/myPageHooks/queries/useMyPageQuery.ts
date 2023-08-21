@@ -4,7 +4,9 @@ import { IMyPageResponse } from '../../../interfaces/IMyPageResponse';
 import { QUERY_KEY } from '../../../constants/myConstants';
 
 const useMyPageQuery = () => {
-  const { getUserMyPageResponse } = useMyPageService();
+  const myPageService = useMyPageService();
+  if (!myPageService) throw new Error('Cannot find MyPageService');
+  const { getUserMyPageResponse } = myPageService;
   const queryClient = useQueryClient();
   const { data } = useQuery<IMyPageResponse>([QUERY_KEY.mypage], getUserMyPageResponse, {
     refetchOnMount: false,

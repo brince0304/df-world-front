@@ -9,7 +9,9 @@ type IUseRegister = UseMutateFunction<void, unknown, IRegisterRequest, unknown>;
 export const useRegisterMutation = (): IUseRegister => {
   const { handleRegisterSuccess } = useAuthSuccess();
   const { handleRegisterError } = useAuthError();
-  const { register } = useAuthService();
+  const authService = useAuthService();
+  if (!authService) throw new Error('Cannot find AuthService');
+  const { register } = authService;
   const { mutate: registerMutation } = useMutation(register, {
     onSuccess: () => {
       handleRegisterSuccess();

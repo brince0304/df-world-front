@@ -6,7 +6,9 @@ import useBoardError from '../useBoardError';
 import { useNavigate } from 'react-router-dom';
 
 const useCreateBoardMutation = () => {
-  const { createBoard } = useBoardService();
+  const boardService = useBoardService();
+  if (!boardService) throw new Error('Cannot find BoardService');
+  const { createBoard } = boardService;
   const { handleCreateBoardSuccess } = useBoardSuccess();
   const { handleCreateBoardError } = useBoardError();
   const navigate = useNavigate();

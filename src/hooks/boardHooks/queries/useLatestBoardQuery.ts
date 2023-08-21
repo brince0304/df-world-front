@@ -5,7 +5,9 @@ import useSetBoardLikeCount from '../../recoilHooks/useSetBoardLikeCount';
 import useSetBoardCommentCount from '../../recoilHooks/useSetBoardCommentCount';
 
 const useLatestBoardQuery = (boardType: string) => {
-  const { getLatestBoardList } = useBoardService();
+  const boardService = useBoardService();
+  if (!boardService) throw new Error('Cannot find BoardService');
+  const { getLatestBoardList } = boardService;
   const handleSetLikeCount = useSetBoardLikeCount();
   const handleSetBoardCommentCount = useSetBoardCommentCount();
   const { data } = useQuery([QUERY_KEY.latestBoardList, boardType], async () => getLatestBoardList({ boardType }), {

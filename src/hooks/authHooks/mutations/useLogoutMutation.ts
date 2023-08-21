@@ -6,7 +6,9 @@ import { userLocalStorage } from '../../../storages/userLocalStorage';
 
 export const useLogoutMutation = () => {
   const queryClient = useQueryClient();
-  const { logout } = useAuthService();
+  const authService = useAuthService();
+  if (!authService) throw new Error('Cannot find AuthService');
+  const { logout } = authService;
   const { handleLogoutSuccess } = useAuthSuccess();
   const handleLogout = async () => {
     try {

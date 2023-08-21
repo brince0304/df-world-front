@@ -5,7 +5,9 @@ import useAuthError from '../useAuthError';
 import useAuthSuccess from '../useAuthSuccess';
 
 export const useKaKaoLoginMutation = () => {
-  const { kakaoLogin } = useAuthService();
+  const authService = useAuthService();
+  if (!authService) throw new Error('Cannot find AuthService');
+  const { kakaoLogin } = authService;
   const { handleLoginError } = useAuthError();
   const { handleLoginSuccess } = useAuthSuccess();
   const queryClient = useQueryClient();

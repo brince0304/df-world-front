@@ -6,7 +6,9 @@ import { useBoardService } from '../../../context/boardServiceContext';
 import { useNavigate } from 'react-router-dom';
 
 const useUpdateBoardMutation = (boardId: string) => {
-  const { updateBoard } = useBoardService();
+  const boardService = useBoardService();
+  if (!boardService) throw new Error('Cannot find BoardService');
+  const { updateBoard } = boardService;
   const { handleUpdateBoardSuccess } = useBoardSuccess();
   const { handleUpdateBoardError } = useBoardError();
   const queryClient = useQueryClient();

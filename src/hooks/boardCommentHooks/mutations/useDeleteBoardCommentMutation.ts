@@ -5,7 +5,9 @@ import useBoardCommentError from '../useBoardCommentError';
 import useBoardCommentSuccess from '../useBoardCommentSuccess';
 
 const useDeleteBoardCommentMutation = (boardId: string, commentId: string) => {
-  const { deleteBoardComment } = useBoardCommentService();
+  const boardCommentService = useBoardCommentService();
+  if (!boardCommentService) throw new Error('Cannot find BoardCommentService');
+  const { deleteBoardComment } = boardCommentService;
   const { handleBoardCommentDeleteSuccess } = useBoardCommentSuccess();
   const { handleBoardCommentDeleteError } = useBoardCommentError();
   const queryclient = useQueryClient();

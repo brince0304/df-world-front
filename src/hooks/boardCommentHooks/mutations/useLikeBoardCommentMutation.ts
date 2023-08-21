@@ -4,7 +4,9 @@ import { useSetRecoilState } from 'recoil';
 import { boardCommentIsLikedSelector, boardCommentLikeCountSelector } from '../../../recoil/selector';
 
 const useLikeBoardCommentMutation = (commentId: string) => {
-  const { likeComment } = useBoardCommentService();
+  const boardCommentService = useBoardCommentService();
+  if (!boardCommentService) throw new Error('Cannot find BoardCommentService');
+  const { likeComment } = boardCommentService;
   const setIsLiked = useSetRecoilState(boardCommentIsLikedSelector(commentId));
   const setLikeCount = useSetRecoilState(boardCommentLikeCountSelector(commentId));
   const { mutate: likeBoardComment } = useMutation(likeComment, {

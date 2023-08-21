@@ -6,7 +6,9 @@ import useSetCommentLikeCount from '../../recoilHooks/useSetCommentLikeCount';
 import useSetCommentIsLiked from '../../recoilHooks/useSetCommentIsLiked';
 
 const useBoardCommentsQuery = (boardId: string) => {
-  const { getBoardComments } = useBoardCommentService();
+  const boardCommentService = useBoardCommentService();
+  if (!boardCommentService) throw new Error('Cannot find BoardCommentService');
+  const { getBoardComments } = boardCommentService;
   const handleSetBoardCommentCount = useSetBoardCommentCount();
   const handleSetCommentLikeCount = useSetCommentLikeCount();
   const handleSetCommentIsLiked = useSetCommentIsLiked();

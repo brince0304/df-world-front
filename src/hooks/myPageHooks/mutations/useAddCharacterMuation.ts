@@ -5,7 +5,9 @@ import useMyPageError from '../useMyPageError';
 import useMyPageSuccess from '../useMyPageSuccess';
 
 const useAddCharacterMutation = () => {
-  const { addCharacterToUserAccount } = useMyPageService();
+  const myPageService = useMyPageService();
+  if (!myPageService) throw new Error('Cannot find MyPageService');
+  const { addCharacterToUserAccount } = myPageService;
   const { handleAddCharacterSuccess } = useMyPageSuccess();
   const { handleAddCharacterError } = useMyPageError();
   const queryClient = useQueryClient();

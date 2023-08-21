@@ -5,7 +5,9 @@ import useBoardCommentSuccess from '../useBoardCommentSuccess';
 import useBoardCommentError from '../useBoardCommentError';
 
 const useUpdateBoardCommentMutation = (boardId: string) => {
-  const { updateBoardComment } = useBoardCommentService();
+  const boardCommentService = useBoardCommentService();
+  if (!boardCommentService) throw new Error('Cannot find BoardCommentService');
+  const { updateBoardComment } = boardCommentService;
   const { handleBoardCommentUpdateSuccess } = useBoardCommentSuccess();
   const { handleBoardCommentUpdateError } = useBoardCommentError();
   const queryClient = useQueryClient();

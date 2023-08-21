@@ -3,7 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '../../../constants/myConstants';
 
 const useMainAdventureRankingQuery = (searchType: string) => {
-  const { getMainAdventureRanking } = useCharacterService();
+  const characterService = useCharacterService();
+  if (!characterService) throw new Error('Cannot find CharacterService');
+  const { getMainAdventureRanking } = characterService;
   const { data } = useQuery(
     [QUERY_KEY.mainPageAdventureRanking, searchType],
     () => getMainAdventureRanking({ searchType }),

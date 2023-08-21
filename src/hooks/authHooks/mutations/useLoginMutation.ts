@@ -8,7 +8,9 @@ import useAuthSuccess from '../useAuthSuccess';
 type IUseLogin = UseMutateFunction<ILoginResponse, unknown, ILoginRequest, unknown>;
 
 export const useLoginMutation = (): IUseLogin => {
-  const { login } = useAuthService();
+  const authService = useAuthService();
+  if (!authService) throw new Error('Cannot find AuthService');
+  const { login } = authService;
   const { handleLoginError } = useAuthError();
   const { handleLoginSuccess } = useAuthSuccess();
   const queryClient = useQueryClient();
